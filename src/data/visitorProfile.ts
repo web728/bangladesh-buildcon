@@ -1,0 +1,120 @@
+export type VisitorGroup = {
+  slug: string;
+  name: string;
+  roles: string[];
+};
+
+export const visitorGroups: VisitorGroup[] = [
+  {
+    slug: "contractors",
+    name: "Contractors",
+    roles: [
+      "Building Contractors",
+      "Civil Contractors",
+      "Road Contractors",
+      "Infrastructure Contractors",
+      "EPC Contractors",
+      "Electrical Contractors",
+      "Mechanical Contractors",
+      "Plumbing Contractors",
+      "HVAC Contractors",
+      "Specialist Contractors",
+    ],
+  },
+  {
+    slug: "developers-project-owners",
+    name: "Developers & Project Owners",
+    roles: [
+      "Real Estate Developers",
+      "Residential Developers",
+      "Commercial Developers",
+      "Industrial Developers",
+      "Factory Owners",
+      "Warehouse Developers",
+      "Hotel & Hospitality Groups",
+      "Property Owners",
+      "Project Owners",
+      "Facility Managers",
+    ],
+  },
+  {
+    slug: "architects-engineers-consultants",
+    name: "Architects, Engineers & Consultants",
+    roles: [
+      "Architects",
+      "Civil Engineers",
+      "Structural Engineers",
+      "Mechanical Engineers",
+      "Electrical Engineers",
+      "MEP Consultants",
+      "Quantity Surveyors",
+      "Project Consultants",
+      "Interior Designers",
+      "Project Managers",
+      "Engineering Consulting Firms",
+    ],
+  },
+  {
+    slug: "trade-distribution",
+    name: "Trade & Distribution",
+    roles: [
+      "Importers",
+      "Distributors",
+      "Wholesalers",
+      "Dealers",
+      "Agents",
+      "Hardware Businesses",
+      "Building Material Merchants",
+      "Trading Companies",
+    ],
+  },
+  {
+    slug: "procurement",
+    name: "Procurement",
+    roles: [
+      "Purchasing Managers",
+      "Procurement Managers",
+      "Sourcing Professionals",
+      "Technical Buyers",
+      "Project Buyers",
+    ],
+  },
+  {
+    slug: "industrial-institutional",
+    name: "Industrial & Institutional",
+    roles: [
+      "Manufacturing Companies",
+      "Industrial Plants",
+      "Hospitality Groups",
+      "Healthcare Organisations",
+      "Educational Institutions",
+      "Utilities",
+      "Government Organisations",
+      "Public Sector Organisations",
+      "Infrastructure Organisations",
+    ],
+  },
+];
+
+export const whoShouldExhibit: string[] = [
+  "Manufacturers",
+  "Exporters",
+  "International Suppliers",
+  "Bangladeshi Manufacturers",
+  "Importers",
+  "Distributors",
+  "Construction Machinery Companies",
+  "Equipment Companies",
+  "Building Material Manufacturers",
+  "Building Product Suppliers",
+  "Engineering Product Companies",
+  "Electrical Companies",
+  "Water & Plumbing Companies",
+  "HVAC Companies",
+  "Steel Companies",
+  "Hardware Companies",
+  "Interior Product Companies",
+  "Solar & Energy Companies",
+  "Safety Equipment Companies",
+  "Construction Technology Providers",
+];
