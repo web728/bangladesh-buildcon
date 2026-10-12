@@ -1,43 +1,342 @@
+
 "use client";
 
 import Image from "next/image";
-import { motion, type Variants } from "framer-motion";
+import { useId, type ReactNode } from "react";
+import {
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+
 import { Container } from "@/components/ui/Container";
 
+/* =========================================
+   TYPES — EXISTING API PRESERVED
+========================================= */
+
 interface PageHeroProps {
-  /** First part of the title (Solid white) */
   title: string;
-  /** Second part of the title (Gradient highlighted text like Home Hero) */
   highlightTitle?: string;
   intro?: string;
   badgeText?: string;
-  image?: { src: string; alt: string };
-  children?: React.ReactNode;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  children?: ReactNode;
 }
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
+/* =========================================
+   MOTION SETTINGS
+========================================= */
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const contentVariants: Variants = {
+  hidden: {},
   visible: {
-    opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
+      staggerChildren: 0.12,
+      delayChildren: 0.12,
     },
   },
 };
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 18, filter: "blur(4px)" },
+const textReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 28,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
+      ease: EASE,
     },
   },
 };
+
+/* =========================================
+   SMALL SVG ICONS
+========================================= */
+
+function ArrowDownRightIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4"
+      aria-hidden="true"
+    >
+      <path d="M7 7l10 10M8 17h9V8" />
+    </svg>
+  );
+}
+
+/* =========================================
+   ARCHITECTURAL PHOTO PANEL
+========================================= */
+
+function HeroImagePanel({
+  image,
+  reducedMotion,
+}: {
+  image?: PageHeroProps["image"];
+  reducedMotion: boolean;
+}) {
+  const src =
+    image?.src ??
+    "/images/home/bangladesh-buildcon-hero.jpg";
+
+  const alt =
+    image?.alt ?? "Bangladesh Buildcon Expo";
+
+  return (
+    <div className="relative h-[290px] overflow-hidden sm:h-[370px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-[50%] xl:w-[52%]">
+      {/* Image reveal */}
+      <motion.div
+        initial={
+          reducedMotion
+            ? false
+            : {
+                opacity: 0,
+                scale: 1.08,
+              }
+        }
+        animate={{
+          opacity: 1,
+          scale: 1,
+        }}
+        transition={{
+          duration: 1.4,
+          ease: EASE,
+        }}
+        className="absolute inset-0"
+      >
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          priority
+          sizes="(max-width: 1023px) 100vw, 52vw"
+          className="object-cover"
+          style={{
+            objectPosition: "center center",
+          }}
+        />
+      </motion.div>
+
+      {/* Light darkening for cinematic consistency */}
+      <div className="pointer-events-none absolute inset-0 bg-[#08090C]/20" />
+
+      {/* Desktop transition into the text panel */}
+      <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-[#08090C] via-[#08090C]/30 to-transparent lg:block" />
+
+      {/* Mobile transition */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08090C] via-transparent to-[#08090C]/30 lg:hidden" />
+
+      {/* Architectural corner markers */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-5 top-5 size-12 border-r-2 border-t-2 border-white/55 sm:right-8 sm:top-8"
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-5 right-5 size-12 border-b-2 border-r-2 border-white/55 sm:bottom-8 sm:right-8"
+      />
+
+      {/* Image-side label */}
+      <motion.div
+        initial={
+          reducedMotion
+            ? false
+            : { opacity: 0, x: 20 }
+        }
+        animate={{
+          opacity: 1,
+          x: 0,
+        }}
+        transition={{
+          duration: 0.8,
+          delay: 0.7,
+          ease: EASE,
+        }}
+        className="absolute bottom-8 right-8 hidden items-center gap-2.5 lg:flex"
+      >
+        <span className="h-px w-9 bg-white/70" />
+
+        <span className="font-heading text-[10px] font-bold uppercase tracking-[0.2em] text-white/90">
+          Bangladesh Buildcon
+        </span>
+      </motion.div>
+    </div>
+  );
+}
+
+/* =========================================
+   SUBTLE TECHNICAL BACKGROUND
+========================================= */
+
+function TechnicalOverlay({
+  reducedMotion,
+}: {
+  reducedMotion: boolean;
+}) {
+  const id = useId().replace(/:/g, "");
+  const gradientId = `hero-lines-${id}`;
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+    >
+      {/* Restrained structural grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:linear-gradient(to_right,black,transparent_65%)]" />
+
+      {/* Original ribbon geometry, much more subtle */}
+      <svg
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+        className="absolute inset-0 h-full w-full opacity-30"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient
+            id={gradientId}
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
+          >
+            <stop
+              offset="0%"
+              stopColor="#BA1D82"
+              stopOpacity="0"
+            />
+            <stop
+              offset="50%"
+              stopColor="#BA1D82"
+              stopOpacity="0.65"
+            />
+            <stop
+              offset="100%"
+              stopColor="#BA1D82"
+              stopOpacity="0"
+            />
+          </linearGradient>
+        </defs>
+
+        {Array.from({ length: 10 }).map(
+          (_, i) => (
+            <motion.path
+              key={i}
+              d={`M-100,${520 + i * 16} C${
+                240 + i * 14
+              },${400 + i * 10} ${
+                580 - i * 10
+              },${680 - i * 8} ${
+                920 + i * 8
+              },${520 + i * 6} C${
+                1200 - i * 8
+              },${400 + i * 10} 1360,${
+                610 - i * 6
+              } 1600,${500 + i * 8}`}
+              stroke={`url(#${gradientId})`}
+              strokeWidth={
+                i % 3 === 0 ? 1.3 : 0.8
+              }
+              strokeOpacity={
+                0.2 + (i / 10) * 0.35
+              }
+              initial={
+                reducedMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      pathLength: 0,
+                    }
+              }
+              animate={{
+                opacity: 1,
+                pathLength: 1,
+              }}
+              transition={{
+                duration: 2.1,
+                delay: i * 0.065,
+                ease: EASE,
+              }}
+            />
+          )
+        )}
+
+        {/* Original left radar geometry */}
+        <g opacity="0.32">
+          <circle
+            cx="80"
+            cy="620"
+            r="150"
+            stroke="#BA1D82"
+            strokeDasharray="5 7"
+          />
+          <circle
+            cx="80"
+            cy="620"
+            r="230"
+            stroke="#FFFFFF"
+            strokeOpacity="0.22"
+          />
+          <circle
+            cx="80"
+            cy="620"
+            r="320"
+            stroke="#BA1D82"
+            strokeDasharray="8 12"
+          />
+        </g>
+
+        {/* Original right radar geometry */}
+        <g opacity="0.22">
+          <circle
+            cx="1360"
+            cy="620"
+            r="160"
+            stroke="#BA1D82"
+            strokeDasharray="6 8"
+          />
+          <circle
+            cx="1360"
+            cy="620"
+            r="250"
+            stroke="#FFFFFF"
+            strokeOpacity="0.2"
+          />
+          <circle
+            cx="1360"
+            cy="620"
+            r="340"
+            stroke="#BA1D82"
+            strokeDasharray="10 14"
+          />
+        </g>
+      </svg>
+
+      {/* Restrained left glow */}
+      <div className="absolute -bottom-48 -left-52 size-[470px] rounded-full bg-brand-primary/[0.07] blur-[115px]" />
+    </div>
+  );
+}
+
+/* =========================================
+   MAIN PAGE HERO
+========================================= */
 
 export function PageHero({
   title,
@@ -47,139 +346,179 @@ export function PageHero({
   image,
   children,
 }: PageHeroProps) {
+  const reducedMotion = !!useReducedMotion();
+
   return (
-  <section
-  className="relative flex min-h-[380px] lg:min-h-[460px] w-full items-center justify-center overflow-hidden bg-[#201820] pt-28 sm:pt-32 lg:pt-36 pb-12 text-white selection:bg-brand-blue selection:text-white"
-  aria-label={title}
->
-      {/* Background Image Canvas with Soft Frosted Fog (Home Hero Match) */}
-      <div className="absolute inset-0 z-0 select-none overflow-hidden">
-        <Image
-          src={image ? image.src : "/images/home/bangladesh-buildcon-hero.jpg"}
-          alt={image ? image.alt : "Bangladesh Buildcon Expo"}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-75 scale-100"
-          style={{ objectPosition: "center 45%" }}
-        />
+    <section
+      aria-label={title}
+      className="relative isolate overflow-hidden bg-[#08090C] text-white selection:bg-brand-primary selection:text-white"
+    >
+      {/* Main photo — desktop right / mobile below */}
+      <HeroImagePanel
+        image={image}
+        reducedMotion={reducedMotion}
+      />
 
-        {/* Translucent Frosted Fog Wash */}
-        <div className="absolute inset-0 bg-[#201820]/45 backdrop-blur-[3px]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#201820]/90 via-transparent to-[#201820]/40" />
-      </div>
+      {/* Subtle architectural detail */}
+      <TechnicalOverlay
+        reducedMotion={reducedMotion}
+      />
 
-      {/* Static 3D Wireframe Wave Mesh & Radar Rings */}
-      <div className="pointer-events-none absolute inset-0 z-0 select-none overflow-hidden">
-        <svg
-          viewBox="0 0 1440 900"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-full w-full opacity-65"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <defs>
-            <linearGradient id="pageWaveBlueStatic" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#C82028" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#C82028" stopOpacity="0.8" />
-              <stop offset="85%" stopColor="#304090" stopOpacity="0.7" />
-              <stop offset="100%" stopColor="#C82028" stopOpacity="0.05" />
-            </linearGradient>
-            <linearGradient id="pageWaveGreenStatic" x1="100%" y1="0%" x2="0%" y2="0%">
-              <stop offset="0%" stopColor="#304090" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#304090" stopOpacity="0.75" />
-              <stop offset="85%" stopColor="#C82028" stopOpacity="0.65" />
-              <stop offset="100%" stopColor="#304090" stopOpacity="0.05" />
-            </linearGradient>
-          </defs>
+      {/* Content */}
+      <Container className="relative z-10">
+        <div className="flex min-h-[390px] items-center pb-12 pt-32 sm:min-h-[460px] sm:pb-16 sm:pt-36 lg:min-h-[540px] lg:pb-20 lg:pt-40">
+          <motion.div
+            variants={contentVariants}
+            initial={
+              reducedMotion
+                ? false
+                : "hidden"
+            }
+            animate="visible"
+            className="relative w-full max-w-[810px] lg:max-w-[64%]"
+          >
+            {/* Editorial label */}
+            <motion.div
+              variants={textReveal}
+              className="mb-7 flex items-center gap-3"
+            >
+              <motion.span
+                initial={
+                  reducedMotion
+                    ? false
+                    : { scaleX: 0 }
+                }
+                animate={{ scaleX: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: EASE,
+                }}
+                className="h-[2px] w-9 origin-left bg-brand-primary"
+              />
 
-          {/* Left Side Concentric Rings */}
-          <g opacity="0.4">
-            <circle cx="80" cy="620" r="150" stroke="#C82028" strokeWidth="1" strokeDasharray="5 7" />
-            <circle cx="80" cy="620" r="230" stroke="#ffffff" strokeWidth="0.8" strokeOpacity="0.3" />
-            <circle cx="80" cy="620" r="320" stroke="#304090" strokeWidth="1" strokeDasharray="8 12" />
-          </g>
-
-          {/* Right Side Concentric Rings */}
-          <g opacity="0.4">
-            <circle cx="1360" cy="620" r="160" stroke="#304090" strokeWidth="1" strokeDasharray="6 8" />
-            <circle cx="1360" cy="620" r="250" stroke="#ffffff" strokeWidth="0.8" strokeOpacity="0.3" />
-            <circle cx="1360" cy="620" r="340" stroke="#C82028" strokeWidth="1" strokeDasharray="10 14" />
-          </g>
-
-          {/* Static 3D Flowing Ribbon Lines */}
-          {Array.from({ length: 10 }).map((_, i) => (
-            <path
-              key={i}
-              d={`M-100,${520 + i * 16} C${240 + i * 14},${400 + i * 10} ${580 - i * 10},${680 - i * 8} ${920 + i * 8},${520 + i * 6} C${1200 - i * 8},${400 + i * 10} 1360,${610 - i * 6} 1600,${500 + i * 8}`}
-              stroke={i % 2 === 0 ? "url(#pageWaveBlueStatic)" : "url(#pageWaveGreenStatic)"}
-              strokeWidth={i % 3 === 0 ? "1.4" : "0.85"}
-              strokeOpacity={0.25 + (i / 10) * 0.45}
-              fill="none"
-            />
-          ))}
-        </svg>
-
-        {/* Ambient Fog Glow Points */}
-        <div className="absolute top-1/4 left-1/3 h-[320px] w-[320px] rounded-full bg-brand-blue/20 blur-[130px] pointer-events-none" />
-        <div className="absolute bottom-1/3 right-1/3 h-[300px] w-[300px] rounded-full bg-brand-green/20 blur-[140px] pointer-events-none" />
-      </div>
-
-      {/* Main Content */}
-      <Container className="relative z-10 w-full py-16 sm:py-20">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="mx-auto flex max-w-4xl flex-col items-center text-center"
-        >
-          {/* Top Series Context Badge (Pill Style with Glass Glow) */}
-          <motion.div variants={itemVariants}>
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-brand-dark/45 px-4 py-1.5 backdrop-blur-xl shadow-[0_0_20px_rgba(200,32,40,0.15)] transition-transform duration-300 hover:scale-[1.02]">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-green opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-green" />
-              </span>
-              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] text-slate-200">
+              <span className="font-heading text-[10px] font-bold uppercase leading-relaxed tracking-[0.18em] text-[#EFA3D1] sm:text-[11px]">
                 {badgeText}
               </span>
-            </div>
-          </motion.div>
-
-          {/* Main Title (Identical Gradient Mixed Style as Home Hero) */}
-          <motion.h1
-            variants={itemVariants}
-            className="mt-6 text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.08] text-white drop-shadow-md"
-          >
-            {title}
-            {highlightTitle ? (
-              <span className="block mt-2 font-extrabold tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-purple to-brand-green">
-                {highlightTitle}
-              </span>
-            ) : null}
-          </motion.h1>
-
-          {/* Short Crisp Tagline */}
-          {intro && (
-            <motion.p
-              variants={itemVariants}
-              className="mt-6 max-w-xl text-sm sm:text-base leading-relaxed tracking-wide text-slate-100 font-normal drop-shadow"
-            >
-              {intro}
-            </motion.p>
-          )}
-
-          {/* Custom Action CTAs / Buttons (If Any) */}
-          {children && (
-            <motion.div
-              variants={itemVariants}
-              className="mt-8 flex flex-wrap items-center justify-center gap-4"
-            >
-              {children}
             </motion.div>
-          )}
-        </motion.div>
+
+            {/* Main heading */}
+            <h1 className="font-heading text-[clamp(2.55rem,5.7vw,5.5rem)] font-extrabold leading-[1.04] tracking-[-0.065em] text-white">
+              <motion.span
+                variants={textReveal}
+                className="block"
+              >
+                {title}
+              </motion.span>
+
+              {highlightTitle && (
+                <motion.span
+                  variants={textReveal}
+                  className="mt-1 block text-[#EFA3D1]"
+                >
+                  {highlightTitle}
+                </motion.span>
+              )}
+            </h1>
+
+            {/* Underline accent */}
+            <motion.div
+              variants={{
+                hidden: { scaleX: 0 },
+                visible: {
+                  scaleX: 1,
+                  transition: {
+                    duration: 0.85,
+                    ease: EASE,
+                  },
+                },
+              }}
+              aria-hidden="true"
+              className="mt-7 h-[3px] w-16 origin-left rounded-full bg-brand-primary"
+            />
+
+            {/* Supporting intro */}
+            {intro && (
+              <motion.p
+                variants={textReveal}
+                className="mt-6 max-w-[570px] text-[14px] leading-[1.9] text-white/70 sm:text-[16px]"
+              >
+                {intro}
+              </motion.p>
+            )}
+
+            {/* Existing optional CTAs */}
+            {children && (
+              <motion.div
+                variants={textReveal}
+                className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4"
+              >
+                {children}
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
       </Container>
+
+      {/* Bottom editorial information strip */}
+      <div className="relative z-10 border-t border-white/10 bg-[#0B0C11]/90 backdrop-blur-md">
+        <Container>
+          <div className="flex min-h-15 flex-wrap items-center justify-between gap-3 py-4">
+            <motion.div
+              initial={
+                reducedMotion
+                  ? false
+                  : { opacity: 0, y: 10 }
+              }
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.7,
+                delay: 0.55,
+                ease: EASE,
+              }}
+              className="flex items-center gap-3"
+            >
+              <span className="size-1.5 rounded-full bg-brand-primary" />
+
+              <span className="font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-white/50 sm:text-[11px]">
+                International Construction Exhibition
+              </span>
+            </motion.div>
+
+            <motion.div
+              initial={
+                reducedMotion
+                  ? false
+                  : { opacity: 0, x: -10 }
+              }
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              transition={{
+                duration: 0.7,
+                delay: 0.7,
+                ease: EASE,
+              }}
+              className="flex items-center gap-2 text-[#EFA3D1]"
+            >
+              <span className="font-heading text-[10px] font-bold uppercase tracking-[0.17em]">
+                Explore
+              </span>
+
+              <ArrowDownRightIcon />
+            </motion.div>
+          </div>
+        </Container>
+      </div>
+
+      {/* Fine magenta lower border */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 z-20 h-[2px] bg-gradient-to-r from-transparent via-brand-primary/75 to-transparent"
+      />
     </section>
   );
 }
