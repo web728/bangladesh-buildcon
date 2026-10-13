@@ -1,6 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
+
 import {
   motion,
   useReducedMotion,
@@ -10,67 +13,94 @@ import {
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
 
+/* ==========================================
+   ICCB LOCATION
+
+   Official address:
+   Next to 300 ft. Purbachal Express Highway,
+   Dhaka 1229, Bangladesh.
+
+   Coordinates cross-checked against
+   independent map references.
+
+   Do not replace this with a broad
+   "Dhaka" or combined address query.
+========================================== */
+
 const VENUE_NAME =
   "International Convention City Bashundhara (ICCB)";
 
 const VENUE_ADDRESS =
-  "Next to 300 Feet Purbachal Express Highway, Dhaka 1229, Bangladesh";
+  "Next to 300 ft. Purbachal Express Highway, Dhaka 1229, Bangladesh";
 
-const MAP_LABEL =
-  "International Convention City Bashundhara (ICCB), Dhaka, Bangladesh";
+const VENUE_LAT = 23.8276;
+const VENUE_LNG = 90.42718;
 
-const MAP_QUERY = encodeURIComponent(
-  `${VENUE_NAME}, ${VENUE_ADDRESS}`
-);
+const VENUE_COORDINATES =
+  `${VENUE_LAT},${VENUE_LNG}`;
 
-const GOOGLE_MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${MAP_QUERY}`;
-const GOOGLE_MAPS_EMBED_URL = `https://www.google.com/maps?q=${MAP_QUERY}&z=16&output=embed`;
+// Exact mapped point for the embedded map.
+const GOOGLE_MAP_EMBED =
+  `https://maps.google.com/maps?` +
+  `q=${encodeURIComponent(VENUE_COORDINATES)}` +
+  `&z=16&output=embed`;
+
+// Directions to the same point.
+const GOOGLE_DIRECTIONS =
+  "https://www.google.com/maps/dir/?api=1" +
+  `&destination=${encodeURIComponent(
+    VENUE_COORDINATES
+  )}` +
+  "&travelmode=driving";
+
+// Business listing search by name, for visitors
+// who want Google Maps' venue information.
+const GOOGLE_VENUE_SEARCH =
+  "https://www.google.com/maps/search/?api=1" +
+  `&query=${encodeURIComponent(
+    VENUE_NAME + ", Dhaka, Bangladesh"
+  )}`;
+
+/* ==========================================
+   MOTION
+========================================== */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const containerVariants: Variants = {
+const stagger: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.06,
+      staggerChildren: 0.08,
+      delayChildren: 0.04,
     },
   },
 };
 
-const revealVariants: Variants = {
+const reveal: Variants = {
   hidden: {
     opacity: 0,
-    y: 22,
+    y: 16,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.68,
+      duration: 0.55,
       ease: EASE,
     },
   },
 };
 
-function ArrowRightIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-4"
-      aria-hidden="true"
-    >
-      <path d="M5 12h14m-6-6 6 6-6 6" />
-    </svg>
-  );
-}
+/* ==========================================
+   ICONS
+========================================== */
 
-function ArrowUpRightIcon() {
+function MapPinIcon({
+  className = "size-4",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -79,24 +109,7 @@ function ArrowUpRightIcon() {
       strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="size-4"
-      aria-hidden="true"
-    >
-      <path d="M7 17 17 7M8 7h9v9" />
-    </svg>
-  );
-}
-
-function LocationIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-4"
+      className={className}
       aria-hidden="true"
     >
       <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
@@ -117,8 +130,39 @@ function CalendarIcon() {
       className="size-4"
       aria-hidden="true"
     >
-      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="16"
+        rx="2"
+      />
       <path d="M7 3v4M17 3v4M3 10h18" />
+    </svg>
+  );
+}
+
+function ArrowIcon({
+  diagonal = false,
+}: {
+  diagonal?: boolean;
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4 shrink-0"
+      aria-hidden="true"
+    >
+      {diagonal ? (
+        <path d="M7 17 17 7M8 7h9v9" />
+      ) : (
+        <path d="M5 12h14m-6-6 6 6-6 6" />
+      )}
     </svg>
   );
 }
@@ -129,7 +173,7 @@ function BuildingIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.8"
+      strokeWidth="1.7"
       strokeLinecap="round"
       strokeLinejoin="round"
       className="size-4"
@@ -141,109 +185,122 @@ function BuildingIcon() {
   );
 }
 
-function TinyInfoCard({
-  icon,
+/* ==========================================
+   SMALL DETAIL ITEM
+========================================== */
+
+function Detail({
   label,
   value,
+  icon,
 }: {
-  icon: React.ReactNode;
   label: string;
   value: string;
+  icon: ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-brand-dark/10 bg-brand-light px-4 py-3">
-      <div className="flex items-start gap-3">
-        <div className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
-          {icon}
-        </div>
+    <div className="flex min-w-0 items-start gap-2.5 rounded-lg border border-[#EBE7EC] bg-[#FBFAFC] p-3">
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#F8EAF3] text-brand-primary">
+        {icon}
+      </span>
 
-        <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8C93A0]">
-            {label}
-          </p>
-          <p className="mt-1 text-[12px] font-semibold leading-[1.6] text-brand-dark sm:text-[13px]">
-            {value}
-          </p>
-        </div>
+      <div className="min-w-0">
+        <p className="font-heading text-[10px] font-bold uppercase tracking-[0.08em] text-[#88818B]">
+          {label}
+        </p>
+
+        <p className="mt-1 font-heading text-[12px] font-bold leading-[1.55] text-brand-dark">
+          {value}
+        </p>
       </div>
     </div>
   );
 }
 
-function VenueMap() {
-  const reducedMotion = !!useReducedMotion();
+/* ==========================================
+   GOOGLE MAP
 
+   Explicit coordinate-based map:
+   23.8276, 90.42718
+========================================== */
+
+function VenueMap() {
   return (
     <motion.div
-      variants={revealVariants}
-      className="overflow-hidden rounded-2xl border border-brand-dark/10 bg-white shadow-[0_12px_36px_rgba(5,7,9,0.05)]"
+      variants={reveal}
+      className="min-w-0 overflow-hidden rounded-xl border border-[#E8E3EA] bg-white shadow-[0_8px_30px_rgba(5,7,9,0.045)]"
     >
-      <div className="flex items-center justify-between gap-3 border-b border-brand-dark/10 px-4 py-3 sm:px-5">
-        <div className="flex min-w-0 items-center gap-3">
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
-            <LocationIcon />
-          </div>
+      {/* Map toolbar */}
+      <div className="flex items-center justify-between gap-3 border-b border-[#EEE9EF] px-4 py-3">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#F8EAF3] text-brand-primary">
+            <MapPinIcon />
+          </span>
 
           <div className="min-w-0">
-            <p className="truncate text-[12px] font-bold text-brand-dark sm:text-[13px]">
-              ICCB Exhibition Hall
-            </p>
-            <p className="truncate text-[11px] text-[#76808D]">
-              Dhaka, Bangladesh
+            <h3 className="truncate font-heading text-[12px] font-extrabold text-brand-dark">
+              ICCB, Dhaka
+            </h3>
+
+            <p className="text-[10px] font-medium text-[#827B86]">
+              Venue location
             </p>
           </div>
         </div>
 
         <a
-          href={GOOGLE_MAPS_URL}
+          href={GOOGLE_DIRECTIONS}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-2 text-[11px] font-bold text-brand-primary transition-colors hover:bg-brand-primary/5"
+          className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-lg border border-brand-primary/20 px-3 py-2 font-heading text-[11px] font-bold text-brand-primary transition-colors hover:bg-[#F8EAF3] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
         >
           Directions
-          <ArrowUpRightIcon />
+          <ArrowIcon diagonal />
         </a>
       </div>
 
-      <motion.div
-        whileHover={
-          reducedMotion
-            ? undefined
-            : { scale: 1.01 }
-        }
-        transition={{
-          duration: 0.35,
-          ease: EASE,
-        }}
-        className="relative h-[290px] w-full overflow-hidden sm:h-[340px] lg:h-[370px]"
-      >
+      {/* Google Maps iframe */}
+      <div className="relative h-[270px] w-full bg-[#F3F3F5] sm:h-[320px] lg:h-[340px]">
         <iframe
-          title={`Map showing ${MAP_LABEL}`}
-          src={GOOGLE_MAPS_EMBED_URL}
+          title={`Google Maps location of ${VENUE_NAME}`}
+          src={GOOGLE_MAP_EMBED}
           loading="lazy"
-          allowFullScreen
           referrerPolicy="no-referrer-when-downgrade"
+          allowFullScreen
           className="absolute inset-0 h-full w-full border-0"
         />
-      </motion.div>
+      </div>
 
-      <div className="flex items-start justify-between gap-3 px-4 py-3 sm:px-5">
+      {/* Map footer */}
+      <div className="flex items-start justify-between gap-3 px-4 py-3.5">
         <div className="min-w-0">
-          <p className="text-[12px] font-bold text-brand-dark">
+          <p className="font-heading text-[12px] font-bold leading-snug text-brand-dark">
             {VENUE_NAME}
           </p>
-          <p className="mt-1 text-[11px] leading-[1.7] text-[#6F7784] sm:text-[12px]">
+
+          <p className="mt-1 text-[11px] leading-[1.7] text-[#736C77]">
             {VENUE_ADDRESS}
           </p>
         </div>
 
-        <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-primary/10 text-brand-primary">
-          <LocationIcon />
-        </span>
+        <a
+          href={GOOGLE_VENUE_SEARCH}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View ICCB on Google Maps"
+          title="View ICCB on Google Maps"
+          className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#F8EAF3] text-brand-primary transition-colors hover:bg-brand-primary hover:text-white"
+        >
+          <ArrowIcon diagonal />
+        </a>
       </div>
     </motion.div>
   );
 }
+
+/* ==========================================
+   VENUE SECTION
+========================================== */
 
 export function VenueSection() {
   const reducedMotion = !!useReducedMotion();
@@ -251,70 +308,38 @@ export function VenueSection() {
   return (
     <section
       aria-labelledby="venue-section-heading"
-      className="relative overflow-hidden border-b border-brand-dark/10 bg-white py-12 text-brand-dark sm:py-14 lg:py-16"
+      className="relative overflow-hidden border-b border-[#EEE9EF] bg-white py-11 text-brand-dark sm:py-14 lg:py-16"
     >
-      {/* subtle premium background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-      >
-        <div className="absolute -right-20 top-0 h-56 w-56 rounded-full bg-brand-primary/[0.05] blur-[90px]" />
-        <div className="absolute -left-16 bottom-0 h-44 w-44 rounded-full bg-brand-primary/[0.04] blur-[75px]" />
-
-        <svg
-          viewBox="0 0 1200 500"
-          fill="none"
-          className="absolute inset-0 h-full w-full opacity-[0.12]"
-          preserveAspectRatio="none"
-        >
-          <motion.path
-            d="M-50 330C160 260 300 380 520 300C720 228 850 110 1250 210"
-            stroke="#BA1D82"
-            strokeWidth="1.5"
-            initial={reducedMotion ? false : { pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: reducedMotion ? 0 : 1.8, ease: EASE }}
-          />
-          <motion.path
-            d="M-60 380C190 320 340 420 580 342C810 268 970 155 1250 255"
-            stroke="#BA1D82"
-            strokeOpacity="0.45"
-            strokeWidth="1"
-            initial={reducedMotion ? false : { pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: reducedMotion ? 0 : 2.15,
-              delay: reducedMotion ? 0 : 0.12,
-              ease: EASE,
-            }}
-          />
-        </svg>
-      </div>
-
-      <Container className="relative z-10">
+      <Container>
+        {/* Section heading */}
         <motion.div
-          variants={containerVariants}
+          variants={stagger}
           initial={reducedMotion ? false : "hidden"}
           whileInView="visible"
-          viewport={{ once: true, amount: 0.18 }}
-          className="mb-8 max-w-[680px] lg:mb-10"
+          viewport={{
+            once: true,
+            amount: 0.1,
+          }}
+          className="mb-7 max-w-[760px] sm:mb-8"
         >
           <motion.div
-            variants={revealVariants}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-brand-primary/15 bg-brand-primary/[0.06] px-3 py-1.5"
+            variants={reveal}
+            className="mb-3 flex items-center gap-2.5"
           >
-            <span className="size-2 rounded-full bg-brand-primary" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-brand-primary">
-              Official Event Venue
+            <span
+              aria-hidden="true"
+              className="h-[2px] w-7 bg-brand-primary"
+            />
+
+            <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.13em] text-brand-primary">
+              Official Event Location
             </span>
           </motion.div>
 
           <motion.h2
             id="venue-section-heading"
-            variants={revealVariants}
-            className="font-heading text-[clamp(1.7rem,3.2vw,2.45rem)] font-extrabold leading-[1.15] tracking-[-0.04em] text-brand-dark"
+            variants={reveal}
+            className="font-heading text-[clamp(1.65rem,3vw,2.35rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
           >
             Venue &{" "}
             <span className="text-brand-primary">
@@ -323,99 +348,101 @@ export function VenueSection() {
           </motion.h2>
 
           <motion.p
-            variants={revealVariants}
-            className="mt-3 max-w-[620px] text-[13px] leading-[1.85] text-[#626C79] sm:text-[14px]"
+            variants={reveal}
+            className="mt-2.5 max-w-[650px] text-[13px] leading-[1.75] text-[#67616C] sm:text-[14px]"
           >
-            Bangladesh Buildcon 2026 will take place at{" "}
-            {VENUE_NAME}, one of Dhaka’s leading
-            exhibition venues. Explore the exact map
-            location, venue address and visit details
-            below.
+            Find the venue, check its location and
+            plan your visit to {event.name}.
           </motion.p>
         </motion.div>
 
+        {/* Information + map */}
         <motion.div
-          variants={containerVariants}
+          variants={stagger}
           initial={reducedMotion ? false : "hidden"}
           whileInView="visible"
-          viewport={{ once: true, amount: 0.12 }}
-          className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6"
+          viewport={{
+            once: true,
+            amount: 0.06,
+          }}
+          className="grid items-start gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-6"
         >
-          {/* left panel */}
+          {/* Venue information */}
           <motion.div
-            variants={revealVariants}
-            className="rounded-2xl border border-brand-dark/10 bg-white p-5 shadow-[0_10px_30px_rgba(5,7,9,0.035)] sm:p-6"
+            variants={reveal}
+            className="min-w-0 rounded-xl border border-[#E8E3EA] bg-white p-5 shadow-[0_8px_30px_rgba(5,7,9,0.035)] sm:p-6"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-primary/15 bg-brand-primary/[0.06] px-3 py-1.5">
-              <span className="size-2 rounded-full bg-brand-primary" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-brand-primary">
-                Venue Details
+            <div className="flex items-center gap-2">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-[#F8EAF3] text-brand-primary">
+                <BuildingIcon />
+              </span>
+
+              <span className="font-heading text-[10px] font-bold uppercase tracking-[0.11em] text-brand-primary">
+                Exhibition Venue
               </span>
             </div>
 
-            <h3 className="mt-4 font-heading text-[1.45rem] font-extrabold leading-[1.2] tracking-[-0.03em] text-brand-dark sm:text-[1.7rem]">
+            <h3 className="mt-4 font-heading text-[clamp(1.3rem,2.3vw,1.75rem)] font-extrabold leading-[1.3] tracking-[-0.035em] text-brand-dark">
               {VENUE_NAME}
             </h3>
 
-            <div className="mt-3 flex items-center gap-2 text-brand-primary">
-              <LocationIcon />
-              <span className="text-[13px] font-semibold sm:text-[14px]">
-                {event.venue.city}, {event.venue.country}
-              </span>
-            </div>
-
-            <p className="mt-4 text-[13px] leading-[1.85] text-[#626C79] sm:text-[14px]">
-              The official exhibition venue offers
-              convenient access for exhibitors,
-              visitors and trade delegates attending{" "}
-              {event.name} on {event.dates.display}.
+            <p className="mt-3 flex items-center gap-2 text-[12px] font-semibold text-brand-primary sm:text-[13px]">
+              <MapPinIcon />
+              Dhaka, Bangladesh
             </p>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              <TinyInfoCard
-                icon={<CalendarIcon />}
+            {/* Correct official address */}
+            <div className="mt-5 rounded-lg border border-[#EEE9EF] bg-[#FBFAFC] px-4 py-3.5">
+              <p className="font-heading text-[10px] font-bold uppercase tracking-[0.1em] text-[#847C87]">
+                Official Venue Address
+              </p>
+
+              <address className="mt-1.5 text-[12px] font-medium not-italic leading-[1.7] text-[#4E4752] sm:text-[13px]">
+                {VENUE_ADDRESS}
+              </address>
+            </div>
+
+            {/* Event facts */}
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <Detail
                 label="Event Dates"
                 value={event.dates.display}
+                icon={<CalendarIcon />}
               />
 
-              <TinyInfoCard
-                icon={<BuildingIcon />}
-                label="Venue Facility"
+              <Detail
+                label="Venue"
                 value="ICCB Exhibition Halls"
+                icon={<BuildingIcon />}
               />
             </div>
 
-            <div className="mt-6 rounded-xl border border-brand-dark/10 bg-brand-light px-4 py-4">
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8C93A0]">
-                Full Address
-              </p>
-              <p className="mt-2 text-[12px] font-medium leading-[1.75] text-[#454D59] sm:text-[13px]">
-                {VENUE_ADDRESS}
-              </p>
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-3 border-t border-brand-dark/10 pt-5">
+            {/* CTAs */}
+            <div className="mt-5 flex flex-wrap gap-2.5">
               <Link
                 href="/plan-your-visit"
-                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-2.5 text-[12px] font-bold text-white shadow-[0_10px_24px_rgba(186,29,130,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark"
+                className="group inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-primary px-4 py-2.5 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
               >
                 Plan Your Visit
-                <ArrowRightIcon />
+                <span className="transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none">
+                  <ArrowIcon />
+                </span>
               </Link>
 
               <a
-                href={GOOGLE_MAPS_URL}
+                href={GOOGLE_DIRECTIONS}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-brand-dark/15 bg-white px-5 py-2.5 text-[12px] font-bold text-brand-dark transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-primary/40 hover:text-brand-primary"
+                className="group inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[#DFD8E1] bg-white px-4 py-2.5 font-heading text-[12px] font-bold text-brand-dark transition-colors hover:border-brand-primary hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
               >
-                Open in Maps
-                <ArrowUpRightIcon />
+                Get Directions
+                <span className="transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none">
+                  <ArrowIcon diagonal />
+                </span>
               </a>
             </div>
           </motion.div>
 
-          {/* right map */}
           <VenueMap />
         </motion.div>
       </Container>

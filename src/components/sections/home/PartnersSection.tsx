@@ -117,7 +117,7 @@ export async function PartnersSection() {
             <p className="mt-3 max-w-[550px] text-[12px] leading-[1.8] text-[#69707A] sm:text-[13px]">
               Meet the joint organisers and supporting
               organisations behind Bangladesh Buildcon
-              International Expo 2026.
+              International Expo 2027.
             </p>
           </div>
 
@@ -201,7 +201,7 @@ export async function PartnersSection() {
                     Futurex Trade Fair &amp; Events
                     Pvt. Ltd. and ASK Trade &amp;
                     Exhibitions Pvt. Ltd. jointly
-                    organise Bangladesh Buildcon 2026.
+                    organise Bangladesh Buildcon 2027.
                   </p>
                 </div>
 
@@ -212,10 +212,10 @@ export async function PartnersSection() {
 
                   <div>
                     <p className="font-heading text-[11px] font-bold text-white">
-                      10th International Edition
+                      11th International Edition
                     </p>
                     <p className="mt-0.5 text-[10px] text-white/55">
-                      Dhaka, Bangladesh · 2026
+                      Dhaka, Bangladesh · 2027
                     </p>
                   </div>
                 </div>

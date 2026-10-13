@@ -6,11 +6,11 @@ import { PageHero } from "@/components/ui/PageHero";
 import { AboutClientView } from "@/components/about/AboutClientView";
 
 const TITLE =
-  "About Bangladesh Buildcon 2026 | 10th International Construction Expo";
+  "About Bangladesh Buildcon 2027 | 11th International Construction Expo";
 
 const DESCRIPTION =
-  "Discover the 10th Bangladesh Buildcon International Expo, " +
-  "17–19 September 2026 at ICCB Exhibition Hall, Dhaka. " +
+  "Discover the 11th Bangladesh Buildcon International Expo, " +
+  "17–19 September 2027 at ICCB Exhibition Hall, Dhaka. " +
   "Explore construction machinery, building materials, electrical " +
   "engineering, interiors, safety technologies and B2B networking.";
 
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: IMAGE,
-        alt: "Bangladesh Buildcon International Expo 2026",
+        alt: "Bangladesh Buildcon International Expo 2027",
       },
     ],
   },
@@ -75,11 +75,11 @@ export default function AboutPage() {
     ? {
         "@context": "https://schema.org",
         "@type": "ExhibitionEvent",
-        name: "10th Bangladesh Buildcon International Expo 2026",
+        name: "11th Bangladesh Buildcon International Expo 2027",
         description:
           "A B2B exhibition covering building, construction and infrastructure products and technologies.",
-        startDate: "2026-09-17",
-        endDate: "2026-09-19",
+        startDate: "2027-09-17",
+        endDate: "2027-09-19",
         eventAttendanceMode:
           "https://schema.org/OfflineEventAttendanceMode",
         location: {
@@ -121,12 +121,12 @@ export default function AboutPage() {
 
       <PageHero
         title="About Bangladesh"
-        highlightTitle="Buildcon 2026"
-        badgeText="10th International Edition"
+        highlightTitle="Buildcon 2027"
+        badgeText="11th International Edition"
         intro={`The international B2B exhibition for the building and construction industry. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: IMAGE,
-          alt: "Construction machinery representing the Bangladesh Buildcon 2026 exhibitor profile",
+          alt: "Construction machinery representing the Bangladesh Buildcon 2027 exhibitor profile",
         }}
       />
 

@@ -593,7 +593,7 @@ export function OrganisersClientView() {
                   <p className="mt-3 text-[12px] leading-[1.8] text-[#E2D8E1]">
                     Enquire about stand space and
                     exhibition participation at
-                    Bangladesh Buildcon 2026.
+                    Bangladesh Buildcon 2027.
                   </p>
                 </div>
 
@@ -635,7 +635,7 @@ export function OrganisersClientView() {
 
             <p className="text-[12px] font-semibold leading-[1.8] text-[#333B48]">
               Official joint representation in India
-              and Bangladesh for the 2026 exhibition
+              and Bangladesh for the 2027 exhibition
               at {event.venue.name}.
             </p>
           </div>

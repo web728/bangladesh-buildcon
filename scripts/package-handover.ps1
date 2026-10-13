@@ -8,7 +8,7 @@ $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $resolvedOutputDirectory = (Resolve-Path (Split-Path -Parent $OutputPath)).Path
 $outputFileName = Split-Path -Leaf $OutputPath
 
-if ($outputFileName -ne "Bangladesh-Buildcon-2026-Developer-Handover.zip") {
+if ($outputFileName -ne "Bangladesh-Buildcon-2027-Developer-Handover.zip") {
   throw "Unexpected handover filename: $outputFileName"
 }
 
@@ -55,7 +55,7 @@ $archive = [System.IO.Compression.ZipArchive]::new(
 try {
   foreach ($file in $files) {
     $relativePath = $file.FullName.Substring($projectRoot.Length + 1).Replace("\", "/")
-    $entryName = "Bangladesh-Buildcon-2026/$relativePath"
+    $entryName = "Bangladesh-Buildcon-2027/$relativePath"
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile(
       $archive,
       $file.FullName,
@@ -81,11 +81,11 @@ try {
   }
 
   $requiredEntries = @(
-    "Bangladesh-Buildcon-2026/.env.example",
-    "Bangladesh-Buildcon-2026/package.json",
-    "Bangladesh-Buildcon-2026/README.md",
-    "Bangladesh-Buildcon-2026/DEPLOYMENT-HANDOFF.md",
-    "Bangladesh-Buildcon-2026/src/app/layout.tsx"
+    "Bangladesh-Buildcon-2027/.env.example",
+    "Bangladesh-Buildcon-2027/package.json",
+    "Bangladesh-Buildcon-2027/README.md",
+    "Bangladesh-Buildcon-2027/DEPLOYMENT-HANDOFF.md",
+    "Bangladesh-Buildcon-2027/src/app/layout.tsx"
   )
 
   foreach ($requiredEntry in $requiredEntries) {

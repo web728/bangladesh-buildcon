@@ -8,7 +8,7 @@ import { PrivacyPolicyContent } from "@/components/legal/PrivacyPolicyContent";
 const PAGE_PATH = "/privacy-policy";
 
 const PAGE_TITLE =
-  "Privacy Policy | Bangladesh Buildcon International Expo 2026";
+  "Privacy Policy | Bangladesh Buildcon International Expo 2027";
 
 const PAGE_DESCRIPTION =
   `Read the Privacy Policy for ${event.name}. ` +

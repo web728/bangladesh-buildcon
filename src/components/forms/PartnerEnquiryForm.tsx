@@ -451,7 +451,7 @@ export function PartnerEnquiryForm() {
       >
         <SuccessPanel
           title="Partnership Enquiry Received"
-          message="Thank you for your interest in partnering with Bangladesh Buildcon International Expo 2026. Our secretariat will review your enquiry and get in touch shortly."
+          message="Thank you for your interest in partnering with Bangladesh Buildcon International Expo 2027. Our secretariat will review your enquiry and get in touch shortly."
           referenceId={referenceId}
         />
       </motion.div>
@@ -844,7 +844,7 @@ export function PartnerEnquiryForm() {
                 <textarea
                   id="message"
                   rows={5}
-                  placeholder="Tell us how your organisation would like to collaborate with Bangladesh Buildcon 2026..."
+                  placeholder="Tell us how your organisation would like to collaborate with Bangladesh Buildcon 2027..."
                   aria-invalid={!!errors.message}
                   className={`${premiumInput(
                     !!errors.message

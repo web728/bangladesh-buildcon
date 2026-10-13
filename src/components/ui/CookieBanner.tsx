@@ -65,7 +65,7 @@ export function CookieBanner() {
               </div>
 
               <h4 className="mt-2 text-base font-bold text-white">
-                Customize Your Bangladesh Buildcon 2026 Experience
+                Customize Your Bangladesh Buildcon 2027 Experience
               </h4>
 
               <p className="mt-1.5 text-xs text-slate-300 leading-relaxed font-normal">

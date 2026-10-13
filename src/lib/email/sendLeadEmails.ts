@@ -177,12 +177,12 @@ export async function sendBrochureDownloadEmails(data: BrochureDownloadInput & {
 
   await sendMail({
     to: data.email,
-    subject: `Bangladesh Buildcon 2026 – Official Exhibition Brochure [${data.referenceId}]`,
+    subject: `Bangladesh Buildcon 2027 – Official Exhibition Brochure [${data.referenceId}]`,
     html: userAcknowledgementEmail({
       greetingName: data.name,
       heading: "Thank You for Downloading the Brochure",
       bodyText:
-        "Thank you for your interest in Bangladesh Buildcon International Expo 2026. Your brochure download request has been received. Our exhibition sales team is available should you require custom space allocations or prime pavilion details.",
+        "Thank you for your interest in Bangladesh Buildcon International Expo 2027. Your brochure download request has been received. Our exhibition sales team is available should you require custom space allocations or prime pavilion details.",
       referenceId: data.referenceId,
     }),
   });
@@ -216,7 +216,7 @@ export async function sendNewsletterSubscriptionEmails(data: {
   // Subscriber ko acknowledgement mail
   await sendMail({
     to: data.email,
-    subject: `Subscription Confirmed – Bangladesh Buildcon International Expo 2026`,
+    subject: `Subscription Confirmed – Bangladesh Buildcon International Expo 2027`,
     html: userAcknowledgementEmail({
       greetingName: "Subscriber",
       heading: "Thank You for Subscribing",

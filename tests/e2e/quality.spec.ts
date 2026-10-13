@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 test("homepage exposes complete crawl and sharing metadata", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page).toHaveTitle(/Bangladesh Buildcon.*2026/i);
+  await expect(page).toHaveTitle(/Bangladesh Buildcon.*2027/i);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     /^https:\/\/bangladeshbuildcon\.com\/?$/,

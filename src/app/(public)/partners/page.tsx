@@ -26,13 +26,13 @@ export const dynamic = "force-dynamic";
 const PAGE_PATH = "/partners";
 
 const PAGE_TITLE =
-  "Industry & Media Partners | Bangladesh Buildcon 2026";
+  "Industry & Media Partners | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   "Explore published industry, association and media partners " +
-  "of the 10th Bangladesh Buildcon International Expo 2026. " +
+  "of the 11th Bangladesh Buildcon International Expo 2027. " +
   "Enquire about partnership opportunities for the exhibition " +
-  "at ICCB Exhibition Hall, Dhaka, 17–19 September 2026.";
+  "at ICCB Exhibition Hall, Dhaka, 17–19 September 2027.";
 
 const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "Bangladesh Buildcon International Expo 2026 industry and media partnerships",
+        alt: "Bangladesh Buildcon International Expo 2027 industry and media partnerships",
       },
     ],
   },
@@ -163,11 +163,11 @@ export default async function PartnersPage() {
       <PageHero
         title="Industry & Media"
         highlightTitle="Partners"
-        badgeText="10th Bangladesh Buildcon · 2026"
+        badgeText="11th Bangladesh Buildcon · 2027"
         intro={`Explore published exhibition partners and enquire about collaboration opportunities at ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Building and construction industry representing Bangladesh Buildcon 2026 partnerships",
+          alt: "Building and construction industry representing Bangladesh Buildcon 2027 partnerships",
         }}
       />
 
@@ -326,7 +326,7 @@ export default async function PartnersPage() {
                   to enquire about industry,
                   association or media collaboration
                   opportunities with Bangladesh
-                  Buildcon International Expo 2026.
+                  Buildcon International Expo 2027.
                 </p>
 
                 <p className="mt-3 font-heading text-[11px] font-semibold text-brand-muted">

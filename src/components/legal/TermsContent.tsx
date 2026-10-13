@@ -288,8 +288,8 @@ export function TermsContent() {
               >
                 <p>
                   This website provides information
-                  relating to the 10th Bangladesh
-                  Buildcon International Expo 2026,
+                  relating to the 11th Bangladesh
+                  Buildcon International Expo 2027,
                   scheduled for{" "}
                   <strong className="font-semibold text-brand-dark">
                     {event.dates.display}
@@ -408,7 +408,7 @@ export function TermsContent() {
                   The published exhibition
                   details are{" "}
                   <strong className="font-semibold text-brand-dark">
-                    17–19 September 2026
+                    17–19 September 2027
                   </strong>
                   , at{" "}
                   <strong className="font-semibold text-brand-dark">

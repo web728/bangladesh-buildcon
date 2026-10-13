@@ -8,11 +8,11 @@ import { WhoShouldVisitClientView } from "@/components/visit/WhoShouldVisitClien
 const PAGE_PATH = "/who-should-visit";
 
 const PAGE_TITLE =
-  "Who Should Visit Bangladesh Buildcon 2026 | Trade Visitor Profile";
+  "Who Should Visit Bangladesh Buildcon 2027 | Trade Visitor Profile";
 
 const PAGE_DESCRIPTION =
-  "Explore the trade visitor profile for the 10th " +
-  "Bangladesh Buildcon International Expo 2026. " +
+  "Explore the trade visitor profile for the 11th " +
+  "Bangladesh Buildcon International Expo 2027. " +
   "Architects, civil engineers, consultants, builders, " +
   "government professionals, importers and distributors. " +
   "17–19 September, ICCB Exhibition Hall, Dhaka.";
@@ -98,8 +98,8 @@ export default function WhoShouldVisitPage() {
         about: {
           "@type": "Event",
           name: event.name,
-          startDate: "2026-09-17",
-          endDate: "2026-09-19",
+          startDate: "2027-09-17",
+          endDate: "2027-09-19",
           location: {
             "@type": "Place",
             name: event.venue.name,
@@ -140,7 +140,7 @@ export default function WhoShouldVisitPage() {
       <PageHero
         title="Who Should"
         highlightTitle="Visit Buildcon?"
-        badgeText="Trade Visitor Profile · 10th Edition"
+        badgeText="Trade Visitor Profile · 11th Edition"
         intro={`Discover the professionals involved in designing, building, sourcing and supplying construction projects at ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,

@@ -11,10 +11,10 @@ export type DownloadSummary = {
 
 const STATIC_DOWNLOADS: DownloadSummary[] = [
   {
-    _id: "bangladesh-buildcon-2026-brochure",
-    title: "10th Bangladesh Buildcon 2026 Brochure",
+    _id: "bangladesh-buildcon-2027-brochure",
+    title: "11th Bangladesh Buildcon 2027 Brochure",
     description: "Official event overview, exhibitor profile, visitor profile, and participation information.",
-    fileUrl: "/downloads/Bangladesh-Buildcon-Expo-Brochure-2026.pdf",
+    fileUrl: "/downloads/Bangladesh-Buildcon-Expo-Brochure-2027.pdf",
     category: "Brochure",
   },
   {

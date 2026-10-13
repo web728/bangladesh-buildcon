@@ -22,12 +22,12 @@ import { FinalCtaSection } from "@/components/sections/home/FinalCtaSection";
 const SITE_URL = "https://bangladeshbuildcon.com/";
 
 const PAGE_TITLE =
-  "10th Bangladesh Buildcon International Expo 2026 | Dhaka";
+  "11th Bangladesh Buildcon International Expo 2027 | Dhaka";
 
 const PAGE_DESCRIPTION =
-  "Explore the 10th Bangladesh Buildcon International " +
-  "Expo 2026, the building and construction industry " +
-  "trade exhibition taking place 17–19 September 2026 " +
+  "Explore the 11th Bangladesh Buildcon International " +
+  "Expo 2027, the building and construction industry " +
+  "trade exhibition taking place 17–19 September 2027 " +
   "at ICCB Exhibition Hall, Dhaka, Bangladesh. " +
   "Discover construction machinery, materials, " +
   "engineering, interiors and B2B networking opportunities.";
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE,
-        alt: "10th Bangladesh Buildcon International Expo 2026",
+        alt: "11th Bangladesh Buildcon International Expo 2027",
       },
     ],
   },
@@ -101,11 +101,11 @@ const homeStructuredData = {
     },
     {
       "@type": "ExhibitionEvent",
-      "@id": `${SITE_URL}#event-2026`,
-      name: "10th Bangladesh Buildcon International Expo 2026",
+      "@id": `${SITE_URL}#event-2027`,
+      name: "11th Bangladesh Buildcon International Expo 2027",
       description: PAGE_DESCRIPTION,
-      startDate: "2026-09-17",
-      endDate: "2026-09-19",
+      startDate: "2027-09-17",
+      endDate: "2027-09-19",
       eventStatus: "https://schema.org/EventScheduled",
       location: {
         "@type": "Place",

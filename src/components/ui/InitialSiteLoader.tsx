@@ -230,7 +230,7 @@ export function InitialSiteLoader() {
                 <span className="text-[#EFA3D1]">
                   Buildcon
                 </span>{" "}
-                2026
+                2027
               </h2>
 
               <p className="mt-2 text-[11px] font-medium tracking-[0.045em] text-white/50 sm:text-[12px]">

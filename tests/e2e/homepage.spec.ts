@@ -9,7 +9,7 @@ test("homepage loads with hero content and event facts", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: /Bangladesh Buildcon/i }).first()).toBeVisible();
   await expect(
-    page.getByRole("region", { name: /Hero Banner/i }).getByText("17–19 September 2026"),
+    page.getByRole("region", { name: /Hero Banner/i }).getByText("17–19 September 2027"),
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "Book a Stand" }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: "Register to Visit" }).first()).toBeVisible();

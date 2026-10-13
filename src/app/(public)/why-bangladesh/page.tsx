@@ -12,13 +12,13 @@ import { WhyBangladeshClientView } from "@/components/about/WhyBangladeshClientV
 const PAGE_PATH = "/why-bangladesh";
 
 const PAGE_TITLE =
-  "Why Bangladesh? | Construction Market & Buildcon 2026";
+  "Why Bangladesh? | Construction Market & Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   "Explore Bangladesh's construction market, urban " +
   "development and opportunities across building materials, " +
   "machinery, engineering and construction technologies. " +
-  "Discover Bangladesh Buildcon International Expo 2026, " +
+  "Discover Bangladesh Buildcon International Expo 2027, " +
   "17–19 September at ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =
@@ -116,8 +116,8 @@ export default function WhyBangladeshPage() {
           {
             "@type": "Event",
             name: event.name,
-            startDate: "2026-09-17",
-            endDate: "2026-09-19",
+            startDate: "2027-09-17",
+            endDate: "2027-09-19",
             location: {
               "@type": "Place",
               name: event.venue.name,

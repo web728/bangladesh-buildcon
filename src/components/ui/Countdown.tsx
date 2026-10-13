@@ -38,7 +38,7 @@ export function Countdown({ targetIso, className }: { targetIso: string; classNa
   return (
     <div
       role="timer"
-      aria-label="Countdown to Bangladesh Buildcon International Expo 2026"
+      aria-label="Countdown to Bangladesh Buildcon International Expo 2027"
       className={className ?? "flex gap-3 sm:gap-4"}
     >
       {UNITS.map((unit) => (

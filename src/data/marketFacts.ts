@@ -22,9 +22,9 @@ export const marketFacts: MarketFact[] = [
     label: "Contribution to national GDP",
     detail:
       "The exhibition brochure reports that Bangladesh's construction sector contributes over 8% to GDP.",
-    period: "2026 event brochure",
-    sourceName: "10th Bangladesh Buildcon 2026 Brochure",
-    lastVerified: "2026-10-09",
+    period: "2027 event brochure",
+    sourceName: "11th Bangladesh Buildcon 2027 Brochure",
+    lastVerified: "2027-10-09",
   },
   {
     id: "population",
@@ -32,9 +32,9 @@ export const marketFacts: MarketFact[] = [
     label: "Population driving urban demand",
     detail:
       "The exhibition brochure cites a population exceeding 170 million and rapid urbanisation as drivers of housing and infrastructure demand.",
-    period: "2026 event brochure",
-    sourceName: "10th Bangladesh Buildcon 2026 Brochure",
-    lastVerified: "2026-10-09",
+    period: "2027 event brochure",
+    sourceName: "11th Bangladesh Buildcon 2027 Brochure",
+    lastVerified: "2027-10-09",
   },
   {
     id: "trade-visitors",
@@ -44,7 +44,7 @@ export const marketFacts: MarketFact[] = [
       "The 2025 post-show report records more than 7,000 trade visitors and more than 200 exhibiting companies.",
     period: "2025 post-show report",
     sourceName: "9th Bangladesh Buildcon 2025 Post-Show Report",
-    lastVerified: "2026-10-09",
+    lastVerified: "2027-10-09",
   },
 ];
 
@@ -61,6 +61,6 @@ export const opportunityCategories: string[] = [
 ];
 
 export const marketSources = [
-  { name: "10th Bangladesh Buildcon 2026 Brochure", url: "/downloads/Bangladesh-Buildcon-Expo-Brochure-2026.pdf" },
+  { name: "11th Bangladesh Buildcon 2027 Brochure", url: "/downloads/Bangladesh-Buildcon-Expo-Brochure-2027.pdf" },
   { name: "9th Bangladesh Buildcon 2025 Post-Show Report", url: "/downloads/Bangladesh-Buildcon-Post-Show-Report-2025.pdf" },
 ];

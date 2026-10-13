@@ -8,13 +8,13 @@ import { OrganisersClientView } from "@/components/about/OrganisersClientView";
 const PAGE_PATH = "/organisers";
 
 const PAGE_TITLE =
-  "Official Organisers | Futurex & ASK Trade | Bangladesh Buildcon 2026";
+  "Official Organisers | Futurex & ASK Trade | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   "Meet Futurex Trade Fair & Events Pvt. Ltd. and " +
   "ASK Trade & Exhibitions Pvt. Ltd., organisers of the " +
-  "10th Bangladesh Buildcon International Expo 2026. " +
-  "17–19 September 2026 at ICCB Exhibition Hall, Dhaka.";
+  "11th Bangladesh Buildcon International Expo 2027. " +
+  "17–19 September 2027 at ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "Bangladesh Buildcon 2026 official exhibition organisers",
+        alt: "Bangladesh Buildcon 2027 official exhibition organisers",
       },
     ],
   },
@@ -95,7 +95,7 @@ export default function OrganisersPage() {
         url: pageUrl,
         mainEntity: {
           "@type": "ItemList",
-          name: "Bangladesh Buildcon 2026 Organisers",
+          name: "Bangladesh Buildcon 2027 Organisers",
           numberOfItems: 2,
           itemListElement: [
             {
@@ -119,9 +119,9 @@ export default function OrganisersPage() {
         },
         about: {
           "@type": "ExhibitionEvent",
-          name: "10th Bangladesh Buildcon International Expo 2026",
-          startDate: "2026-09-17",
-          endDate: "2026-09-19",
+          name: "11th Bangladesh Buildcon International Expo 2027",
+          startDate: "2027-09-17",
+          endDate: "2027-09-19",
           location: {
             "@type": "Place",
             name: "ICCB Exhibition Hall",
@@ -152,11 +152,11 @@ export default function OrganisersPage() {
       <PageHero
         title="Meet the Official"
         highlightTitle="Exhibition Organisers"
-        badgeText="10th Bangladesh Buildcon · 2026"
+        badgeText="11th Bangladesh Buildcon · 2027"
         intro={`Futurex Trade Fair & Events Pvt. Ltd. and ASK Trade & Exhibitions Pvt. Ltd. organise Bangladesh Buildcon International Expo. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Construction and infrastructure industry representing Bangladesh Buildcon 2026",
+          alt: "Construction and infrastructure industry representing Bangladesh Buildcon 2027",
         }}
       />
 

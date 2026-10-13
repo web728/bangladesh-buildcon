@@ -14,14 +14,14 @@ import { exhibitionSectors } from "@/data/exhibitionProfile";
 const PAGE_PATH = "/exhibition-profile";
 
 const PAGE_TITLE =
-  "Exhibitor Profile & Construction Products | Bangladesh Buildcon 2026";
+  "Exhibitor Profile & Construction Products | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   `Explore ${exhibitionSectors.length} main exhibitor profile categories ` +
-  `at the 10th Bangladesh Buildcon International Expo 2026. ` +
+  `at the 11th Bangladesh Buildcon International Expo 2027. ` +
   `Discover construction machinery, materials, electrical ` +
   `engineering, interiors, landscaping and safety products. ` +
-  `17–19 September 2026, ICCB Exhibition Hall, Dhaka.`;
+  `17–19 September 2027, ICCB Exhibition Hall, Dhaka.`;
 
 const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "Construction machinery and building materials featured in Bangladesh Buildcon 2026",
+        alt: "Construction machinery and building materials featured in Bangladesh Buildcon 2027",
       },
     ],
   },
@@ -141,11 +141,11 @@ export default function ExhibitionProfilePage() {
       <PageHero
         title="Explore the"
         highlightTitle="Exhibitor Profile"
-        badgeText={`10th Edition · ${exhibitionSectors.length} Main Categories`}
+        badgeText={`11th Edition · ${exhibitionSectors.length} Main Categories`}
         intro={`Explore the construction machinery, building materials, electrical engineering, interiors and safety product categories from the official exhibition brochure. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Construction machinery representing the Bangladesh Buildcon International Expo 2026 exhibitor profile",
+          alt: "Construction machinery representing the Bangladesh Buildcon International Expo 2027 exhibitor profile",
         }}
       />
 

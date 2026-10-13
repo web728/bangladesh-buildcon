@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
       // User acknowledgement email
       await sendMail({
         to: data.email,
-        subject: `Preferences Confirmed – Bangladesh Buildcon International Expo 2026`,
+        subject: `Preferences Confirmed – Bangladesh Buildcon International Expo 2027`,
         html: userAcknowledgementEmail({
           greetingName: data.name,
           heading: "Preferences & Trade Alerts Confirmed",

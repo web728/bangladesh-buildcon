@@ -18,10 +18,10 @@ export async function generateMetadata({
   const exhibitor = await getExhibitorBySlug(slug);
   if (!exhibitor) return { title: "Exhibitor Not Found" };
   return {
-    title: `${exhibitor.companyName} | Bangladesh Buildcon 2026`,
+    title: `${exhibitor.companyName} | Bangladesh Buildcon 2027`,
     description:
       exhibitor.shortDescription ||
-      `${exhibitor.companyName} exhibiting at Bangladesh Buildcon International Expo 2026.`,
+      `${exhibitor.companyName} exhibiting at Bangladesh Buildcon International Expo 2027.`,
     alternates: { canonical: `/exhibitors/${slug}` },
   };
 }

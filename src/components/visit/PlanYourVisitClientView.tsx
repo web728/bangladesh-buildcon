@@ -48,8 +48,8 @@ const stagger: Variants = {
 const EVENT_DETAILS = [
   {
     label: "Event",
-    value: "10th Bangladesh Buildcon",
-    description: "International Expo 2026",
+    value: "11th Bangladesh Buildcon",
+    description: "International Expo 2027",
     icon: "event",
   },
   {
@@ -81,9 +81,9 @@ const EVENT_DETAILS = [
 
 const FAQS = [
   {
-    question: "When and where is Bangladesh Buildcon 2026?",
+    question: "When and where is Bangladesh Buildcon 2027?",
     answer:
-      "The 10th Bangladesh Buildcon International Expo 2026 is scheduled for 17–19 September 2026 at ICCB Exhibition Hall, Dhaka, Bangladesh.",
+      "The 11th Bangladesh Buildcon International Expo 2027 is scheduled for 17–19 September 2027 at ICCB Exhibition Hall, Dhaka, Bangladesh.",
     tag: "Event Details",
   },
   {
@@ -612,8 +612,8 @@ export function PlanYourVisitClientView() {
               </h1>
 
               <p className="mt-4 max-w-[610px] text-[13px] leading-[1.85] text-[#66616C] sm:text-[14px]">
-                Prepare for the 10th Bangladesh
-                Buildcon International Expo 2026.
+                Prepare for the 11th Bangladesh
+                Buildcon International Expo 2027.
                 Explore essential dates, venue
                 information, directions and useful
                 visitor guidance.
@@ -1013,7 +1013,7 @@ export function PlanYourVisitClientView() {
               >
                 Planning to Visit{" "}
                 <span className="text-brand-primary">
-                  Bangladesh Buildcon 2026?
+                  Bangladesh Buildcon 2027?
                 </span>
               </h2>
 

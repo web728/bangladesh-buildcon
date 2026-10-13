@@ -49,9 +49,9 @@ const stagger: Variants = {
 const VENUE_ADVANTAGES = [
   {
     num: "01",
-    tag: "Official 2026 Venue",
+    tag: "Official 2027 Venue",
     title: "Established Dhaka Exhibition Complex",
-    desc: "ICCB is the official venue named in the 2026 brochure, bringing exhibitors, trade buyers, contractors, developers, architects, and engineers together in Dhaka.",
+    desc: "ICCB is the official venue named in the 2027 brochure, bringing exhibitors, trade buyers, contractors, developers, architects, and engineers together in Dhaka.",
     icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z",
   },
   {

@@ -17,12 +17,12 @@ export const dynamic = "force-dynamic";
 ========================================== */
 
 const PAGE_TITLE =
-  "Exhibition Brochure & Downloads | Bangladesh Buildcon 2026";
+  "Exhibition Brochure & Downloads | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   "Access the exhibition brochure and published event resources " +
-  "for the 10th Bangladesh Buildcon International Expo 2026, " +
-  "17–19 September 2026 at ICCB Exhibition Hall, Dhaka.";
+  "for the 11th Bangladesh Buildcon International Expo 2027, " +
+  "17–19 September 2027 at ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =
   "/images/home/bangladesh-buildcon-hero.jpg";
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "Bangladesh Buildcon International Expo 2026",
+        alt: "Bangladesh Buildcon International Expo 2027",
       },
     ],
   },
@@ -333,11 +333,11 @@ export default async function DownloadsPage() {
       <PageHero
         title="Exhibition Brochure"
         highlightTitle="& Downloads"
-        badgeText="Bangladesh Buildcon · 2026"
+        badgeText="Bangladesh Buildcon · 2027"
         intro={`Access the exhibition brochure and published resources for ${event.dates.display} at ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Bangladesh Buildcon International Expo 2026 construction exhibition",
+          alt: "Bangladesh Buildcon International Expo 2027 construction exhibition",
         }}
       />
 
@@ -376,7 +376,7 @@ export default async function DownloadsPage() {
                   <p className="mt-4 max-w-[590px] text-[13px] leading-[1.85] text-[#66616C] sm:text-[14px]">
                     Find information about the
                     Bangladesh Buildcon International
-                    Expo 2026, including construction
+                    Expo 2027, including construction
                     industry product categories,
                     exhibitor profiles and event
                     highlights.

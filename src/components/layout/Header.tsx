@@ -105,7 +105,7 @@ function EventMarquee() {
   const items = [
     {
       label: "EVENT DATES",
-      value: event.dates?.display || "2026",
+      value: event.dates?.display || "2027",
     },
     {
       label: "EXPO VENUE",
@@ -151,7 +151,7 @@ function EventMarquee() {
               EVENT DATES
             </span>
             <span className="truncate text-[11px] font-semibold">
-              {event.dates?.display || "Bangladesh Buildcon 2026"}
+              {event.dates?.display || "Bangladesh Buildcon 2027"}
             </span>
           </div>
         ) : (

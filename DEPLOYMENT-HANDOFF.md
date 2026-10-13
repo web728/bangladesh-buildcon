@@ -1,6 +1,6 @@
 # Deployment Handoff
 
-Bangladesh Buildcon International Expo 2026 — production website handoff for the deployment
+Bangladesh Buildcon International Expo 2027 — production website handoff for the deployment
 developer. For step-by-step deployment instructions see [DEPLOYMENT.md](./DEPLOYMENT.md); for
 what each environment variable does see
 [ENVIRONMENT_VARIABLES.md](./ENVIRONMENT_VARIABLES.md).

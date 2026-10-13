@@ -10,12 +10,12 @@ import { BookStandPageContent } from "@/components/exhibit/BookStandPageContent"
 ========================================== */
 
 const PAGE_TITLE =
-  "Book an Exhibition Stand | 10th Bangladesh Buildcon 2026";
+  "Book an Exhibition Stand | 11th Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   `Enquire about exhibition stand participation at ` +
-  `the 10th Bangladesh Buildcon International Expo 2026, ` +
-  `17–19 September 2026 at ICCB Exhibition Hall, Dhaka. ` +
+  `the 11th Bangladesh Buildcon International Expo 2027, ` +
+  `17–19 September 2027 at ICCB Exhibition Hall, Dhaka. ` +
   `Showcase construction machinery, building materials, ` +
   `electrical systems and building technologies.`;
 
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall, Dhaka — Bangladesh Buildcon International Expo 2026",
+        alt: "ICCB Exhibition Hall, Dhaka — Bangladesh Buildcon International Expo 2027",
       },
     ],
   },
@@ -76,11 +76,11 @@ export default function BookAStandPage() {
       <PageHero
         title="Book Your"
         highlightTitle="Exhibition Stand"
-        badgeText="10th Bangladesh Buildcon · 2026"
+        badgeText="11th Bangladesh Buildcon · 2027"
         intro={`Enquire about stand participation at Bangladesh Buildcon International Expo, ${event.dates.display}, ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "ICCB Exhibition Hall in Dhaka, the venue for Bangladesh Buildcon 2026",
+          alt: "ICCB Exhibition Hall in Dhaka, the venue for Bangladesh Buildcon 2027",
         }}
       />
 

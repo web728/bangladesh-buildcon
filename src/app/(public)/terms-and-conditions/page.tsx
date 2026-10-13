@@ -12,7 +12,7 @@ import { TermsContent } from "@/components/legal/TermsContent";
 const PAGE_PATH = "/terms-and-conditions";
 
 const PAGE_TITLE =
-  "Terms and Conditions | Bangladesh Buildcon International Expo 2026";
+  "Terms and Conditions | Bangladesh Buildcon International Expo 2027";
 
 const PAGE_DESCRIPTION =
   `Read the Terms and Conditions for ${event.name}. ` +
@@ -99,8 +99,8 @@ export default function TermsPage() {
         about: {
           "@type": "Event",
           name: event.name,
-          startDate: "2026-09-17",
-          endDate: "2026-09-19",
+          startDate: "2027-09-17",
+          endDate: "2027-09-19",
           location: {
             "@type": "Place",
             name: "ICCB Exhibition Hall",

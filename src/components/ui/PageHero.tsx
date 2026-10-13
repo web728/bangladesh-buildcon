@@ -290,7 +290,7 @@ export function PageHero({
   title,
   highlightTitle,
   intro,
-  badgeText = "Bangladesh Buildcon 2026",
+  badgeText = "Bangladesh Buildcon 2027",
   image,
   children,
 }: PageHeroProps) {

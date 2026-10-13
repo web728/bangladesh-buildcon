@@ -1,6 +1,6 @@
-# Bangladesh Buildcon 2026 — QA Report
+# Bangladesh Buildcon 2027 — QA Report
 
-Final verification performed on 9 October 2026 against the production build in this workspace.
+Final verification performed on 9 October 2027 against the production build in this workspace.
 
 ## Automated checks
 
@@ -23,9 +23,9 @@ browser errors, reduced-motion behavior, and horizontal overflow at 320, 375, 39
   site: Buildcon red `#C82028`, ink `#201820`, ASK royal blue `#304090`, purple `#6D3288`,
   coral `#E07878`, white, and brochure light grey. Red-to-purple-to-blue gradients reproduce
   the brochure's circular graphic treatment; unrelated cyan and emerald accents were removed.
-- Event facts and imagery were sourced from the supplied 2026 brochure and 2025 post-show
+- Event facts and imagery were sourced from the supplied 2027 brochure and 2025 post-show
   report. Unsupported inherited claims were removed.
-- Confirmed event facts: 10th edition; 17–19 September 2026; ICCB Exhibition Hall, Dhaka;
+- Confirmed event facts: 11th edition; 17–19 September 2027; ICCB Exhibition Hall, Dhaka;
   200+ exhibiting companies, 7,000+ trade visitors, and 10+ participating countries at the
   previous edition.
 - Tanzania-only routes, copy, logos, downloads, and stock images were removed from the live

@@ -5,20 +5,20 @@
  */
 
 export const event = {
-  name: "Bangladesh Buildcon International Expo 2026",
+  name: "Bangladesh Buildcon International Expo 2027",
   shortName: "Bangladesh Buildcon",
   brandWord: "Buildcon",
   descriptor: "Bangladesh's largest B2B trade show for the building and construction industry",
-  edition: "2026",
-  editionLabel: "10th Edition",
+  edition: "2027",
+  editionLabel: "11th Edition",
 
   dates: {
-    start: "2026-09-17",
-    end: "2026-09-19",
-    display: "17–19 September 2026",
-    displayShort: "17–19 SEP 2026",
+    start: "2027-09-17",
+    end: "2027-09-19",
+    display: "17–19 September 2027",
+    displayShort: "17–19 SEP 2027",
     openingTimeConfirmed: false,
-    countdownTargetIso: "2026-09-17T10:00:00+06:00",
+    countdownTargetIso: "2027-09-17T10:00:00+06:00",
     timezone: "Asia/Dhaka",
   },
 

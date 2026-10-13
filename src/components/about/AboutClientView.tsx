@@ -291,7 +291,7 @@ export function AboutClientView() {
             </h2>
 
             <p className="mt-5 max-w-[680px] text-[13px] leading-[1.9] text-[#606A78] sm:text-[14px]">
-              Bangladesh Buildcon International Expo 2026
+              Bangladesh Buildcon International Expo 2027
               is a dedicated B2B trade exhibition
               connecting manufacturers, exporters, and
               suppliers of building materials, heavy

@@ -7,7 +7,7 @@ export interface SectorItem {
 
 /**
  * SOURCE:
- * 10th Bangladesh Buildcon International Expo 2026
+ * 11th Bangladesh Buildcon International Expo 2027
  * Official Brochure — Page 3: Exhibitor Profile
  *
  * These categories describe exhibition scope,

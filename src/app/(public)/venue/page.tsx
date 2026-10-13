@@ -12,12 +12,12 @@ import { VenueClientView } from "@/components/about/VenueClientView";
 const PAGE_PATH = "/venue";
 
 const PAGE_TITLE =
-  "ICCB Exhibition Hall, Dhaka | Bangladesh Buildcon 2026 Venue";
+  "ICCB Exhibition Hall, Dhaka | Bangladesh Buildcon 2027 Venue";
 
 const PAGE_DESCRIPTION =
   "Explore ICCB Exhibition Hall in Dhaka, the official " +
-  "venue for the 10th Bangladesh Buildcon International " +
-  "Expo 2026, 17–19 September. Find venue information, " +
+  "venue for the 11th Bangladesh Buildcon International " +
+  "Expo 2027, 17–19 September. Find venue information, " +
   "Google Maps directions and visitor planning resources.";
 
 const PAGE_IMAGE =
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall in Dhaka, venue of Bangladesh Buildcon 2026",
+        alt: "ICCB Exhibition Hall in Dhaka, venue of Bangladesh Buildcon 2027",
       },
     ],
   },
@@ -113,8 +113,8 @@ export default function VenuePage() {
           subjectOf: {
             "@type": "Event",
             name: event.name,
-            startDate: "2026-09-17",
-            endDate: "2026-09-19",
+            startDate: "2027-09-17",
+            endDate: "2027-09-19",
             location: {
               "@type": "Place",
               name: event.venue.name,
@@ -150,7 +150,7 @@ export default function VenuePage() {
         intro={`Visit ${event.name} from ${event.dates.display} at ${event.venue.name}, ${event.venue.city}, Bangladesh. Explore the exhibition location and plan your visit.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "ICCB Exhibition Hall, Dhaka, official Bangladesh Buildcon International Expo 2026 venue",
+          alt: "ICCB Exhibition Hall, Dhaka, official Bangladesh Buildcon International Expo 2027 venue",
         }}
       />
 

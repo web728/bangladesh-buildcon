@@ -46,7 +46,7 @@ const stagger: Variants = {
 /* ==========================================
    BROCHURE VISITOR MOTIVATIONS
 
-   Published percentages, not 2026 forecasts.
+   Published percentages, not 2027 forecasts.
 ========================================== */
 
 const VISIT_REASONS = [
@@ -709,7 +709,7 @@ export function VisitClientView() {
                 connect with suppliers and explore
                 new industry relationships at
                 Bangladesh Buildcon International
-                Expo 2026.
+                Expo 2027.
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">
@@ -808,7 +808,7 @@ export function VisitClientView() {
             Percentages reproduce visitor motivations
             published in the official exhibition
             brochure. They are not projections or
-            guarantees for the 2026 edition.
+            guarantees for the 2027 edition.
           </p>
         </section>
 
@@ -899,7 +899,7 @@ export function VisitClientView() {
                   are reproduced as published.
                   Their total is 99%, consistent
                   with rounded brochure figures;
-                  they are not a confirmed 2026
+                  they are not a confirmed 2027
                   visitor composition.
                 </p>
               </div>
@@ -1149,7 +1149,7 @@ export function VisitClientView() {
               >
                 Planning to Visit{" "}
                 <span className="text-brand-primary">
-                  Bangladesh Buildcon 2026?
+                  Bangladesh Buildcon 2027?
                 </span>
               </h2>
 

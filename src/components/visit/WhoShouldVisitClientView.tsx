@@ -684,7 +684,7 @@ export function WhoShouldVisitClientView() {
               <p className="mt-5 border-t border-white/15 pt-4 text-[11px] leading-[1.8] text-white/50">
                 Published percentages total 99%
                 due to rounding. They do not
-                represent confirmed 2026 attendance.
+                represent confirmed 2027 attendance.
               </p>
             </div>
           </div>
@@ -749,7 +749,7 @@ export function WhoShouldVisitClientView() {
           <p className="mt-4 text-[11px] leading-[1.8] text-[#77717D]">
             These figures reproduce the visitor
             motivations published in the brochure;
-            they are not 2026 forecasts.
+            they are not 2027 forecasts.
           </p>
         </section>
 
@@ -834,7 +834,7 @@ export function WhoShouldVisitClientView() {
               >
                 Planning to Visit{" "}
                 <span className="text-brand-primary">
-                  Bangladesh Buildcon 2026?
+                  Bangladesh Buildcon 2027?
                 </span>
               </h2>
 

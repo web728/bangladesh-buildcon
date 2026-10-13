@@ -27,7 +27,7 @@ const PAGE_DESCRIPTION =
   "Explore published photographs from Bangladesh Buildcon " +
   "International Expo. View exhibition moments and industry " +
   "highlights, including the previous-edition context featured " +
-  "in the official 2026 brochure.";
+  "in the official 2027 brochure.";
 
 const PAGE_IMAGE =
   "/images/home/bangladesh-buildcon-hero.jpg";
@@ -89,7 +89,7 @@ export default async function GalleryPage() {
         title="Exhibition"
         highlightTitle="Photo Gallery"
         badgeText="Bangladesh Buildcon · Gallery"
-        intro="Explore published exhibition photographs and moments from Bangladesh Buildcon. The official 2026 brochure also features glimpses of the previous edition held in 2025."
+        intro="Explore published exhibition photographs and moments from Bangladesh Buildcon. The official 2027 brochure also features glimpses of the previous edition held in 2025."
         image={{
           src: PAGE_IMAGE,
           alt: "Bangladesh Buildcon International Expo building and construction exhibition",

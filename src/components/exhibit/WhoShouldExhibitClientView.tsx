@@ -658,7 +658,7 @@ export function WhoShouldExhibitClientView() {
               to engineering products and building
               technologies, explore the business
               profiles relevant to Bangladesh
-              Buildcon International Expo 2026.
+              Buildcon International Expo 2027.
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-2">
@@ -998,7 +998,7 @@ export function WhoShouldExhibitClientView() {
               >
                 Interested in Exhibiting at{" "}
                 <span className="text-brand-primary">
-                  Bangladesh Buildcon 2026?
+                  Bangladesh Buildcon 2027?
                 </span>
               </h2>
 

@@ -8,11 +8,11 @@ import { PlanYourVisitClientView } from "@/components/visit/PlanYourVisitClientV
 const PAGE_PATH = "/plan-your-visit";
 
 const PAGE_TITLE =
-  "Plan Your Visit | Venue & Visitor Guide | Bangladesh Buildcon 2026";
+  "Plan Your Visit | Venue & Visitor Guide | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
-  "Plan your visit to the 10th Bangladesh Buildcon " +
-  "International Expo 2026, 17–19 September at " +
+  "Plan your visit to the 11th Bangladesh Buildcon " +
+  "International Expo 2027, 17–19 September at " +
   "ICCB Exhibition Hall, Dhaka. Find venue directions, " +
   "visitor information, travel guidance and organiser contacts.";
 
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall in Dhaka, venue for Bangladesh Buildcon 2026",
+        alt: "ICCB Exhibition Hall in Dhaka, venue for Bangladesh Buildcon 2027",
       },
     ],
   },
@@ -96,9 +96,9 @@ export default function PlanYourVisitPage() {
         url: pageUrl,
         about: {
           "@type": "Event",
-          name: "10th Bangladesh Buildcon International Expo 2026",
-          startDate: "2026-09-17",
-          endDate: "2026-09-19",
+          name: "11th Bangladesh Buildcon International Expo 2027",
+          startDate: "2027-09-17",
+          endDate: "2027-09-19",
           location: {
             "@type": "Place",
             name: "ICCB Exhibition Hall",
@@ -139,8 +139,8 @@ export default function PlanYourVisitPage() {
       <PageHero
         title="Plan Your"
         highlightTitle="Visit to Buildcon"
-        badgeText="Visitor Information · 2026"
-        intro={`Visit the 10th Bangladesh Buildcon International Expo at ${event.venue.name}, ${event.venue.city}, from ${event.dates.display}. Find event details, venue directions and visitor guidance.`}
+        badgeText="Visitor Information · 2027"
+        intro={`Visit the 11th Bangladesh Buildcon International Expo at ${event.venue.name}, ${event.venue.city}, from ${event.dates.display}. Find event details, venue directions and visitor guidance.`}
         image={{
           src: PAGE_IMAGE,
           alt: "ICCB Exhibition Hall, Dhaka, Bangladesh — exhibition venue",

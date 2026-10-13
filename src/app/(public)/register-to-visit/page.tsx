@@ -14,11 +14,11 @@ import { VisitorRegistrationReveal } from "@/components/visit/VisitorRegistratio
 const PAGE_PATH = "/register-to-visit";
 
 const PAGE_TITLE =
-  "Visitor Registration | Bangladesh Buildcon International Expo 2026";
+  "Visitor Registration | Bangladesh Buildcon International Expo 2027";
 
 const PAGE_DESCRIPTION =
   "Register your interest as a trade visitor for the " +
-  "10th Bangladesh Buildcon International Expo 2026, " +
+  "11th Bangladesh Buildcon International Expo 2027, " +
   "17–19 September at ICCB Exhibition Hall, Dhaka. " +
   "Explore construction materials, machinery, building " +
   "technologies and industry networking opportunities.";
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall in Dhaka, venue for Bangladesh Buildcon 2026",
+        alt: "ICCB Exhibition Hall in Dhaka, venue for Bangladesh Buildcon 2027",
       },
     ],
   },
@@ -141,12 +141,12 @@ export default function RegisterToVisitPage() {
     <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
       <PageHero
         title="Register to"
-        highlightTitle="Visit Buildcon 2026"
+        highlightTitle="Visit Buildcon 2027"
         badgeText="Trade Visitor Registration"
         intro={`Register your interest in visiting ${event.name}, taking place from ${event.dates.display} at ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "ICCB Exhibition Hall, Dhaka — venue for the 10th Bangladesh Buildcon International Expo 2026",
+          alt: "ICCB Exhibition Hall, Dhaka — venue for the 11th Bangladesh Buildcon International Expo 2027",
         }}
       />
 
@@ -190,7 +190,7 @@ export default function RegisterToVisitPage() {
                   Complete the registration form to
                   share your visitor details for
                   Bangladesh Buildcon International
-                  Expo 2026. Explore building
+                  Expo 2027. Explore building
                   materials, construction machinery
                   and technologies, product
                   demonstrations and B2B networking

@@ -31,10 +31,10 @@ import { countries } from "@/data/countries";
 ======================================== */
 
 const BROCHURE_FILE_URL =
-  "/downloads/Bangladesh-Buildcon-Expo-Brochure-2026.pdf";
+  "/downloads/Bangladesh-Buildcon-Expo-Brochure-2027.pdf";
 
 const BROCHURE_FILE_NAME =
-  "Bangladesh-Buildcon-Expo-Brochure-2026.pdf";
+  "Bangladesh-Buildcon-Expo-Brochure-2027.pdf";
 
 const RECAPTCHA_SITE_KEY =
   process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
@@ -516,7 +516,7 @@ export function BrochureDownloadForm() {
 
             <p className="mt-2 text-[12px] leading-[1.8] text-[#707987] sm:text-[13px]">
               Enter your business details to request
-              the Bangladesh Buildcon 2026 brochure.
+              the Bangladesh Buildcon 2027 brochure.
             </p>
           </div>
         </motion.div>

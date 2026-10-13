@@ -13,13 +13,13 @@ import { exhibitionSectors } from "@/data/exhibitionProfile";
 const PAGE_PATH = "/who-should-exhibit";
 
 const PAGE_TITLE =
-  "Who Should Exhibit | Bangladesh Buildcon International Expo 2026";
+  "Who Should Exhibit | Bangladesh Buildcon International Expo 2027";
 
 const PAGE_DESCRIPTION =
   "Explore exhibitor opportunities for manufacturers, " +
   "exporters, machinery suppliers, building material companies, " +
   "engineering businesses and construction technology providers " +
-  "at Bangladesh Buildcon 2026, 17–19 September, ICCB Exhibition Hall, Dhaka.";
+  "at Bangladesh Buildcon 2027, 17–19 September, ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "Construction machinery and equipment representing the Bangladesh Buildcon 2026 exhibitor profile",
+        alt: "Construction machinery and equipment representing the Bangladesh Buildcon 2027 exhibitor profile",
       },
     ],
   },
@@ -106,8 +106,8 @@ export default function WhoShouldExhibitPage() {
         about: {
           "@type": "Event",
           name: event.name,
-          startDate: "2026-09-17",
-          endDate: "2026-09-19",
+          startDate: "2027-09-17",
+          endDate: "2027-09-19",
           location: {
             "@type": "Place",
             name: event.venue.name,
@@ -154,7 +154,7 @@ export default function WhoShouldExhibitPage() {
       <PageHero
         title="Who Should"
         highlightTitle="Exhibit at Buildcon?"
-        badgeText="10th Edition · Exhibitor Opportunities"
+        badgeText="11th Edition · Exhibitor Opportunities"
         intro={`Explore business profiles and product categories relevant to exhibiting at ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,

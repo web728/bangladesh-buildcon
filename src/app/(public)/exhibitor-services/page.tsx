@@ -6,11 +6,11 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ExhibitorServicesClientView } from "@/components/exhibit/ExhibitorServicesClientView";
 
 const PAGE_TITLE =
-  "Exhibitor Services & Participation Guidance | Bangladesh Buildcon 2026";
+  "Exhibitor Services & Participation Guidance | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   "Find exhibitor participation and operational guidance for the " +
-  "10th Bangladesh Buildcon International Expo 2026, " +
+  "11th Bangladesh Buildcon International Expo 2027, " +
   "17–19 September at ICCB Exhibition Hall, Dhaka. " +
   "Enquire about stand requirements, travel, freight and event documents.";
 
@@ -68,11 +68,11 @@ export default function ExhibitorServicesPage() {
       <PageHero
         title="Exhibitor Services"
         highlightTitle="& Participation"
-        badgeText="10th Bangladesh Buildcon · 2026"
+        badgeText="11th Bangladesh Buildcon · 2027"
         intro={`Plan your exhibition participation at ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Construction machinery and equipment representing Bangladesh Buildcon 2026",
+          alt: "Construction machinery and equipment representing Bangladesh Buildcon 2027",
         }}
       />
 

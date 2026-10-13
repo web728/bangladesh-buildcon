@@ -536,7 +536,7 @@ export function WhyBangladeshClientView() {
                 Meet contractors, importers,
                 distributors, architects, engineers
                 and industry buyers at Bangladesh
-                Buildcon International Expo 2026.
+                Buildcon International Expo 2027.
               </p>
             </div>
 

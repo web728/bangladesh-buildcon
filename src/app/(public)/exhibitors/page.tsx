@@ -12,7 +12,7 @@ import { getPublishedExhibitors } from "@/lib/data/exhibitors";
 export const dynamic = "force-dynamic";
 
 const PAGE_TITLE =
-  "Exhibitor Directory | Bangladesh Buildcon International Expo 2026";
+  "Exhibitor Directory | Bangladesh Buildcon International Expo 2027";
 
 const PAGE_DESCRIPTION =
   `Explore published exhibitors at ${event.name}, ` +
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/images/sectors/construction-crane-bangladesh.jpg",
-        alt: "Bangladesh Buildcon 2026 exhibition directory",
+        alt: "Bangladesh Buildcon 2027 exhibition directory",
       },
     ],
   },
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
 /*
   Original category headings from brochure page 3.
   These are exhibition scope categories,
-  NOT a list of confirmed 2026 exhibitors.
+  NOT a list of confirmed 2027 exhibitors.
 */
 const BROCHURE_CATEGORIES = [
   {
@@ -171,7 +171,7 @@ export default async function ExhibitorsPage() {
       <PageHero
         title="Meet the"
         highlightTitle="Exhibitors & Brands"
-        badgeText="10th Bangladesh Buildcon · 2026"
+        badgeText="11th Bangladesh Buildcon · 2027"
         intro={`Explore published exhibitor profiles for ${event.dates.display} at ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: "/images/sectors/construction-crane-bangladesh.jpg",
@@ -245,7 +245,7 @@ export default async function ExhibitorsPage() {
               >
                 <div className="border-b border-black/10 p-5 sm:p-7">
                   <p className="font-heading text-[10px] font-bold uppercase tracking-[0.16em] text-brand-primary-dark">
-                    From the Official 2026 Brochure
+                    From the Official 2027 Brochure
                   </p>
 
                   <h3

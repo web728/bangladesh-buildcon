@@ -6,7 +6,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { CookiePolicyContent } from "@/components/legal/CookiePolicyContent";
 
 const PAGE_TITLE =
-  "Cookie Policy | Bangladesh Buildcon International Expo 2026";
+  "Cookie Policy | Bangladesh Buildcon International Expo 2027";
 
 const PAGE_DESCRIPTION =
   `Read the Cookie Policy for ${event.name}. ` +

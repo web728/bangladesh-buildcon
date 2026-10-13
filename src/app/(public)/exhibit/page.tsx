@@ -6,7 +6,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ExhibitClientView } from "@/components/exhibit/ExhibitClientView";
 
 const PAGE_TITLE =
-  "Why Exhibit at Bangladesh Buildcon 2026 | Exhibitor Benefits";
+  "Why Exhibit at Bangladesh Buildcon 2027 | Exhibitor Benefits";
 
 const PAGE_DESCRIPTION =
   `Explore the benefits of exhibiting at ${event.name}. ` +
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE,
-        alt: "Bangladesh Buildcon 2026 construction exhibition",
+        alt: "Bangladesh Buildcon 2027 construction exhibition",
       },
     ],
   },
@@ -67,12 +67,12 @@ export default function ExhibitPage() {
     <main className="min-h-screen bg-[#F8F9FB] selection:bg-brand-primary selection:text-white">
       <PageHero
         title="Grow Your Business"
-        highlightTitle="Exhibit at Buildcon 2026"
+        highlightTitle="Exhibit at Buildcon 2027"
         badgeText="Exhibitor Opportunities"
         intro="Meet construction buyers, distributors, contractors and industry specifiers at Bangladesh Buildcon International Expo in Dhaka."
         image={{
           src: "/images/sectors/construction-crane-bangladesh.jpg",
-          alt: "Construction machinery and building industry infrastructure representing exhibitor opportunities at Bangladesh Buildcon 2026",
+          alt: "Construction machinery and building industry infrastructure representing exhibitor opportunities at Bangladesh Buildcon 2027",
         }}
       />
 
