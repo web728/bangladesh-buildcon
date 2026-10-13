@@ -3,7 +3,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-
 import {
   AnimatePresence,
   motion,
@@ -11,94 +10,33 @@ import {
   type Variants,
 } from "framer-motion";
 
-import {
-  exhibitionSectors,
-  type SectorItem,
-} from "@/data/exhibitionProfile";
+import { exhibitionSectors } from "@/data/exhibitionProfile";
+import { sectorIconMap } from "@/components/icons/SectorIcons";
 
 /* ==========================================
-   MOTION CONFIGURATION
+   MOTION
 ========================================== */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const reveal: Variants = {
+const sectionReveal: Variants = {
   hidden: {
     opacity: 0,
-    y: 18,
+    y: 16,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.55,
       ease: EASE,
     },
   },
 };
 
 /* ==========================================
-   TYPE FOR FILTERED RESULTS
+   ICONS
 ========================================== */
-
-interface FilteredSector {
-  sector: SectorItem;
-  index: number;
-  subcategories: string[];
-}
-
-/* ==========================================
-   SVG ICONS
-========================================== */
-
-function SectorIcon({ index }: { index: number }) {
-  const paths = [
-    <>
-      <path d="M3 20h18M7 20V6h10v14M12 6V3h7M17 9h3v4" />
-      <path d="M10 10h4M10 14h4M10 18h4" />
-    </>,
-    <>
-      <path d="m3 9 9-5 9 5-9 5-9-5Z" />
-      <path d="m3 13 9 5 9-5M3 17l9 5 9-5" />
-    </>,
-    <>
-      <path d="M3 21h18M5 21V9l7-6 7 6v12" />
-      <path d="M9 21v-7h6v7M8 10h1m6 0h1" />
-    </>,
-    <>
-      <path d="m3 11 9-8 9 8M5 10v11h14V10" />
-      <path d="M9 21v-7h6v7M3 21h18" />
-    </>,
-    <>
-      <path d="M12 2v6m0 8v6M4.9 4.9l4.2 4.2m5.8 5.8 4.2 4.2" />
-      <path d="M2 12h6m8 0h6M4.9 19.1l4.2-4.2m5.8-5.8 4.2-4.2" />
-      <circle cx="12" cy="12" r="4" />
-    </>,
-    <>
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <path d="M8 3v18M8 12h13M12 7h5M12 17h5" />
-    </>,
-    <>
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-      <path d="m9 12 2 2 4-4" />
-    </>,
-  ];
-
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-5"
-      aria-hidden="true"
-    >
-      {paths[index] ?? paths[0]}
-    </svg>
-  );
-}
 
 function SearchIcon() {
   return (
@@ -135,6 +73,23 @@ function ArrowIcon() {
   );
 }
 
+function BuildingIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-5"
+      aria-hidden="true"
+    >
+      <path d="M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16M2 21h20M9 7h1m4 0h1M9 11h1m4 0h1M9 15h1m4 0h1M10 21v-4h4v4" />
+    </svg>
+  );
+}
+
 function CloseIcon() {
   return (
     <svg
@@ -153,95 +108,92 @@ function CloseIcon() {
 }
 
 /* ==========================================
-   EXHIBITION PROFILE EXPLORER
+   EXPLORER
 ========================================== */
 
 export function ExhibitionProfileExplorer() {
-  const [query, setQuery] = useState("");
+  const reducedMotion = !!useReducedMotion();
 
+  const [query, setQuery] = useState("");
   const [activeSlug, setActiveSlug] =
     useState<string | null>(null);
 
-  const reducedMotion = !!useReducedMotion();
+  /* ----------------------------------------
+     FILTERING
 
-  /* ======================================
-     SEARCH + FILTER
-  ====================================== */
+     Search matches sector titles and
+     individual subcategories.
 
-  const filtered = useMemo<FilteredSector[]>(() => {
-    const searchTerm = query.trim().toLowerCase();
+     Original behavior preserved:
+     Searching clears selected sector.
+  ----------------------------------------- */
 
-    return exhibitionSectors.flatMap((sector, index) => {
-      // Category filter applies when no search is active.
-      if (
-        !searchTerm &&
-        activeSlug &&
-        activeSlug !== sector.slug
-      ) {
-        return [];
-      }
+  const filtered = useMemo(() => {
+    const normalizedQuery =
+      query.trim().toLowerCase();
 
-      const allSubcategories = [
-        ...sector.subcategories,
-      ];
+    if (normalizedQuery) {
+      return exhibitionSectors.flatMap((sector) => {
+        const nameMatches = sector.name
+          .toLowerCase()
+          .includes(normalizedQuery);
 
-      if (!searchTerm) {
+        if (nameMatches) {
+          return [sector];
+        }
+
+        const matchingSubcategories =
+          sector.subcategories.filter((subcategory) =>
+            subcategory
+              .toLowerCase()
+              .includes(normalizedQuery)
+          );
+
+        if (matchingSubcategories.length === 0) {
+          return [];
+        }
+
         return [
           {
-            sector,
-            index,
-            subcategories: allSubcategories,
+            ...sector,
+            subcategories: matchingSubcategories,
           },
         ];
-      }
+      });
+    }
 
-      const sectorMatches = sector.name
-        .toLowerCase()
-        .includes(searchTerm);
-
-      const matchingProducts = allSubcategories.filter(
-        (product) =>
-          product.toLowerCase().includes(searchTerm)
+    if (activeSlug) {
+      return exhibitionSectors.filter(
+        (sector) => sector.slug === activeSlug
       );
+    }
 
-      if (
-        !sectorMatches &&
-        matchingProducts.length === 0
-      ) {
-        return [];
-      }
-
-      return [
-        {
-          sector,
-          index,
-          subcategories: sectorMatches
-            ? allSubcategories
-            : matchingProducts,
-        },
-      ];
-    });
+    return exhibitionSectors;
   }, [query, activeSlug]);
 
-  const hasFilters =
-    query.trim().length > 0 || activeSlug !== null;
+  const hasFilters = Boolean(
+    query.trim() || activeSlug
+  );
 
-  const resetFilters = () => {
+  const clearFilters = () => {
     setQuery("");
     setActiveSlug(null);
   };
 
-  const handleSearch = (value: string) => {
-    setQuery(value);
-    setActiveSlug(null);
-  };
-
-  const selectCategory = (slug: string | null) => {
+  const selectSector = (slug: string | null) => {
     setQuery("");
     setActiveSlug(slug);
   };
 
-  const scrollReveal = {
+  const handleSearch = (value: string) => {
+    setQuery(value);
+
+    if (activeSlug) {
+      setActiveSlug(null);
+    }
+  };
+
+  const revealProps = {
     initial: reducedMotion ? false : "hidden",
     whileInView: "visible" as const,
     viewport: {
@@ -251,90 +203,88 @@ export function ExhibitionProfileExplorer() {
   };
 
   return (
-    <div className="w-full text-brand-dark">
-      {/* ===================================
-          INTRODUCTION
-      ==================================== */}
+    <div className="w-full text-[#171B24]">
+      {/* ======================================
+          SECTION INTRODUCTION
+      ======================================= */}
 
-      <motion.header
-        {...scrollReveal}
-        variants={reveal}
-        className="mb-7 flex flex-col gap-4 border-b border-brand-border pb-6 sm:flex-row sm:items-end sm:justify-between"
+      <motion.div
+        {...revealProps}
+        variants={sectionReveal}
+        className="mb-7 flex flex-col gap-4 border-b border-[#DFE3EA] pb-6 sm:flex-row sm:items-end sm:justify-between"
       >
-        <div className="max-w-[760px]">
+        <div className="max-w-[730px]">
           <div className="flex items-center gap-2.5">
             <span className="h-[2px] w-7 bg-brand-primary" />
 
-            <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.16em] text-brand-primary-dark">
-              Official Brochure · Exhibitor Profile
+            <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.17em] text-[#981568]">
+              Industry Exhibition Profile
             </span>
           </div>
 
-          <h2
-            id="exhibition-profile-heading"
-            className="mt-3 font-heading text-[clamp(1.5rem,2.7vw,2.1rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
-          >
-            Products, Machinery{" "}
-            <span className="text-brand-primary-dark">
-              & Materials
+          <h2 className="mt-3 font-heading text-[clamp(1.5rem,2.6vw,2.1rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-[#171B24]">
+            Explore Products{" "}
+            <span className="text-[#981568]">
+              & Industry Categories
             </span>
           </h2>
 
-          <p className="mt-3 max-w-[680px] text-[13px] leading-[1.85] text-brand-body sm:text-sm">
-            Explore the product categories listed in
-            the official Bangladesh Buildcon 2026
-            exhibitor profile, including construction
-            machinery, materials, electrical
-            engineering, interiors and safety.
+          <p className="mt-3 max-w-[670px] text-[13px] leading-[1.85] text-[#414957] sm:text-[14px]">
+            Browse the exhibition sectors and find
+            relevant products, machinery, materials
+            and building technologies.
           </p>
         </div>
 
-        <span className="inline-flex w-fit shrink-0 rounded-lg border border-brand-primary/15 bg-brand-primary-soft px-3 py-2 font-heading text-[11px] font-bold text-brand-primary-dark">
-          {exhibitionSectors.length} Main Categories
-        </span>
-      </motion.header>
+        <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-lg border border-brand-primary/15 bg-brand-primary/[0.06] px-3 py-2 font-heading text-[11px] font-bold text-[#981568]">
+          <span className="size-1.5 rounded-full bg-brand-primary" />
 
-      {/* ===================================
-          SEARCH PANEL
-      ==================================== */}
+          {exhibitionSectors.length} Sectors
+        </span>
+      </motion.div>
+
+      {/* ======================================
+          SEARCH & FILTER CONTROLS
+      ======================================= */}
 
       <motion.div
-        {...scrollReveal}
-        variants={reveal}
-        className="rounded-2xl border border-brand-border bg-white p-4 shadow-[0_8px_28px_rgba(5,7,9,0.035)] sm:p-6"
+        {...revealProps}
+        variants={sectionReveal}
+        className="rounded-2xl border border-[#E0E3EA] bg-white p-4 shadow-[0_8px_30px_rgba(5,7,9,0.035)] sm:p-6"
       >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="w-full sm:max-w-[620px]">
+        {/* Search row */}
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="w-full lg:max-w-[610px]">
             <label
-              htmlFor="exhibitor-sector-search"
-              className="mb-2 block font-heading text-[12px] font-bold text-brand-dark"
+              htmlFor="sector-search"
+              className="mb-2 block font-heading text-[12px] font-bold text-[#29313D]"
             >
-              Search Products & Categories
+              Search Exhibition Sectors
             </label>
 
             <div className="relative">
-              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-brand-muted">
+              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7583]">
                 <SearchIcon />
               </span>
 
               <input
-                id="exhibitor-sector-search"
+                id="sector-search"
                 type="search"
                 value={query}
-                onChange={(e) =>
-                  handleSearch(e.target.value)
+                onChange={(event) =>
+                  handleSearch(event.target.value)
                 }
-                placeholder="Search cranes, roofing, HVAC, electrical..."
+                placeholder="Search steel, machinery, materials, lighting..."
                 autoComplete="off"
-                className="min-h-12 w-full rounded-xl border border-brand-border bg-brand-light py-3 pl-12 pr-12 text-[13px] font-medium text-brand-dark outline-none transition-[border-color,box-shadow] placeholder:text-brand-muted focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10 sm:text-sm"
+                className="min-h-[48px] w-full rounded-xl border border-[#DDE1E8] bg-[#F9FAFC] py-3 pl-12 pr-12 text-[13px] font-medium text-[#171B24] outline-none transition-[border-color,background-color,box-shadow] duration-300 placeholder:text-[#687280] hover:border-[#BFC5D0] focus:border-brand-primary focus:bg-white focus:ring-2 focus:ring-brand-primary/10 sm:text-[14px]"
               />
 
               {query && (
                 <button
                   type="button"
-                  onClick={() => handleSearch("")}
-                  aria-label="Clear search"
-                  className="absolute right-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-brand-muted transition-colors hover:bg-black/5 hover:text-brand-dark focus-visible:outline-2 focus-visible:outline-brand-primary"
+                  onClick={() => setQuery("")}
+                  aria-label="Clear sector search"
+                  className="absolute right-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-[#657080] transition-colors hover:bg-[#ECEEF3] hover:text-[#171B24] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
                 >
                   <CloseIcon />
                 </button>
@@ -342,26 +292,26 @@ export function ExhibitionProfileExplorer() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 lg:justify-end">
             <p
               role="status"
               aria-live="polite"
-              className="text-[12px] font-semibold text-brand-body"
+              className="text-[12px] font-semibold text-[#424B58]"
             >
-              <span className="font-extrabold text-brand-primary-dark">
+              <span className="font-extrabold text-[#981568]">
                 {filtered.length}
               </span>{" "}
               {filtered.length === 1
-                ? "category"
-                : "categories"}{" "}
+                ? "sector"
+                : "sectors"}{" "}
               found
             </p>
 
             {hasFilters && (
               <button
                 type="button"
-                onClick={resetFilters}
-                className="text-[12px] font-bold text-brand-primary-dark underline underline-offset-4 transition-colors hover:text-brand-primary"
+                onClick={clearFilters}
+                className="rounded-lg px-2 py-1.5 text-[12px] font-bold text-[#981568] underline decoration-brand-primary/30 underline-offset-4 transition-colors hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
               >
                 Reset Filters
               </button>
@@ -369,52 +319,49 @@ export function ExhibitionProfileExplorer() {
           </div>
         </div>
 
-        {/* ===================================
-            CATEGORY BUTTONS
-        ==================================== */}
-
-        <div className="mt-5 border-t border-brand-border pt-5">
-          <p className="mb-3 font-heading text-[11px] font-bold text-brand-dark">
-            Filter by Exhibitor Category
+        {/* Sector selection */}
+        <div className="mt-5 border-t border-[#EAECF1] pt-5">
+          <p className="mb-3 font-heading text-[11px] font-bold text-[#3A4350]">
+            Filter by Category
           </p>
 
           <div
             role="group"
-            aria-label="Filter exhibitor categories"
+            aria-label="Filter exhibition sectors"
             className="flex flex-wrap gap-2"
           >
             <button
               type="button"
+              onClick={() => selectSector(null)}
               aria-pressed={!hasFilters}
-              onClick={resetFilters}
-              className={`min-h-9 rounded-lg px-3.5 py-2 font-heading text-[11px] font-bold transition-colors focus-visible:outline-2 focus-visible:outline-brand-primary ${
+              className={`min-h-9 rounded-lg px-3.5 py-2 font-heading text-[11px] font-bold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary ${
                 !hasFilters
-                  ? "bg-brand-dark text-white"
-                  : "border border-brand-border bg-brand-light text-brand-body hover:border-brand-primary/30 hover:text-brand-primary-dark"
+                  ? "bg-[#171B24] text-white"
+                  : "border border-[#E1E4EA] bg-[#F8F9FB] text-[#303946] hover:border-brand-primary/35 hover:text-[#981568]"
               }`}
             >
-              All Categories
+              All Sectors
             </button>
 
             {exhibitionSectors.map((sector) => {
-              const selected =
+              const isSelected =
                 activeSlug === sector.slug &&
-                !query.trim();
+                !query;
 
               return (
                 <button
                   key={sector.slug}
                   type="button"
-                  aria-pressed={selected}
+                  aria-pressed={isSelected}
                   onClick={() =>
-                    selectCategory(
-                      selected ? null : sector.slug
+                    selectSector(
+                      isSelected ? null : sector.slug
                     )
                   }
-                  className={`min-h-9 rounded-lg px-3.5 py-2 font-heading text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-brand-primary ${
-                    selected
-                      ? "bg-brand-primary text-white"
-                      : "border border-brand-border bg-brand-light text-brand-body hover:border-brand-primary/35 hover:bg-brand-primary-soft hover:text-brand-primary-dark"
+                  className={`min-h-9 rounded-lg px-3.5 py-2 font-heading text-[11px] font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary ${
+                    isSelected
+                      ? "bg-brand-primary text-white shadow-[0_5px_15px_rgba(186,29,130,0.16)]"
+                      : "border border-[#E1E4EA] bg-[#F8F9FB] text-[#303946] hover:border-brand-primary/35 hover:bg-[#FCF4F9] hover:text-[#981568]"
                   }`}
                 >
                   {sector.name}
@@ -425,14 +372,14 @@ export function ExhibitionProfileExplorer() {
         </div>
       </motion.div>
 
-      {/* ===================================
-          ANIMATED RESULTS
-      ==================================== */}
+      {/* ======================================
+          SECTOR RESULTS
+      ======================================= */}
 
       <div
         id="exhibition-sectors"
-        aria-label="Exhibition category results"
         className="mt-6"
+        aria-label="Exhibition sector results"
       >
         <motion.div
           layout={!reducedMotion}
@@ -448,53 +395,51 @@ export function ExhibitionProfileExplorer() {
                 initial={
                   reducedMotion
                     ? false
-                    : {
-                        opacity: 0,
-                        y: 12,
-                      }
+                    : { opacity: 0, y: 12 }
                 }
                 animate={{
                   opacity: 1,
                   y: 0,
                 }}
-                exit={{
-                  opacity: 0,
-                }}
+                exit={
+                  reducedMotion
+                    ? { opacity: 1 }
+                    : { opacity: 0 }
+                }
                 transition={{
-                  duration: reducedMotion ? 0 : 0.3,
+                  duration: 0.3,
                   ease: EASE,
                 }}
-                className="col-span-full rounded-2xl border border-dashed border-brand-border bg-white px-6 py-12 text-center"
+                className="col-span-full rounded-2xl border border-dashed border-[#D9DEE7] bg-white px-5 py-12 text-center"
               >
-                <span className="mx-auto flex size-12 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark">
+                <span className="mx-auto flex size-12 items-center justify-center rounded-xl bg-brand-primary/[0.07] text-[#981568]">
                   <SearchIcon />
                 </span>
 
-                <h3 className="mt-4 font-heading text-[17px] font-extrabold text-brand-dark">
-                  No Matching Categories
+                <h3 className="mt-4 font-heading text-[17px] font-extrabold text-[#171B24]">
+                  No Matching Sectors
                 </h3>
 
-                <p className="mx-auto mt-2 max-w-sm text-[13px] leading-[1.8] text-brand-body">
-                  No product category matches your
-                  search. Try another product,
-                  equipment or material name.
+                <p className="mx-auto mt-2 max-w-[370px] text-[13px] leading-[1.75] text-[#414957]">
+                  No exhibit categories match your
+                  search. Try a broader product or
+                  material name.
                 </p>
 
                 <button
                   type="button"
-                  onClick={resetFilters}
-                  className="mt-5 min-h-10 rounded-lg bg-brand-primary px-5 py-2.5 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark"
+                  onClick={clearFilters}
+                  className="mt-5 inline-flex min-h-10 items-center justify-center rounded-lg bg-brand-primary px-5 py-2.5 font-heading text-[12px] font-bold text-white transition-colors hover:bg-[#981568]"
                 >
-                  Clear Filters
+                  Clear Search & Filters
                 </button>
               </motion.div>
             ) : (
-              filtered.map(
-                ({
-                  sector,
-                  index,
-                  subcategories,
-                }) => (
+              filtered.map((sector, index) => {
+                const Icon =
+                  sectorIconMap[sector.slug];
+
+                return (
                   <motion.article
                     key={sector.slug}
                     id={sector.slug}
@@ -504,7 +449,7 @@ export function ExhibitionProfileExplorer() {
                         ? false
                         : {
                             opacity: 0,
-                            y: 14,
+                            y: 12,
                           }
                     }
                     animate={{
@@ -513,65 +458,71 @@ export function ExhibitionProfileExplorer() {
                     }}
                     exit={
                       reducedMotion
-                        ? {
-                            opacity: 0,
-                          }
+                        ? { opacity: 1 }
                         : {
                             opacity: 0,
                             scale: 0.97,
+                            transition: {
+                              duration: 0.18,
+                            },
                           }
                     }
                     transition={{
-                      duration: reducedMotion
-                        ? 0
-                        : 0.35,
+                      duration: 0.36,
                       ease: EASE,
+                      delay: reducedMotion
+                        ? 0
+                        : Math.min(index, 8) * 0.025,
                       layout: {
-                        duration: reducedMotion
-                          ? 0
-                          : 0.32,
+                        duration: 0.32,
+                        ease: EASE,
                       },
                     }}
-                    className="group relative flex h-full min-w-0 scroll-mt-28 flex-col overflow-hidden rounded-2xl border border-brand-border bg-white shadow-[0_5px_22px_rgba(5,7,9,0.035)] transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_15px_35px_rgba(5,7,9,0.075)]"
+                    className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#E0E3EA] bg-white shadow-[0_5px_22px_rgba(5,7,9,0.035)] transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_15px_35px_rgba(5,7,9,0.075)]"
                   >
-                    {/* Hover accent */}
-                    <span
+                    <div
                       aria-hidden="true"
                       className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
                     />
 
                     <div className="flex flex-1 flex-col p-5 sm:p-6">
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white">
-                          <SectorIcon index={index} />
+                      {/* Card top */}
+                      <div className="flex items-start justify-between gap-3">
+                        <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-primary/[0.08] text-[#981568] transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white">
+                          {Icon ? (
+                            <Icon className="size-5" />
+                          ) : (
+                            <BuildingIcon />
+                          )}
                         </span>
 
-                        <span className="font-heading text-[11px] font-bold tabular-nums text-brand-muted">
-                          {String(index + 1).padStart(
-                            2,
-                            "0"
-                          )}
+                        <span className="font-heading text-[11px] font-bold tabular-nums text-[#657080]">
+                          {String(
+                            exhibitionSectors.findIndex(
+                              (item) =>
+                                item.slug === sector.slug
+                            ) + 1
+                          ).padStart(2, "0")}
                         </span>
                       </div>
 
-                      {/* Sector title */}
-                      <h3 className="mt-5 font-heading text-[16px] font-extrabold leading-[1.45] tracking-[-0.025em] text-brand-dark transition-colors group-hover:text-brand-primary-dark">
+                      <h3 className="mt-5 font-heading text-[16px] font-extrabold leading-[1.4] tracking-[-0.025em] text-[#171B24] transition-colors group-hover:text-[#981568]">
                         {sector.name}
                       </h3>
 
-                      <p className="mt-2 text-[11px] font-semibold text-brand-muted">
-                        {subcategories.length}{" "}
-                        {subcategories.length === 1
-                          ? "Product Group"
-                          : "Product Groups"}
+                      <p className="mt-1.5 text-[11px] font-semibold text-[#56606D]">
+                        {sector.subcategories.length}{" "}
+                        {sector.subcategories.length === 1
+                          ? "Product Category"
+                          : "Product Categories"}
                       </p>
 
-                      {/* Product groups */}
+                      {/* Product subcategories */}
                       <ul className="mt-4 flex flex-wrap gap-2">
-                        {subcategories.map(
+                        {sector.subcategories.map(
                           (subcategory) => (
                             <li key={subcategory}>
-                              <span className="inline-flex rounded-lg border border-brand-border bg-brand-light px-2.5 py-1.5 text-[11px] font-medium leading-[1.5] text-brand-body transition-colors group-hover:border-brand-primary/15 group-hover:bg-brand-primary-soft">
+                              <span className="inline-flex rounded-lg border border-[#E1E5EB] bg-[#F8F9FB] px-2.5 py-1.5 text-[11px] font-medium leading-[1.45] text-[#37414E] transition-colors group-hover:border-brand-primary/15 group-hover:bg-[#FDF7FB]">
                                 {subcategory}
                               </span>
                             </li>
@@ -580,35 +531,27 @@ export function ExhibitionProfileExplorer() {
                       </ul>
                     </div>
 
-                    {/* Booking button */}
-                    <div className="border-t border-brand-border bg-brand-light/60 p-4 sm:px-6">
+                    {/* Card footer */}
+                    <div className="border-t border-[#EAECF1] bg-[#FCFCFD] p-4 sm:px-6">
                       <Link
                         href="/book-a-stand"
                         aria-label={`Enquire about exhibiting in ${sector.name}`}
-                        className="group/link inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg bg-brand-primary px-4 py-2.5 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+                        className="group/link inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg bg-brand-primary px-4 py-2.5 font-heading text-[12px] font-bold text-white shadow-[0_7px_18px_rgba(186,29,130,0.12)] transition-all duration-300 hover:bg-[#981568] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
                       >
                         Book Stand
 
-                        <span className="transition-transform group-hover/link:translate-x-1">
+                        <span className="transition-transform duration-300 group-hover/link:translate-x-1">
                           <ArrowIcon />
                         </span>
                       </Link>
                     </div>
                   </motion.article>
-                )
-              )
+                );
+              })
             )}
           </AnimatePresence>
         </motion.div>
       </div>
-
-      {/* Data clarification */}
-      <p className="mt-5 text-[11px] leading-[1.8] text-brand-muted">
-        Product groups are based on the official
-        Bangladesh Buildcon 2026 exhibitor profile.
-        They describe the exhibition scope, not
-        confirmed exhibitor participation.
-      </p>
     </div>
   );
 }

@@ -17,22 +17,16 @@ export function BookStandPageContent() {
   return (
     <section
       aria-labelledby="book-stand-form-heading"
-      className="relative overflow-hidden bg-brand-light py-10 sm:py-14 lg:py-16"
+      className="relative bg-[#F8F9FB] py-10 sm:py-14 lg:py-16"
     >
-      {/* Subtle structural background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(5,7,9,0.018)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.018)_1px,transparent_1px)] bg-[size:64px_64px]"
-      />
-
-      <Container className="relative z-10">
+      <Container>
         <motion.div
           initial={
             reducedMotion
               ? false
               : {
                   opacity: 0,
-                  y: 20,
+                  y: 24,
                 }
           }
           whileInView={{
@@ -44,53 +38,39 @@ export function BookStandPageContent() {
             amount: 0.08,
           }}
           transition={{
-            duration: reducedMotion ? 0 : 0.65,
+            duration: 0.7,
             ease: EASE,
           }}
-          className="mx-auto w-full max-w-[850px] overflow-hidden rounded-2xl border border-brand-border bg-white shadow-[0_16px_48px_rgba(5,7,9,0.055)]"
+          className="mx-auto w-full max-w-[850px] overflow-hidden rounded-2xl border border-[#E1E4EA] bg-white shadow-[0_15px_50px_rgba(5,7,9,0.055)]"
         >
-          {/* Official brand accent */}
-          <div
-            aria-hidden="true"
-            className="h-[3px] w-full bg-brand-primary"
-          />
+          {/* Premium form header */}
+          <div className="relative border-b border-[#E8EAF0] px-5 py-6 text-center sm:px-9 sm:py-7">
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#BA1D82] via-[#D94DA3] to-[#BA1D82]"
+            />
 
-          {/* Form heading */}
-          <div className="border-b border-brand-border bg-white px-5 py-6 text-center sm:px-9 sm:py-7">
-            <p className="font-heading text-[10px] font-extrabold uppercase tracking-[0.16em] text-brand-primary-dark">
-              10th Bangladesh Buildcon International Expo 2026
+            <p className="font-heading text-[10px] font-bold uppercase tracking-[0.16em] text-[#981568]">
+              Bangladesh Buildcon 2026
             </p>
 
             <h2
               id="book-stand-form-heading"
-              className="mt-3 font-heading text-[clamp(1.45rem,2.6vw,1.85rem)] font-extrabold leading-[1.25] tracking-[-0.04em] text-brand-dark"
+              className="mt-2 font-heading text-[22px] font-extrabold tracking-[-0.04em] text-[#171B24] sm:text-[27px]"
             >
               Exhibitor{" "}
-              <span className="text-brand-primary-dark">
+              <span className="text-[#981568]">
                 Enquiry Form
               </span>
             </h2>
 
-            <p className="mx-auto mt-3 max-w-[580px] text-[13px] leading-[1.85] text-brand-body sm:text-[14px]">
-              Submit your details to enquire about
-              exhibition stand participation at
-              Bangladesh Buildcon International Expo 2026.
-            </p>
-
-            {/* Brochure-confirmed event details */}
-            <p className="mt-3 font-heading text-[11px] font-semibold leading-[1.7] text-brand-muted sm:text-[12px]">
-              17–19 September 2026
-              <span
-                aria-hidden="true"
-                className="mx-2 text-brand-primary"
-              >
-                |
-              </span>
-              ICCB Exhibition Hall, Dhaka
+            <p className="mx-auto mt-2 max-w-[530px] text-[13px] leading-[1.8] text-[#414957]">
+              Fill in your details and stand requirements
+              to submit your exhibition enquiry.
             </p>
           </div>
 
-          {/* Existing form — no functional changes */}
+          {/* Existing working form */}
           <div className="px-5 py-7 sm:px-9 sm:py-9">
             <BookStandForm />
           </div>

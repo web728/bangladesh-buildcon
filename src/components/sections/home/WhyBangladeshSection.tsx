@@ -2,18 +2,19 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
+
 import {
-  animate,
   motion,
   useInView,
-  useMotionValue,
   useReducedMotion,
+  useSpring,
   useTransform,
   type Variants,
 } from "framer-motion";
 
 import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
+
 import {
   marketFacts,
   opportunityCategories,
@@ -21,35 +22,61 @@ import {
 } from "@/data/marketFacts";
 
 /* ==========================================
-   ANIMATION
+   BRAND COLORS
 ========================================== */
+
+const COLORS = {
+  primary: "#BA1D82",
+  primaryDark: "#981469",
+  pinkLight: "#DE76B9",
+  blue: "#304090",
+  blueDark: "#243273",
+  background: "#151418",
+  card: "#1D1B21",
+  white: "#FFFFFF",
+};
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const reveal: Variants = {
-  hidden: { opacity: 0, y: 16 },
+/* ==========================================
+   ORIGINAL STAGGER ANIMATIONS
+========================================== */
+
+const containerVariants: Variants = {
+  hidden: {
+    opacity: 0,
+  },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: EASE },
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
   },
 };
 
-const stagger: Variants = {
-  hidden: {},
+const itemVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 16,
+    filter: "blur(4px)",
+  },
   visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
     transition: {
-      staggerChildren: 0.09,
-      delayChildren: 0.04,
+      duration: 0.6,
+      ease: EASE,
     },
   },
 };
 
 /* ==========================================
-   ICONS
+   SVG ICONS
 ========================================== */
 
-function ArrowIcon() {
+function ArrowUpRightIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -66,26 +93,25 @@ function ArrowIcon() {
   );
 }
 
-function TrendIcon() {
+function GrowthIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.7"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="size-5"
+      className="size-[17px]"
       aria-hidden="true"
     >
-      <path d="m3 17 6-6 4 4 8-8" />
-      <path d="M15 7h6v6" />
+      <path d="M13 7h8m0 0v8m0-8-8 8-4-4-6 6" />
     </svg>
   );
 }
 
 /* ==========================================
-   ANIMATED COUNTER
+   SPRING ANIMATED COUNTER
 ========================================== */
 
 function AnimatedCounter({
@@ -95,187 +121,148 @@ function AnimatedCounter({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
 
-  const inView = useInView(ref, {
-    once: true,
-    amount: 0.5,
-  });
-
   const reducedMotion = !!useReducedMotion();
 
-  const match = value.match(/\d[\d,]*(?:\.\d+)?/);
-
-  const numericValue = match
-    ? Number(match[0].replace(/,/g, ""))
-    : null;
-
-  const prefix = match
-    ? value.slice(0, match.index ?? 0)
-    : "";
-
-  const suffix = match
-    ? value.slice((match.index ?? 0) + match[0].length)
-    : "";
-
-  const decimalPlaces = match?.[0].includes(".")
-    ? match[0].split(".")[1].length
-    : 0;
-
-  const count = useMotionValue(0);
-
-  const displayed = useTransform(count, (latest) => {
-    const formatted = latest.toLocaleString("en-US", {
-      minimumFractionDigits: decimalPlaces,
-      maximumFractionDigits: decimalPlaces,
-    });
-
-    return `${prefix}${formatted}${suffix}`;
+  const inView = useInView(ref, {
+    once: true,
+    margin: "-30px",
   });
 
-  useEffect(() => {
-    if (!inView || numericValue === null) return;
+  const numericMatch = value.match(/[\d,.]+/);
 
-    if (reducedMotion) {
-      count.set(numericValue);
-      return;
+  const number = numericMatch
+    ? Number(numericMatch[0].replace(/,/g, ""))
+    : 0;
+
+  const start = numericMatch?.index ?? 0;
+
+  const prefix = numericMatch
+    ? value.slice(0, start)
+    : "";
+
+  const suffix = numericMatch
+    ? value.slice(start + numericMatch[0].length)
+    : "";
+
+  const decimals = numericMatch?.[0].includes(".")
+    ? numericMatch[0].split(".")[1].length
+    : 0;
+
+  const spring = useSpring(0, {
+    stiffness: 45,
+    damping: 18,
+    restDelta: 0.01,
+  });
+
+  const displayValue = useTransform(
+    spring,
+    (latest) => {
+      const formatted = latest.toLocaleString(
+        "en-US",
+        {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+        }
+      );
+
+      return `${prefix}${formatted}${suffix}`;
     }
+  );
 
-    const controls = animate(count, numericValue, {
-      duration: 1.55,
-      ease: EASE,
-    });
+  useEffect(() => {
+    if (inView) {
+      spring.set(number);
+    }
+  }, [inView, number, spring]);
 
-    return () => controls.stop();
-  }, [count, inView, numericValue, reducedMotion]);
-
-  if (numericValue === null) {
+  if (!numericMatch) {
     return <span>{value}</span>;
   }
 
   return (
-    <span ref={ref} className="tabular-nums">
-      <span className="sr-only">{value}</span>
-      <motion.span aria-hidden="true">{displayed}</motion.span>
+    <span
+      ref={ref}
+      className="tabular-nums"
+    >
+      {reducedMotion ? (
+        value
+      ) : inView ? (
+        <motion.span>
+          {displayValue}
+        </motion.span>
+      ) : (
+        `${prefix}${(0).toFixed(decimals)}${suffix}`
+      )}
     </span>
   );
 }
 
 /* ==========================================
-   ORIGINAL FULL-SIZE BUILDCON SVG
+   LARGE ORIGINAL ANIMATED FAN SVG
 
-   Original 800 × 800 geometry preserved.
-   Brand colors refined to red / dark red /
-   charcoal / silver.
-
-   Desktop visual remains large.
+   - Original 800x800 viewBox
+   - 75s rotating orbit
+   - 3 breathing sectors
+   - Pulsing central node
+   - Solid brand colors only
+   - NO GRADIENTS
 ========================================== */
 
-function BuildconGraphic({
-  reducedMotion,
-}: {
-  reducedMotion: boolean;
-}) {
+function BangladeshMarketGraphic() {
+  const reducedMotion = !!useReducedMotion();
+
   return (
-    <motion.div
+    <div
       aria-hidden="true"
-      initial={
-        reducedMotion
-          ? false
-          : {
-              opacity: 0,
-              x: 50,
-              scale: 0.96,
-            }
-      }
-      whileInView={{
-        opacity: 1,
-        x: 0,
-        scale: 1,
-      }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{
-        duration: reducedMotion ? 0 : 1.2,
-        ease: EASE,
-      }}
-      className="pointer-events-none absolute -right-[30%] top-1/2 z-0 hidden h-[650px] w-[650px] -translate-y-1/2 select-none sm:block sm:-right-[20%] sm:h-[780px] sm:w-[780px] lg:-right-[13%] xl:-right-[7%] 2xl:-right-[4%]"
+      className="
+        pointer-events-none absolute
+        -right-[24%] top-1/2 z-0
+        h-[650px] w-[650px]
+        -translate-y-1/2
+        select-none opacity-40
+        sm:-right-[17%]
+        sm:h-[780px] sm:w-[780px]
+        md:-right-[12%]
+        md:opacity-50
+        lg:-right-[5%]
+        xl:-right-[3%]
+      "
     >
       <svg
         viewBox="0 0 800 800"
         xmlns="http://www.w3.org/2000/svg"
-        className="size-full overflow-visible"
+        className="h-full w-full"
         fill="none"
       >
-        <defs>
-          <radialGradient id="buildcon-core-glow">
-            <stop
-              offset="0"
-              stopColor="#ED1C24"
-              stopOpacity="0.18"
-            />
-            <stop
-              offset="0.65"
-              stopColor="#ED1C24"
-              stopOpacity="0.045"
-            />
-            <stop
-              offset="1"
-              stopColor="#ED1C24"
-              stopOpacity="0"
-            />
-          </radialGradient>
-
-          <linearGradient
-            id="buildcon-red-sector"
-            x1="255"
-            y1="80"
-            x2="525"
-            y2="530"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset="0" stopColor="#FF454B" />
-            <stop offset="0.55" stopColor="#ED1C24" />
-            <stop offset="1" stopColor="#AE121C" />
-          </linearGradient>
-
-          <linearGradient
-            id="buildcon-dark-sector"
-            x1="420"
-            y1="110"
-            x2="700"
-            y2="600"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset="0" stopColor="#343942" />
-            <stop offset="1" stopColor="#14181F" />
-          </linearGradient>
-
-          <linearGradient
-            id="buildcon-silver-sector"
-            x1="100"
-            y1="460"
-            x2="420"
-            y2="710"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset="0" stopColor="#B8BEC8" />
-            <stop offset="1" stopColor="#545D69" />
-          </linearGradient>
-        </defs>
-
-        {/* Large atmospheric background */}
+        {/* Static architectural outer rings */}
         <circle
           cx="400"
           cy="400"
-          r="380"
-          fill="url(#buildcon-core-glow)"
+          r="348"
+          stroke={COLORS.white}
+          strokeWidth="1"
+          strokeOpacity="0.07"
         />
 
-        {/* Original orbital group */}
+        <circle
+          cx="400"
+          cy="400"
+          r="290"
+          stroke={COLORS.primary}
+          strokeWidth="1"
+          strokeOpacity="0.2"
+          strokeDasharray="3 12"
+        />
+
+        {/* ORIGINAL ROTATING ORBIT */}
         <motion.g
           animate={
-            reducedMotion ? undefined : { rotate: 360 }
+            reducedMotion
+              ? undefined
+              : { rotate: 360 }
           }
           transition={{
-            duration: 90,
+            duration: 75,
             repeat: Infinity,
             ease: "linear",
           }}
@@ -283,34 +270,10 @@ function BuildconGraphic({
             transformOrigin: "400px 400px",
           }}
         >
-          <circle
-            cx="400"
-            cy="400"
-            r="335"
-            stroke="#FFFFFF"
-            strokeOpacity="0.13"
-            strokeWidth="1"
-            strokeDasharray="5 12"
-          />
-
           <path
-            d="M180,210 A320,320 0 0,1 620,210"
-            stroke="#FFFFFF"
-            strokeOpacity="0.2"
-            strokeWidth="1.2"
-          />
-
-          <path
-            d="M130,340 A320,320 0 0,1 360,90"
-            stroke="#ED1C24"
-            strokeOpacity="0.4"
-            strokeWidth="1.2"
-          />
-
-          <path
-            d="M480,680 A320,320 0 0,0 710,510"
-            stroke="#FFFFFF"
-            strokeOpacity="0.23"
+            d="M180 210 A320 320 0 0 1 620 210"
+            stroke={COLORS.white}
+            strokeOpacity="0.28"
             strokeWidth="1.2"
           />
 
@@ -318,130 +281,140 @@ function BuildconGraphic({
             cx="280"
             cy="140"
             r="6"
-            fill="#ED1C24"
+            fill={COLORS.primary}
           />
 
           <circle
             cx="580"
             cy="170"
             r="8"
-            fill="#FF6469"
+            fill={COLORS.pinkLight}
+          />
+
+          <path
+            d="M130 340 A320 320 0 0 1 360 90"
+            stroke={COLORS.white}
+            strokeOpacity="0.22"
+            strokeWidth="1"
           />
 
           <circle
             cx="160"
             cy="270"
             r="9"
-            fill="#BBC0C9"
+            fill={COLORS.pinkLight}
           />
 
           <circle
             cx="165"
             cy="400"
             r="8"
-            fill="#ED1C24"
+            fill={COLORS.primary}
+          />
+
+          <path
+            d="M480 680 A320 320 0 0 0 710 510"
+            stroke={COLORS.white}
+            strokeOpacity="0.25"
+            strokeWidth="1"
           />
 
           <circle
             cx="560"
             cy="620"
             r="8"
-            fill="#858E9D"
+            fill={COLORS.blue}
           />
         </motion.g>
 
-        {/* Original top fan sector */}
+        {/* TOP FAN — PRIMARY PINK */}
         <motion.path
-          d="M400,400 L275,100 A340,340 0 0,1 525,100 Z"
-          fill="url(#buildcon-red-sector)"
-          opacity="0.95"
+          d="M400 400 L275 100 A340 340 0 0 1 525 100 Z"
+          fill={COLORS.primary}
+          opacity="0.94"
           animate={
             reducedMotion
               ? undefined
-              : { scale: [1, 1.018, 1] }
+              : {
+                  scale: [1, 1.018, 1],
+                }
+          }
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{
+            transformOrigin: "400px 400px",
+          }}
+        />
+
+        {/* RIGHT STRUCTURAL SECTOR */}
+        <motion.polygon
+          points="465,370 655,80 655,470"
+          fill={COLORS.blue}
+          opacity="0.85"
+          animate={
+            reducedMotion
+              ? undefined
+              : {
+                  scale: [1, 1.015, 1],
+                }
           }
           transition={{
             duration: 7,
             repeat: Infinity,
             ease: "easeInOut",
+            delay: 0.4,
           }}
-          style={{ transformOrigin: "400px 400px" }}
+          style={{
+            transformOrigin: "400px 400px",
+          }}
         />
 
-        {/* Original right sector */}
-        <motion.polygon
-          points="465,370 655,80 655,470"
-          fill="url(#buildcon-dark-sector)"
-          stroke="#B9C0CB"
-          strokeOpacity="0.3"
-          strokeWidth="1.5"
-          animate={
-            reducedMotion
-              ? undefined
-              : { scale: [1, 1.014, 1] }
-          }
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={{ transformOrigin: "400px 400px" }}
-        />
-
-        {/* Original bottom-left sector */}
+        {/* BOTTOM-LEFT FAN — DARK PINK */}
         <motion.path
-          d="M400,400 L95,475 A330,330 0 0,0 270,710 Z"
-          fill="url(#buildcon-silver-sector)"
-          opacity="0.88"
+          d="M400 400 L95 475 A330 330 0 0 0 270 710 Z"
+          fill={COLORS.primaryDark}
+          opacity="0.95"
           animate={
             reducedMotion
               ? undefined
-              : { scale: [1, 1.016, 1] }
+              : {
+                  scale: [1, 1.02, 1],
+                }
           }
           transition={{
-            duration: 7.5,
+            duration: 6.5,
             repeat: Infinity,
             ease: "easeInOut",
+            delay: 0.2,
           }}
-          style={{ transformOrigin: "400px 400px" }}
+          style={{
+            transformOrigin: "400px 400px",
+          }}
         />
 
-        {/* Original nested sectors */}
+        {/* Inner nested sectors */}
         <path
-          d="M400,400 L210,340 A205,205 0 0,0 280,560 Z"
-          fill="#99141D"
+          d="M400 400 L210 340 A205 205 0 0 0 280 560 Z"
+          fill={COLORS.blueDark}
           opacity="0.88"
         />
 
         <path
-          d="M400,400 L510,480 A205,205 0 0,1 465,565 Z"
-          fill="#717987"
-          opacity="0.9"
+          d="M400 400 L510 480 A205 205 0 0 1 465 565 Z"
+          fill={COLORS.primary}
+          opacity="0.75"
         />
 
-        {/* Secondary construction arcs */}
-        <path
-          d="M130 390a270 270 0 0 1 540 0"
-          stroke="#FFFFFF"
-          strokeOpacity="0.13"
-          strokeWidth="1.3"
-          strokeDasharray="8 12"
-        />
-
-        <path
-          d="M190 590a270 270 0 0 0 420 0"
-          stroke="#ED1C24"
-          strokeOpacity="0.32"
-          strokeWidth="1.4"
-        />
-
-        {/* Original central rings */}
+        {/* Central rings */}
         <circle
           cx="400"
           cy="400"
           r="140"
-          stroke="#FFFFFF"
-          strokeOpacity="0.28"
+          stroke={COLORS.white}
+          strokeOpacity="0.3"
           strokeWidth="1.5"
         />
 
@@ -449,176 +422,190 @@ function BuildconGraphic({
           cx="400"
           cy="400"
           r="125"
-          stroke="#FFFFFF"
-          strokeOpacity="0.78"
-          strokeWidth="3"
+          stroke={COLORS.white}
+          strokeWidth="3.5"
         />
 
-        {/* Original center pulse */}
+        {/* OUTER PULSING RING */}
+        <motion.circle
+          cx="400"
+          cy="400"
+          r="118"
+          stroke={COLORS.pinkLight}
+          strokeWidth="2"
+          strokeOpacity="0.3"
+          animate={
+            reducedMotion
+              ? undefined
+              : {
+                  opacity: [0.25, 0.65, 0.25],
+                  scale: [1, 1.06, 1],
+                }
+          }
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{
+            transformOrigin: "400px 400px",
+          }}
+        />
+
+        {/* ORIGINAL CENTRAL PULSE */}
         <motion.circle
           cx="400"
           cy="400"
           r="105"
-          fill="#D51923"
+          fill={COLORS.primary}
           animate={
             reducedMotion
               ? undefined
               : {
                   r: [105, 109, 105],
                   fill: [
-                    "#D51923",
-                    "#BD1620",
-                    "#D51923",
+                    COLORS.primary,
+                    COLORS.primaryDark,
+                    COLORS.primary,
                   ],
                 }
           }
           transition={{
-            duration: 5.5,
+            duration: 4.5,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         />
-
-        {/* Premium central detail */}
-        <circle
-          cx="400"
-          cy="400"
-          r="72"
-          stroke="#FFFFFF"
-          strokeOpacity="0.18"
-          strokeWidth="1"
-        />
-
-        <circle
-          cx="400"
-          cy="400"
-          r="9"
-          fill="#FFFFFF"
-          fillOpacity="0.9"
-        />
-
-        <path
-          d="M400 335v-36m0 202v-36M335 400h-36m202 0h-36"
-          stroke="#FFFFFF"
-          strokeOpacity="0.28"
-          strokeWidth="1.5"
-        />
       </svg>
-    </motion.div>
+    </div>
   );
 }
 
 /* ==========================================
-   MARKET FACT CARD
+   ANIMATED MARKET CARD
 ========================================== */
 
 function MarketFactCard({
   fact,
-  index,
-  reducedMotion,
 }: {
   fact: MarketFact;
-  index: number;
-  reducedMotion: boolean;
 }) {
+  const reducedMotion = !!useReducedMotion();
+
   return (
     <motion.article
-      variants={reveal}
+      variants={itemVariants}
       whileHover={
-        reducedMotion ? undefined : { y: -4 }
+        reducedMotion
+          ? undefined
+          : {
+              y: -4,
+            }
       }
       transition={{
-        duration: 0.28,
+        duration: 0.3,
         ease: EASE,
       }}
-      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-white/[0.13] bg-[#15181D]/95 p-5 shadow-[0_12px_36px_rgba(0,0,0,0.15)] transition-[border-color,background-color,box-shadow] duration-300 hover:border-brand-primary/45 hover:bg-[#1C2026] hover:shadow-[0_20px_45px_rgba(0,0,0,0.2)] sm:p-6"
+      className="
+        group relative flex min-w-0
+        flex-col justify-between
+        overflow-hidden rounded-xl
+        border border-white/10
+        bg-[#1D1B21]/90 p-5
+        shadow-[0_8px_26px_rgba(0,0,0,0.1)]
+        backdrop-blur-md
+        transition-[border-color,background-color,box-shadow]
+        duration-300
+        hover:border-brand-primary/45
+        hover:bg-[#252028]
+        hover:shadow-[0_16px_35px_rgba(0,0,0,0.18)]
+      "
     >
-      {/* Hover accent */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
-      />
-
-      {/* Top row */}
-      <div className="flex items-center justify-between gap-3">
-        <span className="rounded-md border border-white/10 bg-white/[0.06] px-2.5 py-1.5 font-heading text-[10px] font-semibold text-white/65">
-          {fact.period || "Market Indicator"}
-        </span>
-
-        <span className="flex items-center gap-2">
-          <span className="font-heading text-[10px] font-semibold text-white/35">
-            {String(index + 1).padStart(2, "0")}
+      <div>
+        {/* Card header */}
+        <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-3">
+          <span className="inline-flex min-w-0 max-w-full rounded-md border border-brand-primary/25 bg-brand-primary/10 px-2.5 py-1 font-heading text-[10px] font-bold uppercase tracking-[0.07em] text-[#E7A4D0]">
+            {fact.period || "Market Metric"}
           </span>
 
-          <span className="text-[#FF6469]">
-            <TrendIcon />
+          <span className="text-[#D58AB9] transition-colors duration-300 group-hover:text-white">
+            <GrowthIcon />
           </span>
-        </span>
+        </div>
+
+        {/* Animated number */}
+        <div className="mt-4 font-heading text-[clamp(1.8rem,2.5vw,2.25rem)] font-extrabold leading-none tracking-[-0.045em] text-white">
+          <AnimatedCounter value={fact.value} />
+        </div>
+
+        {/* Label */}
+        <h3 className="mt-3 font-heading text-[12px] font-bold leading-[1.5] text-[#DFA0CA] sm:text-[13px]">
+          {fact.label}
+        </h3>
+
+        {/* Supporting text */}
+        {fact.detail && (
+          <p className="mt-2 line-clamp-2 text-[11px] leading-[1.75] text-white/60 sm:text-[12px]">
+            {fact.detail}
+          </p>
+        )}
       </div>
 
-      {/* Number */}
-      <div className="mt-5 font-heading text-[clamp(1.9rem,2.8vw,2.65rem)] font-extrabold leading-none tracking-[-0.055em] text-white">
-        <AnimatedCounter value={fact.value} />
-      </div>
-
-      {/* Label */}
-      <h3 className="mt-3 font-heading text-[14px] font-bold leading-[1.5] text-[#FF8488] sm:text-[15px]">
-        {fact.label}
-      </h3>
-
-      {/* Description */}
-      {fact.detail && (
-        <p className="mt-2 flex-1 text-[12px] leading-[1.8] text-white/60 sm:text-[13px]">
-          {fact.detail}
-        </p>
-      )}
-
-      {/* Source */}
-      <div className="mt-auto border-t border-white/10 pt-4">
-        <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.11em] text-white/40">
-          Source
-        </span>
-
-        <div className="mt-1.5">
+      {/* Source footer */}
+      <div className="mt-5 flex items-center justify-between gap-3 border-t border-white/[0.08] pt-3">
+        <span className="min-w-0 truncate text-[10px] font-medium text-white/45">
           {fact.sourceUrl ? (
             <a
               href={fact.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[11px] font-medium leading-[1.6] text-white/70 underline decoration-white/20 underline-offset-4 transition-colors hover:text-[#FF8488] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-[#E7A4D0]"
             >
-              <span className="break-words">
-                {fact.sourceName}
-              </span>
-
-              <ArrowIcon />
+              {fact.sourceName}
             </a>
           ) : (
-            <span className="text-[11px] leading-[1.6] text-white/65">
-              {fact.sourceName}
-            </span>
+            fact.sourceName
           )}
-        </div>
+        </span>
+
+        <span className="shrink-0 text-[10px] font-medium text-white/40">
+          Source
+        </span>
       </div>
+
+      {/* Animated bottom accent */}
+      <span
+        aria-hidden="true"
+        className="
+          pointer-events-none absolute
+          inset-x-0 bottom-0 h-[2px]
+          origin-left scale-x-0
+          bg-brand-primary
+          transition-transform duration-300
+          group-hover:scale-x-100
+          motion-reduce:transition-none
+        "
+      />
     </motion.article>
   );
 }
 
 /* ==========================================
-   INDUSTRY OPPORTUNITIES
+   SEAMLESS CONTINUOUS MARQUEE
 ========================================== */
 
-function FocusAreas({
-  reducedMotion,
-}: {
-  reducedMotion: boolean;
-}) {
+function FocusAreasMarquee() {
+  const reducedMotion = !!useReducedMotion();
+
   return (
     <motion.div
       initial={
         reducedMotion
           ? false
-          : { opacity: 0, y: 14 }
+          : {
+              opacity: 0,
+              y: 20,
+            }
       }
       whileInView={{
         opacity: 1,
@@ -627,174 +614,208 @@ function FocusAreas({
       viewport={{ once: true }}
       transition={{
         duration: reducedMotion ? 0 : 0.6,
+        delay: reducedMotion ? 0 : 0.2,
         ease: EASE,
       }}
-      className="mt-6 rounded-xl border border-white/10 bg-[#15181D]/95 p-4 sm:p-5"
+      className="
+        relative mt-8 flex min-w-0
+        items-center overflow-hidden
+        rounded-xl border border-white/10
+        bg-[#201C23]/90 py-3.5
+        backdrop-blur-md
+      "
     >
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-        <div className="flex shrink-0 items-center gap-2.5 lg:border-r lg:border-white/15 lg:pr-5">
-          <span className="size-2 rounded-full bg-brand-primary" />
+      {/* Fixed left title */}
+      <div className="relative z-10 flex shrink-0 items-center gap-2 border-r border-white/15 bg-[#201C23] py-1 pl-4 pr-4">
+        <span className="relative flex size-2">
+          {!reducedMotion && (
+            <span className="absolute inset-0 animate-ping rounded-full bg-brand-primary opacity-45" />
+          )}
 
-          <h3 className="font-heading text-[11px] font-bold uppercase tracking-[0.12em] text-white">
-            Industry Focus
-          </h3>
-        </div>
+          <span className="relative size-2 rounded-full bg-brand-primary" />
+        </span>
 
-        <div className="flex flex-wrap gap-2">
-          {opportunityCategories.map((category) => (
-            <span
-              key={category}
-              className="rounded-md border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[11px] font-medium leading-[1.5] text-white/75 transition-colors hover:border-brand-primary/40 hover:bg-brand-primary/10 hover:text-white"
+        <span className="whitespace-nowrap font-heading text-[10px] font-extrabold uppercase tracking-[0.12em] text-white/80 sm:text-[11px]">
+          Key Focus Areas
+        </span>
+      </div>
+
+      {/* Marquee viewport */}
+      <div className="min-w-0 flex-1 overflow-hidden">
+        <motion.div
+          animate={
+            reducedMotion
+              ? undefined
+              : {
+                  x: ["0%", "-50%"],
+                }
+          }
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="flex w-max items-center"
+        >
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              aria-hidden={copy === 1}
+              className="flex shrink-0 items-center gap-6 pr-6"
             >
-              {category}
-            </span>
+              {opportunityCategories.map(
+                (
+                  category: string,
+                  index: number
+                ) => (
+                  <div
+                    key={`${copy}-${index}`}
+                    className="flex shrink-0 items-center gap-2 whitespace-nowrap text-[12px] font-medium text-white/75"
+                  >
+                    <span className="size-1.5 rounded-full bg-brand-primary" />
+
+                    <span>{category}</span>
+
+                    <span className="ml-4 text-white/20">
+                      •
+                    </span>
+                  </div>
+                )
+              )}
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );
 }
 
 /* ==========================================
-   MAIN SECTION
+   MAIN WHY BANGLADESH SECTION
 ========================================== */
 
 export function WhyBangladeshSection() {
   const reducedMotion = !!useReducedMotion();
 
-  const scrollProps = {
-    initial: reducedMotion ? false : "hidden",
-    whileInView: "visible" as const,
-    viewport: {
-      once: true,
-      amount: 0.08,
-    },
-  };
-
   return (
     <section
       aria-labelledby="why-bangladesh-heading"
-      className="relative isolate overflow-hidden bg-[#090B0F] py-14 text-white sm:py-16 lg:py-[76px]"
+      className="
+        relative isolate overflow-hidden
+        border-b border-white/10
+        bg-[#151418] py-14 text-white
+        selection:bg-brand-primary
+        selection:text-white
+        sm:py-16
+      "
     >
-      {/* Architectural grid */}
+      {/* Original large animated SVG */}
+      <BangladeshMarketGraphic />
+
+      {/* Subtle flat blueprint texture */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:70px_70px]"
+        className="
+          pointer-events-none absolute inset-0
+          z-0 opacity-[0.03]
+        "
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
       />
 
-      {/* Refined soft lighting */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-48 top-0 size-[450px] rounded-full bg-brand-primary/[0.055] blur-[115px]"
-      />
-
-      {/* Full-size original-style SVG */}
-      <BuildconGraphic reducedMotion={reducedMotion} />
-
-      {/* Content */}
       <Container className="relative z-10">
-        {/* Header */}
-        <motion.div
-          {...scrollProps}
-          variants={stagger}
-          className="flex flex-col gap-5 border-b border-white/10 pb-7 lg:flex-row lg:items-end lg:justify-between"
-        >
-          <div className="max-w-[730px]">
-            <motion.div
-              variants={reveal}
-              className="flex items-center gap-2.5"
-            >
-              <span className="h-[2px] w-8 bg-brand-primary" />
+        {/* SECTION HEADER */}
+        <div className="flex flex-col gap-5 border-b border-white/10 pb-7 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-[710px]">
+            <div className="inline-flex items-center gap-2.5 rounded-md border border-brand-primary/30 bg-brand-primary/10 px-3 py-1.5">
+              <span className="relative flex size-2">
+                {!reducedMotion && (
+                  <span className="absolute inset-0 animate-ping rounded-full bg-brand-primary opacity-45" />
+                )}
 
-              <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#FF8488]">
-                Construction Market Perspective
+                <span className="relative size-2 rounded-full bg-brand-primary" />
               </span>
-            </motion.div>
 
-            <motion.h2
+              <span className="font-heading text-[10px] font-bold uppercase tracking-[0.15em] text-[#E7A4D0]">
+                Strategic Market Overview
+              </span>
+            </div>
+
+            <h2
               id="why-bangladesh-heading"
-              variants={reveal}
-              className="mt-3 font-heading text-[clamp(1.75rem,3vw,2.6rem)] font-extrabold leading-[1.18] tracking-[-0.045em] text-white"
+              className="mt-4 max-w-[700px] font-heading text-[clamp(1.65rem,3vw,2.5rem)] font-extrabold leading-[1.16] tracking-[-0.04em] text-white"
             >
               Bangladesh — A Construction Market{" "}
-              <span className="text-[#FF6469]">
-                Full of Opportunity
+              <span className="text-[#E49BCB]">
+                On The Move
               </span>
-            </motion.h2>
+            </h2>
 
-            <motion.p
-              variants={reveal}
-              className="mt-3 max-w-[640px] text-[13px] leading-[1.85] text-white/65 sm:text-[14px]"
-            >
-              Explore construction market
-              indicators and business
-              opportunities relevant to building
-              materials, machinery, engineering
-              products and construction technologies
-              in Bangladesh.
-            </motion.p>
+            <p className="mt-3 max-w-[650px] text-[12px] leading-[1.85] text-white/65 sm:text-[13px]">
+              Economic growth, urban development,
+              and infrastructure activity are
+              supporting demand for building
+              materials, machinery, and construction
+              technology.
+            </p>
           </div>
 
-          <motion.div variants={reveal}>
-            <Link
-              href="/why-bangladesh"
-              className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/[0.07] px-5 py-3 font-heading text-[12px] font-bold text-white transition-colors hover:border-brand-primary/50 hover:bg-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              Explore Market Insights
+          <Button
+            href="/why-bangladesh"
+            className="
+              group inline-flex min-h-11
+              shrink-0 items-center justify-center
+              gap-2.5 rounded-lg
+              border border-brand-primary/40
+              bg-brand-primary/15
+              px-5 py-2.5
+              font-heading text-[11px] font-bold
+              text-white
+              transition-[background-color,border-color,transform]
+              duration-300
+              hover:-translate-y-0.5
+              hover:border-brand-primary
+              hover:bg-brand-primary/30
+              motion-reduce:transform-none
+            "
+          >
+            Explore Full Market Report
 
-              <span className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none">
-                <ArrowIcon />
-              </span>
-            </Link>
-          </motion.div>
+            <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              <ArrowUpRightIcon />
+            </span>
+          </Button>
+        </div>
+
+        {/* ANIMATED MARKET FACTS */}
+        <motion.div
+          variants={containerVariants}
+          initial={
+            reducedMotion
+              ? false
+              : "hidden"
+          }
+          whileInView="visible"
+          viewport={{
+            once: true,
+            margin: "-40px",
+          }}
+          className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {marketFacts.map((fact: MarketFact) => (
+            <MarketFactCard
+              key={fact.id}
+              fact={fact}
+            />
+          ))}
         </motion.div>
 
-        {/* Market facts */}
-        {marketFacts.length > 0 ? (
-          <motion.div
-            variants={stagger}
-            initial={reducedMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{
-              once: true,
-              amount: 0.08,
-            }}
-            className="mt-7 grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {marketFacts.map((fact, index) => (
-              <MarketFactCard
-                key={fact.id}
-                fact={fact}
-                index={index}
-                reducedMotion={reducedMotion}
-              />
-            ))}
-          </motion.div>
-        ) : (
-          <div className="mt-7 rounded-xl border border-white/10 bg-[#15181D] p-5 text-[13px] text-white/65">
-            Source-backed market information will
-            appear here when available.
-          </div>
-        )}
-
-        {/* Focus areas */}
-        {opportunityCategories.length > 0 && (
-          <FocusAreas reducedMotion={reducedMotion} />
-        )}
-
-        <p className="mt-5 text-[10px] leading-[1.8] text-white/40 sm:text-[11px]">
-          Market statistics are sourced from the
-          website&apos;s market data. Review the
-          stated source and reporting period
-          for each indicator. Historical figures
-          are not confirmed 2026 exhibition results.
-        </p>
+        {/* ORIGINAL INFINITE MARQUEE */}
+        <FocusAreasMarquee />
       </Container>
-
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-px bg-white/10"
-      />
     </section>
   );
 }

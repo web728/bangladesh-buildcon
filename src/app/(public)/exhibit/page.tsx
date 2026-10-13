@@ -6,15 +6,15 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ExhibitClientView } from "@/components/exhibit/ExhibitClientView";
 
 const PAGE_TITLE =
-  "Why Exhibit at Bangladesh Buildcon 2026 | Construction Trade Expo";
+  "Why Exhibit at Bangladesh Buildcon 2026 | Exhibitor Benefits";
 
 const PAGE_DESCRIPTION =
-  "Discover why to exhibit at the 10th Bangladesh Buildcon " +
-  "International Expo, 17–19 September 2026 at ICCB Exhibition " +
-  "Hall, Dhaka. Explore construction market opportunities, " +
-  "exhibitor sectors and B2B industry networking.";
+  `Explore the benefits of exhibiting at ${event.name}. ` +
+  `Connect with construction buyers, contractors, distributors ` +
+  `and industry specifiers in Dhaka. Discover exhibitor ` +
+  `categories and stand participation options for ${event.dates.display}.`;
 
-const PAGE_IMAGE =
+const OG_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";
 
 export const metadata: Metadata = {
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
     url: "/exhibit",
-    type: "website",
     siteName: event.name,
+    type: "website",
     locale: "en_US",
     images: [
       {
-        url: PAGE_IMAGE,
-        alt: "Building and construction industry at Bangladesh Buildcon 2026",
+        url: OG_IMAGE,
+        alt: "Bangladesh Buildcon 2026 construction exhibition",
       },
     ],
   },
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    images: [PAGE_IMAGE],
+    images: [OG_IMAGE],
   },
 
   robots: {
@@ -64,15 +64,15 @@ export const metadata: Metadata = {
 
 export default function ExhibitPage() {
   return (
-    <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
+    <main className="min-h-screen bg-[#F8F9FB] selection:bg-brand-primary selection:text-white">
       <PageHero
-        title="Why Exhibit at"
-        highlightTitle="Bangladesh Buildcon?"
-        badgeText="10th International Edition · 2026"
-        intro={`Explore construction industry opportunities and connect with the building and infrastructure sector at ${event.venue.name}, ${event.venue.city}, ${event.dates.display}.`}
+        title="Grow Your Business"
+        highlightTitle="Exhibit at Buildcon 2026"
+        badgeText="Exhibitor Opportunities"
+        intro="Meet construction buyers, distributors, contractors and industry specifiers at Bangladesh Buildcon International Expo in Dhaka."
         image={{
-          src: PAGE_IMAGE,
-          alt: "Construction machinery representing the exhibitor profile of Bangladesh Buildcon International Expo 2026",
+          src: "/images/sectors/construction-crane-bangladesh.jpg",
+          alt: "Construction machinery and building industry infrastructure representing exhibitor opportunities at Bangladesh Buildcon 2026",
         }}
       />
 

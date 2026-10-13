@@ -2,34 +2,17 @@
 @import "tailwindcss";
 
 :root {
-  /* Base */
   --background: #ffffff;
   --foreground: #050709;
 
-  /* Main brand: brochure-inspired red */
-  --brand-primary: #ed1c24;
-  --brand-primary-dark: #c91620;
+  --brand-primary: #ba1d82;
+  --brand-primary-dark: #981469;
 
-  /* Secondary: brochure blue */
   --brand-blue: #304090;
   --brand-blue-dark: #243273;
 
-  /* Neutral design system */
   --brand-dark: #050709;
   --brand-light: #f7f8fa;
-
-  /* Readable text and borders */
-  --brand-body: #394150;
-  --brand-muted: #5b6472;
-  --brand-border: #e1e5eb;
-
-  /* Subtle brand surfaces */
-  --brand-primary-soft: #fff1f2;
-  --brand-blue-soft: #f0f2fb;
-
-  /* Typography */
-  --font-sans-family: var(--font-inter), Arial, sans-serif;
-  --font-heading-family: var(--font-jakarta), Arial, sans-serif;
 }
 
 @theme inline {
@@ -45,51 +28,6 @@
   --color-brand-dark: var(--brand-dark);
   --color-brand-light: var(--brand-light);
 
-  --color-brand-body: var(--brand-body);
-  --color-brand-muted: var(--brand-muted);
-  --color-brand-border: var(--brand-border);
-
-  --color-brand-primary-soft: var(--brand-primary-soft);
-  --color-brand-blue-soft: var(--brand-blue-soft);
-
-  --font-sans: var(--font-sans-family);
-  --font-heading: var(--font-heading-family);
-}
-
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-sans-family);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-heading-family);
-  }
-
-  ::selection {
-    background: var(--brand-primary);
-    color: #ffffff;
-  }
-
-  :focus-visible {
-    outline-color: var(--brand-primary);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  --font-sans: var(--font-inter), sans-serif;
+  --font-heading: var(--font-jakarta), sans-serif;
 }
