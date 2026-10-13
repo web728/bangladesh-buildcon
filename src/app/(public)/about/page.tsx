@@ -1,23 +1,66 @@
+
 import type { Metadata } from "next";
+
 import { event } from "@/config/event";
 import { PageHero } from "@/components/ui/PageHero";
 import { AboutClientView } from "@/components/about/AboutClientView";
 
+const pageTitle =
+  "About Bangladesh Buildcon 2026 | International Construction Expo";
+
+const pageDescription =
+  `Discover ${event.name}, an international B2B construction exhibition ` +
+  `connecting building material manufacturers, machinery suppliers, ` +
+  `technology providers and trade buyers in Bangladesh. ` +
+  `Dates: ${event.dates.display}. Venue: ${event.venue.fullLocation}.`;
+
 export const metadata: Metadata = {
-  title: "About the Expo | Bangladesh Buildcon 2026",
-  description: `Bangladesh Buildcon International Expo 2026 is a B2B trade exhibition connecting manufacturers with construction buyers, held from ${event.dates.display} at ${event.venue.fullLocation}.`,
-  alternates: { canonical: "/about" },
+  title: pageTitle,
+  description: pageDescription,
+
+  alternates: {
+    canonical: "/about",
+  },
+
+  openGraph: {
+    title: pageTitle,
+    description: pageDescription,
+    url: "/about",
+    type: "website",
+    images: [
+      {
+        url: "/images/sectors/construction-crane-bangladesh.jpg",
+        alt: "Bangladesh Buildcon International Construction Exhibition",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+    images: [
+      "/images/sectors/construction-crane-bangladesh.jpg",
+    ],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-[#fafbfd] selection:bg-brand-blue selection:text-white">
+    <main className="min-h-screen bg-[#F8F9FB] selection:bg-brand-primary selection:text-white">
       <PageHero
-        title="Connecting Global Manufacturers with South Asian Construction"
-        intro="A focused international B2B platform connecting building material producers, equipment makers, and technology providers with trade buyers across Bangladesh."
+        title="Connecting Global Manufacturers"
+        highlightTitle="With Construction Markets"
+        badgeText="About Bangladesh Buildcon 2026"
+        intro="An international B2B platform bringing building materials, construction machinery and advanced technologies closer to trade buyers in Bangladesh."
         image={{
           src: "/images/sectors/construction-crane-bangladesh.jpg",
-          alt: "Bangladesh Buildcon International Expo Overview",
+          alt: "Construction crane representing the building and infrastructure sector at Bangladesh Buildcon 2026",
         }}
       />
 
