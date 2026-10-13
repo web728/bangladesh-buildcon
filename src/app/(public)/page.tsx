@@ -1,5 +1,6 @@
 
 import type { Metadata } from "next";
+
 import { event } from "@/config/event";
 
 import { HeroSection } from "@/components/sections/home/HeroSection";
@@ -9,55 +10,65 @@ import { WhyBangladeshSection } from "@/components/sections/home/WhyBangladeshSe
 import { ExhibitionProfileSection } from "@/components/sections/home/ExhibitionProfileSection";
 import { WhyExhibitSection } from "@/components/sections/home/WhyExhibitSection";
 import { WhoWillYouMeetSection } from "@/components/sections/home/WhoWillYouMeetSection";
-import { ExhibitorDirectoryPreviewSection } from "@/components/sections/home/ExhibitorDirectoryPreviewSection";
 import { VenueSection } from "@/components/sections/home/VenueSection";
 import { PartnersSection } from "@/components/sections/home/PartnersSection";
 import { NewsSection } from "@/components/sections/home/NewsSection";
 import { FinalCtaSection } from "@/components/sections/home/FinalCtaSection";
 
-const siteUrl = "https://bangladeshbuildcon.com/";
-const ogImage = "/images/og/og-default.jpg";
+/* ==========================================
+   HOMEPAGE SEO
+========================================== */
 
-const pageTitle =
-  `${event.name} | Building & Construction Exhibition in Bangladesh`;
+const SITE_URL = "https://bangladeshbuildcon.com/";
 
-const pageDescription =
-  `${event.descriptor}. ${event.dates.display} at ` +
-  `${event.venue.fullLocation}. ${event.brandLines.main}`;
+const PAGE_TITLE =
+  "10th Bangladesh Buildcon International Expo 2026 | Dhaka";
+
+const PAGE_DESCRIPTION =
+  "Explore the 10th Bangladesh Buildcon International " +
+  "Expo 2026, the building and construction industry " +
+  "trade exhibition taking place 17–19 September 2026 " +
+  "at ICCB Exhibition Hall, Dhaka, Bangladesh. " +
+  "Discover construction machinery, materials, " +
+  "engineering, interiors and B2B networking opportunities.";
+
+const OG_IMAGE = "/images/og/og-default.jpg";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+
   title: {
-    absolute: pageTitle,
+    absolute: PAGE_TITLE,
   },
 
-  description: pageDescription,
+  description: PAGE_DESCRIPTION,
+
+  applicationName: event.name,
 
   alternates: {
-    canonical: siteUrl,
+    canonical: "/",
   },
 
   openGraph: {
     type: "website",
     locale: "en_BD",
     siteName: event.name,
-    title: pageTitle,
-    description: pageDescription,
-    url: siteUrl,
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: SITE_URL,
     images: [
       {
-        url: ogImage,
-        width: 1711,
-        height: 1143,
-        alt: event.name,
+        url: OG_IMAGE,
+        alt: "10th Bangladesh Buildcon International Expo 2026",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: pageTitle,
-    description: pageDescription,
-    images: [ogImage],
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [OG_IMAGE],
   },
 
   robots: {
@@ -73,21 +84,109 @@ export const metadata: Metadata = {
   },
 };
 
+/* ==========================================
+   VERIFIED EVENT STRUCTURED DATA
+========================================== */
+
+const homeStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}#website`,
+      name: event.name,
+      url: SITE_URL,
+      inLanguage: "en-BD",
+      description: PAGE_DESCRIPTION,
+    },
+    {
+      "@type": "ExhibitionEvent",
+      "@id": `${SITE_URL}#event-2026`,
+      name: "10th Bangladesh Buildcon International Expo 2026",
+      description: PAGE_DESCRIPTION,
+      startDate: "2026-09-17",
+      endDate: "2026-09-19",
+      eventStatus: "https://schema.org/EventScheduled",
+      location: {
+        "@type": "Place",
+        name: "ICCB Exhibition Hall",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Dhaka",
+          addressCountry: "BD",
+        },
+      },
+      organizer: [
+        {
+          "@type": "Organization",
+          name: "Futurex Trade Fair & Events Pvt. Ltd.",
+          url: "https://www.futurextrade.com/",
+        },
+        {
+          "@type": "Organization",
+          name: "ASK Trade & Exhibitions Pvt. Ltd.",
+        },
+      ],
+      image: [
+        new URL(
+          "/images/home/bangladesh-buildcon-hero.jpg",
+          SITE_URL
+        ).toString(),
+      ],
+      url: SITE_URL,
+    },
+  ],
+};
+
+/* ==========================================
+   HOMEPAGE
+========================================== */
+
 export default function HomePage() {
   return (
-    <>
+    <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(homeStructuredData).replace(
+            /</g,
+            "\\u003c"
+          ),
+        }}
+      />
+
+      {/* Main visual introduction */}
       <HeroSection />
+
+      {/* Historical exhibition highlights */}
       <HeroStatsSection />
+
+      {/* Official event introduction */}
       <IntroSection />
+
+      {/* Bangladesh construction market perspective */}
       <WhyBangladeshSection />
+
+      {/* Seven official brochure exhibitor sectors */}
       <ExhibitionProfileSection />
-      <WhyExhibitSection />
-      <WhoWillYouMeetSection />
-      {/* <ExhibitorDirectoryPreviewSection /> */}
+
+      {/* Exhibitor participation information */}
+      {/* <WhyExhibitSection /> */}
+
+      {/* Professional visitor audience */}
+      {/* <WhoWillYouMeetSection /> */}
+
+      {/* Official event venue */}
       <VenueSection />
+
+      {/* Published industry and media partners */}
       <PartnersSection />
-      <NewsSection />
+
+      {/* Published news and announcements */}
+      {/* <NewsSection /> */}
+
+      {/* Final registration and enquiry actions */}
       <FinalCtaSection />
-    </>
+    </main>
   );
 }

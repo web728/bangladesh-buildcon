@@ -1,83 +1,156 @@
+
 export interface SectorItem {
   name: string;
   slug: string;
   subcategories: string[];
 }
 
+/**
+ * SOURCE:
+ * 10th Bangladesh Buildcon International Expo 2026
+ * Official Brochure — Page 3: Exhibitor Profile
+ *
+ * These categories describe exhibition scope,
+ * not confirmed exhibitors.
+ */
 export const exhibitionSectors: SectorItem[] = [
   {
-    name: "Building Materials",
-    slug: "building-materials",
-    subcategories: ["Cement & Concrete", "Blocks & Bricks", "Gypsum Boards", "Roofing & Cladding", "Waterproofing", "Construction Chemicals"]
-  },
-  {
-    name: "Construction Machinery & Equipment",
+    name: "Construction Machinery and Equipment",
     slug: "construction-machinery",
-    subcategories: ["Earthmoving Equipment", "Excavators & Loaders", "Concrete & Batching Plants", "Cranes & Lifting", "Scaffolding & Formwork"]
+    subcategories: [
+      "Equipment for the Production of Building Materials",
+      "Construction Equipment",
+      "Municipal Vehicles",
+      "Cranes and Trailers",
+      "Rental and Leasing of Construction Machinery",
+      "Construction Machinery",
+      "Handling Equipment",
+      "Elevators",
+      "Loaders",
+      "Trucks",
+      "System Formwork",
+      "Building Tools",
+      "Welding Equipment",
+      "Power Tools",
+      "Petrol Tools",
+      "Pneumatic and Hydraulic Tools",
+      "Heating, Ventilation and Refrigeration",
+      "Cold Chain and HVAC",
+    ],
   },
   {
-    name: "Steel, Metal & Structural Products",
-    slug: "steel-metal-structural",
-    subcategories: ["Structural & Rebar Steel", "Pipes & Tubes", "Metal Sheets", "Pre-Engineered Structures"]
+    name: "Construction Materials",
+    slug: "construction-materials",
+    subcategories: [
+      "Pre-Fabricated Structures",
+      "Hangars",
+      "Pavilions",
+      "Façade Materials",
+      "Translucent Constructions",
+      "Building Structures",
+      "Building Envelope",
+      "Roofing Materials",
+      "Attic",
+      "Drainage Systems",
+      "Thermal Insulation",
+      "Insulation",
+      "Mastics",
+      "Sealants",
+      "Gaskets",
+      "Waterproofing",
+      "Bases and Foundations",
+      "Wall Materials",
+      "Fire-Resistant Materials",
+      "Finishing Materials",
+    ],
   },
   {
-    name: "Electrical, Power & Lighting",
-    slug: "electrical-power-lighting",
-    subcategories: ["Cables & Wires", "Switchgear & Transformers", "Generators", "LED & Industrial Lighting"]
+    name: "Construction",
+    slug: "construction",
+    subcategories: [
+      "Urban Development",
+      "Architecture and Design",
+      "Modern Technologies of Construction",
+      "Reconstruction and Restoration",
+      "Modern Design of Buildings",
+      "Structures and Roads",
+      "Automation in Construction",
+      "Resource-Saving Technologies and Materials",
+    ],
   },
   {
-    name: "Doors, Windows, Glass & Aluminium",
-    slug: "doors-windows-glass-aluminium",
-    subcategories: ["Aluminium Profiles", "uPVC Systems", "Architectural Glass", "Façade Systems", "Shutters & Hardware"]
+    name: "Country Housing Landscaping",
+    slug: "country-housing-landscaping",
+    subcategories: [
+      "Wooden Houses",
+      "Log Buildings",
+      "Cottages of Logs",
+      "Vacation Houses from Glued Profiled Beams",
+      "Wooden Frame Houses",
+      "Garden Houses",
+      "Landscape and Design",
+    ],
   },
   {
-    name: "HVAC & Building Services",
-    slug: "hvac-building-services",
-    subcategories: ["Air Conditioning", "Ventilation", "Refrigeration", "Mechanical & Building Services"]
+    name: "Electricity and Electrical Engineering in Construction",
+    slug: "electricity-electrical-engineering",
+    subcategories: [
+      "Electricity Design and Construction",
+      "Distribution Systems",
+      "Transformer Stations",
+      "Isolators",
+      "High- and Low-Voltage Equipment",
+      "Energy Conservation Technologies",
+      "Energy Control Devices",
+      "Instrumentation and Automation",
+      "Instrumentation Control and Accounting",
+      "Energy-Saving Equipment",
+      "Systems and Equipment Supply",
+      "Ventilation and Air Conditioning",
+    ],
   },
   {
-    name: "Prefab, Precast & Modular Buildings",
-    slug: "prefab-precast-modular",
-    subcategories: ["Precast Products", "Prefabricated Structures", "Modular Buildings", "PEB Systems"]
+    name: "Interior & Exterior",
+    slug: "interior-exterior",
+    subcategories: [
+      "Interior Design Companies",
+      "Exterior Design Companies",
+      "Banking Institutions",
+      "Roof Manufacturers",
+      "Furniture Companies",
+      "Insurance Companies",
+      "Investment Companies",
+      "Government Agencies",
+      "Interior Decorators",
+      "Architects",
+      "Contractors",
+      "Environmental Sector",
+      "Chamber of Commerce",
+      "Glass Companies",
+      "Paint and Glass Manufacturers and Suppliers",
+      "Wood Panel Manufacturers",
+      "Door Manufacturing Companies",
+      "Other Service Companies",
+    ],
   },
   {
-    name: "Tiles, Marble, Stone & Surfaces",
-    slug: "tiles-marble-stone",
-    subcategories: ["Ceramic & Porcelain Tile", "Marble & Granite", "Natural Stone", "Flooring & Architectural Surfaces"]
+    name: "Safety & Security",
+    slug: "safety-security",
+    subcategories: [
+      "Electrical Safety",
+      "Emergency Alarm and Warning Systems",
+      "Emergency Escape Smoke Hoods",
+      "Emergency Medicine and Epidemic Prevention",
+      "Emergency Rescue Engineering",
+      "Emergency Signage and Lighting",
+      "EMS Supplies",
+      "First Responders Equipment",
+      "Airport Security",
+      "Alarms",
+      "Alarm Receiving Centres",
+      "Intruder Alarms",
+      "Sensors and Shock Sensors",
+      "Sirens and Horns",
+    ],
   },
-  {
-    name: "Water, Plumbing & Pumps",
-    slug: "water-plumbing-pumps",
-    subcategories: ["Pipes & Fittings", "Industrial Pumps & Valves", "Water Tanks", "Water Treatment Systems"]
-  },
-  {
-    name: "Solar, Energy & Power Solutions",
-    slug: "solar-energy-power",
-    subcategories: ["Solar Systems", "Backup Power", "Energy-Efficient Building Products"]
-  },
-  {
-    name: "Hardware, Tools & Fasteners",
-    slug: "hardware-tools-fasteners",
-    subcategories: ["Hand & Power Tools", "Cutting & Drilling Equipment", "Fasteners & Abrasives", "Workshop Hardware"]
-  },
-  {
-    name: "Paints, Coatings & Chemicals",
-    slug: "paints-coatings-chemicals",
-    subcategories: ["Decorative Paints", "Industrial Coatings", "Adhesives & Sealants", "Concrete Admixtures"]
-  },
-  {
-    name: "Sanitaryware & Bathroom",
-    slug: "sanitaryware-bathroom",
-    subcategories: ["Sanitaryware & Faucets", "Showers & Fittings", "Bathroom Furniture & Fixtures"]
-  },
-  {
-    name: "Fire, Safety & Security",
-    slug: "fire-safety-security",
-    subcategories: ["Fire Detection & Protection", "Site Safety Equipment", "CCTV & Access Control"]
-  },
-  {
-    name: "Interiors & Finishing Materials",
-    slug: "interiors-finishing-materials",
-    subcategories: ["Ceilings & Wall Panels", "Decorative Materials", "Interior Finishes"]
-  }
 ];

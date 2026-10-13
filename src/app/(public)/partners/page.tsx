@@ -1,19 +1,91 @@
+
 import type { Metadata } from "next";
+
+import { event } from "@/config/event";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PartnerLogo } from "@/components/ui/PartnerLogo";
 import { PartnerEnquiryForm } from "@/components/forms/PartnerEnquiryForm";
-import { getActivePartners, type PartnerSummary } from "@/lib/data/partners";
+import {
+  getActivePartners,
+  type PartnerSummary,
+} from "@/lib/data/partners";
+import { PartnersReveal } from "@/components/partners/PartnersReveal";
+
+/* ==========================================
+   LIVE DATABASE CONTENT
+========================================== */
 
 export const dynamic = "force-dynamic";
 
+/* ==========================================
+   ADVANCED SEO
+========================================== */
+
+const PAGE_PATH = "/partners";
+
+const PAGE_TITLE =
+  "Industry & Media Partners | Bangladesh Buildcon 2026";
+
+const PAGE_DESCRIPTION =
+  "Explore published industry, association and media partners " +
+  "of the 10th Bangladesh Buildcon International Expo 2026. " +
+  "Enquire about partnership opportunities for the exhibition " +
+  "at ICCB Exhibition Hall, Dhaka, 17–19 September 2026.";
+
+const PAGE_IMAGE =
+  "/images/sectors/construction-crane-bangladesh.jpg";
+
 export const metadata: Metadata = {
-  title: "Industry & Media Partners | Bangladesh Buildcon 2026",
-  description:
-    "Organisers and confirmed supporting organisations, industry associations, and media partners of Bangladesh Buildcon International Expo 2026.",
-  alternates: { canonical: "/partners" },
+  title: {
+    absolute: PAGE_TITLE,
+  },
+
+  description: PAGE_DESCRIPTION,
+
+  alternates: {
+    canonical: PAGE_PATH,
+  },
+
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: PAGE_PATH,
+    type: "website",
+    siteName: event.name,
+    locale: "en_US",
+    images: [
+      {
+        url: PAGE_IMAGE,
+        alt: "Bangladesh Buildcon International Expo 2026 industry and media partnerships",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [PAGE_IMAGE],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
+  },
 };
+
+/* ==========================================
+   PARTNER CATEGORIES
+
+   Preserve existing database categories.
+========================================== */
 
 const CATEGORIES = [
   "Supporting Organisation",
@@ -22,176 +94,269 @@ const CATEGORIES = [
   "Media Partner",
 ] as const;
 
+/* ==========================================
+   SVG ICONS
+========================================== */
+
+function PartnershipIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-5"
+      aria-hidden="true"
+    >
+      <path d="m2 12 4-4 4 2 4-2 4 4" />
+      <path d="m7 13 5 5a2 2 0 0 0 3-1l1-1" />
+      <path d="m10 10 3-2 4 2 3-2 2 4-4 4-3-1" />
+      <path d="m5 15 3 3m10-2 3-3" />
+    </svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4"
+      aria-hidden="true"
+    >
+      <path d="M5 12h14m-6-6 6 6-6 6" />
+    </svg>
+  );
+}
+
+/* ==========================================
+   PAGE
+========================================== */
+
 export default async function PartnersPage() {
   let partners: PartnerSummary[] = [];
 
   try {
     partners = await getActivePartners();
-  } catch {
-    partners = [];
+  } catch (error) {
+    console.error(
+      "Failed to load published exhibition partners:",
+      error
+    );
   }
 
-  const byCategory = CATEGORIES.map((cat) => ({
-    category: cat,
-    items: partners.filter((p) => p.category === cat),
+  const byCategory = CATEGORIES.map((category) => ({
+    category,
+    items: partners.filter(
+      (partner) => partner.category === category
+    ),
   })).filter((group) => group.items.length > 0);
 
   return (
-    <main className="min-h-screen bg-[#fafbfd] selection:bg-brand-blue selection:text-white">
+    <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
       <PageHero
-        title="Industry Partners & Alliances"
-        intro="Endorsed and supported by leading regional trade chambers, construction authorities, and international building sector associations."
+        title="Industry & Media"
+        highlightTitle="Partners"
+        badgeText="10th Bangladesh Buildcon · 2026"
+        intro={`Explore published exhibition partners and enquire about collaboration opportunities at ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
-          src: "/images/sectors/construction-crane-bangladesh.jpg",
-          alt: "Bangladesh Buildcon Industry Partners",
+          src: PAGE_IMAGE,
+          alt: "Building and construction industry representing Bangladesh Buildcon 2026 partnerships",
         }}
       />
 
-      {/* Partners Display Section */}
-      <section className="relative overflow-hidden py-12 sm:py-16 border-b border-slate-200/80">
-        {/* Background Architectural Vector Pattern */}
-        <div className="pointer-events-none absolute inset-0 -z-10 select-none opacity-[0.035]">
-          <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="partners-page-grid" width="36" height="36" patternUnits="userSpaceOnUse">
-                <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#201820" strokeWidth="0.8" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#partners-page-grid)" />
-          </svg>
-        </div>
+      {/* =====================================
+          PUBLISHED PARTNERS
+      ====================================== */}
 
-        <Container className="relative z-10 w-full">
+      <section
+        aria-labelledby="partners-heading"
+        className="relative overflow-hidden border-b border-brand-border bg-brand-light py-10 sm:py-14 lg:py-16"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(5,7,9,0.018)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.018)_1px,transparent_1px)] bg-[size:64px_64px]"
+        />
+
+        <Container className="relative z-10">
+          <PartnersReveal>
+            <div className="mb-7 flex flex-col gap-4 border-b border-brand-border pb-6 sm:flex-row sm:items-end sm:justify-between">
+              <div className="max-w-[760px]">
+                <div className="flex items-center gap-2.5">
+                  <span className="h-[2px] w-7 bg-brand-primary" />
+
+                  <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.16em] text-brand-primary-dark">
+                    Exhibition Collaborations
+                  </span>
+                </div>
+
+                <h2
+                  id="partners-heading"
+                  className="mt-3 font-heading text-[clamp(1.5rem,2.7vw,2.1rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+                >
+                  Industry, Association{" "}
+                  <span className="text-brand-primary-dark">
+                    & Media Partners
+                  </span>
+                </h2>
+
+                <p className="mt-3 max-w-[680px] text-[13px] leading-[1.85] text-brand-body sm:text-sm">
+                  Browse the organisations currently
+                  published by the exhibition team.
+                  Partner information is displayed only
+                  when available in the official
+                  website directory.
+                </p>
+              </div>
+
+              {partners.length > 0 && (
+                <span className="inline-flex w-fit shrink-0 rounded-lg border border-brand-primary/15 bg-brand-primary-soft px-3 py-2 font-heading text-[11px] font-bold text-brand-primary-dark">
+                  {partners.length}{" "}
+                  {partners.length === 1
+                    ? "Published Partner"
+                    : "Published Partners"}
+                </span>
+              )}
+            </div>
+          </PartnersReveal>
+
           {byCategory.length === 0 ? (
-            <EmptyState
-              title="Official Partner Announcements Coming Soon"
-              body="Confirmed supporting organisations, industry partners, and media partners are being finalised and will be listed here once approved."
-            />
+            <PartnersReveal>
+              <div className="mx-auto max-w-[900px] rounded-2xl border border-brand-border bg-white p-6 shadow-[0_8px_30px_rgba(5,7,9,0.04)] sm:p-9">
+                <EmptyState
+                  title="Partner Announcements Coming Soon"
+                  body="Industry, association and media partners will appear here when their details are published by the organising team."
+                />
+              </div>
+            </PartnersReveal>
           ) : (
-            <div className="flex flex-col gap-10">
+            <div className="space-y-10 sm:space-y-12">
               {byCategory.map((group) => (
-                <div key={group.category} className="flex flex-col gap-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-200/80">
-                    <h2 className="text-base sm:text-lg font-bold tracking-tight text-brand-dark">
-                      {group.category}s
-                    </h2>
-                    <span className="text-xs font-semibold text-slate-400">
-                      {group.items.length} {group.items.length === 1 ? "Partner" : "Partners"}
-                    </span>
-                  </div>
+                <section
+                  key={group.category}
+                  aria-label={group.category}
+                >
+                  <PartnersReveal>
+                    <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-brand-border pb-4">
+                      <div className="flex items-center gap-3">
+                        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark">
+                          <PartnershipIcon />
+                        </span>
 
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                    {group.items.map((partner) => (
-                      <PartnerLogo key={partner._id || partner.name} partner={partner} />
+                        <h3 className="font-heading text-[16px] font-extrabold tracking-[-0.025em] text-brand-dark sm:text-[19px]">
+                          {group.category}
+                        </h3>
+                      </div>
+
+                      <span className="rounded-lg border border-brand-border bg-white px-3 py-1.5 font-heading text-[11px] font-semibold text-brand-body">
+                        {group.items.length}{" "}
+                        {group.items.length === 1
+                          ? "Organisation"
+                          : "Organisations"}
+                      </span>
+                    </div>
+                  </PartnersReveal>
+
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">
+                    {group.items.map((partner, index) => (
+                      <PartnersReveal
+                        key={String(
+                          partner._id || partner.name
+                        )}
+                        delay={Math.min(index, 5) * 0.055}
+                      >
+                        <div className="group relative h-full min-w-0 overflow-hidden rounded-xl border border-brand-border bg-white p-3 shadow-[0_4px_18px_rgba(5,7,9,0.035)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-brand-primary/35 hover:shadow-[0_12px_28px_rgba(5,7,9,0.075)] sm:p-4">
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
+                          />
+
+                          <PartnerLogo partner={partner} />
+                        </div>
+                      </PartnersReveal>
                     ))}
                   </div>
-                </div>
+                </section>
               ))}
             </div>
           )}
         </Container>
       </section>
 
-      {/* Direct Alliance Helpdesk Strip (Dono Organisers) */}
-      {/* <section className="py-10 bg-slate-50/70 border-b border-slate-200/80">
-        <Container className="max-w-4xl">
-          <div className="text-center pb-6">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-blue">
-              Partnership &amp; Delegation Desk
-            </span>
-            <h3 className="mt-1 text-lg sm:text-2xl font-extrabold tracking-tight text-brand-dark">
-              Speak Directly with Our Alliance Heads
-            </h3>
-          </div>
+      {/* =====================================
+          PARTNERSHIP ENQUIRY FORM
+      ====================================== */}
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {PARTNER_CONTACTS.map((item) => {
-              const cleanPhone = item.person.phone.replace(/[^0-9+]/g, "");
+      <section
+        aria-labelledby="partner-enquiry-heading"
+        className="relative overflow-hidden bg-brand-light py-12 sm:py-16"
+      >
+        <Container>
+          <PartnersReveal className="mx-auto w-full max-w-[850px]">
+            <div className="overflow-hidden rounded-2xl border border-brand-border bg-white shadow-[0_16px_48px_rgba(5,7,9,0.055)]">
+              <div
+                aria-hidden="true"
+                className="h-[3px] bg-brand-primary"
+              />
 
-              return (
-                <div
-                  key={item.company}
-                  className="flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition-all hover:border-brand-blue/40 hover:shadow-md"
+              <div className="border-b border-brand-border px-5 py-7 text-center sm:px-9 sm:py-8">
+                <span className="inline-flex items-center gap-2 rounded-lg border border-brand-primary/15 bg-brand-primary-soft px-3 py-2 font-heading text-[10px] font-extrabold uppercase tracking-[0.12em] text-brand-primary-dark">
+                  <PartnershipIcon />
+                  Collaboration Enquiries
+                </span>
+
+                <h2
+                  id="partner-enquiry-heading"
+                  className="mt-4 font-heading text-[clamp(1.5rem,2.6vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
                 >
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <span
-                        className={`rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${
-                          item.isBlue
-                            ? "bg-brand-blue/10 text-brand-blue"
-                            : "bg-brand-green/10 text-brand-green"
-                        }`}
-                      >
-                        {item.company}
-                      </span>
-                      <span className="text-xs font-medium text-slate-400">
-                        {item.location}
-                      </span>
-                    </div>
+                  Partnership{" "}
+                  <span className="text-brand-primary-dark">
+                    Enquiry Form
+                  </span>
+                </h2>
 
-                    <h4 className="mt-3 text-base font-bold text-brand-dark">
-                      {item.person.name}
-                    </h4>
-                  </div>
+                <p className="mx-auto mt-3 max-w-[590px] text-[13px] leading-[1.85] text-brand-body sm:text-sm">
+                  Submit your organisation details
+                  to enquire about industry,
+                  association or media collaboration
+                  opportunities with Bangladesh
+                  Buildcon International Expo 2026.
+                </p>
 
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex flex-col gap-2 text-xs">
-                    <a
-                      href={`tel:${cleanPhone}`}
-                      className="inline-flex items-center gap-2.5 rounded-xl border border-slate-200/80 bg-slate-50/60 px-3 py-2 font-semibold text-slate-700 hover:border-brand-green/50 hover:bg-white hover:text-brand-green transition-all"
-                    >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-brand-green/5 text-brand-green">
-                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                      </span>
-                      <span className="tabular-nums">{item.person.phone}</span>
-                    </a>
+                <p className="mt-3 font-heading text-[11px] font-semibold text-brand-muted">
+                  {event.dates.display}
+                  <span
+                    aria-hidden="true"
+                    className="mx-2 text-brand-primary"
+                  >
+                    |
+                  </span>
+                  {event.venue.name},{" "}
+                  {event.venue.city}
+                </p>
+              </div>
 
-                    <a
-                      href={`mailto:${item.person.email}`}
-                      className="inline-flex items-center gap-2.5 rounded-xl border border-slate-200/80 bg-slate-50/60 px-3 py-2 font-semibold text-slate-700 hover:border-brand-blue/50 hover:bg-white hover:text-brand-blue transition-all truncate"
-                    >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-brand-blue/5 text-brand-blue">
-                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </span>
-                      <span className="truncate">{item.person.email}</span>
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </Container>
-      </section> */}
-
-      {/* Partnership Application Form Section */}
-      <section className="relative py-14 sm:py-20 bg-white">
-        <Container className="max-w-3xl">
-          <div className="text-center pb-8 border-b border-slate-100">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-brand-blue/[0.06] px-3.5 py-1">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue" />
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-blue">
-                Collaborate With Buildcon
-              </span>
+              {/* Existing functional form */}
+              <div className="px-5 py-7 sm:px-9 sm:py-9">
+                <PartnerEnquiryForm />
+              </div>
             </div>
+          </PartnersReveal>
 
-            <h2 className="mt-3.5 text-2xl sm:text-4xl font-extrabold tracking-tight text-brand-dark">
-              Partnership &amp; Alliance Enquiry
-            </h2>
-
-            <p className="mx-auto mt-2 max-w-lg text-xs sm:text-sm leading-relaxed text-slate-500 font-normal">
-              Submit your organisation details to explore association, sponsorship, or media partnership opportunities.
+          <PartnersReveal className="mx-auto mt-5 max-w-[850px]">
+            <p className="text-center text-[11px] leading-[1.8] text-brand-muted">
+              Submitting a partnership enquiry does
+              not confirm an official partnership.
+              Participation and collaboration terms
+              are subject to organiser confirmation.
             </p>
-          </div>
-
-          <div className="mt-8 rounded-3xl border border-slate-200/80 bg-slate-50/50 p-6 sm:p-10 shadow-[0_2px_16px_rgb(0,0,0,0.02)]">
-            <PartnerEnquiryForm />
-          </div>
+          </PartnersReveal>
         </Container>
       </section>
     </main>

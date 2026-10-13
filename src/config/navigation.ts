@@ -13,7 +13,7 @@ export const mainNav: NavItem[] = [
       { label: "Why Bangladesh", href: "/why-bangladesh", description: "Market growth and trade opportunities." },
       { label: "Venue & Location", href: "/venue", description: "ICCB Exhibition Hall, Dhaka." },
       { label: "Organisers", href: "/organisers", description: "Organized by Futurex & ASK Trade & Exhibitions Pvt. Ltd.." },
-      { label: "Partners & Sponsors", href: "/partners", description: "Supporting industry partners." },
+      // { label: "Partners & Sponsors", href: "/partners", description: "Supporting industry partners." },
     ],
   },
   {

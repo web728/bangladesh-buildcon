@@ -1,29 +1,164 @@
+
 import type { Metadata } from "next";
+
+import { event } from "@/config/event";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container } from "@/components/ui/Container";
 import { ExhibitionProfileExplorer } from "@/components/exhibit/ExhibitionProfileExplorer";
+import { exhibitionSectors } from "@/data/exhibitionProfile";
+
+/* ==========================================
+   PAGE SEO
+========================================== */
+
+const PAGE_PATH = "/exhibition-profile";
+
+const PAGE_TITLE =
+  "Exhibitor Profile & Construction Products | Bangladesh Buildcon 2026";
+
+const PAGE_DESCRIPTION =
+  `Explore ${exhibitionSectors.length} main exhibitor profile categories ` +
+  `at the 10th Bangladesh Buildcon International Expo 2026. ` +
+  `Discover construction machinery, materials, electrical ` +
+  `engineering, interiors, landscaping and safety products. ` +
+  `17–19 September 2026, ICCB Exhibition Hall, Dhaka.`;
+
+const PAGE_IMAGE =
+  "/images/sectors/construction-crane-bangladesh.jpg";
 
 export const metadata: Metadata = {
-  title: "Exhibition Profile | 15 Specialized Exhibit Sectors",
-  description:
-    "Explore 15 specialized construction, machinery, building materials and interior technology exhibit sectors at Bangladesh Buildcon International Expo 2026.",
-  alternates: { canonical: "/exhibition-profile" },
+  title: {
+    absolute: PAGE_TITLE,
+  },
+
+  description: PAGE_DESCRIPTION,
+
+  alternates: {
+    canonical: PAGE_PATH,
+  },
+
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: PAGE_PATH,
+    type: "website",
+    siteName: event.name,
+    locale: "en_US",
+    images: [
+      {
+        url: PAGE_IMAGE,
+        alt: "Construction machinery and building materials featured in Bangladesh Buildcon 2026",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [PAGE_IMAGE],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
+/* ==========================================
+   PAGE COMPONENT
+========================================== */
+
 export default function ExhibitionProfilePage() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  let pageUrl: string | null = null;
+
+  if (siteUrl) {
+    try {
+      const parsedUrl = new URL(siteUrl);
+
+      if (
+        parsedUrl.protocol === "https:" ||
+        parsedUrl.protocol === "http:"
+      ) {
+        pageUrl = new URL(
+          PAGE_PATH,
+          parsedUrl.origin
+        ).toString();
+      }
+    } catch {
+      pageUrl = null;
+    }
+  }
+
+  /* Only use actual exported sector data */
+  const jsonLd = pageUrl
+    ? {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: PAGE_TITLE,
+        description: PAGE_DESCRIPTION,
+        url: pageUrl,
+        mainEntity: {
+          "@type": "ItemList",
+          name: `${event.name} Exhibitor Profile`,
+          numberOfItems: exhibitionSectors.length,
+          itemListElement: exhibitionSectors.map(
+            (sector, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: sector.name,
+              url: `${pageUrl}#${encodeURIComponent(
+                sector.slug
+              )}`,
+            })
+          ),
+        },
+      }
+    : null;
+
   return (
-    <main className="min-h-screen bg-[#fafbfd] selection:bg-brand-blue selection:text-white">
+    <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(
+              /</g,
+              "\\u003c"
+            ),
+          }}
+        />
+      )}
+
       <PageHero
-        title="Products, Machinery & Materials"
-        intro="Fifteen specialized exhibit sectors covering the complete building and infrastructure supply chain across South Asia."
+        title="Explore the"
+        highlightTitle="Exhibitor Profile"
+        badgeText={`10th Edition · ${exhibitionSectors.length} Main Categories`}
+        intro={`Explore the construction machinery, building materials, electrical engineering, interiors and safety product categories from the official exhibition brochure. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
-          src: "/images/sectors/construction-crane-bangladesh.jpg",
-          alt: "Bangladesh Buildcon Construction Machinery",
+          src: PAGE_IMAGE,
+          alt: "Construction machinery representing the Bangladesh Buildcon International Expo 2026 exhibitor profile",
         }}
       />
 
-      <section className="relative py-16 lg:py-24 border-t border-slate-200/80">
-        <Container>
+      <section
+        aria-labelledby="exhibition-profile-heading"
+        className="relative overflow-hidden border-t border-brand-border bg-brand-light py-10 sm:py-14 lg:py-16"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(5,7,9,0.018)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.018)_1px,transparent_1px)] bg-[size:64px_64px]"
+        />
+
+        <Container className="relative z-10">
           <ExhibitionProfileExplorer />
         </Container>
       </section>

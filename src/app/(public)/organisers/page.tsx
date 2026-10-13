@@ -5,54 +5,41 @@ import { event } from "@/config/event";
 import { PageHero } from "@/components/ui/PageHero";
 import { OrganisersClientView } from "@/components/about/OrganisersClientView";
 
-/* ==========================================
-   SEO CONFIGURATION
-========================================== */
+const PAGE_PATH = "/organisers";
 
 const PAGE_TITLE =
   "Official Organisers | Futurex & ASK Trade | Bangladesh Buildcon 2026";
 
 const PAGE_DESCRIPTION =
-  `Meet the official organisers of ${event.name}: ` +
-  `Futurex Trade Fair & Events Pvt. Ltd. and ` +
-  `ASK Trade & Exhibitions Pvt. Ltd. ` +
-  `Explore their exhibition expertise and contact ` +
-  `the organising teams for ${event.dates.display} ` +
-  `at ${event.venue.fullLocation}.`;
+  "Meet Futurex Trade Fair & Events Pvt. Ltd. and " +
+  "ASK Trade & Exhibitions Pvt. Ltd., organisers of the " +
+  "10th Bangladesh Buildcon International Expo 2026. " +
+  "17–19 September 2026 at ICCB Exhibition Hall, Dhaka.";
 
-const OG_IMAGE =
+const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  title: {
+    absolute: PAGE_TITLE,
+  },
 
   description: PAGE_DESCRIPTION,
 
-  keywords: [
-    "Bangladesh Buildcon 2026 organisers",
-    "Bangladesh Buildcon official organisers",
-    "Futurex Trade Fair & Events",
-    "ASK Trade & Exhibitions",
-    "Bangladesh construction exhibition",
-    "Buildcon 2026 Dhaka",
-    "construction trade fair organisers Bangladesh",
-    "international exhibition organisers",
-  ],
-
   alternates: {
-    canonical: "/organisers",
+    canonical: PAGE_PATH,
   },
 
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    url: "/organisers",
+    url: PAGE_PATH,
     type: "website",
     siteName: event.name,
     locale: "en_US",
     images: [
       {
-        url: OG_IMAGE,
+        url: PAGE_IMAGE,
         alt: "Bangladesh Buildcon 2026 official exhibition organisers",
       },
     ],
@@ -62,30 +49,114 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    images: [OG_IMAGE],
+    images: [PAGE_IMAGE],
   },
 
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
   },
 };
 
-/* ==========================================
-   ORGANISERS PAGE
-========================================== */
-
 export default function OrganisersPage() {
+  let pageUrl: string | null = null;
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  if (siteUrl) {
+    try {
+      const origin = new URL(siteUrl);
+
+      if (
+        origin.protocol === "https:" ||
+        origin.protocol === "http:"
+      ) {
+        pageUrl = new URL(
+          PAGE_PATH,
+          origin.origin
+        ).toString();
+      }
+    } catch {
+      pageUrl = null;
+    }
+  }
+
+  const jsonLd = pageUrl
+    ? {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        name: PAGE_TITLE,
+        description: PAGE_DESCRIPTION,
+        url: pageUrl,
+        mainEntity: {
+          "@type": "ItemList",
+          name: "Bangladesh Buildcon 2026 Organisers",
+          numberOfItems: 2,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              item: {
+                "@type": "Organization",
+                name: "Futurex Trade Fair & Events Pvt. Ltd.",
+                url: "https://www.futurextrade.com/",
+              },
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              item: {
+                "@type": "Organization",
+                name: "ASK Trade & Exhibitions Pvt. Ltd.",
+              },
+            },
+          ],
+        },
+        about: {
+          "@type": "ExhibitionEvent",
+          name: "10th Bangladesh Buildcon International Expo 2026",
+          startDate: "2026-09-17",
+          endDate: "2026-09-19",
+          location: {
+            "@type": "Place",
+            name: "ICCB Exhibition Hall",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Dhaka",
+              addressCountry: "BD",
+            },
+          },
+        },
+      }
+    : null;
+
   return (
-    <main className="min-h-screen bg-[#F8F9FB] selection:bg-brand-primary selection:text-white">
+    <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(
+              /</g,
+              "\\u003c"
+            ),
+          }}
+        />
+      )}
+
       <PageHero
-        title="The People Behind"
-        highlightTitle="Bangladesh Buildcon 2026"
-        badgeText="Official Exhibition Organisers"
-        intro="Discover the international exhibition expertise and local industry networks of Futurex Trade Fair & Events and ASK Trade & Exhibitions."
+        title="Meet the Official"
+        highlightTitle="Exhibition Organisers"
+        badgeText="10th Bangladesh Buildcon · 2026"
+        intro={`Futurex Trade Fair & Events Pvt. Ltd. and ASK Trade & Exhibitions Pvt. Ltd. organise Bangladesh Buildcon International Expo. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
-          src: "/images/sectors/construction-crane-bangladesh.jpg",
-          alt: "Construction and infrastructure industry in Bangladesh",
+          src: PAGE_IMAGE,
+          alt: "Construction and infrastructure industry representing Bangladesh Buildcon 2026",
         }}
       />
 

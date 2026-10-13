@@ -1,343 +1,587 @@
+
 "use client";
 
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
+import type { ReactNode } from "react";
+import {
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
-    },
-  },
-};
+/* ==========================================
+   ANIMATION
+========================================== */
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const reveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.55,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.6,
+      ease: EASE,
     },
   },
 };
 
-// Strategic Logistics & Connectivity Features directly from Brochure Page 01 & 02
-const VENUE_ADVANTAGES = [
-  {
-    num: "01",
-    tag: "Official 2026 Venue",
-    title: "Established Dhaka Exhibition Complex",
-    desc: "ICCB is the official venue named in the 2026 brochure, bringing exhibitors, trade buyers, contractors, developers, architects, and engineers together in Dhaka.",
-    icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z",
+const stagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.085,
+      delayChildren: 0.04,
+    },
   },
-  {
-    num: "02",
-    tag: "Business Access",
-    title: "Connected to Bangladesh's Commercial Hub",
-    desc: "The Dhaka location supports direct access to the country's largest concentration of construction buyers, distributors, consultants, and project decision-makers.",
-    icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    num: "03",
-    tag: "Exhibition Ready",
-    title: "Dedicated Exhibition Halls",
-    desc: "The event programme supports product showcases, live demonstrations, supplier discovery, and focused B2B meetings.",
-    icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
-  },
-  {
-    num: "04",
-    tag: "Visitor Convenience",
-    title: "Transit & Hospitality Corridor",
-    desc: "Visitors can reach the venue by taxi or ride-hailing services from central Dhaka and Hazrat Shahjalal International Airport.",
-    icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
-  },
-];
+};
 
-const VENUE_METRICS = [
-  { label: "Official Dates", value: event.dates.display, badge: "September 2026" },
-  { label: "Venue Complex", value: event.venue.name, badge: "Established Center" },
-  { label: "City / Country", value: `${event.venue.city}, Bangladesh`, badge: "South Asia" },
-  { label: "Event Format", value: event.format, badge: "3-Day Trade Show" },
-  { label: "Primary Industry", value: event.industry, badge: "15 Exhibit Sectors" },
-  { label: "Transit Connectivity", value: "Airport & Central Corridors", badge: "Direct Access" },
-];
+/* ==========================================
+   VENUE INFORMATION
 
-export function VenueClientView() {
-  const mapSearchQuery = encodeURIComponent(`${event.venue.name}, ${event.venue.city}, Bangladesh`);
+   Event location: official 2026 brochure.
+   Travel/operational information: general
+   guidance, not guaranteed venue services.
+========================================== */
+
+const VENUE_HIGHLIGHTS = [
+  {
+    number: "01",
+    icon: "location",
+    title: "Official 2026 Exhibition Venue",
+    description:
+      "ICCB Exhibition Hall in Dhaka is the venue identified in the official brochure for the 10th Bangladesh Buildcon International Expo 2026.",
+  },
+  {
+    number: "02",
+    icon: "industry",
+    title: "Building & Construction Focus",
+    description:
+      "The exhibition brings together construction machinery, building materials, infrastructure technologies, products and professionals from the building and construction industry.",
+  },
+  {
+    number: "03",
+    icon: "network",
+    title: "Industry Interaction",
+    description:
+      "The exhibition brochure highlights B2B matchmaking, international exhibitors, country pavilions, product demonstrations and technical seminars.",
+  },
+  {
+    number: "04",
+    icon: "directions",
+    title: "Plan Your Journey",
+    description:
+      "Use the venue map to plan your journey across Dhaka. Check your transport options, route and current travel conditions before leaving.",
+  },
+] as const;
+
+/* ==========================================
+   SVG ICONS
+========================================== */
+
+type IconName =
+  | "location"
+  | "calendar"
+  | "building"
+  | "industry"
+  | "network"
+  | "directions"
+  | "arrow"
+  | "external";
+
+function Icon({
+  name,
+  className = "size-5",
+}: {
+  name: IconName;
+  className?: string;
+}) {
+  const paths: Record<IconName, ReactNode> = {
+    location: (
+      <>
+        <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </>
+    ),
+    calendar: (
+      <>
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M7 3v4M17 3v4M3 10h18" />
+        <path d="m9 15 2 2 4-4" />
+      </>
+    ),
+    building: (
+      <>
+        <path d="M3 21h18M5 21V5h10v16M15 10h5v11" />
+        <path d="M8 9h4M8 13h4M8 17h4" />
+      </>
+    ),
+    industry: (
+      <>
+        <path d="M3 21h18M5 21V10l5 3V9l5 4V5h4v16" />
+        <path d="M8 17h2m4 0h2" />
+      </>
+    ),
+    network: (
+      <>
+        <circle cx="12" cy="5" r="2" />
+        <circle cx="5" cy="18" r="2" />
+        <circle cx="19" cy="18" r="2" />
+        <path d="m11 7-5 9m7-9 5 9M7 18h10" />
+      </>
+    ),
+    directions: (
+      <>
+        <path d="m12 3 9 9-9 9-9-9 9-9Z" />
+        <path d="M8 14v-2a3 3 0 0 1 3-3h5" />
+        <path d="m13 6 3 3-3 3" />
+      </>
+    ),
+    arrow: <path d="M5 12h14m-6-6 6 6-6 6" />,
+    external: <path d="M7 17 17 7M8 7h9v9" />,
+  };
 
   return (
-    <div className="relative overflow-hidden py-12 sm:py-16 text-brand-dark">
-      {/* Background Architectural Vector Pattern */}
-      <div className="pointer-events-none absolute inset-0 -z-10 select-none opacity-[0.035]">
-        <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="venue-client-grid" width="36" height="36" patternUnits="userSpaceOnUse">
-              <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#201820" strokeWidth="0.8" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#venue-client-grid)" />
-        </svg>
-      </div>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      {paths[name]}
+    </svg>
+  );
+}
 
-      <Container className="relative z-10 w-full">
-        {/* ========================================================= */}
-        {/* Section 1: Split Architecture (Briefing + Interactive Map)*/}
-        {/* ========================================================= */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          className="grid items-stretch gap-6 lg:grid-cols-12 lg:gap-8 pb-14 border-b border-slate-200/80"
+function Eyebrow({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="h-[2px] w-7 bg-brand-primary" />
+
+      <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.16em] text-brand-primary-dark">
+        {children}
+      </span>
+    </div>
+  );
+}
+
+/* ==========================================
+   MAIN COMPONENT
+========================================== */
+
+export function VenueClientView() {
+  const reducedMotion = !!useReducedMotion();
+
+  const mapSearchQuery = encodeURIComponent(
+    `${event.venue.name}, ${event.venue.city}, Bangladesh`
+  );
+
+  const googleMapsUrl =
+    event.venue.mapLinkUrl ||
+    `https://maps.google.com/?q=${mapSearchQuery}`;
+
+  const scrollProps = {
+    initial: reducedMotion ? false : "hidden",
+    whileInView: "visible" as const,
+    viewport: {
+      once: true,
+      amount: 0.08,
+    },
+  };
+
+  return (
+    <div className="relative overflow-hidden bg-brand-light py-10 text-brand-dark sm:py-14 lg:py-16">
+      {/* Subtle architectural grid */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(5,7,9,0.018)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.018)_1px,transparent_1px)] bg-[size:64px_64px]"
+      />
+
+      <Container className="relative z-10">
+        {/* =====================================
+            01 — VENUE OVERVIEW + MAP
+        ====================================== */}
+
+        <section
+          aria-labelledby="venue-overview-heading"
+          className="grid items-stretch gap-5 lg:grid-cols-2"
         >
-          {/* Left Column: Venue Briefing Card */}
+          {/* Venue information */}
           <motion.div
-            variants={itemVariants}
-            className="flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 lg:p-10 shadow-[0_4px_24px_rgb(0,0,0,0.02)] lg:col-span-6"
+            {...scrollProps}
+            variants={reveal}
+            className="flex min-w-0 flex-col rounded-2xl border border-brand-border bg-white p-5 shadow-[0_8px_28px_rgba(5,7,9,0.035)] sm:p-7"
           >
-            <div>
-              {/* Context Pill */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-brand-blue/[0.06] px-3.5 py-1">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue" />
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-blue">
-                  Official Trade Fair Complex
-                </span>
-              </div>
+            <Eyebrow>Official Exhibition Venue</Eyebrow>
 
-              {/* Title */}
-              <h2 className="mt-4 text-2xl sm:text-4xl font-extrabold tracking-[-0.03em] leading-[1.14] text-brand-dark">
+            <h2
+              id="venue-overview-heading"
+              className="mt-4 font-heading text-[clamp(1.6rem,2.7vw,2.2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+            >
+              {event.venue.name}
+            </h2>
+
+            <p className="mt-2 inline-flex items-center gap-2 font-heading text-[12px] font-bold text-brand-primary-dark">
+              <Icon name="location" className="size-4" />
+              {event.venue.city}, Bangladesh
+            </p>
+
+            <p className="mt-5 text-[13px] leading-[1.9] text-brand-body sm:text-sm">
+              The 10th Bangladesh Buildcon International
+              Expo 2026 is scheduled at{" "}
+              <strong className="font-semibold text-brand-dark">
                 {event.venue.name}
-              </h2>
+              </strong>
+              , bringing the building and construction
+              sector together in Dhaka.
+            </p>
 
-              <div className="mt-2 text-sm sm:text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-green">
-                {event.venue.city}, Bangladesh · South Asia Trade Corridor
-              </div>
+            <p className="mt-3 text-[13px] leading-[1.85] text-brand-body">
+              The exhibition focuses on construction
+              machinery, building materials, technologies
+              and products, with opportunities for
+              professional interaction and B2B networking.
+            </p>
 
-              <p className="mt-4 text-xs sm:text-sm leading-[1.7] text-slate-600 font-normal">
-                {event.name} will be hosted at {event.venue.name} in Dhaka — the principal commercial, import, and business nexus of Bangladesh. The venue provides an international standard environment for equipment demonstrations, heavy materials display, and executive buyer networking.
-              </p>
+            {/* Event details */}
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-brand-border bg-brand-light p-4">
+                <span className="flex items-center gap-2 font-heading text-[10px] font-extrabold uppercase tracking-[0.08em] text-brand-primary-dark">
+                  <Icon name="calendar" className="size-4" />
+                  Exhibition Dates
+                </span>
 
-              {/* Quick Metadata Capsule */}
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3.5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    Show Dates
-                  </span>
-                  <p className="mt-0.5 text-xs sm:text-sm font-bold text-brand-dark">
-                    {event.dates.display}
-                  </p>
-                </div>
-                <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3.5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    Location Center
-                  </span>
-                  <p className="mt-0.5 text-xs sm:text-sm font-bold text-brand-dark">
-                    Dhaka
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Actions Bar */}
-            <div className="mt-8 flex flex-wrap items-center gap-3 pt-5 border-t border-slate-100">
-              <Link
-                href="/plan-your-visit"
-                className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-[0_4px_16px_rgba(200,32,40,0.25)] transition-all duration-300 hover:bg-brand-blue-dark hover:shadow-[0_6px_22px_rgba(200,32,40,0.35)] hover:-translate-y-0.5 active:translate-y-0"
-              >
-                Plan Your Visit →
-              </Link>
-              <a
-                href={event.venue.mapLinkUrl || `https://maps.google.com/?q=${mapSearchQuery}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-slate-50 px-5 py-2.5 text-xs font-semibold tracking-wide text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-white hover:-translate-y-0.5"
-              >
-                Open in Google Maps ↗
-              </a>
-            </div>
-          </motion.div>
-
-          {/* Right Column: Interactive Map Display */}
-          <motion.div
-            variants={itemVariants}
-            className="group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-2.5 shadow-[0_4px_24px_rgb(0,0,0,0.02)] lg:col-span-6"
-          >
-            <div className="relative h-[340px] sm:h-[400px] lg:h-full min-h-[340px] w-full overflow-hidden rounded-2xl bg-slate-100">
-              <iframe
-                title={`Map of ${event.venue.name}, ${event.venue.city}`}
-                src={event.venue.mapEmbedUrl}
-                className="h-full w-full border-0 transition-opacity duration-300 group-hover:opacity-95"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-
-              {/* Frosted Floating Overlay Tag */}
-              <div className="pointer-events-none absolute bottom-4 left-4 rounded-xl border border-white/60 bg-white/90 px-4 py-2.5 backdrop-blur-md shadow-lg shadow-black/5">
-                <p className="text-xs font-bold text-brand-dark">
-                  {event.venue.name}
+                <p className="mt-2 font-heading text-[13px] font-extrabold text-brand-dark">
+                  {event.dates.display}
                 </p>
-                <p className="text-[10px] font-medium text-slate-500">
+              </div>
+
+              <div className="rounded-xl border border-brand-border bg-brand-light p-4">
+                <span className="flex items-center gap-2 font-heading text-[10px] font-extrabold uppercase tracking-[0.08em] text-brand-primary-dark">
+                  <Icon name="building" className="size-4" />
+                  Host City
+                </span>
+
+                <p className="mt-2 font-heading text-[13px] font-extrabold text-brand-dark">
                   {event.venue.city}, Bangladesh
                 </p>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
 
-        {/* ========================================================= */}
-        {/* Section 2: 4 Venue & Logistics Pillars                    */}
-        {/* ========================================================= */}
-        <div className="mt-14 sm:mt-18">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between pb-5 border-b border-slate-200/80">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
-                Infrastructure &amp; Access
-              </span>
-              <h3 className="mt-1.5 text-xl sm:text-3xl font-extrabold tracking-tight text-brand-dark">
-                Strategic Advantages of the Venue
-              </h3>
+            {/* Venue address */}
+            <div className="mt-4 rounded-xl border border-brand-border bg-white p-4">
+              <p className="font-heading text-[10px] font-extrabold uppercase tracking-[0.1em] text-brand-muted">
+                Venue Location
+              </p>
+
+              <p className="mt-2 text-[13px] leading-[1.75] text-brand-body">
+                {event.venue.fullLocation}
+              </p>
             </div>
-            <p className="text-xs text-slate-500 max-w-md font-normal">
-              Direct access to Dhaka&apos;s logistics corridors ensures swift equipment handling and high trade attendance.
+
+            {/* Actions */}
+            <div className="mt-auto flex flex-wrap gap-3 pt-6">
+              <Link
+                href="/plan-your-visit"
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+              >
+                Plan Your Visit
+
+                <span className="transition-transform group-hover:translate-x-1">
+                  <Icon name="arrow" className="size-4" />
+                </span>
+              </Link>
+
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand-border bg-white px-5 py-3 font-heading text-[12px] font-bold text-brand-dark transition-colors hover:border-brand-primary/40 hover:text-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+              >
+                Google Maps
+
+                <span className="transition-transform group-hover:translate-x-0.5">
+                  <Icon name="external" className="size-4" />
+                </span>
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Embedded map */}
+          <motion.div
+            {...scrollProps}
+            variants={reveal}
+            className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-brand-border bg-white p-3 shadow-[0_8px_28px_rgba(5,7,9,0.035)]"
+          >
+            <div className="relative min-h-[350px] flex-1 overflow-hidden rounded-xl bg-brand-light sm:min-h-[430px]">
+              {event.venue.mapEmbedUrl ? (
+                <iframe
+                  title={`Map of ${event.venue.name}, ${event.venue.city}`}
+                  src={event.venue.mapEmbedUrl}
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="absolute inset-0 h-full w-full border-0"
+                />
+              ) : (
+                <div className="flex h-full min-h-[350px] flex-col items-center justify-center gap-4 p-6 text-center">
+                  <span className="flex size-12 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark">
+                    <Icon name="location" />
+                  </span>
+
+                  <h3 className="font-heading text-[15px] font-extrabold text-brand-dark">
+                    {event.venue.name}
+                  </h3>
+
+                  <p className="text-[13px] text-brand-body">
+                    {event.venue.city}, Bangladesh
+                  </p>
+
+                  <a
+                    href={googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-heading text-[12px] font-bold text-brand-primary-dark underline underline-offset-4"
+                  >
+                    Open Google Maps
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div className="flex items-center justify-between gap-3 px-2 py-3">
+              <p className="min-w-0 text-[12px] font-semibold text-brand-body">
+                <span className="font-bold text-brand-dark">
+                  {event.venue.name}
+                </span>
+                {" · "}
+                {event.venue.city}
+              </p>
+
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open venue directions in Google Maps"
+                className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-primary-soft text-brand-primary-dark transition-colors hover:bg-brand-primary hover:text-white"
+              >
+                <Icon name="external" className="size-4" />
+              </a>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* =====================================
+            02 — VENUE & EXHIBITION HIGHLIGHTS
+        ====================================== */}
+
+        <section
+          aria-labelledby="venue-highlights-heading"
+          className="mt-12 sm:mt-16"
+        >
+          <motion.div
+            {...scrollProps}
+            variants={reveal}
+            className="flex flex-col gap-4 border-b border-brand-border pb-6 sm:flex-row sm:items-end sm:justify-between"
+          >
+            <div>
+              <Eyebrow>Venue & Exhibition</Eyebrow>
+
+              <h2
+                id="venue-highlights-heading"
+                className="mt-3 font-heading text-[clamp(1.5rem,2.6vw,2.1rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+              >
+                Location &{" "}
+                <span className="text-brand-primary-dark">
+                  Event Highlights
+                </span>
+              </h2>
+            </div>
+
+            <p className="max-w-[390px] text-[13px] leading-[1.8] text-brand-body">
+              Official event information and practical
+              guidance for planning a visit to the
+              Dhaka exhibition venue.
             </p>
-          </div>
+          </motion.div>
 
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
             whileInView="visible"
-            viewport={{ once: true, margin: "-30px" }}
-            className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            viewport={{ once: true, amount: 0.07 }}
+            className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
           >
-            {VENUE_ADVANTAGES.map((adv) => (
-              <motion.div
-                key={adv.num}
-                variants={itemVariants}
-                className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all duration-300 hover:border-brand-blue/40 hover:shadow-lg hover:-translate-y-1"
+            {VENUE_HIGHLIGHTS.map((highlight) => (
+              <motion.article
+                key={highlight.number}
+                variants={reveal}
+                whileHover={
+                  reducedMotion ? undefined : { y: -4 }
+                }
+                transition={{
+                  duration: 0.28,
+                  ease: EASE,
+                }}
+                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-brand-border bg-white p-5 shadow-[0_5px_22px_rgba(5,7,9,0.035)] transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_14px_32px_rgba(5,7,9,0.075)]"
               >
-                <div>
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-blue/[0.08] text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-colors">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d={adv.icon} />
-                      </svg>
-                    </div>
-                    <span className="text-[10px] font-mono font-bold text-slate-300 group-hover:text-slate-500 transition-colors">
-                      {adv.num}
-                    </span>
-                  </div>
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
+                />
 
-                  <span className="mt-3.5 inline-block text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    {adv.tag}
+                <div className="flex items-start justify-between gap-3">
+                  <span className="flex size-11 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark transition-colors group-hover:bg-brand-primary group-hover:text-white">
+                    <Icon name={highlight.icon} />
                   </span>
 
-                  <h4 className="mt-1 text-sm font-bold tracking-tight text-brand-dark group-hover:text-brand-blue transition-colors">
-                    {adv.title}
-                  </h4>
-
-                  <p className="mt-1.5 text-[11px] leading-[1.6] text-slate-500 font-normal">
-                    {adv.desc}
-                  </p>
+                  <span className="font-heading text-[11px] font-bold text-brand-muted">
+                    {highlight.number}
+                  </span>
                 </div>
 
-                <div className="mt-4 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-semibold text-brand-blue">
-                  <span>Venue Spec</span>
-                  <span className="transition-transform group-hover:translate-x-0.5">→</span>
-                </div>
-              </motion.div>
+                <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.45] tracking-[-0.025em] text-brand-dark">
+                  {highlight.title}
+                </h3>
+
+                <p className="mt-3 text-[12px] leading-[1.85] text-brand-body">
+                  {highlight.description}
+                </p>
+              </motion.article>
             ))}
           </motion.div>
-        </div>
+        </section>
 
-        {/* ========================================================= */}
-        {/* Section 3: Event Facts Matrix (Compact Grid)              */}
-        {/* ========================================================= */}
-        <div className="mt-14 sm:mt-18 rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-5 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-blue">
-                Verified Event Details
+        {/* =====================================
+            03 — OFFICIAL EVENT FACTS
+        ====================================== */}
+
+        <motion.section
+          {...scrollProps}
+          variants={reveal}
+          aria-labelledby="venue-facts-heading"
+          className="mt-12 overflow-hidden rounded-2xl border border-brand-border bg-white shadow-[0_8px_30px_rgba(5,7,9,0.035)] sm:mt-16"
+        >
+          <div className="border-b border-brand-border px-5 py-6 sm:px-7">
+            <Eyebrow>Official Exhibition Information</Eyebrow>
+
+            <h2
+              id="venue-facts-heading"
+              className="mt-3 font-heading text-[20px] font-extrabold tracking-[-0.035em] text-brand-dark sm:text-[24px]"
+            >
+              Venue &{" "}
+              <span className="text-brand-primary-dark">
+                Event Facts
               </span>
-              <h3 className="mt-1 text-lg sm:text-xl font-bold tracking-tight text-brand-dark">
-                Location &amp; Event Reference
-              </h3>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Link
-                href="/exhibit"
-                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-[11px] font-semibold text-brand-dark transition-all hover:border-brand-blue hover:text-brand-blue"
-              >
-                Why Exhibit →
-              </Link>
-              <Link
-                href="/book-a-stand"
-                className="inline-flex items-center justify-center rounded-full bg-brand-blue px-5 py-2 text-[11px] font-semibold uppercase tracking-wider text-white shadow-sm hover:bg-brand-blue-dark transition-all"
-              >
-                Book a Stand
-              </Link>
-            </div>
+            </h2>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {VENUE_METRICS.map((metric) => (
+          <dl className="grid sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                label: "Exhibition",
+                value: "10th Bangladesh Buildcon International Expo 2026",
+              },
+              {
+                label: "Dates",
+                value: event.dates.display,
+              },
+              {
+                label: "Venue",
+                value: event.venue.name,
+              },
+              {
+                label: "Location",
+                value: `${event.venue.city}, Bangladesh`,
+              },
+              {
+                label: "Industry",
+                value: "Building & Construction",
+              },
+              {
+                label: "Event Focus",
+                value: "Machinery, Materials, Technologies & Products",
+              },
+            ].map((fact, index) => (
               <div
-                key={metric.label}
-                className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/60 p-4 transition-all hover:bg-white hover:border-slate-200 hover:shadow-sm"
+                key={fact.label}
+                className="min-w-0 border-b border-brand-border p-5 transition-colors hover:bg-brand-primary-soft/40 sm:p-6"
               >
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    {metric.label}
+                <div className="flex items-start justify-between gap-3">
+                  <dt className="font-heading text-[10px] font-extrabold uppercase tracking-[0.11em] text-brand-muted">
+                    {fact.label}
+                  </dt>
+
+                  <span className="font-heading text-[10px] font-bold text-brand-primary-dark">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="mt-0.5 text-xs sm:text-sm font-bold text-brand-dark">
-                    {metric.value}
-                  </p>
                 </div>
-                <span className="rounded-md border border-slate-200 bg-white px-2 py-0.5 text-[9px] font-semibold text-slate-600">
-                  {metric.badge}
-                </span>
+
+                <dd className="mt-3 font-heading text-[13px] font-extrabold leading-[1.6] text-brand-dark sm:text-[14px]">
+                  {fact.value}
+                </dd>
               </div>
             ))}
-          </div>
-        </div>
+          </dl>
+        </motion.section>
 
-        {/* Bottom Booking Action Ribbon */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-brand-blue/20 bg-gradient-to-r from-brand-blue/[0.04] via-white to-brand-green/[0.04] p-5 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green/10 text-brand-green">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
+        {/* =====================================
+            04 — FINAL CTA
+        ====================================== */}
+
+        <motion.section
+          {...scrollProps}
+          variants={reveal}
+          aria-labelledby="venue-cta-heading"
+          className="mt-6 flex flex-col gap-5 rounded-2xl border border-brand-primary/20 bg-brand-primary-soft p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+        >
+          <div className="flex items-start gap-3">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white text-brand-primary-dark">
+              <Icon name="location" />
+            </span>
+
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-brand-dark">
-                Reserve your booth location at ICCB Exhibition Hall
-              </h4>
-              <p className="text-[11px] text-slate-500 font-normal">
-                Dates: 17–19 September 2026 · Allocation on a first-come, first-served basis.
+              <h2
+                id="venue-cta-heading"
+                className="font-heading text-[16px] font-extrabold leading-[1.4] text-brand-dark sm:text-[18px]"
+              >
+                Exhibit at Bangladesh Buildcon 2026
+              </h2>
+
+              <p className="mt-2 text-[12px] leading-[1.8] text-brand-body">
+                {event.dates.display} · {event.venue.name},{" "}
+                {event.venue.city}. Contact the organisers
+                to enquire about exhibition space.
               </p>
             </div>
           </div>
 
           <Link
             href={event.cta.bookStand}
-            className="shrink-0 inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-brand-blue-dark transition-all duration-200"
+            className="group inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-6 py-3 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:w-auto"
           >
-            Book Stand Space
+            Book Exhibition Space
+
+            <span className="transition-transform group-hover:translate-x-1">
+              <Icon name="arrow" className="size-4" />
+            </span>
           </Link>
-        </div>
+        </motion.section>
       </Container>
     </div>
   );

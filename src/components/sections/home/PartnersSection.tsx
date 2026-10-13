@@ -16,28 +16,11 @@ import {
   PartnerLogoGrid,
 } from "./PartnersMotion";
 
-/* ---------------------------------------
+/* ==========================================
    ICONS
----------------------------------------- */
+========================================== */
 
-function ArrowUpRightIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-4 shrink-0"
-      aria-hidden="true"
-    >
-      <path d="M7 17 17 7M8 7h9v9" />
-    </svg>
-  );
-}
-
-function ArrowRightIcon() {
+function ArrowIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -54,10 +37,27 @@ function ArrowRightIcon() {
   );
 }
 
-/* ---------------------------------------
-   MAIN PARTNERS SECTION
-   SERVER COMPONENT
----------------------------------------- */
+function ExternalIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4 shrink-0"
+      aria-hidden="true"
+    >
+      <path d="M7 17 17 7M8 7h9v9" />
+    </svg>
+  );
+}
+
+/* ==========================================
+   PARTNERS SECTION
+   Server Component
+========================================== */
 
 export async function PartnersSection() {
   let partners: PartnerSummary[] = [];
@@ -73,246 +73,383 @@ export async function PartnersSection() {
   return (
     <section
       aria-labelledby="partners-heading"
-      className="relative isolate overflow-hidden border-b border-brand-dark/10 bg-[#FAFAFC] py-16 text-brand-dark sm:py-20 lg:py-24"
+      className="
+        relative isolate overflow-hidden
+        border-b border-brand-border
+        bg-white py-12 text-brand-dark
+        sm:py-14 lg:py-16
+      "
     >
-      {/* Soft ambient magenta background */}
+      {/* Subtle background texture */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(186,29,130,0.055),transparent_50%)]"
-      />
-
-      {/* Architectural blueprint grid */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(5,7,9,0.022)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.022)_1px,transparent_1px)] bg-[size:78px_78px]"
+        className="
+          pointer-events-none absolute inset-0
+          bg-[linear-gradient(to_right,rgba(5,7,9,0.012)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.012)_1px,transparent_1px)]
+          bg-[size:76px_76px]
+        "
       />
 
       <Container className="relative z-10">
-        {/* ====================================
+        {/* =====================================
             SECTION HEADING
-        ==================================== */}
+        ====================================== */}
 
-        <PartnerReveal className="mx-auto max-w-[760px] text-center">
-          {/* Eyebrow */}
-          <div className="mb-5 flex items-center justify-center gap-3">
+        <PartnerReveal className="mx-auto mb-8 max-w-[650px] text-center">
+          <div className="flex items-center justify-center gap-2.5">
             <span
               aria-hidden="true"
-              className="h-[2px] w-8 bg-brand-primary"
+              className="h-[2px] w-7 bg-brand-primary"
             />
 
-            <span className="font-heading text-[11px] font-bold uppercase tracking-[0.17em] text-brand-primary">
+            <span className="font-heading text-[10px] font-bold uppercase tracking-[0.16em] text-brand-primary-dark">
               Jointly Organised By
             </span>
 
             <span
               aria-hidden="true"
-              className="h-[2px] w-8 bg-brand-primary"
+              className="h-[2px] w-7 bg-brand-primary"
             />
           </div>
 
-          {/* Title */}
           <h2
             id="partners-heading"
-            className="font-heading text-[clamp(2rem,3.5vw,3rem)] leading-[1.15] font-extrabold tracking-[-0.05em] text-brand-dark"
+            className="
+              mt-3 font-heading
+              text-[clamp(1.6rem,2.7vw,2.15rem)]
+              font-extrabold leading-[1.2]
+              tracking-[-0.04em] text-brand-dark
+            "
           >
-            Meet the{" "}
-            <span className="text-brand-primary">
-              Organisers
+            Our Organisers{" "}
+            <span className="text-brand-primary-dark">
+              &amp; Partners
             </span>
           </h2>
 
-          {/* Description */}
-          <p className="mx-auto mt-5 max-w-[650px] text-[14px] leading-[1.85] text-[#626A77] sm:text-[15px]">
-            Bangladesh Buildcon 2026 is jointly
-            organised by Futurex Trade Fair &amp;
-            Events and ASK Trade &amp; Exhibitions
-            Pvt. Ltd.
+          <p className="mx-auto mt-3 max-w-[540px] text-[12px] leading-[1.8] text-brand-body sm:text-[13px]">
+            Meet the organisations bringing Bangladesh
+            Buildcon International Expo 2026 to Dhaka.
           </p>
-
-          {/* Header CTA */}
-          <div className="mt-7">
-            <Link
-              href="/contact"
-              className="group inline-flex min-h-11 items-center justify-center gap-2.5 rounded-lg border border-brand-dark/15 bg-white px-6 py-3 font-heading text-[12px] font-bold text-brand-dark shadow-[0_5px_20px_rgba(5,7,9,0.035)] transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-primary/45 hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
-            >
-              Partner With Us
-
-              <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                <ArrowUpRightIcon />
-              </span>
-            </Link>
-          </div>
         </PartnerReveal>
 
-        {/* ====================================
-            ORGANISERS SPOTLIGHT
-        ==================================== */}
+        {/* =====================================
+            OFFICIAL JOINT ORGANISERS
+        ====================================== */}
 
         <OrganiserSpotlight>
-          <div className="grid items-center gap-8 lg:grid-cols-[1fr_auto] lg:gap-12">
-            {/* Organiser content */}
-            <div className="min-w-0">
-              <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-brand-primary/15 bg-brand-primary/[0.055] px-3.5 py-2">
+          <div
+            className="
+              relative mx-auto w-full max-w-[850px]
+              overflow-hidden rounded-2xl
+              border border-brand-border
+              bg-white
+              shadow-[0_8px_30px_rgba(5,7,9,0.045)]
+            "
+          >
+            {/* Brand accent */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-[3px] bg-brand-primary"
+            />
+
+            {/* Spotlight header */}
+            <div
+              className="
+                flex min-h-[52px] items-center
+                justify-between gap-3
+                border-b border-brand-border
+                px-4 py-3 sm:px-7
+              "
+            >
+              <div className="flex min-w-0 items-center gap-2.5">
                 <span
                   aria-hidden="true"
-                  className="size-2 rounded-full bg-brand-primary"
+                  className="size-1.5 shrink-0 rounded-full bg-brand-primary"
                 />
 
-                <span className="font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-brand-primary">
+                <span className="font-heading text-[10px] font-bold uppercase tracking-[0.11em] text-brand-dark sm:text-[11px]">
                   Official Joint Organisers
                 </span>
               </div>
 
-              <h3 className="max-w-[580px] font-heading text-[clamp(1.3rem,2vw,1.75rem)] leading-[1.4] font-extrabold tracking-[-0.035em] text-brand-dark">
-                Futurex Trade Fair &amp; Events
-                <span className="mx-2 text-brand-primary">
-                  &amp;
-                </span>
-                ASK Trade &amp; Exhibitions Pvt. Ltd.
-              </h3>
+              <span className="hidden shrink-0 text-[10px] font-medium text-brand-muted sm:block">
+                Bangladesh Buildcon 2026
+              </span>
+            </div>
 
-              <p className="mt-4 max-w-[560px] text-[13px] leading-[1.9] text-[#69717E] sm:text-[14px]">
-                Exhibition organisers connecting
-                exhibitors with professional trade
-                buyers across international markets.
-              </p>
+            {/* =================================
+                CENTRED ORGANISER LOGOS
+                No image CSS overrides
+            ================================== */}
 
-              {/* Supporting detail */}
-              <div className="mt-6 flex items-center gap-3 border-t border-brand-dark/10 pt-5">
-                <span
-                  aria-hidden="true"
-                  className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="size-5"
-                  >
-                    <path d="M3 21h18M5 21V7l7-4 7 4v14M9 10h2m2 0h2m-6 4h2m2 0h2m-5 7v-4h4v4" />
-                  </svg>
-                </span>
-
-                <div>
-                  <p className="font-heading text-[12px] font-bold text-brand-dark">
-                    Bangladesh Buildcon
-                  </p>
-
-                  <p className="mt-0.5 text-[11px] text-[#8A929E]">
-                    Joint Exhibition Organisation
-                  </p>
-                </div>
+            <div className="bg-[#FAFBFC] px-3 py-5 sm:px-7 sm:py-6">
+              <div
+                className="
+                  mx-auto w-full max-w-[680px]
+                  rounded-xl border border-brand-border
+                  bg-white px-3 py-3
+                  sm:px-7 sm:py-4
+                "
+              >
+                <OrganiserLogos />
               </div>
             </div>
 
-            {/* Actual organiser logos */}
-            <div className="relative flex w-full min-w-0 items-center justify-center border-t border-brand-dark/10 pt-8 lg:w-auto lg:max-w-[480px] lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_center,rgba(186,29,130,0.035),transparent_65%)]"
-              />
+            {/* =================================
+                ORGANISER DETAILS
+            ================================== */}
 
-              <div className="relative z-10 flex w-full items-center justify-center rounded-xl border border-brand-dark/[0.06] bg-[#FAFAFC] px-5 py-8 sm:px-8 sm:py-10 lg:min-h-[170px]">
-                <OrganiserLogos />
+            <div
+              className="
+                grid grid-cols-1
+                divide-y divide-brand-border
+                border-t border-brand-border
+                bg-white
+                sm:grid-cols-2
+                sm:divide-x sm:divide-y-0
+              "
+            >
+              {/* Futurex */}
+              <div
+                className="
+                  flex min-w-0 items-center gap-3
+                  px-4 py-4 sm:px-6 sm:py-5
+                "
+              >
+                <span
+                  className="
+                    flex size-8 shrink-0
+                    items-center justify-center
+                    rounded-lg bg-brand-primary-soft
+                    font-heading text-[11px]
+                    font-extrabold text-brand-primary-dark
+                  "
+                >
+                  01
+                </span>
+
+                <div className="min-w-0">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-brand-muted">
+                    Joint Organiser
+                  </p>
+
+                  <h3 className="mt-1 font-heading text-[12px] font-bold leading-[1.5] text-brand-dark sm:text-[13px]">
+                    Futurex Trade Fair &amp; Events
+                    Pvt. Ltd.
+                  </h3>
+                </div>
+              </div>
+
+              {/* ASK Trade */}
+              <div
+                className="
+                  flex min-w-0 items-center gap-3
+                  px-4 py-4 sm:px-6 sm:py-5
+                "
+              >
+                <span
+                  className="
+                    flex size-8 shrink-0
+                    items-center justify-center
+                    rounded-lg bg-brand-primary-soft
+                    font-heading text-[11px]
+                    font-extrabold text-brand-primary-dark
+                  "
+                >
+                  02
+                </span>
+
+                <div className="min-w-0">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-brand-muted">
+                    Joint Organiser
+                  </p>
+
+                  <h3 className="mt-1 font-heading text-[12px] font-bold leading-[1.5] text-brand-dark sm:text-[13px]">
+                    ASK Trade &amp; Exhibitions
+                    Pvt. Ltd.
+                  </h3>
+                </div>
               </div>
             </div>
           </div>
         </OrganiserSpotlight>
 
-        {/* ====================================
-            DYNAMIC SUPPORTING PARTNERS
-        ==================================== */}
+        {/* =====================================
+            ORGANISER CTA
+        ====================================== */}
+
+        <PartnerReveal className="mt-5 flex justify-center">
+          <Link
+            href="/contact"
+            className="
+              group inline-flex min-h-10
+              items-center justify-center gap-2
+              rounded-lg border border-brand-border
+              bg-white px-4 py-2.5
+              font-heading text-[11px] font-bold
+              text-brand-dark
+              transition-[border-color,color,box-shadow]
+              duration-300
+              hover:border-brand-primary/40
+              hover:text-brand-primary-dark
+              hover:shadow-[0_4px_14px_rgba(5,7,9,0.04)]
+              focus-visible:outline-2
+              focus-visible:outline-offset-2
+              focus-visible:outline-brand-primary
+            "
+          >
+            Contact the Organisers
+
+            <span
+              className="
+                transition-transform duration-300
+                group-hover:translate-x-0.5
+                group-hover:-translate-y-0.5
+                motion-reduce:transform-none
+              "
+            >
+              <ExternalIcon />
+            </span>
+          </Link>
+        </PartnerReveal>
+
+        {/* =====================================
+            SUPPORTING PARTNERS
+        ====================================== */}
 
         {hasPartners ? (
-          <div className="mt-14 lg:mt-16">
-            <PartnerReveal className="mb-8 text-center">
-              <div className="mb-3 flex items-center justify-center gap-2">
-                <span className="size-1.5 rounded-full bg-brand-primary" />
-
-                <span className="font-heading text-[11px] font-bold uppercase tracking-[0.16em] text-brand-primary">
-                  Our Network
-                </span>
-              </div>
-
-              <h3 className="font-heading text-[clamp(1.35rem,2.3vw,1.8rem)] font-extrabold tracking-[-0.035em] text-brand-dark">
-                Supporting Associations{" "}
-                <span className="text-brand-primary">
-                  &amp; Media
-                </span>
-              </h3>
-
-              <p className="mx-auto mt-3 max-w-[580px] text-[13px] leading-[1.8] text-[#727A87]">
-                Explore the organisations supporting
-                Bangladesh Buildcon.
-              </p>
-            </PartnerReveal>
-
-            <PartnerLogoGrid>
-              {partners.map((partner) => (
-                <PartnerLogo
-                  key={String(
-                    partner._id || partner.name
-                  )}
-                  partner={partner}
-                />
-              ))}
-            </PartnerLogoGrid>
-          </div>
-        ) : (
-          <PartnerReveal className="mt-10">
-            <div className="relative overflow-hidden rounded-2xl border border-dashed border-brand-primary/25 bg-white px-6 py-7 sm:px-8">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-20 -top-24 size-64 rounded-full bg-brand-primary/[0.06] blur-3xl"
-              />
-
-              <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-start gap-4">
+          <div className="mt-12 sm:mt-14">
+            {/* Section heading */}
+            <PartnerReveal
+              className="
+                mb-6 flex flex-col gap-3
+                sm:flex-row sm:items-end
+                sm:justify-between
+              "
+            >
+              <div>
+                <div className="flex items-center gap-2.5">
                   <span
                     aria-hidden="true"
-                    className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="size-5"
-                    >
-                      <circle cx="12" cy="8" r="3" />
-                      <path d="M5 21v-2a7 7 0 0 1 14 0v2M2 13h3m14 0h3" />
-                    </svg>
+                    className="h-[2px] w-6 bg-brand-primary"
+                  />
+
+                  <span className="font-heading text-[10px] font-bold uppercase tracking-[0.13em] text-brand-primary-dark">
+                    Supporting Network
                   </span>
-
-                  <div className="max-w-[600px]">
-                    <h3 className="font-heading text-[14px] font-bold text-brand-dark">
-                      Supporting Associations &amp; Media
-                    </h3>
-
-                    <p className="mt-1.5 text-[12px] leading-[1.8] text-[#69717E] sm:text-[13px]">
-                      Supporting organisations and
-                      media partners will appear here
-                      after they are officially confirmed.
-                    </p>
-                  </div>
                 </div>
 
-                <Link
-                  href="/contact"
-                  className="group inline-flex min-h-11 shrink-0 items-center justify-center gap-2.5 self-start rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white shadow-[0_10px_25px_rgba(186,29,130,0.14)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#9F176D] sm:self-auto"
+                <h3
+                  className="
+                    mt-2.5 font-heading
+                    text-[clamp(1.2rem,2vw,1.6rem)]
+                    font-extrabold leading-tight
+                    tracking-[-0.035em] text-brand-dark
+                  "
                 >
-                  Become a Supporting Partner
-
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    <ArrowRightIcon />
+                  Associations{" "}
+                  <span className="text-brand-primary-dark">
+                    &amp; Media Partners
                   </span>
-                </Link>
+                </h3>
+
+                <p className="mt-2 text-[12px] leading-[1.75] text-brand-body">
+                  Organisations supporting Bangladesh Buildcon.
+                </p>
               </div>
+
+              <Link
+                href="/contact"
+                className="
+                  group inline-flex min-h-10
+                  w-fit shrink-0 items-center gap-2
+                  font-heading text-[11px] font-bold
+                  text-brand-primary-dark
+                  transition-colors
+                  hover:text-brand-primary
+                  focus-visible:outline-2
+                  focus-visible:outline-offset-2
+                  focus-visible:outline-brand-primary
+                "
+              >
+                Partnership Enquiry
+
+                <span
+                  className="
+                    transition-transform duration-300
+                    group-hover:translate-x-1
+                    motion-reduce:transform-none
+                  "
+                >
+                  <ArrowIcon />
+                </span>
+              </Link>
+            </PartnerReveal>
+
+            {/* =================================
+                DATABASE-DRIVEN PARTNER GRID
+                Each card handles its own image
+                sizing and centre alignment.
+            ================================== */}
+
+            <div className="w-full min-w-0">
+              <PartnerLogoGrid>
+                {partners.map((partner) => (
+                  <PartnerLogo
+                    key={String(partner._id || partner.name)}
+                    partner={partner}
+                  />
+                ))}
+              </PartnerLogoGrid>
+            </div>
+          </div>
+        ) : (
+          /* =================================
+              EMPTY PARTNERS STATE
+          ================================== */
+
+          <PartnerReveal className="mt-10">
+            <div
+              className="
+                mx-auto flex max-w-[850px]
+                flex-col gap-4
+                rounded-xl border border-brand-border
+                bg-[#FAFBFC] px-5 py-5
+                sm:flex-row sm:items-center
+                sm:justify-between sm:px-6
+              "
+            >
+              <div className="min-w-0">
+                <h3 className="font-heading text-[13px] font-bold text-brand-dark">
+                  Supporting Associations &amp; Media
+                </h3>
+
+                <p className="mt-1.5 text-[12px] leading-[1.75] text-brand-body">
+                  Partner profiles will appear once
+                  published by the organisers.
+                </p>
+              </div>
+
+              <Link
+                href="/contact"
+                className="
+                  group inline-flex min-h-10
+                  w-fit shrink-0 items-center gap-2
+                  rounded-lg bg-brand-primary
+                  px-4 py-2.5
+                  font-heading text-[11px] font-bold
+                  text-white
+                  transition-colors duration-300
+                  hover:bg-brand-primary-dark
+                  focus-visible:outline-2
+                  focus-visible:outline-offset-2
+                  focus-visible:outline-brand-primary
+                "
+              >
+                Become a Partner
+                <ArrowIcon />
+              </Link>
             </div>
           </PartnerReveal>
         )}

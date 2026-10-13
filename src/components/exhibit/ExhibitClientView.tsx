@@ -1,285 +1,602 @@
+
 "use client";
 
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
+import type { ReactNode } from "react";
+import {
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
-import { BenefitCard } from "@/components/ui/BenefitCard";
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
+/* ==========================================
+   FRAMER MOTION
+========================================== */
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const reveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
   visible: {
     opacity: 1,
+    y: 0,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
+      duration: 0.65,
+      ease: EASE,
     },
   },
 };
 
-// Exact 5 Objectives directly from Brochure Page 02 ("Why Participate?")
-const CORE_PILLARS = [
-  {
-    title: "Access New Buyers",
-    body: "Present your products directly to companies actively involved in construction, projects, procurement, and wholesale distribution across South Asia.",
-    badge: "Direct Procurement",
+const stagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.09,
+      delayChildren: 0.04,
+    },
   },
-  {
-    title: "Develop Distribution",
-    body: "Meet vetted importers, distributors, wholesalers, dealers, and regional market representatives seeking new manufacturing supply partnerships.",
-    badge: "B2B Channels",
-  },
-  {
-    title: "Enter the Bangladeshi Market",
-    body: "Introduce your brand to an expanding industrial audience and build sustainable, direct long-term commercial relationships in South Asia.",
-    badge: "Market Entry",
-  },
-  {
-    title: "Generate Business Enquiries",
-    body: "Engage contractors, developers, professional buyers, and project procurement teams actively searching for verified materials and technology suppliers.",
-    badge: "Targeted Leads",
-  },
-  {
-    title: "Reach Industry Specifiers",
-    body: "Connect with architects, civil engineers, MEP consultants, and quantity surveyors who specify products in upcoming commercial blueprints.",
-    badge: "Specification",
-  },
-  {
-    title: "Live Product Demonstration",
-    body: "Showcase machinery durability, technical tooling, and premium interior finishes through interactive floor demos to decision-makers.",
-    badge: "Live Staging",
-  },
-];
+};
 
-// Verified Exhibitor Categories directly from Brochure Page 02 ("Who Should Exhibit?")
-const WHO_SHOULD_EXHIBIT = [
-  "Building Material Companies",
-  "Construction Machinery Companies",
-  "Engineering Product Manufacturers",
-  "Equipment Suppliers",
-  "Building Technology Companies",
-  "Construction Product & System Providers",
-  "Importers & Distributors",
-  "Bangladeshi Manufacturers",
-];
+/* ==========================================
+   BROCHURE PAGE 4 — WHY EXHIBIT?
 
-// Stand Participation Formats
-const PARTICIPATION_OPTIONS = [
-  {
-    title: "Shell Scheme Space",
-    desc: "Turnkey exhibition booth fitted with carpet, standard fascia name board, spotlights, electrical points, counter, and chairs.",
-    tag: "Standard Turnkey",
-  },
-  {
-    title: "Raw Bare Space",
-    desc: "Unfurnished space ideal for bespoke pavilion designs, high-capacity machinery placement, and custom fabrication.",
-    tag: "Custom Build",
-  },
-  {
-    title: "International Pavilions",
-    desc: "Coordinated delegation stands for export promotion councils, regional trade associations, and national pavilions.",
-    tag: "Country Groups",
-  },
-  {
-    title: "Machinery & Heavy Displays",
-    desc: "Ground-level reinforced floor area configured for earthmoving, concrete batching, and heavy equipment demonstrations.",
-    tag: "Heavy Displays",
-  },
-];
+   Wording adapted for readability while
+   keeping the original brochure meaning.
+========================================== */
 
-export function ExhibitClientView() {
+const WHY_EXHIBIT = [
+  {
+    number: "01",
+    title: "Booming Building & Construction Industry",
+    description:
+      "The brochure highlights the construction sector's contribution of over 8% to GDP and its demand for advanced construction machinery, equipment and building materials.",
+    icon: "growth",
+  },
+  {
+    number: "02",
+    title: "Infrastructure Development Priorities",
+    description:
+      "Government initiatives, private-sector participation and international collaboration support opportunities in infrastructure development, sustainable construction and new technologies.",
+    icon: "infrastructure",
+  },
+  {
+    number: "03",
+    title: "Rapid Urbanisation & Population Growth",
+    description:
+      "The brochure identifies population growth, urbanisation and expanding housing needs as important drivers of demand for modern construction technologies and materials.",
+    icon: "city",
+  },
+  {
+    number: "04",
+    title: "Strategic Location & Regional Connectivity",
+    description:
+      "Bangladesh's position between South and Southeast Asia presents international manufacturers with opportunities to explore regional markets and industry partnerships.",
+    icon: "network",
+  },
+  {
+    number: "05",
+    title: "High Infrastructure Development Demand",
+    description:
+      "Residential, commercial and industrial development creates opportunities for suppliers of building materials, construction equipment and related technologies.",
+    icon: "building",
+  },
+  {
+    number: "06",
+    title: "Demand for Quality & Sustainable Materials",
+    description:
+      "Modern housing and infrastructure projects create interest in durable building products, sustainable materials and technologies that improve construction efficiency.",
+    icon: "layers",
+  },
+  {
+    number: "07",
+    title: "Resilient Infrastructure & Industrial Growth",
+    description:
+      "The brochure highlights demand for disaster-resistant construction solutions, alongside development of economic zones, industrial facilities, warehouses and supporting infrastructure.",
+    icon: "shield",
+  },
+] as const;
+
+/* ==========================================
+   BROCHURE PAGE 3 — EXHIBITOR PROFILE
+========================================== */
+
+const EXHIBITOR_CATEGORIES = [
+  {
+    title: "Construction Machinery and Equipment",
+    examples:
+      "Construction machinery, cranes, trailers, loaders, trucks, tools, welding equipment and HVAC.",
+  },
+  {
+    title: "Construction Materials",
+    examples:
+      "Prefabricated structures, façade materials, roofing, insulation, waterproofing and finishing materials.",
+  },
+  {
+    title: "Construction",
+    examples:
+      "Urban development, architecture, roads, reconstruction, automation and resource-saving construction technologies.",
+  },
+  {
+    title: "Country Housing Landscaping",
+    examples:
+      "Wooden houses, log buildings, wooden-frame houses, garden houses and landscape design.",
+  },
+  {
+    title:
+      "Electricity and Electrical Engineering in Construction",
+    examples:
+      "Distribution systems, transformer stations, electrical equipment, instrumentation and energy-saving systems.",
+  },
+  {
+    title: "Interior & Exterior",
+    examples:
+      "Interior and exterior design, roofing, furniture, glass, paints, doors and associated services.",
+  },
+  {
+    title: "Safety & Security",
+    examples:
+      "Electrical safety, emergency alarms, emergency lighting, rescue equipment and security systems.",
+  },
+] as const;
+
+/* ==========================================
+   BROCHURE PAGE 4 — KEY FEATURES
+========================================== */
+
+const EVENT_FEATURES = [
+  {
+    title: "International Exhibitors & Country Pavilions",
+    icon: "globe",
+  },
+  {
+    title: "Live Demonstrations & Product Launches",
+    icon: "presentation",
+  },
+  {
+    title: "B2B Matchmaking Opportunities",
+    icon: "network",
+  },
+  {
+    title: "Industry Conferences & Technical Seminars",
+    icon: "conference",
+  },
+] as const;
+
+/* ==========================================
+   ICON COMPONENTS
+========================================== */
+
+type IconName =
+  | "growth"
+  | "infrastructure"
+  | "city"
+  | "network"
+  | "building"
+  | "layers"
+  | "shield"
+  | "globe"
+  | "presentation"
+  | "conference";
+
+function IndustryIcon({
+  name,
+  className = "size-5",
+}: {
+  name: IconName;
+  className?: string;
+}) {
+  const paths: Record<IconName, ReactNode> = {
+    growth: (
+      <>
+        <path d="M3 17 9 11l4 4 8-9" />
+        <path d="M15 6h6v6" />
+        <path d="M3 21h18" />
+      </>
+    ),
+    infrastructure: (
+      <>
+        <path d="M3 21h18M6 21V9l6-5 6 5v12" />
+        <path d="M9 12h6M9 16h6" />
+        <path d="M12 4v17" />
+      </>
+    ),
+    city: (
+      <>
+        <path d="M3 21V10h7v11M10 21V4h8v17M18 21v-9h3v9" />
+        <path d="M6 13h1M6 17h1M13 8h2M13 12h2M13 16h2" />
+      </>
+    ),
+    network: (
+      <>
+        <circle cx="12" cy="5" r="2" />
+        <circle cx="5" cy="18" r="2" />
+        <circle cx="19" cy="18" r="2" />
+        <path d="m11 7-5 9m7-9 5 9M7 18h10" />
+      </>
+    ),
+    building: (
+      <>
+        <path d="M4 21V5h11v16M15 10h5v11M2 21h20" />
+        <path d="M8 9h3M8 13h3M8 17h3M18 14h1M18 18h1" />
+      </>
+    ),
+    layers: (
+      <>
+        <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+        <path d="m3 12 9 5 9-5M3 16l9 5 9-5" />
+      </>
+    ),
+    shield: (
+      <>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+        <path d="m9 12 2 2 4-4" />
+      </>
+    ),
+    globe: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3c-3 3-3 15 0 18M12 3c3 3 3 15 0 18" />
+      </>
+    ),
+    presentation: (
+      <>
+        <rect x="3" y="3" width="18" height="13" rx="2" />
+        <path d="M12 16v5M8 21h8m-8-9 3-3 3 2 3-4" />
+      </>
+    ),
+    conference: (
+      <>
+        <rect x="3" y="3" width="18" height="12" rx="2" />
+        <path d="M8 21h8M12 15v6M7 9h10M7 12h6" />
+      </>
+    ),
+  };
+
   return (
-    <div className="relative overflow-hidden py-14 sm:py-20 text-brand-dark">
-      {/* Background Architectural Vector Grid */}
-      <div className="pointer-events-none absolute inset-0 -z-10 select-none opacity-[0.035]">
-        <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="exhibit-client-grid" width="36" height="36" patternUnits="userSpaceOnUse">
-              <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#201820" strokeWidth="0.8" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#exhibit-client-grid)" />
-        </svg>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      {paths[name]}
+    </svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4 shrink-0"
+      aria-hidden="true"
+    >
+      <path d="M5 12h14m-6-6 6 6-6 6" />
+    </svg>
+  );
+}
+
+function Eyebrow({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="h-[2px] w-7 bg-brand-primary" />
+
+      <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.16em] text-brand-primary-dark">
+        {children}
+      </span>
+    </div>
+  );
+}
+
+function SectionHeading({
+  id,
+  eyebrow,
+  first,
+  highlight,
+  description,
+}: {
+  id: string;
+  eyebrow: string;
+  first: string;
+  highlight: string;
+  description?: string;
+}) {
+  return (
+    <div className="flex flex-col gap-4 border-b border-brand-border pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="max-w-[690px]">
+        <Eyebrow>{eyebrow}</Eyebrow>
+
+        <h2
+          id={id}
+          className="mt-3 font-heading text-[clamp(1.5rem,2.6vw,2.1rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+        >
+          {first}{" "}
+          <span className="text-brand-primary-dark">
+            {highlight}
+          </span>
+        </h2>
       </div>
 
-      <Container className="relative z-10 w-full">
-        {/* ========================================================= */}
-        {/* Header Block: Balanced Titles & Top Right Action          */}
-        {/* ========================================================= */}
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between pb-8 border-b border-slate-200/80">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-brand-blue/[0.06] px-4 py-1">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue" />
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-blue">
-                Commercial Exhibition Benefits
-              </span>
+      {description && (
+        <p className="max-w-[390px] text-[13px] leading-[1.85] text-brand-body">
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ==========================================
+   MAIN COMPONENT
+========================================== */
+
+export function ExhibitClientView() {
+  const reducedMotion = !!useReducedMotion();
+
+  const motionProps = {
+    initial: reducedMotion ? false : "hidden",
+    whileInView: "visible" as const,
+    viewport: {
+      once: true,
+      amount: 0.08,
+    },
+  };
+
+  return (
+    <div className="relative overflow-hidden bg-brand-light py-12 text-brand-dark sm:py-16">
+      {/* Architectural grid */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(5,7,9,0.018)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.018)_1px,transparent_1px)] bg-[size:64px_64px]"
+      />
+
+      <Container className="relative z-10">
+        {/* =====================================
+            01 — WHY EXHIBIT
+        ====================================== */}
+
+        <section aria-labelledby="why-exhibit-heading">
+          <motion.div {...motionProps} variants={reveal}>
+            <SectionHeading
+              id="why-exhibit-heading"
+              eyebrow="Official Brochure · Why Exhibit?"
+              first="Why Exhibit at"
+              highlight="Bangladesh Buildcon?"
+              description="Explore the seven market and industry factors highlighted in the official 2026 exhibition brochure."
+            />
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.06 }}
+            className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {WHY_EXHIBIT.map((item) => (
+              <motion.article
+                key={item.number}
+                variants={reveal}
+                whileHover={
+                  reducedMotion ? undefined : { y: -4 }
+                }
+                transition={{
+                  duration: 0.28,
+                  ease: EASE,
+                }}
+                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-brand-border bg-white p-5 shadow-[0_5px_22px_rgba(5,7,9,0.035)] transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_15px_35px_rgba(5,7,9,0.075)] sm:p-6"
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
+                />
+
+                <div className="flex items-start justify-between">
+                  <span className="flex size-11 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white">
+                    <IndustryIcon name={item.icon} />
+                  </span>
+
+                  <span className="font-heading text-[11px] font-extrabold tabular-nums text-brand-muted">
+                    {item.number}
+                  </span>
+                </div>
+
+                <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.45] tracking-[-0.025em] text-brand-dark sm:text-[16px]">
+                  {item.title}
+                </h3>
+
+                <p className="mt-3 text-[13px] leading-[1.85] text-brand-body">
+                  {item.description}
+                </p>
+              </motion.article>
+            ))}
+          </motion.div>
+
+          <p className="mt-4 text-[11px] leading-[1.75] text-brand-muted">
+            Market statements above reflect the
+            exhibition brochure and should not be
+            interpreted as guaranteed commercial results.
+          </p>
+        </section>
+
+        {/* =====================================
+            02 — EXHIBITOR PROFILE
+        ====================================== */}
+
+        <section
+          aria-labelledby="who-should-exhibit-heading"
+          className="mt-12 sm:mt-16"
+        >
+          <motion.div
+            {...motionProps}
+            variants={reveal}
+            className="overflow-hidden rounded-2xl border border-brand-border bg-white shadow-[0_8px_30px_rgba(5,7,9,0.035)]"
+          >
+            <div className="border-b border-brand-border px-5 py-6 sm:px-7">
+              <Eyebrow>Brochure · Exhibitor Profile</Eyebrow>
+
+              <h2
+                id="who-should-exhibit-heading"
+                className="mt-3 font-heading text-[21px] font-extrabold tracking-[-0.04em] text-brand-dark sm:text-[25px]"
+              >
+                Who Should{" "}
+                <span className="text-brand-primary-dark">
+                  Exhibit?
+                </span>
+              </h2>
+
+              <p className="mt-2 text-[13px] leading-[1.8] text-brand-body">
+                Seven broad industry categories from
+                the official exhibition profile.
+              </p>
             </div>
 
-            <h2 className="mt-4 text-2xl sm:text-4xl font-extrabold tracking-[-0.03em] leading-[1.15] text-brand-dark">
-              Strategic Commercial{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-purple to-brand-green">
-                Advantages for Exhibitors
-              </span>
-            </h2>
+            <motion.div
+              variants={stagger}
+              initial={reducedMotion ? false : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.08 }}
+              className="grid gap-3 p-5 sm:grid-cols-2 sm:p-7"
+            >
+              {EXHIBITOR_CATEGORIES.map((item, index) => (
+                <motion.article
+                  key={item.title}
+                  variants={reveal}
+                  className="flex items-start gap-3 rounded-xl border border-brand-border bg-brand-light p-4 transition-colors duration-300 hover:border-brand-primary/30 hover:bg-brand-primary-soft"
+                >
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-white font-heading text-[11px] font-extrabold text-brand-primary-dark">
+                    {String(index + 1).padStart(
+                      2,
+                      "0"
+                    )}
+                  </span>
 
-            <p className="mt-2.5 text-xs sm:text-sm leading-[1.7] text-slate-500 font-normal">
-              Three focused business days to present your solutions directly to contractors, developers, architects, and high-volume buyers driving Bangladesh&apos;s infrastructure growth.
-            </p>
-          </div>
+                  <div>
+                    <h3 className="font-heading text-[13px] font-extrabold leading-[1.5] text-brand-dark sm:text-[14px]">
+                      {item.title}
+                    </h3>
 
-          <div className="shrink-0">
+                    <p className="mt-2 text-[12px] leading-[1.8] text-brand-body">
+                      {item.examples}
+                    </p>
+                  </div>
+                </motion.article>
+              ))}
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* =====================================
+            03 — KEY FEATURES
+        ====================================== */}
+
+        <section
+          aria-labelledby="exhibitor-features-heading"
+          className="mt-12 sm:mt-16"
+        >
+          <motion.div {...motionProps} variants={reveal}>
+            <SectionHeading
+              id="exhibitor-features-heading"
+              eyebrow="Official Exhibition Features"
+              first="Connect, Discover"
+              highlight="& Exchange"
+              description="Key event features highlighted in the official Bangladesh Buildcon 2026 brochure."
+            />
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.08 }}
+            className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            {EVENT_FEATURES.map((feature) => (
+              <motion.article
+                key={feature.title}
+                variants={reveal}
+                whileHover={
+                  reducedMotion ? undefined : { y: -3 }
+                }
+                className="flex h-full items-start gap-3 rounded-xl border border-brand-border bg-white p-4 shadow-[0_4px_16px_rgba(5,7,9,0.025)] transition-colors hover:border-brand-primary/35 sm:flex-col sm:p-5"
+              >
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark">
+                  <IndustryIcon name={feature.icon} />
+                </span>
+
+                <h3 className="font-heading text-[13px] font-extrabold leading-[1.55] text-brand-dark">
+                  {feature.title}
+                </h3>
+              </motion.article>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* =====================================
+            04 — EXHIBITOR CTA
+        ====================================== */}
+
+        <motion.section
+          {...motionProps}
+          variants={reveal}
+          aria-labelledby="exhibit-cta-heading"
+          className="mt-12 overflow-hidden rounded-2xl border border-brand-primary/20 bg-brand-primary-soft p-5 sm:mt-16 sm:p-7"
+        >
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="max-w-[700px]">
+              <Eyebrow>Exhibition Participation</Eyebrow>
+
+              <h2
+                id="exhibit-cta-heading"
+                className="mt-3 font-heading text-[19px] font-extrabold leading-[1.35] tracking-[-0.035em] text-brand-dark sm:text-[23px]"
+              >
+                Exhibit at{" "}
+                <span className="text-brand-primary-dark">
+                  Bangladesh Buildcon 2026
+                </span>
+              </h2>
+
+              <p className="mt-2 text-[13px] leading-[1.85] text-brand-body">
+                17–19 September 2026 · ICCB Exhibition
+                Hall, Dhaka. Submit your enquiry to
+                discuss exhibition participation with
+                the organising team.
+              </p>
+            </div>
+
             <Link
               href={event.cta.bookStand}
-              className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-[0_4px_16px_rgba(200,32,40,0.25)] transition-all duration-300 hover:bg-brand-blue-dark hover:shadow-[0_6px_22px_rgba(200,32,40,0.35)] hover:-translate-y-0.5 active:translate-y-0"
+              className="group inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-6 py-3 font-heading text-[12px] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:w-auto"
             >
-              Reserve Stand Space →
+              Book Exhibition Stand
+
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                <ArrowIcon />
+              </span>
             </Link>
           </div>
-        </div>
 
-        {/* ========================================================= */}
-        {/* Core Pillars: Spacious 3-Column Grid (No Chipku Feel)     */}
-        {/* ========================================================= */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {CORE_PILLARS.map((item, idx) => (
-            <BenefitCard
-              key={item.title}
-              title={item.title}
-              description={item.body}
-              badge={item.badge}
-              index={idx}
-              light={false}
-            />
-          ))}
-        </motion.div>
-
-        {/* ========================================================= */}
-        {/* Who Should Exhibit Strip                                  */}
-        {/* ========================================================= */}
-        <div className="mt-14 sm:mt-18 rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pb-5 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
-                Target Profiles
-              </span>
-              <h3 className="mt-1 text-base sm:text-lg font-bold tracking-tight text-brand-dark">
-                Who Should Exhibit?
-              </h3>
-            </div>
-            <span className="text-xs text-slate-400">8 Key Industry Profiles</span>
-          </div>
-
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {WHO_SHOULD_EXHIBIT.map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 text-xs font-semibold text-slate-700 transition-colors hover:border-brand-blue/30 hover:bg-white hover:text-brand-dark"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-green shrink-0" />
-                <span className="truncate">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ========================================================= */}
-        {/* Stand Participation Formats                               */}
-        {/* ========================================================= */}
-        <div className="relative mt-14 sm:mt-18 overflow-hidden rounded-3xl bg-[#201820] p-7 sm:p-10 text-white shadow-2xl border border-white/10">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-blue/15 blur-3xl" />
-          <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-brand-green/15 blur-3xl" />
-
-          <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between pb-6 border-b border-white/10">
-            <div className="max-w-xl">
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-blue">
-                Participation Options
-              </span>
-              <h3 className="mt-2 text-xl sm:text-3xl font-extrabold tracking-tight text-white leading-snug">
-                Choose Your Exhibition Presence
-              </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-300 font-normal leading-[1.7]">
-                Options tailored to international brand pavilions, equipment demonstrations, and materials distribution displays.
-              </p>
-            </div>
-
-            <div className="shrink-0">
-              <Link
-                href={event.cta.bookStand}
-                className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-[0_0_20px_rgba(200,32,40,0.35)] transition-all duration-300 hover:bg-brand-blue-dark active:scale-95"
-              >
-                Request Stand Floor Plan →
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative z-10 mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {PARTICIPATION_OPTIONS.map((opt, i) => (
-              <div
-                key={opt.title}
-                className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6 backdrop-blur-md transition-all duration-300 hover:border-brand-blue/50 hover:bg-white/[0.06]"
-              >
-                <div>
-                  <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
-                    <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-300">
-                      {opt.tag}
-                    </span>
-                    <span className="text-[10px] font-mono font-bold text-slate-500">
-                      0{i + 1}
-                    </span>
-                  </div>
-
-                  <h4 className="mt-4 text-sm sm:text-base font-bold text-white group-hover:text-brand-blue transition-colors">
-                    {opt.title}
-                  </h4>
-
-                  <p className="mt-2 text-xs leading-[1.7] text-slate-300 font-normal">
-                    {opt.desc}
-                  </p>
-                </div>
-
-                <div className="mt-5 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs font-semibold text-brand-blue">
-                  <span>Explore Format</span>
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom Action Ribbon */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-brand-blue/20 bg-gradient-to-r from-brand-blue/[0.04] via-white to-brand-green/[0.04] p-5 sm:p-6 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green/10 text-brand-green">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <div>
-              <h4 className="text-xs sm:text-sm font-bold text-brand-dark">
-                Stand space allocations are currently active
-              </h4>
-              <p className="text-[11px] text-slate-500 font-normal mt-0.5">
-                Held from 17–19 September 2026 at ICCB Exhibition Hall, Dhaka.
-              </p>
-            </div>
-          </div>
-
-          <Link
-            href={event.cta.bookStand}
-            className="shrink-0 inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-brand-blue-dark transition-all duration-200"
-          >
-            Book Exhibition Stand
-          </Link>
-        </div>
+          <p className="mt-4 border-t border-brand-primary/15 pt-4 text-[11px] leading-[1.75] text-brand-body">
+            Stand availability, specifications and
+            participation terms are subject to
+            organiser confirmation.
+          </p>
+        </motion.section>
       </Container>
     </div>
   );

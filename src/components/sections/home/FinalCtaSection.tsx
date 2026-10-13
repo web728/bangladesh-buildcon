@@ -2,86 +2,41 @@
 "use client";
 
 import Link from "next/link";
-
 import {
   motion,
   useReducedMotion,
   type Variants,
 } from "framer-motion";
 
-import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
-
-/* ========================================
-   ANIMATION CONFIGURATION
-======================================== */
+import { event } from "@/config/event";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.13,
-      delayChildren: 0.12,
-    },
-  },
-};
-
-const revealVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-  },
+const reveal: Variants = {
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
+    transition: { duration: 0.65, ease: EASE },
+  },
+};
+
+const stagger: Variants = {
+  hidden: {},
+  visible: {
     transition: {
-      duration: 0.8,
-      ease: EASE,
+      staggerChildren: 0.12,
+      delayChildren: 0.05,
     },
   },
 };
 
-/* ========================================
-   SVG ICONS
-======================================== */
-
-function ArrowRightIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-4 shrink-0"
-      aria-hidden="true"
-    >
-      <path d="M5 12h14m-6-6 6 6-6 6" />
-    </svg>
-  );
-}
-
-function ArrowUpRightIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-4 shrink-0"
-      aria-hidden="true"
-    >
-      <path d="M7 17 17 7M8 7h9v9" />
-    </svg>
-  );
-}
-
-function CalendarIcon() {
+function Icon({
+  name,
+}: {
+  name: "arrow" | "external" | "calendar" | "location";
+}) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -90,44 +45,37 @@ function CalendarIcon() {
       strokeWidth="1.7"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="size-[18px] shrink-0"
+      className="size-4 shrink-0"
       aria-hidden="true"
     >
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="16"
-        rx="2"
-      />
-      <path d="M7 3v4M17 3v4M3 10h18" />
+      {name === "arrow" && (
+        <path d="M5 12h14m-6-6 6 6-6 6" />
+      )}
+
+      {name === "external" && (
+        <path d="M7 17 17 7M8 7h9v9" />
+      )}
+
+      {name === "calendar" && (
+        <>
+          <rect x="3" y="5" width="18" height="16" rx="2" />
+          <path d="M7 3v4M17 3v4M3 10h18" />
+        </>
+      )}
+
+      {name === "location" && (
+        <>
+          <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z" />
+          <circle cx="12" cy="10" r="2.5" />
+        </>
+      )}
     </svg>
   );
 }
 
-function LocationIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-[18px] shrink-0"
-      aria-hidden="true"
-    >
-      <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
-      <circle cx="12" cy="10" r="2.5" />
-    </svg>
-  );
-}
+/* Architectural SVG — subtle, large and refined */
 
-/* ========================================
-   ANIMATED ARCHITECTURAL GRAPHIC
-======================================== */
-
-function CtaBackgroundGraphic({
+function CtaGraphic({
   reducedMotion,
 }: {
   reducedMotion: boolean;
@@ -135,399 +83,271 @@ function CtaBackgroundGraphic({
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
     >
-      {/* Main magenta ambient light */}
-      <div className="absolute -right-36 -top-48 size-[600px] rounded-full bg-brand-primary/20 blur-[130px]" />
-
-      {/* Subtle left glow */}
-      <div className="absolute -bottom-48 -left-32 size-[450px] rounded-full bg-brand-primary/[0.08] blur-[115px]" />
-
-      {/* Architectural grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:linear-gradient(to_left,black,transparent_85%)]" />
-
-      {/* Technical orbit graphic */}
       <svg
-        viewBox="0 0 700 700"
+        viewBox="0 0 1100 420"
         fill="none"
-        className="absolute -right-48 top-1/2 h-[600px] w-[600px] -translate-y-1/2 opacity-65 sm:-right-36"
+        preserveAspectRatio="xMidYMid slice"
+        className="absolute inset-0 size-full"
       >
-        <motion.g
-          animate={
-            reducedMotion
-              ? undefined
-              : { rotate: 360 }
-          }
-          transition={{
-            duration: 90,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          style={{
-            transformOrigin: "350px 350px",
-          }}
-        >
-          <circle
-            cx="350"
-            cy="350"
-            r="275"
-            stroke="#BA1D82"
-            strokeOpacity="0.5"
-            strokeDasharray="3 13"
-          />
+        <defs>
+          <linearGradient
+            id="final-cta-lines"
+            x1="450"
+            y1="0"
+            x2="1100"
+            y2="420"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop
+              offset="0"
+              stopColor="#ED1C24"
+              stopOpacity="0"
+            />
+            <stop
+              offset="0.6"
+              stopColor="#ED1C24"
+              stopOpacity="0.32"
+            />
+            <stop
+              offset="1"
+              stopColor="#ED1C24"
+              stopOpacity="0.06"
+            />
+          </linearGradient>
 
-          <circle
-            cx="350"
-            cy="75"
-            r="6"
-            fill="#EA65BB"
-          />
+          <pattern
+            id="final-cta-grid"
+            width="48"
+            height="48"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M48 0H0V48"
+              stroke="#FFFFFF"
+              strokeOpacity="0.035"
+            />
+          </pattern>
+        </defs>
 
-          <circle
-            cx="350"
-            cy="625"
-            r="4"
-            fill="#FFFFFF"
-            fillOpacity="0.5"
-          />
-        </motion.g>
-
-        <circle
-          cx="350"
-          cy="350"
-          r="218"
-          stroke="#FFFFFF"
-          strokeOpacity="0.13"
+        <rect
+          width="1100"
+          height="420"
+          fill="url(#final-cta-grid)"
         />
 
-        <circle
-          cx="350"
-          cy="350"
-          r="166"
-          stroke="#BA1D82"
-          strokeOpacity="0.28"
-        />
-
+        {/* Construction-inspired elevation lines */}
         <motion.path
-          d="M350 132A218 218 0 0 1 568 350"
-          stroke="#EA65BB"
-          strokeWidth="2.5"
-          strokeLinecap="round"
+          d="M670 420V150l95-65 95 65v270"
+          stroke="url(#final-cta-lines)"
+          strokeWidth="1.5"
           initial={
             reducedMotion
               ? false
-              : { pathLength: 0 }
+              : { pathLength: 0, opacity: 0 }
           }
           whileInView={{
             pathLength: 1,
+            opacity: 1,
           }}
           viewport={{ once: true }}
           transition={{
-            duration: 2,
+            duration: reducedMotion ? 0 : 1.6,
             ease: EASE,
           }}
         />
 
-        <motion.circle
-          cx="350"
-          cy="350"
-          r="95"
-          fill="#BA1D82"
-          fillOpacity="0.08"
-          animate={
-            reducedMotion
-              ? undefined
-              : {
-                  scale: [1, 1.08, 1],
-                }
-          }
-          style={{
-            transformOrigin: "350px 350px",
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        <path
+          d="M710 420V172l55-37 55 37v248M670 240h190M670 315h190"
+          stroke="#FFFFFF"
+          strokeOpacity="0.08"
         />
 
         <path
-          d="M280 350h140M350 280v140"
-          stroke="#FFFFFF"
-          strokeOpacity="0.15"
+          d="M765 85v335M670 150l190 270M860 150 670 420"
+          stroke="#ED1C24"
+          strokeOpacity="0.13"
+          strokeDasharray="5 9"
+        />
+
+        {/* Structural orbit */}
+        <circle
+          cx="830"
+          cy="205"
+          r="185"
+          stroke="#ED1C24"
+          strokeOpacity="0.16"
         />
 
         <circle
-          cx="350"
-          cy="350"
-          r="8"
-          fill="#BA1D82"
+          cx="830"
+          cy="205"
+          r="145"
+          stroke="#FFFFFF"
+          strokeOpacity="0.09"
+          strokeDasharray="6 10"
+        />
+
+        <path
+          d="M915 0v420M970 0v420"
+          stroke="#FFFFFF"
+          strokeOpacity="0.05"
+        />
+
+        <path
+          d="M575 380 950 20M650 420 1020 55"
+          stroke="#ED1C24"
+          strokeOpacity="0.16"
         />
       </svg>
 
-      {/* Top magenta line */}
-      <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-brand-primary to-transparent" />
+      {/* Readability gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/75 to-transparent" />
     </div>
   );
 }
-
-/* ========================================
-   EVENT DETAIL CHIP
-======================================== */
-
-function EventDetail({
-  icon,
-  children,
-  reducedMotion,
-}: {
-  icon: "calendar" | "location";
-  children: React.ReactNode;
-  reducedMotion: boolean;
-}) {
-  return (
-    <motion.div
-      variants={revealVariants}
-      whileHover={
-        reducedMotion
-          ? undefined
-          : {
-              y: -3,
-              backgroundColor:
-                "rgba(255,255,255,0.10)",
-            }
-      }
-      transition={{
-        duration: 0.3,
-        ease: EASE,
-      }}
-      className="inline-flex max-w-full items-center gap-3 rounded-lg border border-white/[0.11] bg-white/[0.055] px-4 py-3 backdrop-blur-md"
-    >
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-primary/15 text-[#F2A8D8]">
-        {icon === "calendar" ? (
-          <CalendarIcon />
-        ) : (
-          <LocationIcon />
-        )}
-      </span>
-
-      <span className="text-[12px] font-semibold leading-[1.6] text-white/85 sm:text-[13px]">
-        {children}
-      </span>
-    </motion.div>
-  );
-}
-
-/* ========================================
-   MAIN FINAL CTA SECTION
-======================================== */
 
 export function FinalCtaSection() {
   const reducedMotion = !!useReducedMotion();
 
   return (
     <section
-      aria-labelledby="final-cta-heading"
-      className="relative isolate overflow-hidden border-b border-brand-dark/10 bg-[#F9FAFC] py-16 sm:py-20 lg:py-24"
+      aria-labelledby="home-final-cta-heading"
+      className="bg-brand-light py-10 sm:py-12 lg:py-14"
     >
-      {/* Subtle exterior grid */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(5,7,9,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.025)_1px,transparent_1px)] bg-[size:76px_76px]"
-      />
-
-      <Container className="relative z-10">
-        {/* Premium dark CTA panel */}
+      <Container>
         <motion.div
           initial={
             reducedMotion
               ? false
-              : {
-                  opacity: 0,
-                  y: 36,
-                  scale: 0.97,
-                }
+              : { opacity: 0, y: 22 }
           }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-            scale: 1,
-          }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{
             once: true,
-            amount: 0.2,
+            amount: 0.15,
           }}
           transition={{
-            duration: 0.9,
+            duration: reducedMotion ? 0 : 0.7,
             ease: EASE,
           }}
-          className="group relative isolate overflow-hidden rounded-[24px] border border-white/10 bg-[#090A0F] px-6 py-10 text-white shadow-[0_24px_70px_rgba(5,7,9,0.19)] sm:rounded-[28px] sm:px-10 sm:py-12 lg:px-14 lg:py-16"
+          className="relative isolate overflow-hidden rounded-2xl border border-white/10 bg-brand-dark text-white shadow-[0_18px_48px_rgba(5,7,9,0.13)]"
         >
-          <CtaBackgroundGraphic
-            reducedMotion={reducedMotion}
-          />
+          <CtaGraphic reducedMotion={reducedMotion} />
 
-          {/* Content layer */}
-          <motion.div
-            variants={containerVariants}
-            initial={
-              reducedMotion ? false : "hidden"
-            }
-            whileInView="visible"
-            viewport={{
-              once: true,
-              amount: 0.2,
-            }}
-            className="relative z-10 grid items-center gap-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12"
-          >
-            {/* LEFT CONTENT */}
-            <div className="min-w-0 max-w-[760px]">
-              {/* Eyebrow */}
-              <motion.div
-                variants={revealVariants}
-                className="mb-6 flex items-center gap-3"
-              >
-                <span className="h-[2px] w-9 bg-brand-primary" />
-
-                <span className="font-heading text-[10px] font-bold uppercase tracking-[0.17em] text-[#F2A8D8] sm:text-[11px]">
-                  {event.brandLines.main}
-                </span>
-              </motion.div>
-
-              {/* Headline */}
-              <h2
-                id="final-cta-heading"
-                className="font-heading text-[clamp(2rem,3.5vw,3.2rem)] leading-[1.15] font-extrabold tracking-[-0.05em] text-white"
-              >
-                <motion.span
-                  variants={revealVariants}
-                  className="block"
-                >
-                  Shape South Asia&apos;s
-                </motion.span>
-
-                <motion.span
-                  variants={revealVariants}
-                  className="block text-[#EA65BB]"
-                >
-                  Construction Future
-                </motion.span>
-              </h2>
-
-              {/* Description */}
-              <motion.p
-                variants={revealVariants}
-                className="mt-5 max-w-[620px] text-[14px] leading-[1.85] text-white/65 sm:text-[15px]"
-              >
-                Connect with trade buyers,
-                contractors, and decision-makers at{" "}
-                <span className="font-semibold text-white/90">
-                  {event.venue.name}
-                </span>
-                , {event.venue.city}.
-              </motion.p>
-
-              {/* Event details */}
-              <div className="mt-8 flex flex-wrap gap-3">
-                <EventDetail
-                  icon="calendar"
-                  reducedMotion={reducedMotion}
-                >
-                  {event.dates.display}
-                </EventDetail>
-
-                <EventDetail
-                  icon="location"
-                  reducedMotion={reducedMotion}
-                >
-                  {event.venue.fullLocation}
-                </EventDetail>
-              </div>
-            </div>
-
-            {/* RIGHT ACTIONS */}
+          <div className="relative z-10 grid items-center gap-7 px-5 py-8 sm:px-8 sm:py-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10 lg:px-10 lg:py-11">
+            {/* LEFT */}
             <motion.div
-              variants={revealVariants}
-              className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row lg:min-w-[220px] lg:flex-col"
+              variants={stagger}
+              initial={
+                reducedMotion ? false : "hidden"
+              }
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="max-w-[670px]"
             >
-              {/* Primary CTA */}
               <motion.div
-                whileHover={
-                  reducedMotion
-                    ? undefined
-                    : {
-                        y: -4,
-                        scale: 1.025,
-                      }
-                }
-                whileTap={
-                  reducedMotion
-                    ? undefined
-                    : { scale: 0.97 }
-                }
-                transition={{
-                  duration: 0.3,
-                  ease: EASE,
-                }}
+                variants={reveal}
+                className="flex items-center gap-2.5"
               >
-                <Link
-                  href={event.cta.bookStand}
-                  className="group/button inline-flex min-h-[52px] w-full items-center justify-between gap-5 rounded-xl bg-brand-primary px-6 py-3.5 font-heading text-[13px] font-bold text-white shadow-[0_12px_30px_rgba(186,29,130,0.26)] transition-colors duration-300 hover:bg-[#A31773] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                >
-                  <span>Book a Stand</span>
+                <span className="h-[2px] w-7 bg-brand-primary" />
 
-                  <span className="transition-transform duration-300 group-hover/button:translate-x-1">
-                    <ArrowRightIcon />
-                  </span>
-                </Link>
+                <span className="font-heading text-[10px] font-bold uppercase tracking-[0.15em] text-red-300">
+                  Bangladesh Buildcon 2026
+                </span>
               </motion.div>
 
-              {/* Secondary CTA */}
-              <motion.div
-                whileHover={
-                  reducedMotion
-                    ? undefined
-                    : {
-                        y: -4,
-                        scale: 1.025,
-                      }
-                }
-                whileTap={
-                  reducedMotion
-                    ? undefined
-                    : { scale: 0.97 }
-                }
-                transition={{
-                  duration: 0.3,
-                  ease: EASE,
-                }}
+              <motion.h2
+                id="home-final-cta-heading"
+                variants={reveal}
+                className="mt-4 font-heading text-[clamp(1.55rem,2.7vw,2.25rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-white"
               >
-                <Link
-                  href={event.cta.registerVisit}
-                  className="group/button inline-flex min-h-[52px] w-full items-center justify-between gap-5 rounded-xl border border-white/20 bg-white/[0.07] px-6 py-3.5 font-heading text-[13px] font-bold text-white backdrop-blur-md transition-colors duration-300 hover:border-brand-primary/60 hover:bg-white/[0.12] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                >
-                  <span>Register to Visit</span>
+                Be Part of the{" "}
+                <span className="text-red-300">
+                  Building &amp; Construction
+                </span>{" "}
+                Exhibition
+              </motion.h2>
 
-                  <span className="transition-transform duration-300 group-hover/button:translate-x-1 group-hover/button:-translate-y-1">
-                    <ArrowUpRightIcon />
-                  </span>
-                </Link>
-              </motion.div>
-
-              {/* Supporting note */}
               <motion.p
-                variants={revealVariants}
-                className="pt-2 text-center text-[11px] font-medium leading-relaxed text-white/45 lg:text-left"
+                variants={reveal}
+                className="mt-3 max-w-[580px] text-[12px] leading-[1.85] text-white/65 sm:text-[13px]"
               >
-                Explore exhibition participation
-                and visitor registration.
+                Connect with construction industry
+                professionals, explore innovative
+                products and discover business
+                opportunities at {event.name}.
               </motion.p>
-            </motion.div>
-          </motion.div>
 
-          {/* Bottom architectural detail */}
+              {/* Event information */}
+              <motion.div
+                variants={reveal}
+                className="mt-5 flex flex-wrap gap-x-5 gap-y-2.5"
+              >
+                <span className="inline-flex items-center gap-2 text-[11px] font-medium text-white/85 sm:text-[12px]">
+                  <span className="text-red-300">
+                    <Icon name="calendar" />
+                  </span>
+                  {event.dates.display}
+                </span>
+
+                <span className="inline-flex items-center gap-2 text-[11px] font-medium text-white/85 sm:text-[12px]">
+                  <span className="text-red-300">
+                    <Icon name="location" />
+                  </span>
+                  {event.venue.name},{" "}
+                  {event.venue.city}
+                </span>
+              </motion.div>
+            </motion.div>
+
+            {/* RIGHT — PRIMARY ACTIONS */}
+            <motion.div
+              initial={
+                reducedMotion
+                  ? false
+                  : { opacity: 0, x: 16 }
+              }
+              whileInView={{
+                opacity: 1,
+                x: 0,
+              }}
+              viewport={{ once: true }}
+              transition={{
+                duration: reducedMotion ? 0 : 0.6,
+                delay: reducedMotion ? 0 : 0.15,
+                ease: EASE,
+              }}
+              className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row lg:min-w-[205px] lg:flex-col"
+            >
+              <Link
+                href={event.cta.bookStand}
+                className="group inline-flex min-h-11 items-center justify-center gap-3 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white shadow-[0_8px_22px_rgba(237,28,36,0.15)] transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transform-none"
+              >
+                Book a Stand
+
+                <span className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                  <Icon name="arrow" />
+                </span>
+              </Link>
+
+              <Link
+                href={event.cta.registerVisit}
+                className="group inline-flex min-h-11 items-center justify-center gap-3 rounded-lg border border-white/25 bg-white/[0.08] px-5 py-3 font-heading text-[12px] font-bold text-white transition-colors duration-300 hover:border-white/50 hover:bg-white/[0.14] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Register to Visit
+
+                <span className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none">
+                  <Icon name="external" />
+                </span>
+              </Link>
+            </motion.div>
+          </div>
+
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-0 left-0 h-[3px] w-32 bg-brand-primary"
+            className="absolute inset-x-0 bottom-0 h-[3px] bg-brand-primary"
           />
         </motion.div>
       </Container>

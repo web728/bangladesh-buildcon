@@ -1,23 +1,149 @@
+
 import type { Metadata } from "next";
+
 import { event } from "@/config/event";
 import { PageHero } from "@/components/ui/PageHero";
 import { PlanYourVisitClientView } from "@/components/visit/PlanYourVisitClientView";
 
+const PAGE_PATH = "/plan-your-visit";
+
+const PAGE_TITLE =
+  "Plan Your Visit | Venue & Visitor Guide | Bangladesh Buildcon 2026";
+
+const PAGE_DESCRIPTION =
+  "Plan your visit to the 10th Bangladesh Buildcon " +
+  "International Expo 2026, 17–19 September at " +
+  "ICCB Exhibition Hall, Dhaka. Find venue directions, " +
+  "visitor information, travel guidance and organiser contacts.";
+
+const PAGE_IMAGE =
+  "/images/venue/iccb-exhibition-hall.jpg";
+
 export const metadata: Metadata = {
-  title: "Plan Your Visit | Bangladesh Buildcon 2026",
-  description: `Essential travel, venue navigation, and visitor guidance for attending ${event.name} from ${event.dates.display} at ${event.venue.fullLocation}.`,
-  alternates: { canonical: "/plan-your-visit" },
+  title: {
+    absolute: PAGE_TITLE,
+  },
+
+  description: PAGE_DESCRIPTION,
+
+  alternates: {
+    canonical: PAGE_PATH,
+  },
+
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: PAGE_PATH,
+    type: "website",
+    siteName: event.name,
+    locale: "en_US",
+    images: [
+      {
+        url: PAGE_IMAGE,
+        alt: "ICCB Exhibition Hall in Dhaka, venue for Bangladesh Buildcon 2026",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [PAGE_IMAGE],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function PlanYourVisitPage() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  let pageUrl: string | null = null;
+
+  if (siteUrl) {
+    try {
+      const origin = new URL(siteUrl);
+
+      if (
+        origin.protocol === "https:" ||
+        origin.protocol === "http:"
+      ) {
+        pageUrl = new URL(
+          PAGE_PATH,
+          origin.origin
+        ).toString();
+      }
+    } catch {
+      pageUrl = null;
+    }
+  }
+
+  const jsonLd = pageUrl
+    ? {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: PAGE_TITLE,
+        description: PAGE_DESCRIPTION,
+        url: pageUrl,
+        about: {
+          "@type": "Event",
+          name: "10th Bangladesh Buildcon International Expo 2026",
+          startDate: "2026-09-17",
+          endDate: "2026-09-19",
+          location: {
+            "@type": "Place",
+            name: "ICCB Exhibition Hall",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Dhaka",
+              addressCountry: "BD",
+            },
+          },
+          organizer: [
+            {
+              "@type": "Organization",
+              name: "Futurex Trade Fair & Events Pvt. Ltd.",
+            },
+            {
+              "@type": "Organization",
+              name: "ASK Trade & Exhibitions Pvt. Ltd.",
+            },
+          ],
+        },
+      }
+    : null;
+
   return (
-    <main className="min-h-screen bg-[#fafbfd] selection:bg-brand-blue selection:text-white">
+    <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(
+              /</g,
+              "\\u003c"
+            ),
+          }}
+        />
+      )}
+
       <PageHero
-        title="Plan Your Visit to Dhaka"
-        intro="Practical visitor information, venue access, entry parameters, and travel essentials for Bangladesh Buildcon International Expo 2026."
+        title="Plan Your"
+        highlightTitle="Visit to Buildcon"
+        badgeText="Visitor Information · 2026"
+        intro={`Visit the 10th Bangladesh Buildcon International Expo at ${event.venue.name}, ${event.venue.city}, from ${event.dates.display}. Find event details, venue directions and visitor guidance.`}
         image={{
-          src: "/images/venue/iccb-exhibition-hall.jpg",
-          alt: "ICCB Exhibition Hall, Dhaka",
+          src: PAGE_IMAGE,
+          alt: "ICCB Exhibition Hall, Dhaka, Bangladesh — exhibition venue",
         }}
       />
 

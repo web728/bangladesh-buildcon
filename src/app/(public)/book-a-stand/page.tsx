@@ -1,40 +1,90 @@
+
 import type { Metadata } from "next";
+
 import { event } from "@/config/event";
 import { PageHero } from "@/components/ui/PageHero";
-import { Container } from "@/components/ui/Container";
-import { BookStandForm } from "@/components/forms/BookStandForm";
+import { BookStandPageContent } from "@/components/exhibit/BookStandPageContent";
+
+/* ==========================================
+   SEO METADATA
+========================================== */
+
+const PAGE_TITLE =
+  "Book an Exhibition Stand | 10th Bangladesh Buildcon 2026";
+
+const PAGE_DESCRIPTION =
+  `Enquire about exhibition stand participation at ` +
+  `the 10th Bangladesh Buildcon International Expo 2026, ` +
+  `17–19 September 2026 at ICCB Exhibition Hall, Dhaka. ` +
+  `Showcase construction machinery, building materials, ` +
+  `electrical systems and building technologies.`;
+
+const PAGE_IMAGE =
+  "/images/venue/iccb-exhibition-hall.jpg";
 
 export const metadata: Metadata = {
-  title: "Book a Stand",
-  description: `Reserve your exhibition space at ${event.name}, ${event.dates.display} at ${event.venue.fullLocation}.`,
-  alternates: { canonical: "/book-a-stand" },
+  title: {
+    absolute: PAGE_TITLE,
+  },
+
+  description: PAGE_DESCRIPTION,
+
+  alternates: {
+    canonical: "/book-a-stand",
+  },
+
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: "/book-a-stand",
+    type: "website",
+    siteName: event.name,
+    locale: "en_US",
+    images: [
+      {
+        url: PAGE_IMAGE,
+        alt: "ICCB Exhibition Hall, Dhaka — Bangladesh Buildcon International Expo 2026",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [PAGE_IMAGE],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
+  },
 };
+
+/* ==========================================
+   PAGE
+========================================== */
 
 export default function BookAStandPage() {
   return (
-    <>
+    <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
       <PageHero
-        title="Reserve Your Exhibition Stand"
-        intro={event.brandLines.exhibitor}
+        title="Book Your"
+        highlightTitle="Exhibition Stand"
+        badgeText="10th Bangladesh Buildcon · 2026"
+        intro={`Enquire about stand participation at Bangladesh Buildcon International Expo, ${event.dates.display}, ${event.venue.name}, ${event.venue.city}.`}
+        image={{
+          src: PAGE_IMAGE,
+          alt: "ICCB Exhibition Hall in Dhaka, the venue for Bangladesh Buildcon 2026",
+        }}
       />
 
-      <section className="bg-slate-50/50 py-12 sm:py-20 lg:py-24">
-        <Container className="max-w-3xl">
-          {/* Centered Form Container */}
-          <div className="mx-auto rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-10">
-            <div className="mb-8 border-b border-slate-100 pb-6 text-center">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                Exhibitor Application
-              </h2>
-              <p className="mt-2 text-sm text-slate-600 sm:text-base">
-                Fill out the form below to receive detailed space availability, booth pricing, and customized floor plans.
-              </p>
-            </div>
-
-            <BookStandForm />
-          </div>
-        </Container>
-      </section>
-    </>
+      <BookStandPageContent />
+    </main>
   );
 }

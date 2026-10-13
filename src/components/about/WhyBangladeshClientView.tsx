@@ -1,328 +1,823 @@
+
 "use client";
 
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
+import type { ReactNode } from "react";
+
+import {
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
 import { StatCard } from "@/components/ui/StatCard";
-import { marketFacts, marketSources } from "@/data/marketFacts";
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
-    },
+import {
+  marketFacts,
+  marketSources,
+} from "@/data/marketFacts";
+
+import { exhibitionSectors } from "@/data/exhibitionProfile";
+
+/* ==========================================
+   ANIMATION
+========================================== */
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const reveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
   },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.55,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.58,
+      ease: EASE,
     },
   },
 };
 
-// Strategic growth pillars sourced from the 2026 event brochure.
-const STRATEGIC_PILLARS = [
-  {
-    tag: "8%+ of GDP",
-    title: "Booming Construction Industry",
-    body: "Bangladesh's construction sector contributes more than 8% to GDP, sustaining demand for modern materials, machinery, equipment, and technical expertise.",
-    icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
+const stagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.075,
+      delayChildren: 0.04,
+    },
   },
-  {
-    tag: "National Priority",
-    title: "Infrastructure Development",
-    body: "Government initiatives, private investment, and international collaboration are accelerating infrastructure delivery and opening new opportunities across the supply chain.",
-    icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    tag: "170M+ Population",
-    title: "Urbanisation and Housing Demand",
-    body: "A population exceeding 170 million and continuing urbanisation are increasing demand for housing, urban infrastructure, advanced construction technologies, and durable materials.",
-    icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
-  },
-  {
-    tag: "Regional Connectivity",
-    title: "Strategic South Asian Location",
-    body: "Bangladesh connects South and Southeast Asian markets, giving international manufacturers a practical gateway to buyers, distributors, developers, and project decision-makers.",
-    icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
-  },
-];
+};
 
-// Exact 9 Opportunity Categories from Brochure Page 01 ("Opportunities Across")
-const BROCHURE_OPPORTUNITIES = [
+/* ==========================================
+   MARKET THEMES
+
+   Qualitative industry context.
+   No unsupported GDP/population statistics.
+========================================== */
+
+const MARKET_DRIVERS = [
+  {
+    title: "Building & Construction Activity",
+    label: "Industry Development",
+    description:
+      "Construction activity creates opportunities to explore building materials, equipment, technical components and solutions used across different project types.",
+    icon: "building",
+  },
+  {
+    title: "Infrastructure Requirements",
+    label: "Infrastructure",
+    description:
+      "Infrastructure projects involve machinery, engineered materials, electrical systems, safety equipment and specialised construction products.",
+    icon: "infrastructure",
+  },
+  {
+    title: "Urban Development & Housing",
+    label: "Urban Construction",
+    description:
+      "Residential and commercial development involve structural products, interior and exterior systems, utility equipment and building technologies.",
+    icon: "city",
+  },
+  {
+    title: "Industry & Distribution Networks",
+    label: "Business Connections",
+    description:
+      "Manufacturers, importers, distributors, consultants and contractors are relevant audiences for construction product sourcing and market development.",
+    icon: "network",
+  },
+] as const;
+
+/* ==========================================
+   POTENTIAL PRODUCT APPLICATIONS
+
+   Indicative end-use sectors, not claims
+   of confirmed projects or investment.
+========================================== */
+
+const APPLICATION_AREAS = [
   "Residential Development",
   "Commercial Construction",
   "Roads & Infrastructure",
-  "Industrial Projects",
+  "Industrial Facilities",
   "Hotels & Hospitality",
   "Factories & Warehousing",
-  "Water & Utility Projects",
-  "Public Infrastructure",
-  "Renovation & Interior Projects",
-];
+  "Water & Utility Systems",
+  "Public Buildings",
+  "Renovation & Interiors",
+] as const;
+
+/* ==========================================
+   OFFICIAL BROCHURE EVENT FEATURES
+========================================== */
+
+const EXHIBITION_FEATURES = [
+  "International exhibitors and country pavilions",
+  "Live demonstrations and product launches",
+  "B2B matchmaking opportunities",
+  "Industry conferences and technical seminars",
+] as const;
+
+/* ==========================================
+   CUSTOM SVG ICONS
+========================================== */
+
+type IconName =
+  | "building"
+  | "infrastructure"
+  | "city"
+  | "network"
+  | "arrow"
+  | "external"
+  | "calendar"
+  | "location"
+  | "check"
+  | "chart";
+
+function Icon({
+  name,
+  className = "size-5",
+}: {
+  name: IconName;
+  className?: string;
+}) {
+  const paths: Record<IconName, ReactNode> = {
+    building: (
+      <>
+        <path d="M3 21h18M5 21V5h10v16M15 10h5v11" />
+        <path d="M8 9h4M8 13h4M8 17h4" />
+      </>
+    ),
+    infrastructure: (
+      <>
+        <path d="M3 21h18M4 16h16M6 16l3-8h6l3 8" />
+        <path d="M12 8V3M8 3h8" />
+        <path d="M9 12h6" />
+      </>
+    ),
+    city: (
+      <>
+        <path d="M3 21h18M5 21V9l5-5 5 5v12" />
+        <path d="M15 12h5v9M9 21v-7h3v7" />
+      </>
+    ),
+    network: (
+      <>
+        <circle cx="12" cy="5" r="2" />
+        <circle cx="5" cy="18" r="2" />
+        <circle cx="19" cy="18" r="2" />
+        <path d="m11 7-5 9m7-9 5 9M7 18h10" />
+      </>
+    ),
+    arrow: (
+      <path d="M5 12h14m-6-6 6 6-6 6" />
+    ),
+    external: (
+      <path d="M7 17 17 7M8 7h9v9" />
+    ),
+    calendar: (
+      <>
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M7 3v4M17 3v4M3 10h18" />
+      </>
+    ),
+    location: (
+      <>
+        <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </>
+    ),
+    check: (
+      <path d="m5 12 4 4L19 6" />
+    ),
+    chart: (
+      <>
+        <path d="M3 21h18M5 17v4M10 12v9M15 8v13M20 3v18" />
+      </>
+    ),
+  };
+
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      {paths[name]}
+    </svg>
+  );
+}
+
+function Eyebrow({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="h-[2px] w-7 shrink-0 bg-brand-primary" />
+
+      <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.16em] text-brand-primary-dark">
+        {children}
+      </span>
+    </div>
+  );
+}
+
+/* ==========================================
+   MAIN COMPONENT
+========================================== */
 
 export function WhyBangladeshClientView() {
-  return (
-    <div className="relative overflow-hidden py-12 sm:py-16 text-brand-dark">
-      {/* Background Subtle Architectural Pattern */}
-      <div className="pointer-events-none absolute inset-0 -z-10 select-none opacity-[0.035]">
-        <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="market-grid" width="36" height="36" patternUnits="userSpaceOnUse">
-              <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#201820" strokeWidth="0.8" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#market-grid)" />
-        </svg>
-      </div>
+  const reducedMotion = !!useReducedMotion();
 
-      <Container className="relative z-10 w-full">
-        {/* ========================================================= */}
-        {/* Header Block 1: Verified Market Facts                     */}
-        {/* ========================================================= */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between pb-6 border-b border-slate-200/80">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-brand-blue/[0.06] px-3.5 py-1">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue" />
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-blue">
-                Brochure &amp; Post-Show Indicators
-              </span>
+  const scrollProps = {
+    initial: reducedMotion ? false : "hidden",
+    whileInView: "visible" as const,
+    viewport: {
+      once: true,
+      amount: 0.08,
+    },
+  };
+
+  return (
+    <div className="relative overflow-hidden bg-brand-light py-12 text-brand-dark sm:py-16">
+      {/* Subtle architectural grid */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(5,7,9,0.018)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.018)_1px,transparent_1px)] bg-[size:64px_64px]"
+      />
+
+      <Container className="relative z-10">
+        {/* =====================================
+            01 — MARKET FACTS
+        ====================================== */}
+
+        <section aria-labelledby="market-facts-heading">
+          <motion.header
+            {...scrollProps}
+            variants={reveal}
+            className="flex flex-col gap-5 border-b border-brand-border pb-6 sm:flex-row sm:items-end sm:justify-between"
+          >
+            <div className="max-w-[780px]">
+              <Eyebrow>
+                Bangladesh · Market Indicators
+              </Eyebrow>
+
+              <h2
+                id="market-facts-heading"
+                className="mt-3 font-heading text-[clamp(1.55rem,2.8vw,2.25rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+              >
+                Bangladesh Market{" "}
+                <span className="text-brand-primary-dark">
+                  at a Glance
+                </span>
+              </h2>
+
+              <p className="mt-3 max-w-[730px] text-[13px] leading-[1.85] text-brand-body sm:text-sm">
+                Explore the market indicators and
+                exhibition-related facts maintained
+                in the website&apos;s market
+                information dataset. Individual
+                figures should be interpreted
+                according to their stated source
+                and reporting year.
+              </p>
             </div>
 
-            <h2 className="mt-3.5 text-2xl sm:text-4xl font-extrabold tracking-[-0.03em] leading-[1.12] text-brand-dark">
-              Key Market Data &amp;{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-purple to-brand-green">
-                Growth Benchmarks
-              </span>
-            </h2>
-
-            <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-500 font-normal">
-              Verified event and market indicators from the supplied 2026 brochure and 2025 post-show report.
-            </p>
-          </div>
-
-          <div className="shrink-0">
             <Link
               href={event.cta.bookStand}
-              className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-[0_4px_16px_rgba(200,32,40,0.25)] transition-all duration-300 hover:bg-brand-blue-dark hover:shadow-[0_6px_22px_rgba(200,32,40,0.35)] hover:-translate-y-0.5 active:translate-y-0"
+              className="group inline-flex min-h-11 w-fit shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
             >
-              Book Stand Space →
-            </Link>
-          </div>
-        </div>
+              Enquire for Stand Space
 
-        {/* Dynamic Facts Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {marketFacts.map((fact) => (
-            <motion.div key={fact.id} variants={itemVariants}>
-              <StatCard fact={fact} />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* ========================================================= */}
-        {/* Section 2: 4 Strategic Pillars (Brochure Match)           */}
-        {/* ========================================================= */}
-        <div className="mt-14 sm:mt-18">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between pb-5 border-b border-slate-200/80">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
-                Commercial Foundation
+              <span className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                <Icon name="arrow" className="size-4" />
               </span>
-              <h3 className="mt-1.5 text-xl sm:text-3xl font-extrabold tracking-tight text-brand-dark">
-                Why Dhaka &amp; Bangladesh?
-              </h3>
+            </Link>
+          </motion.header>
+
+          {marketFacts.length > 0 ? (
+            <motion.div
+              variants={stagger}
+              initial={reducedMotion ? false : "hidden"}
+              whileInView="visible"
+              viewport={{
+                once: true,
+                amount: 0.06,
+              }}
+              className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {marketFacts.map((fact) => (
+                <motion.div
+                  key={fact.id}
+                  variants={reveal}
+                  className="min-w-0"
+                >
+                  <StatCard fact={fact} />
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <div className="mt-6 rounded-2xl border border-brand-border bg-white p-6 text-[13px] leading-[1.8] text-brand-body">
+              Market statistics will be displayed
+              when source-backed information is
+              available.
             </div>
-            <p className="text-xs text-slate-500 max-w-md font-normal">
-              The country&apos;s established trade logistics and logistics infrastructure make Dhaka the natural commercial meeting point for suppliers.
+          )}
+
+          <p className="mt-4 text-[11px] leading-[1.8] text-brand-muted">
+            Market indicators and historic
+            exhibition figures may refer to
+            different reporting periods.
+            They should not be interpreted
+            as confirmed 2026 exhibitor
+            numbers or visitor attendance.
+          </p>
+        </section>
+
+        {/* =====================================
+            02 — CONSTRUCTION MARKET DRIVERS
+        ====================================== */}
+
+        <section
+          aria-labelledby="market-drivers-heading"
+          className="mt-12 sm:mt-16"
+        >
+          <motion.div
+            {...scrollProps}
+            variants={reveal}
+            className="flex flex-col gap-4 border-b border-brand-border pb-6 sm:flex-row sm:items-end sm:justify-between"
+          >
+            <div className="max-w-[740px]">
+              <Eyebrow>
+                Construction Market Perspective
+              </Eyebrow>
+
+              <h2
+                id="market-drivers-heading"
+                className="mt-3 font-heading text-[clamp(1.5rem,2.7vw,2.1rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+              >
+                Areas Shaping{" "}
+                <span className="text-brand-primary-dark">
+                  Industry Demand
+                </span>
+              </h2>
+            </div>
+
+            <p className="max-w-[410px] text-[13px] leading-[1.85] text-brand-body">
+              Key construction-related themes
+              relevant to materials, equipment
+              and technology suppliers.
             </p>
-          </div>
+          </motion.div>
 
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
             whileInView="visible"
-            viewport={{ once: true, margin: "-40px" }}
-            className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2"
+            viewport={{
+              once: true,
+              amount: 0.06,
+            }}
+            className="mt-6 grid items-stretch gap-4 md:grid-cols-2"
           >
-            {STRATEGIC_PILLARS.map((pillar, idx) => (
-              <motion.div
-                key={pillar.title}
-                variants={itemVariants}
-                className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all duration-300 hover:border-brand-blue/40 hover:shadow-xl hover:-translate-y-1"
+            {MARKET_DRIVERS.map((driver, index) => (
+              <motion.article
+                key={driver.title}
+                variants={reveal}
+                whileHover={
+                  reducedMotion
+                    ? undefined
+                    : { y: -4 }
+                }
+                transition={{
+                  duration: reducedMotion ? 0 : 0.28,
+                  ease: EASE,
+                }}
+                className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-brand-border bg-white p-5 shadow-[0_5px_22px_rgba(5,7,9,0.035)] transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_15px_35px_rgba(5,7,9,0.075)] sm:p-6"
               >
-                <div>
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                    <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-dark">
-                      {pillar.tag}
-                    </span>
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
+                />
 
-                    <span className="text-[10px] font-mono font-bold text-slate-300 group-hover:text-brand-blue transition-colors">
-                      0{idx + 1}
-                    </span>
-                  </div>
+                <div className="flex items-start justify-between gap-3">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark transition-colors group-hover:bg-brand-primary group-hover:text-white">
+                    <Icon name={driver.icon} />
+                  </span>
 
-                  <h4 className="mt-4 text-base font-bold tracking-tight text-brand-dark group-hover:text-brand-blue transition-colors">
-                    {pillar.title}
-                  </h4>
-
-                  <p className="mt-2 text-xs sm:text-sm leading-[1.7] text-slate-600 font-normal">
-                    {pillar.body}
-                  </p>
+                  <span className="font-heading text-[11px] font-bold tabular-nums text-brand-muted">
+                    {String(index + 1).padStart(
+                      2,
+                      "0"
+                    )}
+                  </span>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-blue">
-                  <span>Brochure Market Review</span>
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </div>
+                <span className="mt-5 inline-flex w-fit rounded-lg border border-brand-primary/15 bg-brand-primary-soft px-3 py-1.5 font-heading text-[10px] font-bold text-brand-primary-dark">
+                  {driver.label}
+                </span>
+
+                <h3 className="mt-4 font-heading text-[17px] font-extrabold leading-[1.4] tracking-[-0.03em] text-brand-dark">
+                  {driver.title}
+                </h3>
+
+                <p className="mt-3 text-[13px] leading-[1.85] text-brand-body">
+                  {driver.description}
+                </p>
+              </motion.article>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* =====================================
+            03 — OFFICIAL EXHIBITOR CATEGORIES
+        ====================================== */}
+
+        <section
+          aria-labelledby="bangladesh-sectors-heading"
+          className="mt-12 sm:mt-16"
+        >
+          <motion.div
+            {...scrollProps}
+            variants={reveal}
+            className="flex flex-col gap-4 border-b border-brand-border pb-6 sm:flex-row sm:items-end sm:justify-between"
+          >
+            <div className="max-w-[750px]">
+              <Eyebrow>
+                Official Brochure · Exhibitor Profile
+              </Eyebrow>
+
+              <h2
+                id="bangladesh-sectors-heading"
+                className="mt-3 font-heading text-[clamp(1.5rem,2.7vw,2.1rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+              >
+                Industries Covered by{" "}
+                <span className="text-brand-primary-dark">
+                  Bangladesh Buildcon
+                </span>
+              </h2>
+
+              <p className="mt-3 max-w-[730px] text-[13px] leading-[1.85] text-brand-body">
+                The official 2026 exhibition
+                brochure identifies seven main
+                exhibitor categories, providing
+                a practical overview of the
+                products and technologies
+                relevant to the event.
+              </p>
+            </div>
+
+            <Link
+              href="/exhibition-profile"
+              className="group inline-flex min-h-10 shrink-0 items-center gap-2 font-heading text-[12px] font-bold text-brand-primary-dark transition-colors hover:text-brand-primary hover:underline hover:underline-offset-4"
+            >
+              Full Exhibition Profile
+
+              <span className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                <Icon name="arrow" className="size-4" />
+              </span>
+            </Link>
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{
+              once: true,
+              amount: 0.07,
+            }}
+            className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {exhibitionSectors.map((sector, index) => (
+              <motion.div
+                key={sector.slug}
+                variants={reveal}
+              >
+                <Link
+                  href={`/exhibition-profile#${sector.slug}`}
+                  className="group flex h-full min-h-[76px] items-center gap-3 rounded-xl border border-brand-border bg-white p-4 transition-[border-color,background-color] hover:border-brand-primary/35 hover:bg-brand-primary-soft/40"
+                >
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-primary-soft font-heading text-[11px] font-extrabold tabular-nums text-brand-primary-dark">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+
+                  <span className="min-w-0 flex-1 font-heading text-[12px] font-bold leading-[1.55] text-brand-dark sm:text-[13px]">
+                    {sector.name}
+                  </span>
+
+                  <span className="shrink-0 text-brand-primary-dark transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                    <Icon
+                      name="arrow"
+                      className="size-4"
+                    />
+                  </span>
+                </Link>
               </motion.div>
             ))}
           </motion.div>
-        </div>
+        </section>
 
-        {/* ========================================================= */}
-        {/* Section 3: Exact 9 Opportunity Categories from Brochure   */}
-        {/* ========================================================= */}
-        <div className="mt-14 sm:mt-18 rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pb-5 border-b border-slate-100">
+        {/* =====================================
+            04 — POTENTIAL APPLICATIONS
+        ====================================== */}
+
+        <motion.section
+          {...scrollProps}
+          variants={reveal}
+          aria-labelledby="market-applications-heading"
+          className="mt-12 overflow-hidden rounded-2xl border border-brand-border bg-white shadow-[0_8px_30px_rgba(5,7,9,0.035)] sm:mt-16"
+        >
+          <div className="flex flex-col gap-4 border-b border-brand-border px-5 py-6 sm:flex-row sm:items-end sm:justify-between sm:px-7">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-blue">
-                Commercial Prospects
-              </span>
-              <h3 className="mt-1 text-lg sm:text-xl font-bold tracking-tight text-brand-dark">
-                Opportunities Across Active Sectors
-              </h3>
+              <Eyebrow>
+                Construction Applications
+              </Eyebrow>
+
+              <h2
+                id="market-applications-heading"
+                className="mt-3 font-heading text-[21px] font-extrabold leading-[1.3] tracking-[-0.035em] text-brand-dark sm:text-[25px]"
+              >
+                Where Construction Products{" "}
+                <span className="text-brand-primary-dark">
+                  Are Used
+                </span>
+              </h2>
+
+              <p className="mt-3 max-w-[730px] text-[13px] leading-[1.85] text-brand-body">
+                Examples of project types that
+                may require building materials,
+                machinery, equipment and
+                engineering systems. These are
+                illustrative applications—not a
+                list of confirmed or funded projects.
+              </p>
             </div>
-            <span className="text-xs text-slate-400">9 Core Sub-Sectors</span>
+
+            <span className="inline-flex w-fit shrink-0 rounded-lg border border-brand-primary/15 bg-brand-primary-soft px-3 py-1.5 font-heading text-[11px] font-bold text-brand-primary-dark">
+              {APPLICATION_AREAS.length} Application Areas
+            </span>
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-2">
-            {BROCHURE_OPPORTUNITIES.map((cat) => (
-              <span
-                key={cat}
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-200/80 bg-slate-50/80 px-3.5 py-2 text-xs font-semibold text-slate-700 transition-all hover:border-brand-blue/40 hover:bg-white hover:text-brand-dark hover:shadow-sm"
+          <motion.div
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{
+              once: true,
+              amount: 0.07,
+            }}
+            className="grid gap-3 p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-3"
+          >
+            {APPLICATION_AREAS.map((area, index) => (
+              <motion.div
+                key={area}
+                variants={reveal}
+                className="flex min-h-[65px] items-center gap-3 rounded-xl border border-brand-border bg-brand-light p-4 transition-colors hover:border-brand-primary/35 hover:bg-brand-primary-soft/40"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-green" />
-                {cat}
-              </span>
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-primary-soft font-heading text-[11px] font-extrabold text-brand-primary-dark">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <h3 className="font-heading text-[12px] font-bold leading-[1.55] text-brand-dark sm:text-[13px]">
+                  {area}
+                </h3>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.section>
+
+        {/* =====================================
+            05 — EXHIBITION FEATURES
+        ====================================== */}
+
+        <motion.section
+          {...scrollProps}
+          variants={reveal}
+          aria-labelledby="bangladesh-features-heading"
+          className="mt-6 rounded-2xl border border-brand-border bg-white p-5 shadow-[0_8px_30px_rgba(5,7,9,0.035)] sm:p-7"
+        >
+          <Eyebrow>
+            Official Brochure · Exhibition Features
+          </Eyebrow>
+
+          <h2
+            id="bangladesh-features-heading"
+            className="mt-3 font-heading text-[20px] font-extrabold tracking-[-0.035em] text-brand-dark sm:text-[24px]"
+          >
+            Connect Market Interest with{" "}
+            <span className="text-brand-primary-dark">
+              Industry Opportunities
+            </span>
+          </h2>
+
+          <p className="mt-3 max-w-[720px] text-[13px] leading-[1.85] text-brand-body">
+            The official brochure describes
+            professional interaction and product
+            discovery as important parts of the
+            exhibition programme.
+          </p>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {EXHIBITION_FEATURES.map((feature) => (
+              <div
+                key={feature}
+                className="flex items-start gap-3 rounded-xl border border-brand-border bg-brand-light p-4"
+              >
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-brand-primary-soft text-brand-primary-dark">
+                  <Icon
+                    name="check"
+                    className="size-4"
+                  />
+                </span>
+
+                <p className="text-[12px] font-semibold leading-[1.75] text-brand-dark sm:text-[13px]">
+                  {feature}
+                </p>
+              </div>
             ))}
           </div>
+        </motion.section>
 
-          {/* Market Sources Strip */}
-          <div className="mt-8 pt-5 border-t border-slate-100">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-              Verified Economic Reference Sources
-            </span>
-            <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500">
-              {marketSources.map((src) => (
-                <span key={src.name} className="inline-flex items-center gap-1.5">
-                  <span className="h-1 w-1 rounded-full bg-slate-300" />
-                  {src.url ? (
+        {/* =====================================
+            06 — SOURCE REFERENCES
+        ====================================== */}
+
+        {marketSources.length > 0 && (
+          <motion.section
+            {...scrollProps}
+            variants={reveal}
+            aria-labelledby="market-sources-heading"
+            className="mt-6 rounded-2xl border border-brand-border bg-white p-5 sm:p-7"
+          >
+            <div className="flex items-start gap-3">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-primary-soft text-brand-primary-dark">
+                <Icon name="chart" />
+              </span>
+
+              <div>
+                <h2
+                  id="market-sources-heading"
+                  className="font-heading text-[17px] font-extrabold leading-[1.4] text-brand-dark sm:text-[19px]"
+                >
+                  Market Information Sources
+                </h2>
+
+                <p className="mt-2 text-[12px] leading-[1.8] text-brand-body">
+                  Source references maintained
+                  for the market facts displayed
+                  on this page.
+                </p>
+              </div>
+            </div>
+
+            <ul className="mt-5 flex flex-wrap gap-3">
+              {marketSources.map((source) => (
+                <li key={source.name}>
+                  {source.url ? (
                     <a
-                      href={src.url}
+                      href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-medium hover:text-brand-blue hover:underline"
+                      className="group inline-flex min-h-10 items-center gap-2 rounded-lg border border-brand-border bg-brand-light px-3.5 py-2 text-[12px] font-semibold text-brand-body transition-colors hover:border-brand-primary/35 hover:text-brand-primary-dark"
                     >
-                      {src.name}
+                      {source.name}
+
+                      <span className="transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none">
+                        <Icon
+                          name="external"
+                          className="size-4"
+                        />
+                      </span>
                     </a>
                   ) : (
-                    <span className="font-medium text-slate-600">{src.name}</span>
+                    <span className="inline-flex min-h-10 items-center rounded-lg border border-brand-border bg-brand-light px-3.5 py-2 text-[12px] font-semibold text-brand-body">
+                      {source.name}
+                    </span>
                   )}
-                </span>
+                </li>
               ))}
+            </ul>
+
+            <p className="mt-4 text-[11px] leading-[1.8] text-brand-muted">
+              Check publication dates, measurement
+              definitions and source coverage
+              when comparing market statistics.
+              The exhibition brochure and
+              external market publications may
+              describe different reporting periods.
+            </p>
+          </motion.section>
+        )}
+
+        {/* =====================================
+            07 — FINAL CTA
+        ====================================== */}
+
+        <motion.section
+          {...scrollProps}
+          variants={reveal}
+          aria-labelledby="market-cta-heading"
+          className="relative mt-12 overflow-hidden rounded-2xl border border-brand-dark bg-brand-dark p-6 text-white shadow-[0_18px_45px_rgba(5,7,9,0.12)] sm:mt-16 sm:p-8"
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:56px_56px]"
+          />
+
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-16 -top-20 size-64 rounded-full bg-brand-primary/15 blur-[85px]"
+          />
+
+          <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-[680px]">
+              <div className="flex flex-wrap gap-x-4 gap-y-2 text-[11px] font-semibold text-white/70">
+                <span className="inline-flex items-center gap-2">
+                  <Icon
+                    name="calendar"
+                    className="size-4 text-red-300"
+                  />
+
+                  {event.dates.display}
+                </span>
+
+                <span className="inline-flex items-center gap-2">
+                  <Icon
+                    name="location"
+                    className="size-4 text-red-300"
+                  />
+
+                  {event.venue.name},{" "}
+                  {event.venue.city}
+                </span>
+              </div>
+
+              <h2
+                id="market-cta-heading"
+                className="mt-4 font-heading text-[clamp(1.5rem,2.6vw,2rem)] font-extrabold leading-[1.25] tracking-[-0.04em] text-white"
+              >
+                Explore Bangladesh&apos;s{" "}
+                <span className="text-red-300">
+                  Construction Industry
+                </span>
+              </h2>
+
+              <p className="mt-3 max-w-[620px] text-[13px] leading-[1.85] text-white/75">
+                Meet the construction sector
+                through Bangladesh Buildcon
+                International Expo 2026.
+                Enquire about exhibiting or
+                review the visitor registration
+                information.
+              </p>
+            </div>
+
+            <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row lg:flex-col xl:flex-row">
+              <Link
+                href={event.cta.bookStand}
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-primary px-6 py-3 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Enquire for Stand Space
+
+                <span className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                  <Icon
+                    name="arrow"
+                    className="size-4"
+                  />
+                </span>
+              </Link>
+
+              <Link
+                href={event.cta.registerVisit}
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-6 py-3 font-heading text-[12px] font-bold text-white transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Register to Visit
+
+                <span className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                  <Icon
+                    name="arrow"
+                    className="size-4"
+                  />
+                </span>
+              </Link>
             </div>
           </div>
-        </div>
 
-      {/* ========================================================= */}
-{/* High-Impact Expo Conversion Card (Replaces Weak Ribbon)    */}
-{/* ========================================================= */}
-<motion.div
-  initial={{ opacity: 0, y: 24 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.6 }}
-  className="relative mt-12 sm:mt-16 overflow-hidden rounded-3xl bg-[#201820] p-8 sm:p-12 text-white shadow-2xl shadow-black/25"
->
-  {/* Ambient Mesh Glows */}
-  <div className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 rounded-full bg-brand-blue/20 blur-[90px]" />
-  <div className="pointer-events-none absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-brand-green/20 blur-[90px]" />
-
-  {/* Subtle Blueprint Wireframe Grid Background */}
-  <div
-    aria-hidden="true"
-    className="pointer-events-none absolute inset-0 opacity-[0.05] [mask-image:radial-gradient(ellipse_at_center,#fff_30%,transparent_80%)]"
-    style={{
-      backgroundImage:
-        "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
-      backgroundSize: "32px 32px",
-    }}
-  />
-
-  <div className="relative z-10 flex flex-col items-center justify-between gap-8 lg:flex-row text-center lg:text-left">
-    {/* Left Column: Heading + Event Meta Pill */}
-    <div className="max-w-2xl">
-      {/* Event Date & Location Micro-Pill */}
-      <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1 text-xs font-medium text-slate-300 backdrop-blur-md">
-        <span className="flex h-2 w-2 rounded-full bg-brand-green animate-pulse" />
-        <span className="text-white font-semibold">{event.dates.display}</span>
-        <span className="text-white/30">•</span>
-        <span>{event.venue.name}, {event.venue.city}</span>
-      </div>
-
-      <h3 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight text-white">
-        Position Your Brand in{" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-purple to-brand-green">
-          South Asia&apos;s Fastest-Growing
-        </span>{" "}
-        Construction Hub
-      </h3>
-
-      <p className="mt-3 text-xs sm:text-sm text-slate-300/90 leading-relaxed max-w-xl">
-        Connect face-to-face with key contractors, government specifiers, importers, and regional distributors ready for direct supply agreements.
-      </p>
-    </div>
-
-    {/* Right Column: High-Conversion Dual CTAs */}
-    <div className="flex flex-col sm:flex-row items-center gap-3.5 shrink-0 w-full sm:w-auto">
-      <Link
-        href={event.cta.bookStand}
-        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-brand-blue px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-[0_0_24px_rgba(200,32,40,0.4)] transition-all duration-300 hover:bg-brand-blue-dark hover:shadow-[0_0_32px_rgba(200,32,40,0.55)] hover:-translate-y-0.5 active:translate-y-0"
-      >
-        <span>Book Your Stand</span>
-        <span>→</span>
-      </Link>
-
-      <Link
-        href={event.cta.registerVisit}
-        className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/[0.08] px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white backdrop-blur-md transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:-translate-y-0.5 active:translate-y-0"
-      >
-        Register to Visit
-      </Link>
-    </div>
-  </div>
-</motion.div>
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 h-[3px] bg-brand-primary"
+          />
+        </motion.section>
       </Container>
     </div>
   );

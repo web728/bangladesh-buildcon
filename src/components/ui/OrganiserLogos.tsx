@@ -1,4 +1,6 @@
+
 import Image from "next/image";
+
 import { event } from "@/config/event";
 import { clsx } from "@/lib/utils/clsx";
 
@@ -10,8 +12,10 @@ interface OrganiserLogosProps {
 }
 
 const ORGANISER_WEBSITES: Record<string, string> = {
-  "Futurex Trade Fair & Events Pvt. Ltd.": "https://www.futurextrade.com/",
-  "ASK Trade & Exhibitions Pvt. Ltd.": "https://www.asktradex.com/",
+  "Futurex Trade Fair & Events Pvt. Ltd.":
+    "https://www.futurextrade.com/",
+  "ASK Trade & Exhibitions Pvt. Ltd.":
+    "https://www.asktradex.com/",
 };
 
 export function OrganiserLogos({
@@ -23,49 +27,73 @@ export function OrganiserLogos({
   return (
     <div
       className={clsx(
-        "flex w-full max-w-sm items-center justify-center gap-3 sm:gap-6 lg:max-w-none",
+        "mx-auto grid w-full min-w-0 max-w-[600px]",
+        "grid-flow-col auto-cols-fr items-center",
+        "gap-3 sm:gap-6",
         className
       )}
     >
       {event.organisers.map((org, index) => {
-        const websiteUrl =
-          ORGANISER_WEBSITES[org.name] ||
-          (index === 0 ? "https://www.futurextrade.com/" : "https://www.asktradex.com/");
+        const websiteUrl = ORGANISER_WEBSITES[org.name];
 
-        return (
-          <div key={org.name} className="contents sm:flex sm:items-center sm:gap-6">
-            {/* Logo Link Container */}
-            <a
-              href={websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={`Visit ${org.name}`}
-              className={clsx(
-                "relative flex h-14 flex-1 items-center justify-center px-1 transition-all duration-300 hover:opacity-90 active:scale-95 sm:h-16 sm:w-44 sm:flex-none lg:h-20 lg:w-52",
-                boxClassName,
-                onDark &&
-                  "rounded-xl border border-white/10 bg-white/90 p-2.5 shadow-sm backdrop-blur-md hover:bg-white"
-              )}
-            >
+        const logo = (
+          <div
+            className={clsx(
+              "group relative flex h-[78px] w-full min-w-0",
+              "items-center justify-center rounded-lg",
+              "px-3 py-2 sm:h-[96px] sm:px-5",
+              "transition-colors duration-300",
+              onDark
+                ? "bg-white"
+                : "bg-white hover:bg-brand-primary-soft/20",
+              boxClassName
+            )}
+          >
+            <div className="relative h-[52px] w-full max-w-[210px] sm:h-[66px]">
               <Image
                 src={org.logo}
                 alt={org.name}
                 fill
-                sizes="(max-width: 640px) 40vw, 210px"
-                className="object-contain"
-                priority
+                sizes="(max-width: 640px) 42vw, 210px"
+                className="
+                  object-contain object-center
+                  transition-transform duration-300
+                  group-hover:scale-[1.025]
+                  motion-reduce:transform-none
+                "
               />
-            </a>
+            </div>
+          </div>
+        );
 
-            {/* Vertical Divider (Side-by-side balanced) */}
-            {showDivider && index < event.organisers.length - 1 && (
-              <span
-                aria-hidden="true"
-                className={clsx(
-                  "h-8 w-[1px] shrink-0",
-                  onDark ? "bg-white/20" : "bg-slate-200"
-                )}
-              />
+        return (
+          <div
+            key={org.name}
+            className={clsx(
+              "relative min-w-0",
+              showDivider &&
+                index > 0 &&
+                "before:absolute before:-left-1.5 before:top-1/2 before:h-10 before:w-px before:-translate-y-1/2 sm:before:-left-3 sm:before:h-12",
+              showDivider &&
+                index > 0 &&
+                (onDark
+                  ? "before:bg-white/20"
+                  : "before:bg-brand-border")
+            )}
+          >
+            {websiteUrl ? (
+              <a
+                href={websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`Visit ${org.name}`}
+                aria-label={`Visit ${org.name} website`}
+                className="block w-full min-w-0 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+              >
+                {logo}
+              </a>
+            ) : (
+              logo
             )}
           </div>
         );

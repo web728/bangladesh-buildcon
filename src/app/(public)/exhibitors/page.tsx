@@ -1,105 +1,300 @@
+
 import type { Metadata } from "next";
+
+import { event } from "@/config/event";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ExhibitorDirectory } from "@/components/sections/ExhibitorDirectory";
-import { getPublishedExhibitors } from "@/lib/data/exhibitors";
 import { ExhibitorDirectoryWrapper } from "@/components/exhibit/ExhibitorDirectoryWrapper";
+import { getPublishedExhibitors } from "@/lib/data/exhibitors";
 
 export const dynamic = "force-dynamic";
 
+const PAGE_TITLE =
+  "Exhibitor Directory | Bangladesh Buildcon International Expo 2026";
+
+const PAGE_DESCRIPTION =
+  `Explore published exhibitors at ${event.name}, ` +
+  `${event.dates.display}, ICCB Exhibition Hall, Dhaka. ` +
+  `Discover companies across construction machinery, building ` +
+  `materials, electrical engineering, interior and exterior ` +
+  `solutions, and safety technologies.`;
+
 export const metadata: Metadata = {
-  title: "Exhibitor Directory | Bangladesh Buildcon 2026",
-  description:
-    "Explore participating manufacturers, heavy machinery producers, and building material suppliers exhibiting at Bangladesh Buildcon International Expo 2026.",
-  alternates: { canonical: "/exhibitors" },
+  title: { absolute: PAGE_TITLE },
+  description: PAGE_DESCRIPTION,
+
+  alternates: {
+    canonical: "/exhibitors",
+  },
+
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: "/exhibitors",
+    siteName: event.name,
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/images/sectors/construction-crane-bangladesh.jpg",
+        alt: "Bangladesh Buildcon 2026 exhibition directory",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [
+      "/images/sectors/construction-crane-bangladesh.jpg",
+    ],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
-// 15 Sectors from Brochure Page 02 ("What's on Display?")
-const BROCHURE_SECTORS = [
-  "Building Materials",
-  "Construction Machinery & Equipment",
-  "Doors, Windows, Glass & Aluminium",
-  "Tiles, Marble, Stone & Surfaces",
-  "Interiors & Finishing Materials",
-  "Electrical, Power & Lighting",
-  "Water, Plumbing & Pumps",
-  "Sanitaryware & Bathroom",
-  "Steel, Metal & Structural Products",
-  "Hardware, Tools & Fasteners",
-  "HVAC & Building Services",
-  "Solar, Energy & Power Solutions",
-  "Paints, Coatings & Chemicals",
-  "Prefab & Pre-Engineered Buildings",
-  "Fire, Safety & Security",
-];
+/*
+  Original category headings from brochure page 3.
+  These are exhibition scope categories,
+  NOT a list of confirmed 2026 exhibitors.
+*/
+const BROCHURE_CATEGORIES = [
+  {
+    title: "Construction Machinery and Equipment",
+    examples:
+      "Construction equipment, cranes, loaders, trucks, building tools, welding equipment, power tools and HVAC.",
+  },
+  {
+    title: "Construction Materials",
+    examples:
+      "Prefabricated structures, roofing, insulation, waterproofing, wall materials and finishing materials.",
+  },
+  {
+    title: "Construction",
+    examples:
+      "Urban development, architecture, restoration, roads, construction automation and resource-saving technologies.",
+  },
+  {
+    title: "Country Housing Landscaping",
+    examples:
+      "Wooden houses, log buildings, wooden-frame houses, garden houses and landscape design.",
+  },
+  {
+    title: "Electricity and Electrical Engineering in Construction",
+    examples:
+      "Distribution systems, transformer stations, high- and low-voltage equipment, automation and energy-saving systems.",
+  },
+  {
+    title: "Interior & Exterior",
+    examples:
+      "Interior and exterior design, roofing, furniture, glass, paints, doors and related services.",
+  },
+  {
+    title: "Safety & Security",
+    examples:
+      "Electrical safety, emergency alarms, emergency signage, rescue equipment, security systems and sensors.",
+  },
+] as const;
 
 export default async function ExhibitorsPage() {
   const exhibitors = await getPublishedExhibitors();
 
+  // Only publish structured data for actual public
+  // exhibitor records when a valid site URL exists.
+  let directoryUrl: string | null = null;
+
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    try {
+      directoryUrl = new URL(
+        "/exhibitors",
+        process.env.NEXT_PUBLIC_SITE_URL
+      ).toString();
+    } catch {
+      directoryUrl = null;
+    }
+  }
+
+  const structuredData =
+    directoryUrl && exhibitors.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: PAGE_TITLE,
+          description: PAGE_DESCRIPTION,
+          url: directoryUrl,
+          mainEntity: {
+            "@type": "ItemList",
+            name: "Published Bangladesh Buildcon Exhibitors",
+            numberOfItems: exhibitors.length,
+            itemListElement: exhibitors.map(
+              (exhibitor, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: exhibitor.companyName,
+                url: new URL(
+                  `/exhibitors/${encodeURIComponent(
+                    exhibitor.slug
+                  )}`,
+                  directoryUrl
+                ).toString(),
+              })
+            ),
+          },
+        }
+      : null;
+
   return (
-    <main className="min-h-screen bg-[#fafbfd] selection:bg-brand-blue selection:text-white">
+    <main className="min-h-screen bg-brand-light selection:bg-brand-primary selection:text-white">
+      {structuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              structuredData
+            ).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
+
       <PageHero
-        title="Participating Exhibitors & Brands"
-        intro="Browse confirmed international manufacturers, local suppliers, and technology innovators showcasing building and construction solutions at ICCB Exhibition Hall, Dhaka."
+        title="Meet the"
+        highlightTitle="Exhibitors & Brands"
+        badgeText="10th Bangladesh Buildcon · 2026"
+        intro={`Explore published exhibitor profiles for ${event.dates.display} at ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: "/images/sectors/construction-crane-bangladesh.jpg",
-          alt: "Bangladesh Buildcon Exhibition Floor",
+          alt: "Construction machinery representing the Bangladesh Buildcon exhibitor profile",
         }}
       />
 
-      <section className="relative overflow-hidden py-14 sm:py-20 border-b border-slate-200/80">
-        {/* Background Architectural Vector Pattern */}
-        <div className="pointer-events-none absolute inset-0 -z-10 select-none opacity-[0.035]">
-          <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="dir-page-grid" width="36" height="36" patternUnits="userSpaceOnUse">
-                <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#201820" strokeWidth="0.8" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dir-page-grid)" />
-          </svg>
-        </div>
+      <section
+        aria-labelledby="directory-heading"
+        className="relative overflow-hidden bg-brand-light py-10 sm:py-14 lg:py-16"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.45] bg-[linear-gradient(to_right,rgba(5,7,9,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(5,7,9,0.025)_1px,transparent_1px)] bg-[size:64px_64px]"
+        />
 
-        <Container className="relative z-10 w-full">
-          {exhibitors.length === 0 ? (
-            <div className="flex flex-col gap-10">
-              <EmptyState
-                title="Exhibitor Allocations Underway"
-                body="Official directory listings and booth allocations are currently being verified and will be published live as participation agreements are finalized."
-              />
+        <Container className="relative z-10">
+          <header className="mb-7 flex flex-col gap-4 border-b border-black/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-2.5">
+                <span className="h-[2px] w-7 bg-brand-primary" />
 
-              {/* Brochure What's on Display Snapshot */}
-              <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pb-5 border-b border-slate-100">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-blue">
-                      Official Exhibition Scope
-                    </span>
-                    <h3 className="mt-1 text-base sm:text-lg font-bold tracking-tight text-brand-dark">
-                      What&apos;s on Display?
-                    </h3>
-                  </div>
-                  <span className="text-xs text-slate-400">Specialized Sectors</span>
-                </div>
-
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {BROCHURE_SECTORS.map((sector) => (
-                    <span
-                      key={sector}
-                      className="inline-flex items-center gap-2 rounded-xl border border-slate-200/80 bg-slate-50/80 px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:border-brand-blue/40 hover:bg-white hover:text-brand-dark"
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full bg-brand-green" />
-                      {sector}
-                    </span>
-                  ))}
-                </div>
+                <p className="font-heading text-[10px] font-extrabold uppercase tracking-[0.16em] text-brand-primary-dark">
+                  Official Exhibition Directory
+                </p>
               </div>
+
+              <h2
+                id="directory-heading"
+                className="mt-3 font-heading text-[clamp(1.5rem,2.7vw,2.15rem)] font-extrabold leading-tight tracking-[-0.04em] text-brand-dark"
+              >
+                Discover Participating{" "}
+                <span className="text-brand-primary-dark">
+                  Companies
+                </span>
+              </h2>
+
+              <p className="mt-3 text-[13px] leading-[1.85] text-[#404650] sm:text-sm">
+                Browse the published company directory
+                to explore participating manufacturers,
+                suppliers and construction-industry brands.
+              </p>
             </div>
-          ) : (
+
+            <span className="inline-flex w-fit rounded-lg border border-brand-primary/15 bg-brand-primary/[0.06] px-3 py-2 font-heading text-[11px] font-bold text-brand-primary-dark">
+              {exhibitors.length} Published{" "}
+              {exhibitors.length === 1
+                ? "Exhibitor"
+                : "Exhibitors"}
+            </span>
+          </header>
+
+          {exhibitors.length > 0 ? (
             <ExhibitorDirectoryWrapper>
-              <ExhibitorDirectory exhibitors={exhibitors} />
+              <ExhibitorDirectory
+                exhibitors={exhibitors}
+              />
             </ExhibitorDirectoryWrapper>
+          ) : (
+            <div className="space-y-8">
+              <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-[0_8px_28px_rgba(5,7,9,0.035)] sm:p-7">
+                <EmptyState
+                  title="Exhibitor Directory Coming Soon"
+                  body="No exhibitor profiles are published yet. Company listings will appear here as they become available."
+                />
+              </div>
+
+              <section
+                aria-labelledby="exhibition-scope-heading"
+                className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_8px_28px_rgba(5,7,9,0.035)]"
+              >
+                <div className="border-b border-black/10 p-5 sm:p-7">
+                  <p className="font-heading text-[10px] font-bold uppercase tracking-[0.16em] text-brand-primary-dark">
+                    From the Official 2026 Brochure
+                  </p>
+
+                  <h3
+                    id="exhibition-scope-heading"
+                    className="mt-2 font-heading text-xl font-extrabold tracking-tight text-brand-dark sm:text-2xl"
+                  >
+                    Exhibitor{" "}
+                    <span className="text-brand-primary-dark">
+                      Profile
+                    </span>
+                  </h3>
+
+                  <p className="mt-2 text-[13px] leading-[1.8] text-[#404650]">
+                    The brochure outlines these seven
+                    broad product and industry groups.
+                    These categories describe the event
+                    scope, not confirmed companies.
+                  </p>
+                </div>
+
+                <div className="grid gap-3 p-5 sm:grid-cols-2 sm:p-7">
+                  {BROCHURE_CATEGORIES.map(
+                    (category, index) => (
+                      <article
+                        key={category.title}
+                        className="flex gap-3 rounded-xl border border-black/10 bg-brand-light p-4"
+                      >
+                        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-brand-primary/[0.08] font-heading text-[11px] font-extrabold text-brand-primary-dark">
+                          {String(index + 1).padStart(
+                            2,
+                            "0"
+                          )}
+                        </span>
+
+                        <div>
+                          <h4 className="font-heading text-[13px] font-extrabold leading-[1.5] text-brand-dark">
+                            {category.title}
+                          </h4>
+
+                          <p className="mt-1 text-[12px] leading-[1.8] text-[#404650]">
+                            {category.examples}
+                          </p>
+                        </div>
+                      </article>
+                    )
+                  )}
+                </div>
+              </section>
+            </div>
           )}
         </Container>
       </section>

@@ -1,13 +1,15 @@
+
 "use client";
 
-import { useRef, type PointerEvent } from "react";
 import Link from "next/link";
-
+import {
+  useRef,
+  type PointerEvent,
+} from "react";
 import {
   motion,
-  useInView,
-  useMotionValue,
   useReducedMotion,
+  useMotionValue,
   useSpring,
   useTransform,
   type Variants,
@@ -16,40 +18,40 @@ import {
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
 
+/* ==========================================
+   MOTION CONFIG
+========================================== */
+
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/* --------------------------------------------------
-   SCROLL ANIMATION VARIANTS
--------------------------------------------------- */
-
-const staggerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.13,
-      delayChildren: 0.06,
-    },
-  },
-};
-
-const revealVariants: Variants = {
+const reveal: Variants = {
   hidden: {
     opacity: 0,
-    y: 24,
+    y: 18,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.75,
+      duration: 0.65,
       ease: EASE,
     },
   },
 };
 
-/* --------------------------------------------------
-   ICONS
--------------------------------------------------- */
+const stagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.11,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+/* ==========================================
+   SVG ICONS
+========================================== */
 
 function ArrowIcon({
   diagonal = false,
@@ -76,131 +78,134 @@ function ArrowIcon({
   );
 }
 
-function NetworkingIcon() {
+function NetworkIcon() {
   return (
     <svg
-      viewBox="0 0 48 48"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.65"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="size-7"
+      className="size-5"
       aria-hidden="true"
     >
-      <circle cx="24" cy="13" r="5" />
-      <circle cx="10" cy="32" r="4" />
-      <circle cx="38" cy="32" r="4" />
-      <path d="M20 17L12 28M28 17L36 28M14 32H34" />
-      <path d="M16 43H4v-3a6 6 0 0 1 12 0v3Z" />
-      <path d="M44 43H32v-3a6 6 0 0 1 12 0v3Z" />
-      <path d="M16 26a8 8 0 0 1 16 0" />
+      <circle cx="12" cy="4.5" r="2" />
+      <circle cx="5" cy="18" r="2" />
+      <circle cx="19" cy="18" r="2" />
+      <path d="m11 6.5-5 9.5m7-9.5 5 9.5M7 18h10" />
     </svg>
   );
 }
 
-function GrowthIcon() {
+function InnovationIcon() {
   return (
     <svg
-      viewBox="0 0 48 48"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.65"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="size-7"
+      className="size-5"
       aria-hidden="true"
     >
-      <path d="M7 39V9M7 39h35" />
-      <path d="m13 31 10-10 7 6 12-15" />
-      <path d="M32 12h10v10" />
+      <path d="M9 18h6m-5 4h4" />
+      <path d="M8 14a7 7 0 1 1 8 0c-1 .9-1.5 1.7-1.5 4h-5C9.5 15.7 9 14.9 8 14Z" />
+      <path d="M12 6v4m-2 0h4" />
     </svg>
   );
 }
 
-/* --------------------------------------------------
-   PREMIUM 3D QUOTE CARD
--------------------------------------------------- */
+function QuoteIcon() {
+  return (
+    <svg
+      viewBox="0 0 40 32"
+      fill="currentColor"
+      className="h-7 w-9 text-brand-primary sm:h-8 sm:w-10"
+      aria-hidden="true"
+    >
+      <path d="M0 32V16C0 6 6 0 17 0v7C11 7 8 10 8 16h9v16H0Zm22 0V16C22 6 28 0 39 0v7c-6 0-9 3-9 9h9v16H22Z" />
+    </svg>
+  );
+}
+
+/* ==========================================
+   PREMIUM INTERACTIVE QUOTE CARD
+
+   Refined from original design:
+   - very subtle 3D tilt
+   - no infinite rotation
+   - no magenta glow
+   - reduced-motion support
+========================================== */
 
 function QuoteCard({
   reducedMotion,
 }: {
   reducedMotion: boolean;
 }) {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  const smoothX = useSpring(mouseX, {
-    stiffness: 170,
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+
+  const springConfig = {
+    stiffness: 110,
     damping: 24,
     mass: 0.7,
-  });
+  };
 
-  const smoothY = useSpring(mouseY, {
-    stiffness: 170,
-    damping: 24,
-    mass: 0.7,
-  });
+  const smoothX = useSpring(pointerX, springConfig);
+  const smoothY = useSpring(pointerY, springConfig);
 
   const rotateX = useTransform(
     smoothY,
     [-0.5, 0.5],
-    [5, -5]
+    [2.5, -2.5]
   );
 
   const rotateY = useTransform(
     smoothX,
     [-0.5, 0.5],
-    [-6, 6]
-  );
-
-  const glowX = useTransform(
-    smoothX,
-    [-0.5, 0.5],
-    [15, 85]
-  );
-
-  const glowY = useTransform(
-    smoothY,
-    [-0.5, 0.5],
-    [15, 85]
-  );
-
-  const glowBackground = useTransform(
-    [glowX, glowY],
-    (values) => {
-      const [x, y] = values as number[];
-
-      return `radial-gradient(circle at ${x}% ${y}%, rgba(186,29,130,0.26), transparent 55%)`;
-    }
+    [-3, 3]
   );
 
   function handlePointerMove(
-    e: PointerEvent<HTMLDivElement>
+    event: PointerEvent<HTMLDivElement>
   ) {
-    if (reducedMotion || e.pointerType !== "mouse") {
+    if (
+      reducedMotion ||
+      event.pointerType !== "mouse"
+    ) {
       return;
     }
 
-    const rect = e.currentTarget.getBoundingClientRect();
+    const rect =
+      event.currentTarget.getBoundingClientRect();
 
     const x =
-      (e.clientX - rect.left) / rect.width - 0.5;
+      (event.clientX - rect.left) /
+        rect.width -
+      0.5;
 
     const y =
-      (e.clientY - rect.top) / rect.height - 0.5;
+      (event.clientY - rect.top) /
+        rect.height -
+      0.5;
 
-    mouseX.set(x);
-    mouseY.set(y);
+    pointerX.set(x);
+    pointerY.set(y);
   }
 
   function handlePointerLeave() {
-    mouseX.set(0);
-    mouseY.set(0);
+    pointerX.set(0);
+    pointerY.set(0);
   }
 
   return (
     <div
+      ref={cardRef}
       className="h-full"
       style={{ perspective: "1100px" }}
     >
@@ -212,498 +217,332 @@ function QuoteCard({
           rotateY: reducedMotion ? 0 : rotateY,
           transformStyle: "preserve-3d",
         }}
-        whileHover={
-          reducedMotion
-            ? undefined
-            : {
-                scale: 1.015,
-                boxShadow:
-                  "0 28px 65px rgba(5,7,9,0.22)",
-              }
-        }
-        transition={{
-          duration: 0.3,
-          ease: EASE,
-        }}
-        className="group relative flex h-full min-h-[310px] flex-col justify-between rounded-2xl bg-brand-dark p-7 text-white shadow-[0_12px_35px_rgba(5,7,9,0.12)] sm:p-9 lg:p-10"
+        className="group relative flex h-full min-h-[300px] flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-brand-dark p-6 text-white shadow-[0_16px_45px_rgba(5,7,9,0.15)] sm:min-h-[330px] sm:p-8 lg:p-9"
       >
-        {/* Clipped glow and rings */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
-          <motion.div
-            aria-hidden="true"
-            style={{ background: glowBackground }}
-            className="absolute inset-0 opacity-40 transition-opacity duration-500 group-hover:opacity-100"
-          />
-
-          <div
-            aria-hidden="true"
-            className="absolute -bottom-28 -right-24"
-          >
-            <motion.div
-              className="relative size-72 rounded-full border border-brand-primary/25"
-              animate={
-                reducedMotion
-                  ? undefined
-                  : { rotate: 360 }
-              }
-              transition={{
-                duration: 35,
-                ease: "linear",
-                repeat: Infinity,
-              }}
-            >
-              <div className="absolute inset-8 rounded-full border border-white/10" />
-              <div className="absolute inset-16 rounded-full border border-brand-primary/25" />
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Text layer */}
-        <div
-          className="relative z-10"
-          style={{
-            transform: reducedMotion
-              ? undefined
-              : "translateZ(30px)",
-          }}
-        >
-          <motion.div
-            aria-hidden="true"
-            className="mb-7 h-[3px] w-14 origin-left bg-brand-primary"
-            initial={
-              reducedMotion
-                ? false
-                : { scaleX: 0 }
-            }
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.9,
-              ease: EASE,
-            }}
-          />
-
-          <svg
-            viewBox="0 0 36 28"
-            fill="currentColor"
-            className="mb-5 h-8 w-10 text-brand-primary"
-            aria-hidden="true"
-          >
-            <path d="M0 28V14C0 5 6 0 15 0v6c-5 0-7 3-7 8h7v14H0Zm20 0V14C20 5 26 0 35 0v6c-5 0-7 3-7 8h7v14H20Z" />
-          </svg>
-
-          <motion.p
-            initial={
-              reducedMotion
-                ? false
-                : { opacity: 0, y: 20 }
-            }
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.3,
-            }}
-            transition={{
-              duration: 0.85,
-              delay: 0.2,
-              ease: EASE,
-            }}
-            className="max-w-md font-heading text-[clamp(1.15rem,2vw,1.55rem)] font-semibold leading-[1.55] tracking-[-0.025em] text-white"
-          >
-            Connecting manufacturers and suppliers
-            with professional buyers, contractors,
-            and project leaders across Bangladesh.
-          </motion.p>
-        </div>
-
-        {/* Location */}
-        <motion.p
-          initial={
-            reducedMotion
-              ? false
-              : { opacity: 0, y: 10 }
-          }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.65,
-            delay: 0.35,
-            ease: EASE,
-          }}
-          className="relative z-10 mt-9 border-t border-white/15 pt-5 text-xs font-semibold tracking-wide text-white/60"
-          style={{
-            transform: reducedMotion
-              ? undefined
-              : "translateZ(20px)",
-          }}
-        >
-          {event.venue.city}, {event.venue.country}
-        </motion.p>
-
-        {/* Bottom hover accent */}
+        {/* Subtle technical grid */}
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 rounded-b-2xl bg-brand-primary transition-transform duration-500 group-hover:scale-x-100"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:42px_42px]"
+        />
+
+        {/* Architectural line illustration */}
+        <svg
+          viewBox="0 0 480 380"
+          fill="none"
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-12 -bottom-8 h-[85%] w-[85%] opacity-50"
+        >
+          <path
+            d="M145 350V110L250 45l105 65v240"
+            stroke="#FFFFFF"
+            strokeOpacity="0.10"
+            strokeWidth="1.3"
+          />
+
+          <path
+            d="M180 350V130l70-43 70 43v220"
+            stroke="#ED1C24"
+            strokeOpacity="0.32"
+            strokeWidth="1.3"
+          />
+
+          <path
+            d="M145 170h210M145 230h210M145 290h210"
+            stroke="#FFFFFF"
+            strokeOpacity="0.09"
+          />
+
+          <path
+            d="M250 45v305M145 110l210 240M355 110 145 350"
+            stroke="#ED1C24"
+            strokeOpacity="0.14"
+            strokeDasharray="5 8"
+          />
+
+          <circle
+            cx="250"
+            cy="190"
+            r="125"
+            stroke="#ED1C24"
+            strokeOpacity="0.15"
+            strokeDasharray="7 10"
+          />
+        </svg>
+
+        {/* Top content */}
+        <div className="relative z-10">
+          <div className="mb-7 flex items-center justify-between gap-3">
+            <span className="h-[3px] w-12 bg-brand-primary" />
+
+            <span className="font-heading text-[10px] font-bold uppercase tracking-[0.15em] text-white/45">
+              Bangladesh Buildcon 2026
+            </span>
+          </div>
+
+          <QuoteIcon />
+
+          <p className="mt-5 max-w-[400px] font-heading text-[clamp(1.25rem,2.1vw,1.8rem)] font-semibold leading-[1.46] tracking-[-0.035em] text-white">
+            Connecting construction{" "}
+            <span className="text-red-300">
+              products, technology
+            </span>{" "}
+            and people in one industry-focused
+            exhibition.
+          </p>
+        </div>
+
+        {/* Bottom information */}
+        <div className="relative z-10 mt-8 flex flex-wrap items-end justify-between gap-4 border-t border-white/15 pt-5">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/45">
+              Exhibition Venue
+            </p>
+
+            <p className="mt-1.5 font-heading text-[12px] font-bold text-white/90 sm:text-[13px]">
+              {event.venue.name}
+            </p>
+
+            <p className="mt-1 text-[11px] text-white/55">
+              {event.venue.city}, Bangladesh
+            </p>
+          </div>
+
+          <span
+            aria-hidden="true"
+            className="flex size-10 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-red-300"
+          >
+            <ArrowIcon diagonal />
+          </span>
+        </div>
+
+        {/* Refined bottom line */}
+        <span
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-[3px] bg-brand-primary"
         />
       </motion.div>
     </div>
   );
 }
 
-/* --------------------------------------------------
-   PREMIUM FEATURE CARD
--------------------------------------------------- */
+/* ==========================================
+   FEATURE CARD
+========================================== */
 
 function FeatureCard({
+  icon,
   title,
   description,
-  icon,
   reducedMotion,
 }: {
+  icon: "network" | "innovation";
   title: string;
   description: string;
-  icon: "network" | "growth";
   reducedMotion: boolean;
 }) {
   return (
     <motion.div
-      initial="rest"
       whileHover={
-        reducedMotion ? undefined : "hover"
+        reducedMotion
+          ? undefined
+          : { y: -3 }
       }
-      variants={{
-        rest: {
-          y: 0,
-          scale: 1,
-          boxShadow:
-            "0 4px 16px rgba(5,7,9,0.02)",
-        },
-        hover: {
-          y: -7,
-          scale: 1.015,
-          boxShadow:
-            "0 20px 45px rgba(5,7,9,0.10)",
-        },
-      }}
       transition={{
-        duration: 0.35,
+        duration: 0.25,
         ease: EASE,
       }}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-brand-dark/10 bg-[#FAFAFC] p-5 transition-colors duration-300 hover:border-brand-primary/35 hover:bg-white sm:p-6"
+      className="group flex min-w-0 items-start gap-3.5 rounded-xl border border-brand-border bg-brand-light p-4 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/30 hover:shadow-[0_8px_25px_rgba(5,7,9,0.045)]"
     >
-      <motion.div
-        aria-hidden="true"
-        variants={{
-          rest: { opacity: 0 },
-          hover: { opacity: 1 },
-        }}
-        transition={{ duration: 0.35 }}
-        className="pointer-events-none absolute -right-12 -top-16 size-44 rounded-full bg-brand-primary/10 blur-3xl"
-      />
+      <span className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-brand-primary/10 bg-brand-primary-soft text-brand-primary-dark transition-colors group-hover:bg-brand-primary group-hover:text-white">
+        {icon === "network" ? (
+          <NetworkIcon />
+        ) : (
+          <InnovationIcon />
+        )}
+      </span>
 
-      <div className="relative z-10 flex items-start justify-between">
-        <motion.div
-          variants={{
-            rest: {
-              rotate: 0,
-              scale: 1,
-              backgroundColor:
-                "rgba(186,29,130,0.09)",
-              color: "#BA1D82",
-            },
-            hover: {
-              rotate: -6,
-              scale: 1.08,
-              backgroundColor: "#BA1D82",
-              color: "#FFFFFF",
-            },
-          }}
-          transition={{
-            duration: 0.35,
-            ease: EASE,
-          }}
-          className="flex size-12 items-center justify-center rounded-xl"
-        >
-          {icon === "network" ? (
-            <NetworkingIcon />
-          ) : (
-            <GrowthIcon />
-          )}
-        </motion.div>
-
-        <motion.div
-          aria-hidden="true"
-          variants={{
-            rest: {
-              opacity: 0.3,
-              x: 0,
-              y: 0,
-            },
-            hover: {
-              opacity: 1,
-              x: 4,
-              y: -4,
-            },
-          }}
-          className="text-brand-primary"
-        >
-          <ArrowIcon diagonal />
-        </motion.div>
-      </div>
-
-      <div className="relative z-10 mt-5">
-        <h3 className="font-heading text-[15px] font-bold tracking-tight text-brand-dark sm:text-base">
+      <div className="min-w-0">
+        <h3 className="font-heading text-[13px] font-bold leading-[1.45] text-brand-dark">
           {title}
         </h3>
 
-        <p className="mt-2 text-[12px] leading-[1.8] text-[#69717E] sm:text-[13px]">
+        <p className="mt-1.5 text-[12px] leading-[1.7] text-brand-body">
           {description}
         </p>
       </div>
-
-      <motion.div
-        aria-hidden="true"
-        variants={{
-          rest: { scaleX: 0.15 },
-          hover: { scaleX: 1 },
-        }}
-        transition={{
-          duration: 0.5,
-          ease: EASE,
-        }}
-        className="absolute inset-x-0 bottom-0 h-[3px] origin-left bg-brand-primary"
-      />
     </motion.div>
   );
 }
 
-/* --------------------------------------------------
-   SCROLL ANIMATED HEADING
--------------------------------------------------- */
-
-function IntroHeading({
-  reducedMotion,
-}: {
-  reducedMotion: boolean;
-}) {
-  const headingRef = useRef<HTMLDivElement>(null);
-
-  const inView = useInView(headingRef, {
-    once: true,
-    amount: 0.3,
-  });
-
-  return (
-    <motion.div
-      ref={headingRef}
-      variants={staggerVariants}
-      initial={reducedMotion ? false : "hidden"}
-      animate={
-        reducedMotion || inView
-          ? "visible"
-          : "hidden"
-      }
-      className="mb-9 max-w-3xl lg:mb-12"
-    >
-      <motion.div
-        variants={revealVariants}
-        className="mb-4 flex items-center gap-3"
-      >
-        <span className="h-[2px] w-9 bg-brand-primary" />
-
-        <span className="font-heading text-[11px] font-bold uppercase tracking-[0.17em] text-brand-primary">
-          Official B2B Gateway
-        </span>
-      </motion.div>
-
-      <h2
-        id="intro-heading"
-        className="font-heading text-[clamp(1.9rem,3.2vw,2.8rem)] leading-[1.18] font-extrabold tracking-[-0.045em] text-brand-dark"
-      >
-        <motion.span
-          variants={revealVariants}
-          className="block"
-        >
-          Where South Asia&apos;s
-        </motion.span>
-
-        <motion.span
-          variants={revealVariants}
-          className="block text-brand-primary"
-        >
-          Building &amp; Construction
-        </motion.span>
-
-        <motion.span
-          variants={revealVariants}
-          className="block"
-        >
-          Industry Meets
-        </motion.span>
-      </h2>
-    </motion.div>
-  );
-}
-
-/* --------------------------------------------------
+/* ==========================================
    MAIN INTRO SECTION
--------------------------------------------------- */
+========================================== */
 
 export function IntroSection() {
   const reducedMotion = !!useReducedMotion();
 
+  const scrollProps = {
+    initial: reducedMotion ? false : "hidden",
+    whileInView: "visible" as const,
+    viewport: {
+      once: true,
+      amount: 0.1,
+    },
+  };
+
   return (
     <section
       aria-labelledby="intro-heading"
-      className="relative isolate overflow-hidden bg-white py-16 text-brand-dark sm:py-20 lg:py-24"
+      className="relative isolate overflow-hidden bg-white py-14 text-brand-dark sm:py-16 lg:py-[76px]"
     >
+      {/* Very subtle background accent */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_95%_10%,rgba(186,29,130,0.04),transparent_45%)]"
+        className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-brand-primary/[0.025] blur-[90px]"
       />
 
       <Container className="relative z-10">
-        <IntroHeading reducedMotion={reducedMotion} />
-
+        {/* Header */}
         <motion.div
-          variants={staggerVariants}
-          initial={reducedMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.12,
-          }}
-          className="grid items-stretch gap-7 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12"
+          {...scrollProps}
+          variants={stagger}
+          className="mb-8 max-w-[790px] sm:mb-9"
         >
-          {/* LEFT: PREMIUM 3D QUOTE CARD */}
-          <motion.div variants={revealVariants}>
-            <QuoteCard reducedMotion={reducedMotion} />
+          <motion.div
+            variants={reveal}
+            className="flex items-center gap-2.5"
+          >
+            <span className="h-[2px] w-8 bg-brand-primary" />
+
+            <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.17em] text-brand-primary-dark">
+              About the Exhibition
+            </span>
           </motion.div>
 
-          {/* RIGHT CONTENT */}
-          <motion.div
-            variants={revealVariants}
-            className="flex min-w-0 flex-col justify-between"
+          <motion.h2
+            id="intro-heading"
+            variants={reveal}
+            className="mt-3 font-heading text-[clamp(1.8rem,3vw,2.6rem)] font-extrabold leading-[1.18] tracking-[-0.045em] text-brand-dark"
           >
-            <div className="space-y-4">
-              <motion.p
-                initial={
-                  reducedMotion
-                    ? false
-                    : { opacity: 0, y: 18 }
-                }
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.7,
-                  ease: EASE,
-                }}
-                className="text-[14px] leading-[1.85] text-[#555D6C] sm:text-[15px]"
-              >
-                <strong className="font-bold text-brand-dark">
+            Where the{" "}
+            <span className="text-brand-primary-dark">
+              Building &amp; Construction
+            </span>{" "}
+            Industry Connects
+          </motion.h2>
+
+          <motion.p
+            variants={reveal}
+            className="mt-3 max-w-[690px] text-[13px] leading-[1.85] text-brand-body sm:text-[14px]"
+          >
+            Discover an international exhibition
+            focused on construction machinery,
+            building materials, engineering
+            technologies and industry connections.
+          </motion.p>
+        </motion.div>
+
+        {/* Main two-column layout */}
+        <motion.div
+          {...scrollProps}
+          variants={stagger}
+          className="grid items-stretch gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-9"
+        >
+          {/* LEFT — DARK EDITORIAL CARD */}
+          <motion.div variants={reveal}>
+            <QuoteCard
+              reducedMotion={reducedMotion}
+            />
+          </motion.div>
+
+          {/* RIGHT — EVENT INTRO */}
+          <motion.div
+            variants={reveal}
+            className="flex min-w-0 flex-col justify-between py-1"
+          >
+            <div>
+              <div className="flex items-center gap-2.5">
+                <span className="inline-flex rounded-md bg-brand-primary-soft px-2.5 py-1.5 font-heading text-[10px] font-extrabold uppercase tracking-[0.1em] text-brand-primary-dark">
+                  10th Edition
+                </span>
+
+                <span className="text-[11px] font-medium text-brand-muted">
+                  17–19 September 2026
+                </span>
+              </div>
+
+              <h3 className="mt-4 font-heading text-[clamp(1.25rem,2vw,1.7rem)] font-extrabold leading-[1.35] tracking-[-0.035em] text-brand-dark">
+                Discover Bangladesh&apos;s
+                Building &amp; Construction
+                Exhibition
+              </h3>
+
+              <p className="mt-3 text-[13px] leading-[1.85] text-brand-body sm:text-[14px]">
+                <strong className="font-semibold text-brand-dark">
                   {event.name}
                 </strong>{" "}
-                brings international and local suppliers
-                together with contractors, developers,
-                specifiers, and construction-industry
-                decision-makers.
-              </motion.p>
-
-              <motion.p
-                initial={
-                  reducedMotion
-                    ? false
-                    : { opacity: 0, y: 18 }
-                }
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.7,
-                  delay: 0.12,
-                  ease: EASE,
-                }}
-                className="text-[14px] leading-[1.85] text-[#555D6C] sm:text-[15px]"
-              >
-                Scheduled from{" "}
-                <span className="font-semibold text-brand-dark">
+                is scheduled for{" "}
+                <strong className="font-semibold text-brand-dark">
                   {event.dates.display}
-                </span>{" "}
+                </strong>{" "}
                 at{" "}
-                <span className="font-semibold text-brand-dark">
+                <strong className="font-semibold text-brand-dark">
                   {event.venue.fullLocation}
-                </span>
-                , the expo supports product discovery,
-                supplier meetings, and direct business
-                conversations.
-              </motion.p>
+                </strong>
+                .
+              </p>
+
+              <p className="mt-3 text-[13px] leading-[1.85] text-brand-body sm:text-[14px]">
+                The exhibition brings together
+                construction product manufacturers,
+                suppliers, distributors and industry
+                professionals, with a focus on
+                product discovery and business
+                interaction.
+              </p>
+
+              {/* Supporting features */}
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <FeatureCard
+                  icon="network"
+                  title="Industry Networking"
+                  description="International exhibitors, country pavilions and B2B matchmaking."
+                  reducedMotion={reducedMotion}
+                />
+
+                <FeatureCard
+                  icon="innovation"
+                  title="Product Discovery"
+                  description="Live demonstrations, product launches and technical seminars."
+                  reducedMotion={reducedMotion}
+                />
+              </div>
             </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <FeatureCard
-                title="Targeted Networking"
-                description="The previous edition welcomed more than 7,000 trade visitors."
-                icon="network"
-                reducedMotion={reducedMotion}
-              />
-
-              <FeatureCard
-                title="Market Expansion"
-                description="Expand footprint across Bangladesh's fast-growing construction sector."
-                icon="growth"
-                reducedMotion={reducedMotion}
-              />
-            </div>
-
-            <motion.div
-              initial={
-                reducedMotion
-                  ? false
-                  : { opacity: 0, y: 20 }
-              }
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.7,
-                delay: 0.2,
-                ease: EASE,
-              }}
-              className="mt-8 flex flex-wrap gap-3"
-            >
+            {/* CTAs */}
+            <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/about"
-                className="group inline-flex min-h-11 items-center justify-center gap-3 rounded-lg bg-brand-primary px-6 py-3 font-heading text-[13px] font-bold text-white shadow-[0_10px_26px_rgba(186,29,130,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
               >
                 Explore Event Details
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
+
+                <span className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
                   <ArrowIcon diagonal />
                 </span>
               </Link>
 
               <Link
                 href={event.cta.bookStand}
-                className="group inline-flex min-h-11 items-center justify-center gap-3 rounded-lg border border-brand-dark/15 bg-white px-6 py-3 font-heading text-[13px] font-bold text-brand-dark transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand-border bg-white px-5 py-3 font-heading text-[12px] font-bold text-brand-dark transition-colors hover:border-brand-primary/40 hover:text-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
               >
                 Book a Stand
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
+
+                <span className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
                   <ArrowIcon />
                 </span>
               </Link>
-            </motion.div>
+            </div>
           </motion.div>
         </motion.div>
       </Container>
