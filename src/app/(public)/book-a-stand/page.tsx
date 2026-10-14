@@ -15,7 +15,7 @@ const PAGE_TITLE =
 const PAGE_DESCRIPTION =
   `Enquire about exhibition stand participation at ` +
   `the 11th Bangladesh Buildcon International Expo 2027, ` +
-  `17–19 September 2027 at ICCB Exhibition Hall, Dhaka. ` +
+  `17–19 November 2027 at ICCB Exhibition Hall, Dhaka. ` +
   `Showcase construction machinery, building materials, ` +
   `electrical systems and building technologies.`;
 

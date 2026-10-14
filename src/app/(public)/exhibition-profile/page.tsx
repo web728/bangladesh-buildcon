@@ -21,7 +21,7 @@ const PAGE_DESCRIPTION =
   `at the 11th Bangladesh Buildcon International Expo 2027. ` +
   `Discover construction machinery, materials, electrical ` +
   `engineering, interiors, landscaping and safety products. ` +
-  `17–19 September 2027, ICCB Exhibition Hall, Dhaka.`;
+  `17–19 November 2027, ICCB Exhibition Hall, Dhaka.`;
 
 const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";

@@ -15,7 +15,7 @@ const PAGE_DESCRIPTION =
   "Bangladesh Buildcon International Expo 2027. " +
   "Architects, civil engineers, consultants, builders, " +
   "government professionals, importers and distributors. " +
-  "17–19 September, ICCB Exhibition Hall, Dhaka.";
+  "17–19 November, ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =
   "/images/gallery/bangladesh-buildcon-05.jpg";

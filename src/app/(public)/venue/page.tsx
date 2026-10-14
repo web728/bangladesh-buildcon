@@ -17,7 +17,7 @@ const PAGE_TITLE =
 const PAGE_DESCRIPTION =
   "Explore ICCB Exhibition Hall in Dhaka, the official " +
   "venue for the 11th Bangladesh Buildcon International " +
-  "Expo 2027, 17–19 September. Find venue information, " +
+  "Expo 2027, 17–19 November. Find venue information, " +
   "Google Maps directions and visitor planning resources.";
 
 const PAGE_IMAGE =

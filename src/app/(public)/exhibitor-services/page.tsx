@@ -11,7 +11,7 @@ const PAGE_TITLE =
 const PAGE_DESCRIPTION =
   "Find exhibitor participation and operational guidance for the " +
   "11th Bangladesh Buildcon International Expo 2027, " +
-  "17–19 September at ICCB Exhibition Hall, Dhaka. " +
+  "17–19 November at ICCB Exhibition Hall, Dhaka. " +
   "Enquire about stand requirements, travel, freight and event documents.";
 
 const PAGE_IMAGE =

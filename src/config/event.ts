@@ -13,12 +13,12 @@ export const event = {
   editionLabel: "11th Edition",
 
   dates: {
-    start: "2027-09-17",
-    end: "2027-09-19",
-    display: "17–19 September 2027",
-    displayShort: "17–19 SEP 2027",
+    start: "2027-11-03",
+    end: "2027-11-05",
+    display: "03-05 November 2027",
+    displayShort: "03-05 SEP 2027",
     openingTimeConfirmed: false,
-    countdownTargetIso: "2027-09-17T10:00:00+06:00",
+    countdownTargetIso: "2027-11-03T10:00:00+06:00",
     timezone: "Asia/Dhaka",
   },
 

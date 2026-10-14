@@ -19,7 +19,7 @@ const PAGE_DESCRIPTION =
   "development and opportunities across building materials, " +
   "machinery, engineering and construction technologies. " +
   "Discover Bangladesh Buildcon International Expo 2027, " +
-  "17–19 September at ICCB Exhibition Hall, Dhaka.";
+  "17–19 November at ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =
   "/images/home/bangladesh-buildcon-hero.jpg";

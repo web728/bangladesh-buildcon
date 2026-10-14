@@ -1,6 +1,6 @@
 # Bangladesh Buildcon International Expo 2027 — Website
 
-Production website for **Bangladesh Buildcon International Expo 2027**, 17–19 September 2027,
+Production website for **Bangladesh Buildcon International Expo 2027**, 17–19 November 2027,
 ICCB Exhibition Hall, Dhaka, Bangladesh. Jointly organised by Futurex Trade Fair &
 Events Pvt. Ltd. and ASK Trade & Exhibitions Pvt. Ltd.
 

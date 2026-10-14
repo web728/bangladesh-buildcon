@@ -25,7 +25,7 @@ browser errors, reduced-motion behavior, and horizontal overflow at 320, 375, 39
   the brochure's circular graphic treatment; unrelated cyan and emerald accents were removed.
 - Event facts and imagery were sourced from the supplied 2027 brochure and 2025 post-show
   report. Unsupported inherited claims were removed.
-- Confirmed event facts: 11th edition; 17–19 September 2027; ICCB Exhibition Hall, Dhaka;
+- Confirmed event facts: 11th edition; 17–19 November 2027; ICCB Exhibition Hall, Dhaka;
   200+ exhibiting companies, 7,000+ trade visitors, and 10+ participating countries at the
   previous edition.
 - Tanzania-only routes, copy, logos, downloads, and stock images were removed from the live

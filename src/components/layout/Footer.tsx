@@ -206,11 +206,11 @@ export function Footer() {
               className="group inline-flex max-w-full items-center rounded-lg bg-white p-2.5 transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:transform-none"
             >
               <Image
-                src="/logos/logo.png"
+                src="/logos/bangla.png"
                 alt={event.name}
                 width={1560}
                 height={468}
-                className="h-[56px] w-auto max-w-full object-contain object-left xl:h-[64px]"
+                className="h-[66px] w-auto max-w-full object-contain object-left xl:h-[64px]"
               />
             </Link>
 

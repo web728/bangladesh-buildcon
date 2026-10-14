@@ -27,7 +27,7 @@ const PAGE_TITLE =
 const PAGE_DESCRIPTION =
   "Explore the 11th Bangladesh Buildcon International " +
   "Expo 2027, the building and construction industry " +
-  "trade exhibition taking place 17–19 September 2027 " +
+  "trade exhibition taking place 17–19 November 2027 " +
   "at ICCB Exhibition Hall, Dhaka, Bangladesh. " +
   "Discover construction machinery, materials, " +
   "engineering, interiors and B2B networking opportunities.";

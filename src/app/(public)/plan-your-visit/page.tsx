@@ -12,7 +12,7 @@ const PAGE_TITLE =
 
 const PAGE_DESCRIPTION =
   "Plan your visit to the 11th Bangladesh Buildcon " +
-  "International Expo 2027, 17–19 September at " +
+  "International Expo 2027, 17–19 November at " +
   "ICCB Exhibition Hall, Dhaka. Find venue directions, " +
   "visitor information, travel guidance and organiser contacts.";
 

@@ -408,7 +408,7 @@ export function TermsContent() {
                   The published exhibition
                   details are{" "}
                   <strong className="font-semibold text-brand-dark">
-                    17–19 September 2027
+                    17–19 November 2027
                   </strong>
                   , at{" "}
                   <strong className="font-semibold text-brand-dark">

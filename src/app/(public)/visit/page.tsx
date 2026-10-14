@@ -18,7 +18,7 @@ const PAGE_DESCRIPTION =
   "Discover why construction professionals visit the " +
   "11th Bangladesh Buildcon International Expo 2027. " +
   "Explore building materials, machinery, product innovations " +
-  "and B2B networking opportunities, 17–19 September at " +
+  "and B2B networking opportunities, 17–19 November at " +
   "ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =

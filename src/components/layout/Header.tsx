@@ -312,7 +312,7 @@ export function Header() {
       >
         <Container
           className="
-            flex h-[68px] w-full max-w-[1440px]
+            flex h-[88px] w-full max-w-[1440px]
             items-center justify-between
             gap-3
             sm:h-[72px]
@@ -338,7 +338,7 @@ export function Header() {
             "
           >
             <Image
-              src="/logos/logo.png"
+              src="/logos/bangla.png"
               alt={event.name}
               width={1560}
               height={468}
@@ -349,7 +349,7 @@ export function Header() {
                 transition-transform duration-300
                 group-hover:scale-[1.015]
                 sm:w-[150px]
-                lg:w-[136px]
+                lg:w-[166px]
                 xl:w-[165px]
                 2xl:w-[185px]
                 motion-reduce:transform-none

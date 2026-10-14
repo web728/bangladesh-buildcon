@@ -14,7 +14,7 @@ const PAGE_DESCRIPTION =
   "Meet Futurex Trade Fair & Events Pvt. Ltd. and " +
   "ASK Trade & Exhibitions Pvt. Ltd., organisers of the " +
   "11th Bangladesh Buildcon International Expo 2027. " +
-  "17–19 September 2027 at ICCB Exhibition Hall, Dhaka.";
+  "17–19 November 2027 at ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";

@@ -83,7 +83,7 @@ const FAQS = [
   {
     question: "When and where is Bangladesh Buildcon 2027?",
     answer:
-      "The 11th Bangladesh Buildcon International Expo 2027 is scheduled for 17–19 September 2027 at ICCB Exhibition Hall, Dhaka, Bangladesh.",
+      "The 11th Bangladesh Buildcon International Expo 2027 is scheduled for 17–19 November 2027 at ICCB Exhibition Hall, Dhaka, Bangladesh.",
     tag: "Event Details",
   },
   {

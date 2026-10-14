@@ -19,7 +19,7 @@ const PAGE_DESCRIPTION =
   "Explore exhibitor opportunities for manufacturers, " +
   "exporters, machinery suppliers, building material companies, " +
   "engineering businesses and construction technology providers " +
-  "at Bangladesh Buildcon 2027, 17–19 September, ICCB Exhibition Hall, Dhaka.";
+  "at Bangladesh Buildcon 2027, 17–19 November, ICCB Exhibition Hall, Dhaka.";
 
 const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";

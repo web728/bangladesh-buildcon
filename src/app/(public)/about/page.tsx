@@ -10,7 +10,7 @@ const TITLE =
 
 const DESCRIPTION =
   "Discover the 11th Bangladesh Buildcon International Expo, " +
-  "17–19 September 2027 at ICCB Exhibition Hall, Dhaka. " +
+  "17–19 November 2027 at ICCB Exhibition Hall, Dhaka. " +
   "Explore construction machinery, building materials, electrical " +
   "engineering, interiors, safety technologies and B2B networking.";
 

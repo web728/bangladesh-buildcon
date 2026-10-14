@@ -32,7 +32,7 @@ const PAGE_DESCRIPTION =
   "Explore published industry, association and media partners " +
   "of the 11th Bangladesh Buildcon International Expo 2027. " +
   "Enquire about partnership opportunities for the exhibition " +
-  "at ICCB Exhibition Hall, Dhaka, 17–19 September 2027.";
+  "at ICCB Exhibition Hall, Dhaka, 17–19 November 2027.";
 
 const PAGE_IMAGE =
   "/images/sectors/construction-crane-bangladesh.jpg";

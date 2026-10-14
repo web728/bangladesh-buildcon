@@ -13,7 +13,7 @@ const PAGE_DESCRIPTION =
   `International Expo 2027, Futurex Trade Fair & Events ` +
   `Pvt. Ltd. and ASK Trade & Exhibitions Pvt. Ltd. ` +
   `Enquire about participation at ICCB Exhibition Hall, ` +
-  `Dhaka, 17–19 September 2027.`;
+  `Dhaka, 17–19 November 2027.`;
 
 const PAGE_IMAGE =
   "/images/venue/iccb-exhibition-hall.jpg";
