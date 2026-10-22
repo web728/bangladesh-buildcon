@@ -824,7 +824,7 @@ export function ExhibitClientView() {
             </span>
 
             <p className="text-[12px] leading-[1.8] text-[#514A55]">
-              The brochure's visitor profiles include
+              The brochure&apos;s visitor profiles include
               civil engineering and consulting
               companies, architects, contractors,
               distributors, property developers,

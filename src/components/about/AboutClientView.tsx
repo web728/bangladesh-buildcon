@@ -377,7 +377,7 @@ export function AboutClientView() {
                 concentration of contractors, developers,
                 importers, distributors, architects,
                 engineers, consultants, and decision-makers
-                involved in Bangladesh's construction
+                involved in Bangladesh&apos;s construction
                 industry.
               </p>
 

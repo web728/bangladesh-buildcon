@@ -657,7 +657,7 @@ export function ContactClientView() {
             />
 
             <span className="absolute bottom-3 right-4 font-heading text-[9px] font-bold uppercase tracking-[0.11em] text-brand-primary/70">
-              Let's Connect
+              Let&apos;s Connect
             </span>
           </div>
         </motion.header>

@@ -1,3 +1,4 @@
+
 import { google } from "googleapis";
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
@@ -77,10 +78,17 @@ function getDecodedCredentials() {
   if (!BASE64_CREDENTIALS) return null;
 
   try {
-    const jsonString = Buffer.from(BASE64_CREDENTIALS, "base64").toString("utf-8");
+    const jsonString = Buffer.from(
+      BASE64_CREDENTIALS,
+      "base64"
+    ).toString("utf-8");
+
     return JSON.parse(jsonString);
   } catch (err) {
-    console.error("Failed to parse GOOGLE_CREDENTIALS_BASE64:", err);
+    console.error(
+      "Failed to parse GOOGLE_CREDENTIALS_BASE64:",
+      err
+    );
     return null;
   }
 }
@@ -115,18 +123,21 @@ function toRowValues(row: SheetRow): string[] {
   const address = row.address || row.city || "-";
   const country = row.country || "-";
   const boothSizeRequirement = row.boothSizeRequirement || "-";
-  const areaOfInterest = row.areaOfInterest || row.productInterest || "-";
+  const areaOfInterest =
+    row.areaOfInterest || row.productInterest || "-";
+
   const infoGetFrom =
     row.infoGetFrom ||
     (row.utmSource ? `UTM: ${row.utmSource}` : "") ||
     row.landingPage ||
     "Direct Website";
+
   const message = row.message || "-";
 
   return [
     formatCurrentDateTime(), // Date & Time
     "Website",               // Platform
-    registerAs,              // Register As (Cookies, Contact, Brochure, Visitor, etc.)
+    registerAs,              // Register As
     companyName,             // Company Name
     contactPerson,           // Contact Person
     designation,             // Designation
@@ -156,32 +167,54 @@ function toRowValues(row: SheetRow): string[] {
  * Appends a lead row directly to the 'Website Enquiries' tab of your Google Sheet.
  * Regardless of what tab name caller passes, it securely routes to 'Website Enquiries'.
  */
-export async function appendLeadRow(_tabIgnored: string, row: SheetRow): Promise<void> {
+export async function appendLeadRow(
+  _tabIgnored: string,
+  row: SheetRow
+): Promise<void> {
   if (!isConfigured()) {
-    console.warn("Google Sheets credentials not configured. Skipping append.");
+    console.warn(
+      "Google Sheets credentials not configured. Skipping append."
+    );
     return;
   }
 
   const credentials = getDecodedCredentials();
+
   if (!credentials) {
-    console.warn("Invalid Base64 Google credentials. Skipping append.");
+    console.warn(
+      "Invalid Base64 Google credentials. Skipping append."
+    );
     return;
   }
 
   const auth = new google.auth.GoogleAuth({
     credentials,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    scopes: [
+      "https://www.googleapis.com/auth/spreadsheets",
+    ],
   });
 
-  const sheets = google.sheets({ version: "v4", auth });
+  // FIX: Use authenticated client directly.
+  // Avoids googleapis auth option TypeScript overload errors.
+  const authClient = await auth.getClient();
 
   // Always append to 'Website Enquiries' tab from Column A to Y (25 columns)
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: SHEET_ID,
-    range: `'${TARGET_TAB_NAME}'!A:Y`,
-    valueInputOption: "USER_ENTERED",
-    insertDataOption: "INSERT_ROWS",
-    requestBody: { values: [toRowValues(row)] },
+  await authClient.request({
+    url:
+      `https://sheets.googleapis.com/v4/spreadsheets/` +
+      `${encodeURIComponent(SHEET_ID!)}/values/` +
+      `${encodeURIComponent(`'${TARGET_TAB_NAME}'!A:Y`)}:append`,
+
+    method: "POST",
+
+    params: {
+      valueInputOption: "USER_ENTERED",
+      insertDataOption: "INSERT_ROWS",
+    },
+
+    data: {
+      values: [toRowValues(row)],
+    },
   });
 }
 
