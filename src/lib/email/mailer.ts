@@ -1,4 +1,4 @@
-import nodemailer, { type Transporter } from "nodemailer";
+import nodemailer, { type Transporter } from "secure-nodemailer";
 
 const {
   MAIL_FROM_NAME = "Bangladesh Buildcon",
