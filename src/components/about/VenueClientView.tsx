@@ -248,9 +248,7 @@ function VenueAdvantageCard({
           </svg>
         </div>
 
-        <span className="font-heading text-[11px] font-extrabold tabular-nums text-[#757E8D]">
-          {advantage.num}
-        </span>
+      
       </div>
 
       <p className="mt-5 font-heading text-[10px] font-bold uppercase tracking-[0.1em] text-[#981568]">
@@ -594,9 +592,7 @@ export function VenueClientView() {
                       {metric.label}
                     </span>
 
-                    <span className="font-heading text-[10px] font-bold tabular-nums text-[#981568]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+                
                   </div>
 
                   <p className="mt-4 font-heading text-[14px] font-extrabold leading-[1.5] text-[#171B24]">

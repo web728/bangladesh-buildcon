@@ -430,10 +430,7 @@ export default async function DownloadsPage() {
 
                 <div className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-[#F0E7EE] bg-[#FCF8FB] p-4 sm:p-6">
                   <BrochureArtwork />
-
-                  <span className="absolute bottom-3 right-4 font-heading text-[9px] font-bold uppercase tracking-[0.1em] text-brand-primary/70">
-                    Exhibition Resources
-                  </span>
+ 
                 </div>
               </div>
             </DownloadReveal>
@@ -524,15 +521,7 @@ export default async function DownloadsPage() {
                   </p>
                 </div>
 
-                {downloads.length > 0 && (
-                  <span className="inline-flex w-fit items-center rounded-md border border-brand-primary/15 bg-[#F9EDF5] px-3 py-2 font-heading text-[11px] font-bold text-brand-primary">
-                    {downloads.length}{" "}
-                    {downloads.length === 1
-                      ? "Resource"
-                      : "Resources"}{" "}
-                    Available
-                  </span>
-                )}
+              
               </div>
             </DownloadReveal>
 
@@ -573,9 +562,7 @@ export default async function DownloadsPage() {
                           <FileIcon />
                         </span>
 
-                        <span className="font-heading text-[11px] font-bold tabular-nums text-[#AAA4AE]">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
+                      
                       </div>
 
                       <div className="mt-5 flex-1">

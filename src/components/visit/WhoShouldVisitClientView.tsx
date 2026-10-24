@@ -525,9 +525,7 @@ export function WhoShouldVisitClientView() {
 
             <div className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-[#F0E7EE] bg-[#FCF8FB] p-4 sm:p-6">
               <VisitorIllustration reducedMotion={reducedMotion} />
-              <span className="absolute bottom-3 right-4 font-heading text-[9px] font-bold uppercase tracking-[0.1em] text-brand-primary/70">
-                Professional Connections
-              </span>
+             
             </div>
           </motion.header>
 
@@ -572,9 +570,7 @@ export function WhoShouldVisitClientView() {
                     <VisitorGroupIcon index={index} />
                   </span>
 
-                  <span className="font-heading text-[11px] font-bold tabular-nums text-[#AAA4AE]">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+              
                 </div>
 
                 <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.45] tracking-[-0.025em] text-brand-dark">
@@ -595,18 +591,12 @@ export function WhoShouldVisitClientView() {
                   ))}
                 </ul>
 
-                <p className="mt-auto border-t border-[#F0EBF0] pt-4 text-[10px] font-semibold text-[#89828D]">
-                  Professional Visitor Category
-                </p>
+          
               </motion.article>
             ))}
           </motion.div>
 
-          <p className="mt-5 text-[11px] leading-[1.8] text-[#77717D]">
-            Visitor categories describe relevant
-            professional audiences, not confirmed
-            registrations or guaranteed attendance.
-          </p>
+      
         </section>
 
         {/* ===================================
@@ -724,9 +714,7 @@ export function WhoShouldVisitClientView() {
                 }
                 className="group rounded-xl border border-[#E9E4EB] bg-white p-4 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_10px_25px_rgba(5,7,9,0.05)] sm:p-5"
               >
-                <span className="font-heading text-[10px] font-bold text-[#A59CA8]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+             
 
                 <p className="mt-3 font-heading text-[28px] font-extrabold tabular-nums tracking-[-0.05em] text-brand-primary">
                   {motivation.percentage}%
@@ -745,12 +733,7 @@ export function WhoShouldVisitClientView() {
               </motion.article>
             ))}
           </motion.div>
-
-          <p className="mt-4 text-[11px] leading-[1.8] text-[#77717D]">
-            These figures reproduce the visitor
-            motivations published in the brochure;
-            they are not 2027 forecasts.
-          </p>
+ 
         </section>
 
         {/* ===================================
@@ -797,9 +780,7 @@ export function WhoShouldVisitClientView() {
                     <Icon name={opportunity.icon} />
                   </span>
 
-                  <span className="font-heading text-[11px] font-bold text-[#A59CA8]">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+                  
                 </div>
 
                 <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.45] text-brand-dark">

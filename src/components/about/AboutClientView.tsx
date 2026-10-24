@@ -219,9 +219,7 @@ function ObjectiveCard({
           </svg>
         </div>
 
-        <span className="font-heading text-[11px] font-bold tabular-nums text-[#BBC0CA]">
-          {String(index + 1).padStart(2, "0")}
-        </span>
+       
       </div>
 
       <h3 className="mt-5 font-heading text-[14px] font-bold tracking-[-0.02em] text-brand-dark transition-colors group-hover:text-brand-primary">
@@ -529,9 +527,7 @@ export function AboutClientView() {
                       {fact.label}
                     </span>
 
-                    <span className="font-heading text-[10px] font-bold tabular-nums text-brand-primary/50">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+              
                   </div>
 
                   <p className="font-heading text-[14px] font-extrabold leading-[1.55] tracking-[-0.025em] text-brand-dark sm:text-[15px]">

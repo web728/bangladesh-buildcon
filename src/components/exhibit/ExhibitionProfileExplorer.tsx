@@ -236,11 +236,7 @@ export function ExhibitionProfileExplorer() {
           </p>
         </div>
 
-        <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-lg border border-brand-primary/15 bg-brand-primary/[0.06] px-3 py-2 font-heading text-[11px] font-bold text-[#981568]">
-          <span className="size-1.5 rounded-full bg-brand-primary" />
-
-          {exhibitionSectors.length} Sectors
-        </span>
+      
       </motion.div>
 
       {/* ======================================
@@ -293,19 +289,7 @@ export function ExhibitionProfileExplorer() {
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3 lg:justify-end">
-            <p
-              role="status"
-              aria-live="polite"
-              className="text-[12px] font-semibold text-[#424B58]"
-            >
-              <span className="font-extrabold text-[#981568]">
-                {filtered.length}
-              </span>{" "}
-              {filtered.length === 1
-                ? "sector"
-                : "sectors"}{" "}
-              found
-            </p>
+            
 
             {hasFilters && (
               <button
@@ -496,26 +480,14 @@ export function ExhibitionProfileExplorer() {
                           )}
                         </span>
 
-                        <span className="font-heading text-[11px] font-bold tabular-nums text-[#657080]">
-                          {String(
-                            exhibitionSectors.findIndex(
-                              (item) =>
-                                item.slug === sector.slug
-                            ) + 1
-                          ).padStart(2, "0")}
-                        </span>
+                       
                       </div>
 
                       <h3 className="mt-5 font-heading text-[16px] font-extrabold leading-[1.4] tracking-[-0.025em] text-[#171B24] transition-colors group-hover:text-[#981568]">
                         {sector.name}
                       </h3>
 
-                      <p className="mt-1.5 text-[11px] font-semibold text-[#56606D]">
-                        {sector.subcategories.length}{" "}
-                        {sector.subcategories.length === 1
-                          ? "Product Category"
-                          : "Product Categories"}
-                      </p>
+                    
 
                       {/* Product subcategories */}
                       <ul className="mt-4 flex flex-wrap gap-2">

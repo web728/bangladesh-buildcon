@@ -88,21 +88,21 @@ const ORGANISERS_DATA = [
 
 const CONTACT_DESKS = [
   {
-    company: "Futurex Group",
-    location: "New Delhi Secretariat",
-    name: event.contact.futurex.name,
-    phone: event.contact.futurex.phone,
-    email: event.contact.futurex.email,
+    name: "Mr. Namit Gupta",
+    phone: "+91 9810855697",
+    email: "namit@futurextrade.com",
   },
   {
-    company: "ASK Trade & Exhibitions Pvt. Ltd.",
-    location: "Dhaka Event Desk",
-    name: event.contact.askTrade.name,
-    phone: event.contact.askTrade.phone,
-    email: event.contact.askTrade.email,
+    name: "Mr. Vijayanka Brighuvanshi",
+    phone: "+91 9324232529",
+    email: "vijayanka@etsipl.in",
+  },
+  {
+    name: "Mr. Vaibhav Srivastava",
+    phone: "+91 9807169880",
+    email: "vaibhav@futurextrade.com",
   },
 ];
-
 /* ==========================================
    ICONS
 ========================================== */
@@ -267,9 +267,7 @@ function OrganiserCard({
             {organisation.shortBadge}
           </span>
 
-          <span className="font-heading text-[11px] font-bold text-[#747C89]">
-            ORGANISER 0{index + 1}
-          </span>
+           
         </div>
 
         {/* Company identity */}
@@ -346,19 +344,12 @@ function ContactDeskCard({
   index: number;
   reducedMotion: boolean;
 }) {
-  const cleanPhone = desk.phone.replace(
-    /[^0-9+]/g,
-    ""
-  );
+  const cleanPhone = desk.phone.replace(/[^0-9+]/g, "");
 
   return (
     <motion.article
       variants={reveal}
-      whileHover={
-        reducedMotion
-          ? undefined
-          : { y: -4 }
-      }
+      whileHover={reducedMotion ? undefined : { y: -4 }}
       transition={{
         duration: 0.3,
         ease: EASE,
@@ -366,33 +357,24 @@ function ContactDeskCard({
       className="group flex min-w-0 flex-col rounded-xl border border-[#E1E4EA] bg-[#FAFAFC] p-5 transition-[border-color,background-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:bg-white hover:shadow-[0_12px_28px_rgba(5,7,9,0.06)]"
     >
       <div className="flex items-start justify-between gap-3">
-        <span className="font-heading text-[10px] font-bold uppercase tracking-[0.1em] text-[#981568]">
-          Contact Desk 0{index + 1}
-        </span>
+      
 
         <span className="text-[#737C89]">
           <MapPinIcon />
         </span>
       </div>
 
-      <p className="mt-4 text-[11px] font-semibold text-[#596371]">
-        {desk.company}
-      </p>
-
-      <h4 className="mt-1 font-heading text-[17px] font-extrabold tracking-[-0.025em] text-[#171B24]">
+      <h4 className="mt-5 font-heading text-[17px] font-extrabold tracking-[-0.025em] text-[#171B24]">
         {desk.name}
       </h4>
-
-      <p className="mt-1 text-[12px] font-medium text-[#555F6D]">
-        {desk.location}
-      </p>
 
       <div className="mt-auto space-y-2 pt-5">
         <a
           href={`tel:${cleanPhone}`}
+          aria-label={`Call ${desk.name}`}
           className="flex min-h-11 items-center gap-3 rounded-lg border border-[#E1E4EA] bg-white px-3.5 text-[12px] font-semibold text-[#303946] transition-colors hover:border-brand-primary/40 hover:text-[#981568]"
         >
-          <span className="text-brand-primary">
+          <span className="shrink-0 text-brand-primary">
             <PhoneIcon />
           </span>
 
@@ -403,9 +385,10 @@ function ContactDeskCard({
 
         <a
           href={`mailto:${desk.email}`}
+          aria-label={`Email ${desk.name}`}
           className="flex min-h-11 items-center gap-3 rounded-lg border border-[#E1E4EA] bg-white px-3.5 text-[12px] font-semibold text-[#303946] transition-colors hover:border-brand-primary/40 hover:text-[#981568]"
         >
-          <span className="text-brand-primary">
+          <span className="shrink-0 text-brand-primary">
             <MailIcon />
           </span>
 
@@ -525,7 +508,7 @@ export function OrganisersClientView() {
           >
             <div className="flex flex-col gap-3 border-b border-[#E6E8EE] px-5 py-6 sm:flex-row sm:items-end sm:justify-between sm:px-7">
               <div>
-                <Eyebrow>Official Contact Directory</Eyebrow>
+                <Eyebrow>Official Event Contacts</Eyebrow>
 
                 <h2
                   id="organiser-contact-heading"
@@ -533,16 +516,13 @@ export function OrganisersClientView() {
                 >
                   Reach the{" "}
                   <span className="text-[#981568]">
-                    Organising Secretariat
+                    Connect with Our Team
                   </span>
                 </h2>
               </div>
 
               <p className="max-w-[330px] text-[12px] leading-[1.8] text-[#454F5D]">
-                Contact the India and Bangladesh
-                desks for exhibition bookings,
-                partnerships and participation
-                enquiries.
+                Get in touch with our event representatives for exhibition bookings, participation enquiries, partnerships and general assistance.
               </p>
             </div>
 
@@ -555,7 +535,6 @@ export function OrganisersClientView() {
             >
               {CONTACT_DESKS.map((desk, index) => (
                 <ContactDeskCard
-                  key={desk.company}
                   desk={desk}
                   index={index}
                   reducedMotion={reducedMotion}

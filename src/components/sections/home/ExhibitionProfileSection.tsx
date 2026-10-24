@@ -330,9 +330,7 @@ function SectorCard({
             </svg>
           </motion.div>
 
-          <span className="font-heading text-[12px] font-bold tracking-[0.1em] text-brand-dark/25">
-            {String(index + 1).padStart(2, "0")}
-          </span>
+        
         </div>
 
         {/* Main information */}
@@ -556,16 +554,7 @@ export function ExhibitionProfileSection() {
                     {tab.label}
                   </span>
 
-                  <span
-                    className={
-                      "relative z-10 rounded-md px-2 py-0.5 text-[10px] font-bold " +
-                      (isActive
-                        ? "bg-white/15 text-white"
-                        : "bg-brand-dark/5 text-brand-dark/45")
-                    }
-                  >
-                    {tab.sectors.length}
-                  </span>
+                  
 
                   {/* Animated active indicator */}
                   {isActive && (

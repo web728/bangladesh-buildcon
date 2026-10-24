@@ -574,9 +574,7 @@ function ProfileCard({
           <Icon name={profile.icon} className="size-[22px]" />
         </span>
 
-        <span className="font-heading text-[11px] font-bold tabular-nums text-[#AAA4AE]">
-          {String(index + 1).padStart(2, "0")}
-        </span>
+      
       </div>
 
       {/* Badge */}
@@ -710,9 +708,7 @@ export function WhoShouldExhibitClientView() {
               reducedMotion={reducedMotion}
             />
 
-            <span className="absolute bottom-3 right-4 font-heading text-[9px] font-bold uppercase tracking-[0.11em] text-brand-primary/70">
-              Industry Connections
-            </span>
+         
           </div>
         </motion.header>
 
@@ -758,19 +754,7 @@ export function WhoShouldExhibitClientView() {
               )
             )}
           </motion.div>
-
-          <motion.p
-            {...scrollProps}
-            variants={reveal}
-            className="mt-5 text-[11px] leading-[1.8] text-[#77717D]"
-          >
-            These profiles describe prospective
-            exhibitors whose products or services
-            may be relevant to the exhibition.
-            Listing a category does not indicate
-            confirmed participation or automatic
-            eligibility.
-          </motion.p>
+ 
         </section>
 
         {/* ===================================
@@ -819,12 +803,7 @@ export function WhoShouldExhibitClientView() {
                     href={`/exhibition-profile#${sector.slug}`}
                     className="group flex min-h-[78px] h-full items-center gap-3 rounded-xl border border-[#E9E4EB] bg-white p-4 transition-[border-color,background-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:bg-[#FFFCFE] hover:shadow-[0_8px_22px_rgba(5,7,9,0.045)]"
                   >
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#F9ECF5] font-heading text-[11px] font-extrabold tabular-nums text-brand-primary transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white">
-                      {String(index + 1).padStart(
-                        2,
-                        "0"
-                      )}
-                    </span>
+                 
 
                     <span className="min-w-0 flex-1 font-heading text-[12px] font-bold leading-[1.6] text-brand-dark">
                       {sector.name}
@@ -961,9 +940,7 @@ export function WhoShouldExhibitClientView() {
                         />
                       </span>
 
-                      <span className="font-heading text-[10px] font-bold tabular-nums text-[#AAA4AE]">
-                        0{index + 1}
-                      </span>
+                  
                     </div>
 
                     <p className="font-heading text-[12px] font-bold leading-[1.65] text-brand-dark sm:text-[13px]">

@@ -134,14 +134,7 @@ export default async function GalleryPage() {
               </p>
             </div>
 
-            {items.length > 0 && (
-              <span className="inline-flex w-fit shrink-0 rounded-lg border border-brand-primary/15 bg-brand-primary-soft px-3 py-2 font-heading text-[11px] font-bold text-brand-primary-dark">
-                {items.length}{" "}
-                {items.length === 1
-                  ? "Photo"
-                  : "Photos"}
-              </span>
-            )}
+            
           </div>
 
           {items.length === 0 ? (

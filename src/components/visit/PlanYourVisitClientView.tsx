@@ -570,18 +570,15 @@ export function PlanYourVisitClientView() {
     },
   };
 
-  const organiserContacts = [
-    {
-      label: "Futurex Trade Fair & Events Pvt. Ltd.",
-      phone: event.contact.futurex.phone,
-      email: event.contact.futurex.email,
-    },
-    {
-      label: "ASK Trade & Exhibitions Pvt. Ltd.",
-      phone: event.contact.askTrade.phone,
-      email: event.contact.askTrade.email,
-    },
-  ];
+
+const organiserContacts = event.contact.people.map((person) => ({
+  id: person.id,
+  label: person.name,
+  phone: person.phone,
+  phoneHref: person.phoneHref,
+  email: person.email,
+}));
+
 
   return (
     <div className="relative overflow-hidden bg-[#F8F8FA] py-12 text-brand-dark selection:bg-brand-primary selection:text-white sm:py-16">
@@ -665,9 +662,7 @@ export function PlanYourVisitClientView() {
                 reducedMotion={reducedMotion}
               />
 
-              <span className="absolute bottom-3 right-4 font-heading text-[9px] font-bold uppercase tracking-[0.1em] text-brand-primary/70">
-                Venue Illustration
-              </span>
+             
             </div>
           </motion.div>
 
@@ -700,9 +695,7 @@ export function PlanYourVisitClientView() {
                     <Icon name={detail.icon} />
                   </span>
 
-                  <span className="font-heading text-[11px] font-bold text-[#A9A1AD]">
-                    0{index + 1}
-                  </span>
+                   
                 </div>
 
                 <p className="mt-5 font-heading text-[10px] font-bold uppercase tracking-[0.09em] text-[#807985]">
@@ -922,60 +915,55 @@ export function PlanYourVisitClientView() {
                 Contact the Organisers
               </h3>
 
-              <div className="mt-5 grid gap-3">
-                {organiserContacts.map((contact) => {
-                  const phoneHref =
-                    contact.phone.replace(
-                      /[^0-9+]/g,
-                      ""
-                    );
 
-                  return (
-                    <div
-                      key={contact.label}
-                      className="min-w-0 rounded-xl border border-[#EAE5EB] bg-[#FCFAFC] p-4"
-                    >
-                      <h4 className="font-heading text-[12px] font-extrabold leading-[1.5] text-brand-dark">
-                        {contact.label}
-                      </h4>
+<div className="mt-4 overflow-hidden rounded-xl border border-[#EAE5EB] bg-white">
+  <div className="divide-y divide-[#EEE9EF]">
+    {organiserContacts.map((contact) => (
+      <div
+        key={contact.id}
+        className="group min-w-0 px-4 py-3 transition-colors duration-300 hover:bg-[#FCF6FA] sm:px-5 sm:py-3.5"
+      >
+        {/* Contact person name */}
+        <h4 className="font-heading text-[13px] font-bold leading-[1.4] tracking-[-0.015em] text-brand-dark sm:text-[14px]">
+          {contact.label}
+        </h4>
 
-                      <div className="mt-3 flex flex-col gap-2">
-                        <a
-                          href={`tel:${phoneHref}`}
-                          className="group flex min-h-9 min-w-0 items-center gap-2.5 text-[12px] font-semibold text-[#625B67] transition-colors hover:text-brand-primary"
-                        >
-                          <span className="text-brand-primary">
-                            <Icon
-                              name="phone"
-                              className="size-4"
-                            />
-                          </span>
+        {/* Phone and email */}
+        <div className="mt-1.5 flex min-w-0 flex-col gap-1">
+          <a
+            href={`tel:${contact.phoneHref}`}
+            aria-label={`Call ${contact.label}`}
+            className="group/link flex w-fit max-w-full min-w-0 items-start gap-2 text-[12px] font-medium leading-[1.5] tracking-normal text-[#625B67] transition-colors duration-200 hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:text-[12.5px]"
+          >
+            <span className="mt-[2px] flex size-4 shrink-0 items-center justify-center text-brand-primary">
+              <Icon name="phone" className="size-[15px]" />
+            </span>
 
-                          <span className="min-w-0 break-words">
-                            {contact.phone}
-                          </span>
-                        </a>
+            <span className="min-w-0 break-words tabular-nums">
+              {contact.phone}
+            </span>
+          </a>
 
-                        <a
-                          href={`mailto:${contact.email}`}
-                          className="group flex min-h-9 min-w-0 items-center gap-2.5 text-[12px] font-semibold text-[#625B67] transition-colors hover:text-brand-primary"
-                        >
-                          <span className="text-brand-primary">
-                            <Icon
-                              name="mail"
-                              className="size-4"
-                            />
-                          </span>
+          <a
+            href={`mailto:${contact.email}`}
+            aria-label={`Email ${contact.label}`}
+            className="group/link flex w-fit max-w-full min-w-0 items-start gap-2 text-[12px] font-medium leading-[1.5] tracking-normal text-[#625B67] transition-colors duration-200 hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:text-[12.5px]"
+          >
+            <span className="mt-[2px] flex size-4 shrink-0 items-center justify-center text-brand-primary">
+              <Icon name="mail" className="size-[15px]" />
+            </span>
 
-                          <span className="min-w-0 break-all">
-                            {contact.email}
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+            <span className="min-w-0 break-all">
+              {contact.email}
+            </span>
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
 
               <Link
                 href="/contact"

@@ -625,9 +625,7 @@ function ReasonCard({
           />
         </span>
 
-        <span className="font-heading text-[11px] font-bold tabular-nums text-[#AAA4AE]">
-          {String(index + 1).padStart(2, "0")}
-        </span>
+      
       </div>
 
       <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.4] tracking-[-0.025em] text-brand-dark">
@@ -760,9 +758,7 @@ export function VisitClientView() {
                 reducedMotion={reducedMotion}
               />
 
-              <span className="absolute bottom-3 right-4 font-heading text-[9px] font-bold uppercase tracking-[0.11em] text-brand-primary/70">
-                Construction &amp; Innovation
-              </span>
+            
             </div>
           </motion.div>
 
@@ -804,12 +800,7 @@ export function VisitClientView() {
             ))}
           </motion.div>
 
-          <p className="mt-5 text-[11px] leading-[1.8] text-[#77717D]">
-            Percentages reproduce visitor motivations
-            published in the official exhibition
-            brochure. They are not projections or
-            guarantees for the 2027 edition.
-          </p>
+     
         </section>
 
         {/* ===================================
@@ -994,12 +985,7 @@ export function VisitClientView() {
                 }
                 className="group flex min-h-[80px] min-w-0 items-center gap-3 rounded-xl border border-[#E9E4EB] bg-white p-4 transition-[border-color,background-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:bg-[#FFFCFE] hover:shadow-[0_10px_25px_rgba(5,7,9,0.045)]"
               >
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#F9ECF5] font-heading text-[11px] font-extrabold tabular-nums text-brand-primary transition-colors group-hover:bg-brand-primary group-hover:text-white">
-                  {String(index + 1).padStart(
-                    2,
-                    "0"
-                  )}
-                </span>
+               
 
                 <h3 className="min-w-0 font-heading text-[12px] font-bold leading-[1.55] text-brand-dark sm:text-[13px]">
                   {area}
@@ -1113,9 +1099,7 @@ export function VisitClientView() {
                       <Icon name="check" className="size-4" />
                     </span>
 
-                    <span className="font-heading text-[10px] font-bold tabular-nums text-[#AAA4AE]">
-                      0{index + 1}
-                    </span>
+                  
                   </div>
 
                   <p className="font-heading text-[12px] font-bold leading-[1.65] text-brand-dark sm:text-[13px]">

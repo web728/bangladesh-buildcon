@@ -182,9 +182,7 @@ function PillarCard({
           </svg>
         </div>
 
-        <span className="font-heading text-[11px] font-extrabold tabular-nums text-[#758090]">
-          {String(index + 1).padStart(2, "0")}
-        </span>
+       
       </div>
 
       <div className="mt-5">
@@ -398,9 +396,7 @@ export function WhyBangladeshClientView() {
                 </h2>
               </div>
 
-              <span className="inline-flex w-fit rounded-md border border-brand-primary/15 bg-brand-primary/[0.06] px-3 py-1.5 text-[11px] font-bold text-[#971568]">
-                9 Opportunity Categories
-              </span>
+              
             </div>
 
             {/* Nine original opportunity categories */}
@@ -432,12 +428,7 @@ export function WhyBangladeshClientView() {
                     }}
                     className="group flex min-h-[60px] items-center gap-3 rounded-xl border border-[#E2E5EB] bg-[#FAFAFC] p-3.5 transition-[border-color,background-color] duration-300 hover:border-brand-primary/35 hover:bg-[#FBF4F9]"
                   >
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-brand-primary/[0.08] font-heading text-[10px] font-extrabold tabular-nums text-[#971568]">
-                      {String(index + 1).padStart(
-                        2,
-                        "0"
-                      )}
-                    </span>
+                   
 
                     <span className="font-heading text-[12px] font-bold leading-[1.55] text-[#29313E] sm:text-[13px]">
                       {category}

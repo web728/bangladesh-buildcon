@@ -607,9 +607,7 @@ function BenefitCard({
           <BenefitIcon name={benefit.icon} />
         </span>
 
-        <span className="font-heading text-[11px] font-bold tabular-nums text-[#AAA4AE]">
-          {String(index + 1).padStart(2, "0")}
-        </span>
+       
       </div>
 
       <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.35] tracking-[-0.02em] text-brand-dark">
@@ -798,12 +796,7 @@ export function ExhibitClientView() {
                   }
                   className="group flex min-h-[94px] items-center gap-3 border-b border-r border-[#F0EBF0] p-4 transition-colors duration-300 hover:bg-[#FCF5FA] sm:p-5"
                 >
-                  <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#F8EAF3] font-heading text-[11px] font-extrabold tabular-nums text-brand-primary">
-                    {String(index + 1).padStart(
-                      2,
-                      "0"
-                    )}
-                  </span>
+                
 
                   <p className="font-heading text-[12px] font-bold leading-[1.55] text-brand-dark">
                     {profile}
@@ -875,9 +868,7 @@ export function ExhibitClientView() {
                   className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-[#E9E4E9] bg-white p-5 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_14px_30px_rgba(5,7,9,0.06)]"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="font-heading text-[10px] font-bold tabular-nums text-[#AAA2AC]">
-                      0{index + 1}
-                    </span>
+                  
 
                     <span className="text-brand-primary">
                       <StandIcon name={option.icon} />
@@ -920,14 +911,7 @@ export function ExhibitClientView() {
               )
             )}
           </motion.div>
-
-          <p className="mt-4 text-[11px] leading-[1.8] text-[#77717D]">
-            Stand specifications, package inclusions
-            and display suitability are subject to
-            confirmation by the organisers. The
-            above formats are enquiry categories,
-            not confirmed allocations.
-          </p>
+ 
         </section>
 
         {/* =====================================

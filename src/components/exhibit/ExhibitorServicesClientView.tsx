@@ -600,9 +600,7 @@ function ServiceCard({
           <ServiceIcon name={service.icon} />
         </span>
 
-        <span className="font-heading text-[11px] font-bold tabular-nums text-[#AAA4AE]">
-          {service.number}
-        </span>
+
       </div>
 
       {/* Category */}
@@ -620,62 +618,7 @@ function ServiceCard({
         {service.body}
       </p>
 
-      {/* Status and CTA */}
-      <div className="mt-5 border-t border-[#F0EBF0] pt-4">
-        <div className="flex items-center gap-2">
-          <span
-            aria-hidden="true"
-            className={
-              hasLink
-                ? "size-1.5 rounded-full bg-brand-primary"
-                : "size-1.5 rounded-full bg-[#9B97A0]"
-            }
-          />
-
-          <span
-            className={
-              hasLink
-                ? "font-heading text-[10px] font-bold text-brand-primary"
-                : "font-heading text-[10px] font-bold text-[#77717D]"
-            }
-          >
-            {service.status}
-          </span>
-        </div>
-
-        {service.link ? (
-          service.link.external ? (
-            <a
-              href={service.link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/link mt-3 inline-flex min-h-8 items-center gap-2 font-heading text-[11px] font-bold text-brand-primary transition-colors hover:text-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
-            >
-              {service.link.label}
-
-              <span className="transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5">
-                <ArrowIcon diagonal />
-              </span>
-            </a>
-          ) : (
-            <Link
-              href={service.link.href}
-              className="group/link mt-3 inline-flex min-h-8 items-center gap-2 font-heading text-[11px] font-bold text-brand-primary transition-colors hover:text-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
-            >
-              {service.link.label}
-
-              <span className="transition-transform duration-300 group-hover/link:translate-x-1">
-                <ArrowIcon />
-              </span>
-            </Link>
-          )
-        ) : (
-          <p className="mt-3 text-[11px] leading-[1.7] text-[#88828D]">
-            Contact the organising team for
-            the latest available information.
-          </p>
-        )}
-      </div>
+     
     </motion.article>
   );
 }
@@ -696,16 +639,13 @@ export function ExhibitorServicesClientView() {
     },
   };
 
-  const contactDesks = [
-    {
-      label: "Futurex Trade Fair & Events",
-      phone: event.contact.futurex.phone,
-    },
-    {
-      label: "ASK Trade & Exhibitions",
-      phone: event.contact.askTrade.phone,
-    },
-  ];
+const contactDesks = event.contact.people.map((person) => ({
+  id: person.id,
+  label: person.name,
+  phone: person.phone,
+  phoneHref: person.phoneHref,
+  email: person.email,
+}));
 
   return (
     <div className="relative overflow-hidden bg-[#F8F8FA] py-12 text-brand-dark selection:bg-brand-primary selection:text-white sm:py-16">
@@ -784,9 +724,7 @@ export function ExhibitorServicesClientView() {
               reducedMotion={reducedMotion}
             />
 
-            <span className="absolute bottom-3 right-4 font-heading text-[9px] font-bold uppercase tracking-[0.11em] text-brand-primary/70">
-              Exhibitor Operations
-            </span>
+           
           </div>
         </motion.header>
 
@@ -844,19 +782,7 @@ export function ExhibitorServicesClientView() {
             ))}
           </motion.div>
 
-          {/* Operational disclaimer */}
-          <motion.p
-            {...scrollProps}
-            variants={reveal}
-            className="mt-5 text-[11px] leading-[1.8] text-[#77717D]"
-          >
-            Operational guidance, service
-            availability, package inclusions
-            and technical arrangements may
-            change. Refer to the latest
-            information issued by the
-            organising team.
-          </motion.p>
+     
         </section>
 
         {/* ===================================
@@ -965,36 +891,46 @@ export function ExhibitorServicesClientView() {
                 organising office.
               </p>
 
-              <div className="mt-5 grid gap-3">
-                {contactDesks.map((desk) => (
-                  <a
-                    key={desk.label}
-                    href={`tel:${desk.phone.replace(
-                      /[^0-9+]/g,
-                      ""
-                    )}`}
-                    className="group flex min-w-0 items-center gap-3 rounded-xl border border-[#E9E4EB] bg-[#FCFAFC] p-4 transition-[border-color,background-color] duration-300 hover:border-brand-primary/35 hover:bg-[#FBF2F8]"
-                  >
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#F9ECF5] text-brand-primary">
-                      <PhoneIcon />
-                    </span>
+         
+<div className="mt-5 grid grid-cols-1 gap-3">
+  {contactDesks.map((desk, index) => (
+    <a
+      key={desk.id}
+      href={`tel:${desk.phoneHref}`}
+      aria-label={`Call ${desk.label}`}
+      className="group relative flex min-w-0 items-start gap-3 overflow-hidden rounded-xl border border-[#E9E4EB] bg-[#FCFAFC] px-4 py-3.5 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-brand-primary/35 hover:bg-[#FBF2F8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary motion-reduce:transform-none"
+    >
+      {/* Contact number */}
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#F9ECF5] font-heading text-[11px] font-bold tabular-nums text-brand-primary transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white">
+        {String(index + 1).padStart(2, "0")}
+      </span>
 
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-heading text-[11px] font-semibold leading-[1.5] text-[#716A75]">
-                        {desk.label}
-                      </span>
+      {/* Person details */}
+      <span className="min-w-0 flex-1">
+        <span className="block font-heading text-[13px] font-bold leading-[1.4] tracking-[-0.02em] text-brand-dark sm:text-[14px]">
+          {desk.label}
+        </span>
 
-                      <span className="mt-1 block break-words font-heading text-[13px] font-extrabold tabular-nums text-brand-dark transition-colors group-hover:text-brand-primary">
-                        {desk.phone}
-                      </span>
-                    </span>
+        <span className="mt-1 flex items-center gap-2 text-[12px] font-semibold leading-[1.6] text-brand-primary">
+          <PhoneIcon />
+          <span className="min-w-0 break-words tabular-nums">
+            {desk.phone}
+          </span>
+        </span>
 
-                    <span className="shrink-0 text-brand-primary">
-                      <ArrowIcon diagonal />
-                    </span>
-                  </a>
-                ))}
-              </div>
+        <span className="mt-1 block min-w-0 break-all text-[11px] leading-[1.6] tracking-normal text-[#77707B] sm:text-[12px]">
+          {desk.email}
+        </span>
+      </span>
+
+      {/* Call action */}
+      <span className="mt-1 shrink-0 text-brand-primary transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none">
+        <ArrowIcon diagonal />
+      </span>
+    </a>
+  ))}
+</div>
+
 
               <Link
                 href="/contact"

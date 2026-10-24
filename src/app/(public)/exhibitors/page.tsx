@@ -216,12 +216,7 @@ export default async function ExhibitorsPage() {
               </p>
             </div>
 
-            <span className="inline-flex w-fit rounded-lg border border-brand-primary/15 bg-brand-primary/[0.06] px-3 py-2 font-heading text-[11px] font-bold text-brand-primary-dark">
-              {exhibitors.length} Published{" "}
-              {exhibitors.length === 1
-                ? "Exhibitor"
-                : "Exhibitors"}
-            </span>
+           
           </header>
 
           {exhibitors.length > 0 ? (
@@ -273,12 +268,7 @@ export default async function ExhibitorsPage() {
                         key={category.title}
                         className="flex gap-3 rounded-xl border border-black/10 bg-brand-light p-4"
                       >
-                        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-brand-primary/[0.08] font-heading text-[11px] font-extrabold text-brand-primary-dark">
-                          {String(index + 1).padStart(
-                            2,
-                            "0"
-                          )}
-                        </span>
+                      
 
                         <div>
                           <h4 className="font-heading text-[13px] font-extrabold leading-[1.5] text-brand-dark">
