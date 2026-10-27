@@ -151,65 +151,77 @@ export async function POST(req: NextRequest) {
   let doc: FinalVisitor | null = null;
   let created = false;
   let alreadyRegistered = false;
+  let sessionResetRequired = false;
+  let effectiveDraftId = draftId;
 
   try {
     if (!(await connectToDatabase())) throw new Error("Database unavailable");
 
-    // IMPORTANT: draftId must be checked FIRST. Checking email only previously caused
-    // MongoDB E11000 on the unique draftId index when the email was changed.
+    // A session ID is not an identity credential. The browser can retain a
+    // previously submitted ID even when a different visitor uses the form.
     const existingByDraft = draftId
       ? await VisitorRegistration.findOne({ draftId }).lean()
       : null;
 
-    if (existingByDraft) {
-      if (existingByDraft.email.toLowerCase() !== email) {
-        return NextResponse.json(
-          { error: "A registration already uses this form session with a different email. Please contact the organiser." },
-          { status: 409 },
-        );
-      }
-      // Reuse the already created record. Never call create() for the same draftId.
-      doc = existingByDraft as FinalVisitor;
+    if (existingByDraft && existingByDraft.email.toLowerCase() !== email) {
+      // Never attach a second person's registration to that old draft ID.
+      // Continue with independent email-based registration and ask the client
+      // to reset its locally stored draft session after a successful response.
+      effectiveDraftId = undefined;
+      sessionResetRequired = true;
+    }
+
+    const matchingDraft = existingByDraft &&
+      existingByDraft.email.toLowerCase() === email
+        ? existingByDraft
+        : null;
+
+    const existingByEmail = matchingDraft ??
+      await VisitorRegistration.findOne({ email }).lean();
+
+    if (existingByEmail) {
+      doc = existingByEmail as FinalVisitor;
       alreadyRegistered = true;
+      // Only finalize a draft if that exact ID belongs to this registration.
+      if (doc.draftId !== effectiveDraftId) effectiveDraftId = undefined;
     } else {
-      const existingByEmail = await VisitorRegistration.findOne({ email }).lean();
-      if (existingByEmail) {
-        doc = existingByEmail as FinalVisitor;
-        alreadyRegistered = true;
-      } else {
-        const referenceId = generateReferenceId("TBVR");
-        const inserted = await VisitorRegistration.create({
-          referenceId,
-          ...(draftId ? { draftId } : {}),
-          fullName: data.fullName,
-          company: data.company,
-          designation: data.designation,
-          mobile: data.mobile,
-          email,
-          businessCategory: data.businessCategory || "",
-          country: data.country,
-          utm: data.utm,
-          landingPage: data.landingPage,
-          userAgent: req.headers.get("user-agent") ?? "",
-          sheetsSyncStatus: "pending",
-          emailStatus: "pending",
-        });
-        doc = inserted.toObject() as FinalVisitor;
-        created = true;
-      }
+      const referenceId = generateReferenceId("TBVR");
+      const inserted = await VisitorRegistration.create({
+        referenceId,
+        ...(effectiveDraftId ? { draftId: effectiveDraftId } : {}),
+        fullName: data.fullName,
+        company: data.company,
+        designation: data.designation,
+        mobile: data.mobile,
+        email,
+        businessCategory: data.businessCategory || "",
+        country: data.country,
+        utm: data.utm,
+        landingPage: data.landingPage,
+        userAgent: req.headers.get("user-agent") ?? "",
+        sheetsSyncStatus: "pending",
+        emailStatus: "pending",
+      });
+      doc = inserted.toObject() as FinalVisitor;
+      created = true;
     }
   } catch (error) {
     if (isDuplicateKey(error)) {
-      // A second simultaneous Submit may have inserted the registration first.
-      // Recover the existing record and carry on with sheet synchronization.
+      // Recover a duplicate caused by concurrent requests. The draft row
+      // may belong to another email; never select it in that case.
       try {
-        const raced = draftId
-          ? await VisitorRegistration.findOne({ draftId }).lean()
+        const byDraft = effectiveDraftId
+          ? await VisitorRegistration.findOne({ draftId: effectiveDraftId }).lean()
           : null;
-        const byEmail = raced ?? await VisitorRegistration.findOne({ email }).lean();
+        const sameEmailDraft = byDraft?.email.toLowerCase() === email
+          ? byDraft
+          : null;
+        const byEmail = sameEmailDraft ??
+          await VisitorRegistration.findOne({ email }).lean();
         if (byEmail && byEmail.email.toLowerCase() === email) {
           doc = byEmail as FinalVisitor;
           alreadyRegistered = true;
+          if (doc.draftId !== effectiveDraftId) effectiveDraftId = undefined;
         }
       } catch (lookupError) {
         console.error("[Visitor] Duplicate recovery lookup failed", lookupError);
@@ -224,7 +236,7 @@ export async function POST(req: NextRequest) {
   if (!doc) return NextResponse.json({ error: "Registration unavailable" }, { status: 503 });
 
   // Same session always resolves to the persisted reference ID; no duplicates.
-  await markDraftSubmitted(draftId, doc.referenceId);
+  await markDraftSubmitted(effectiveDraftId, doc.referenceId);
 
   // Existing registrations must also retry Sheets, not early-return before it.
   const sheets = await syncSheet(doc);
@@ -251,5 +263,6 @@ export async function POST(req: NextRequest) {
     referenceId: doc.referenceId,
     alreadyRegistered,
     sheets,
+    sessionResetRequired,
   });
 }
