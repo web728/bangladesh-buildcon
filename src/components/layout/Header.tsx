@@ -1,18 +1,6 @@
-
-
 "use client";
 
-import {
-
-  useCallback,
-
-  useEffect,
-
-  useRef,
-
-  useState,
-
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 
@@ -38,20 +26,9 @@ import { clsx } from "@/lib/utils/clsx";
 
 ========================================= */
 
-function ChevronDown({
-
-  open = false,
-
-}: {
-
-  open?: boolean;
-
-}) {
-
+function ChevronDown({ open = false }: { open?: boolean }) {
   return (
-
     <svg
-
       viewBox="0 0 20 20"
 
       fill="none"
@@ -67,29 +44,19 @@ function ChevronDown({
       aria-hidden="true"
 
       className={clsx(
-
         "size-3.5 shrink-0 transition-transform duration-300",
 
-        open && "rotate-180"
-
+        open && "rotate-180",
       )}
-
     >
-
       <path d="m5 7.5 5 5 5-5" />
-
     </svg>
-
   );
-
 }
 
 function ArrowUpRight() {
-
   return (
-
     <svg
-
       viewBox="0 0 20 20"
 
       fill="none"
@@ -105,71 +72,40 @@ function ArrowUpRight() {
       aria-hidden="true"
 
       className="size-4 shrink-0"
-
     >
-
       <path d="M5.5 14.5 14.5 5.5M6.5 5.5h8v8" />
-
     </svg>
-
   );
-
 }
 
-function MenuIcon({
-
-  open,
-
-}: {
-
-  open: boolean;
-
-}) {
-
+function MenuIcon({ open }: { open: boolean }) {
   return (
-
     <span className="relative block h-4 w-5">
-
       <span
-
         className={clsx(
-
           "absolute left-0 top-0 h-[1.8px] w-5 rounded-full bg-current transition-all duration-300",
 
-          open && "top-[7px] rotate-45"
-
+          open && "top-[7px] rotate-45",
         )}
-
       />
 
       <span
-
         className={clsx(
-
           "absolute left-0 top-[7px] h-[1.8px] w-5 rounded-full bg-current transition-all duration-300",
 
-          open && "scale-x-0 opacity-0"
-
+          open && "scale-x-0 opacity-0",
         )}
-
       />
 
       <span
-
         className={clsx(
-
           "absolute left-0 top-[14px] h-[1.8px] w-5 rounded-full bg-current transition-all duration-300",
 
-          open && "top-[7px] -rotate-45"
-
+          open && "top-[7px] -rotate-45",
         )}
-
       />
-
     </span>
-
   );
-
 }
 
 /* =========================================
@@ -179,21 +115,16 @@ function MenuIcon({
 ========================================= */
 
 function EventMarquee() {
-
   const shouldReduceMotion = useReducedMotion();
 
   const items = [
-
     {
-
       label: "EVENT DATES",
 
       value: event.dates?.display || "2027",
-
     },
 
     {
-
       label: "EXPO VENUE",
 
       value: [event.venue?.name, event.venue?.city]
@@ -201,135 +132,87 @@ function EventMarquee() {
         .filter(Boolean)
 
         .join(", "),
-
     },
 
     {
-
       label: "REGISTRATION",
 
       value: "Exhibitor & Visitor Registration",
-
     },
-
   ];
 
   const renderItems = (prefix: string) =>
-
     items.map((item, index) => (
-
       <div
-
         key={`${prefix}-${index}`}
 
         className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap"
-
       >
-
         <span className="font-heading text-[9px] font-extrabold uppercase tracking-[0.12em] text-white/60 sm:text-[10px]">
-
           {item.label}
-
         </span>
 
         <span className="size-1 rounded-full bg-white/45" />
 
         <span className="text-[10px] font-semibold tracking-[0.01em] text-white sm:text-[11px]">
-
           {item.value}
-
         </span>
 
         <span
-
           aria-hidden="true"
 
           className="mx-4 h-3.5 w-px bg-white/25"
-
         />
-
       </div>
-
     ));
 
   return (
-
     <div className="relative h-[31px] overflow-hidden bg-brand-primary text-white sm:h-[34px]">
-
       <div className="flex h-full items-center overflow-hidden">
-
         {shouldReduceMotion ? (
-
           <div className="mx-auto flex min-w-0 items-center gap-3 overflow-hidden px-4">
-
             <span className="shrink-0 text-[9px] font-bold uppercase tracking-wider text-white/70">
-
               EVENT DATES
-
             </span>
 
             <span className="truncate text-[11px] font-semibold">
-
               {event.dates?.display || "Bangladesh Buildcon 2027"}
-
             </span>
-
           </div>
-
         ) : (
-
           <motion.div
-
             className="flex w-max shrink-0 items-center"
 
             animate={{ x: ["0%", "-50%"] }}
 
             transition={{
-
               duration: 32,
 
               repeat: Infinity,
 
               ease: "linear",
-
             }}
-
           >
-
             <div
-
               className="flex shrink-0 items-center"
 
               aria-label="Event information"
-
             >
-
               {renderItems("primary")}
-
             </div>
 
             <div
-
               className="flex shrink-0 items-center"
 
               aria-hidden="true"
-
             >
-
               {renderItems("duplicate")}
-
             </div>
-
           </motion.div>
-
         )}
-
       </div>
-
     </div>
-
   );
-
 }
 
 /* =========================================
@@ -339,16 +222,11 @@ function EventMarquee() {
 ========================================= */
 
 export function Header() {
-
   const [isScrolled, setIsScrolled] = useState(false);
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const [openDropdown, setOpenDropdown] = useState<
-
-    string | null
-
-  >(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const headerRef = useRef<HTMLElement>(null);
 
@@ -357,27 +235,19 @@ export function Header() {
   /* Scroll state */
 
   useEffect(() => {
-
     const handleScroll = () => {
-
       setIsScrolled(window.scrollY > 16);
-
     };
 
     handleScroll();
 
     window.addEventListener("scroll", handleScroll, {
-
       passive: true,
-
     });
 
     return () => {
-
       window.removeEventListener("scroll", handleScroll);
-
     };
-
   }, []);
 
   /* Close menus on route change */
@@ -392,107 +262,69 @@ export function Header() {
   /* Body scroll lock */
 
   useEffect(() => {
-
     if (!mobileOpen) return;
 
-    const previousOverflow =
-
-      document.body.style.overflow;
+    const previousOverflow = document.body.style.overflow;
 
     document.body.style.overflow = "hidden";
 
     return () => {
-
-      document.body.style.overflow =
-
-        previousOverflow;
-
+      document.body.style.overflow = previousOverflow;
     };
-
   }, [mobileOpen]);
 
   /* Outside click and Escape */
 
   const closeMenus = useCallback(() => {
-
     setOpenDropdown(null);
 
     setMobileOpen(false);
-
   }, []);
 
   useEffect(() => {
-
     const handleKeyDown = (event: KeyboardEvent) => {
-
       if (event.key === "Escape") {
-
         closeMenus();
-
       }
-
     };
 
     const handleOutside = (event: PointerEvent) => {
-
       if (
-
         headerRef.current &&
-
-        !headerRef.current.contains(
-
-          event.target as Node
-
-        )
-
+        !headerRef.current.contains(event.target as Node)
       ) {
-
         setOpenDropdown(null);
-
       }
-
     };
 
     window.addEventListener("keydown", handleKeyDown);
 
     document.addEventListener(
-
       "pointerdown",
 
-      handleOutside
-
+      handleOutside,
     );
 
     return () => {
-
       window.removeEventListener(
-
         "keydown",
 
-        handleKeyDown
-
+        handleKeyDown,
       );
 
       document.removeEventListener(
-
         "pointerdown",
 
-        handleOutside
-
+        handleOutside,
       );
-
     };
-
   }, [closeMenus]);
 
   return (
-
     <header
-
       ref={headerRef}
 
       className={clsx(
-
         "sticky top-0 z-50 w-full",
 
         "bg-white",
@@ -500,15 +332,10 @@ export function Header() {
         "transition-[box-shadow,border-color] duration-300",
 
         isScrolled
-
           ? "border-b border-brand-primary/10 shadow-[0_8px_30px_rgba(5,7,9,0.075)]"
-
-          : "border-b border-[#e9eaf0]"
-
+          : "border-b border-[#e9eaf0]",
       )}
-
     >
-
       {/* =====================================
 
           ANIMATED TOP INFORMATION BAR
@@ -524,19 +351,13 @@ export function Header() {
       ====================================== */}
 
       <div
-
         className={clsx(
-
           "relative w-full bg-white",
 
-          "transition-all duration-300"
-
+          "transition-all duration-300",
         )}
-
       >
-
         <Container
-
           className="
 
             flex h-[88px] w-full max-w-[1440px]
@@ -554,9 +375,7 @@ export function Header() {
             xl:gap-5
 
           "
-
         >
-
           {/* =================================
 
               LOGO
@@ -564,7 +383,6 @@ export function Header() {
           ================================== */}
 
           <Link
-
             href="/"
 
             aria-label={`${event.name} homepage`}
@@ -584,11 +402,8 @@ export function Header() {
               focus-visible:outline-brand-primary
 
             "
-
           >
-
             <Image
-
               src="/logos/bangla.png"
 
               alt={event.name}
@@ -620,9 +435,7 @@ export function Header() {
                 motion-reduce:transform-none
 
               "
-
             />
-
           </Link>
 
           {/* =================================
@@ -632,7 +445,6 @@ export function Header() {
           ================================== */}
 
           <nav
-
             aria-label="Primary navigation"
 
             className="
@@ -644,11 +456,8 @@ export function Header() {
               lg:flex
 
             "
-
           >
-
             <ul
-
               className="
 
                 flex min-w-0
@@ -660,111 +469,59 @@ export function Header() {
                 xl:gap-1
 
               "
-
             >
-
               {mainNav.map((item) => {
-
-                const hasChildren = Boolean(
-
-                  item.children?.length
-
-                );
+                const hasChildren = Boolean(item.children?.length);
 
                 const isActive =
-
                   pathname === item.href ||
-
                   (item.href !== "/" &&
-
-                    pathname?.startsWith(
-
-                      `${item.href}/`
-
-                    )) ||
-
+                    pathname?.startsWith(`${item.href}/`)) ||
                   Boolean(
-
                     item.children?.some(
-
                       (child) =>
-
                         pathname === child.href ||
-
-                        pathname?.startsWith(
-
-                          `${child.href}/`
-
-                        )
-
-                    )
-
+                        pathname?.startsWith(`${child.href}/`),
+                    ),
                   );
 
-                const dropdownOpen =
-
-                  openDropdown === item.label;
+                const dropdownOpen = openDropdown === item.label;
 
                 return (
-
                   <li
-
                     key={item.href}
 
                     className="group relative shrink-0"
 
                     onMouseEnter={() => {
-
                       if (hasChildren) {
-
                         setOpenDropdown(item.label);
-
                       }
-
                     }}
 
                     onMouseLeave={() => {
-
                       if (hasChildren) {
-
                         setOpenDropdown(null);
-
                       }
-
                     }}
-
                   >
-
                     <div
-
                       className={clsx(
-
                         "relative flex items-center",
 
                         "rounded-md transition-colors duration-200",
 
                         isActive
-
                           ? "bg-brand-primary/[0.055]"
-
-                          : "hover:bg-brand-light"
-
+                          : "hover:bg-brand-light",
                       )}
-
                     >
-
                       <Link
-
                         href={item.href}
 
-                        aria-current={
-
-                          isActive ? "page" : undefined
-
-                        }
+                        aria-current={isActive ? "page" : undefined}
 
                         className={clsx(
-
                           "relative inline-flex min-h-10",
 
                           "items-center justify-center",
@@ -784,41 +541,23 @@ export function Header() {
                           "2xl:px-3 2xl:text-[12px]",
 
                           isActive
-
                             ? "text-brand-primary"
-
                             : "text-brand-dark hover:text-brand-primary",
 
                           "focus-visible:outline-2",
 
-                          "focus-visible:outline-brand-primary"
-
+                          "focus-visible:outline-brand-primary",
                         )}
-
                       >
-
                         {item.label}
-
                       </Link>
 
                       {hasChildren && (
-
                         <button
-
                           type="button"
 
                           onClick={() => {
-
-                            setOpenDropdown(
-
-                              dropdownOpen
-
-                                ? null
-
-                                : item.label
-
-                            );
-
+                            setOpenDropdown(dropdownOpen ? null : item.label);
                           }}
 
                           aria-label={`Toggle ${item.label} submenu`}
@@ -826,7 +565,6 @@ export function Header() {
                           aria-expanded={dropdownOpen}
 
                           className={clsx(
-
                             "flex h-9 w-5 shrink-0",
 
                             "items-center justify-center",
@@ -836,37 +574,23 @@ export function Header() {
                             "xl:w-6",
 
                             dropdownOpen || isActive
-
                               ? "text-brand-primary"
-
                               : "text-brand-dark/60 hover:text-brand-primary",
 
                             "focus-visible:outline-2",
 
-                            "focus-visible:outline-brand-primary"
-
+                            "focus-visible:outline-brand-primary",
                           )}
-
                         >
-
-                          <ChevronDown
-
-                            open={dropdownOpen}
-
-                          />
-
+                          <ChevronDown open={dropdownOpen} />
                         </button>
-
                       )}
-
                     </div>
 
                     {/* Active underline */}
 
                     {isActive && (
-
                       <span
-
                         aria-hidden="true"
 
                         className="
@@ -878,9 +602,7 @@ export function Header() {
                           bg-brand-primary
 
                         "
-
                       />
-
                     )}
 
                     {/* =========================
@@ -890,11 +612,8 @@ export function Header() {
                     ========================== */}
 
                     {hasChildren && (
-
                       <div
-
                         className={clsx(
-
                           "absolute left-1/2 top-full",
 
                           "z-50 w-[258px]",
@@ -904,17 +623,11 @@ export function Header() {
                           "transition-all duration-200",
 
                           dropdownOpen
-
                             ? "visible translate-y-0 opacity-100"
-
-                            : "pointer-events-none invisible translate-y-2 opacity-0"
-
+                            : "pointer-events-none invisible translate-y-2 opacity-0",
                         )}
-
                       >
-
                         <div
-
                           className="
 
                             overflow-hidden rounded-xl
@@ -926,13 +639,9 @@ export function Header() {
                             shadow-[0_16px_45px_rgba(5,7,9,0.12)]
 
                           "
-
                         >
-
                           <div className="px-3 pb-2 pt-2">
-
                             <span
-
                               className="
 
                                 font-heading text-[9px]
@@ -944,116 +653,71 @@ export function Header() {
                                 text-brand-primary
 
                               "
-
                             >
-
                               {item.label}
-
                             </span>
-
                           </div>
 
                           <div className="h-px bg-[#eef0f3]" />
 
                           <div className="py-1">
+                            {item.children?.map((child) => {
+                              const childActive = pathname === child.href;
 
-                            {item.children?.map(
+                              return (
+                                <Link
+                                  key={child.href}
 
-                              (child) => {
+                                  href={child.href}
 
-                                const childActive =
+                                  onClick={() => setOpenDropdown(null)}
 
-                                  pathname ===
+                                  className={clsx(
+                                    "group/child flex",
 
-                                  child.href;
+                                    "items-start gap-2.5",
 
-                                return (
+                                    "rounded-lg px-3 py-2.5",
 
-                                  <Link
+                                    "transition-colors duration-200",
 
-                                    key={child.href}
-
-                                    href={child.href}
-
-                                    onClick={() =>
-
-                                      setOpenDropdown(
-
-                                        null
-
-                                      )
-
-                                    }
-
+                                    childActive
+                                      ? "bg-brand-primary/[0.07]"
+                                      : "hover:bg-brand-light",
+                                  )}
+                                >
+                                  <span
                                     className={clsx(
+                                      "mt-[7px] size-1.5",
 
-                                      "group/child flex",
-
-                                      "items-start gap-2.5",
-
-                                      "rounded-lg px-3 py-2.5",
-
-                                      "transition-colors duration-200",
+                                      "shrink-0 rounded-full",
 
                                       childActive
-
-                                        ? "bg-brand-primary/[0.07]"
-
-                                        : "hover:bg-brand-light"
-
+                                        ? "bg-brand-primary"
+                                        : "bg-brand-blue/35 group-hover/child:bg-brand-primary",
                                     )}
+                                  />
 
-                                  >
-
+                                  <span className="min-w-0">
                                     <span
-
                                       className={clsx(
+                                        "block font-heading",
 
-                                        "mt-[7px] size-1.5",
+                                        "text-[11px] font-bold",
 
-                                        "shrink-0 rounded-full",
+                                        "leading-[1.5]",
 
                                         childActive
-
-                                          ? "bg-brand-primary"
-
-                                          : "bg-brand-blue/35 group-hover/child:bg-brand-primary"
-
+                                          ? "text-brand-primary"
+                                          : "text-brand-dark group-hover/child:text-brand-primary",
                                       )}
+                                    >
+                                      {child.label}
+                                    </span>
 
-                                    />
-
-                                    <span className="min-w-0">
-
+                                    {child.description && (
                                       <span
-
-                                        className={clsx(
-
-                                          "block font-heading",
-
-                                          "text-[11px] font-bold",
-
-                                          "leading-[1.5]",
-
-                                          childActive
-
-                                            ? "text-brand-primary"
-
-                                            : "text-brand-dark group-hover/child:text-brand-primary"
-
-                                        )}
-
-                                      >
-
-                                        {child.label}
-
-                                      </span>
-
-                                      {child.description && (
-
-                                        <span
-
-                                          className="
+                                        className="
 
                                             mt-0.5 block
 
@@ -1064,41 +728,22 @@ export function Header() {
                                             text-[#737887]
 
                                           "
-
-                                        >
-
-                                          {child.description}
-
-                                        </span>
-
-                                      )}
-
-                                    </span>
-
-                                  </Link>
-
-                                );
-
-                              }
-
-                            )}
-
+                                      >
+                                        {child.description}
+                                      </span>
+                                    )}
+                                  </span>
+                                </Link>
+                              );
+                            })}
                           </div>
-
                         </div>
-
                       </div>
-
                     )}
-
                   </li>
-
                 );
-
               })}
-
             </ul>
-
           </nav>
 
           {/* =================================
@@ -1108,7 +753,6 @@ export function Header() {
           ================================== */}
 
           <div
-
             className="
 
               hidden shrink-0 items-center
@@ -1118,11 +762,8 @@ export function Header() {
               lg:flex xl:gap-2
 
             "
-
           >
-
             <Link
-
               href={event.cta.bookStand}
 
               className="
@@ -1168,13 +809,9 @@ export function Header() {
                 motion-reduce:transform-none
 
               "
-
             >
-
               Book a Stand
-
               <span
-
                 className="
 
                   hidden transition-transform duration-300
@@ -1188,17 +825,12 @@ export function Header() {
                   motion-reduce:transform-none
 
                 "
-
               >
-
                 <ArrowUpRight />
-
               </span>
-
             </Link>
 
             <Link
-
               href={event.cta.registerVisit}
 
               className="
@@ -1240,13 +872,9 @@ export function Header() {
                 motion-reduce:transform-none
 
               "
-
             >
-
               Register to Visit
-
             </Link>
-
           </div>
 
           {/* =================================
@@ -1256,31 +884,19 @@ export function Header() {
           ================================== */}
 
           <button
-
             type="button"
 
-            onClick={() =>
-
-              setMobileOpen((previous) => !previous)
-
-            }
+            onClick={() => setMobileOpen((previous) => !previous)}
 
             aria-expanded={mobileOpen}
 
             aria-controls="mobile-menu"
 
             aria-label={
-
-              mobileOpen
-
-                ? "Close navigation menu"
-
-                : "Open navigation menu"
-
+              mobileOpen ? "Close navigation menu" : "Open navigation menu"
             }
 
             className={clsx(
-
               "relative flex size-10 shrink-0",
 
               "items-center justify-center",
@@ -1292,27 +908,19 @@ export function Header() {
               "lg:hidden",
 
               mobileOpen
-
                 ? "border-brand-primary bg-brand-primary text-white"
-
                 : "border-brand-primary/20 bg-brand-primary/[0.05] text-brand-primary hover:bg-brand-primary/10",
 
               "focus-visible:outline-2",
 
               "focus-visible:outline-offset-2",
 
-              "focus-visible:outline-brand-primary"
-
+              "focus-visible:outline-brand-primary",
             )}
-
           >
-
             <MenuIcon open={mobileOpen} />
-
           </button>
-
         </Container>
-
       </div>
 
       {/* =====================================
@@ -1322,15 +930,10 @@ export function Header() {
       ====================================== */}
 
       <MobileMenu
-
         open={mobileOpen}
 
         onClose={() => setMobileOpen(false)}
-
       />
-
     </header>
-
   );
-
 }

@@ -21,10 +21,10 @@ export const mainNav: NavItem[] = [
     href: "/exhibit",
     children: [
       { label: "Why Exhibit", href: "/exhibit", description: "Key benefits for exhibitors." },
-      { label: "Who Should Exhibit", href: "/who-should-exhibit", description: "Target profile for manufacturers & suppliers." },
+      // { label: "Who Should Exhibit", href: "/who-should-exhibit", description: "Target profile for manufacturers & suppliers." },
       { label: "Exhibition Profile", href: "/exhibition-profile", description: "Sectors and product directory." },
-      { label: "Exhibitor Directory", href: "/exhibitors", description: "Current list of participating brands." },
-      { label: "Exhibitor Services", href: "/exhibitor-services", description: "Logistics, travel, and stand construction." },
+      // { label: "Exhibitor Directory", href: "/exhibitors", description: "Current list of participating brands." },
+      // { label: "Exhibitor Services", href: "/exhibitor-services", description: "Logistics, travel, and stand construction." },
       { label: "Book a Stand", href: "/book-a-stand", description: "Reserve your expo booth space." },
     ],
   },
@@ -34,8 +34,8 @@ export const mainNav: NavItem[] = [
     children: [
       { label: "Why Visit", href: "/visit", description: "Source products and meet suppliers." },
       { label: "Who Should Visit", href: "/who-should-visit", description: "Trade visitor qualifications." },
-      { label: "Register to Visit", href: "/register-to-visit", description: "Request your trade visitor badge." },
-      { label: "Plan Your Visit", href: "/plan-your-visit", description: "Hotel, travel, and local guide." },
+      { label: "Plan Your Visit", href: "/register-to-visit", description: "Request your trade visitor badge." },
+      // { label: "Plan Your Visit", href: "/plan-your-visit", description: "Hotel, travel, and local guide." },
     ],
   },
   {
