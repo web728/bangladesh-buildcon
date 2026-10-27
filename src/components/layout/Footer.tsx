@@ -47,10 +47,10 @@ const contacts = [
    
     ...event.contact.futurex,
   },
-  {
+  // {
    
-    ...event.contact.askTrade,
-  },
+  //   ...event.contact.askTrade,
+  // },
 ];
 
 /* ==========================================

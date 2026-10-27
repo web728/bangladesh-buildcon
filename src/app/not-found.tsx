@@ -1,11 +1,91 @@
+
 import Link from "next/link";
+
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { event } from "@/config/event";
 
+function ArrowIcon({
+  diagonal = false,
+}: {
+  diagonal?: boolean;
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4 shrink-0"
+      aria-hidden="true"
+    >
+      {diagonal ? (
+        <path d="M7 17 17 7M8 7h9v9" />
+      ) : (
+        <path d="M5 12h14m-6-6 6 6-6 6" />
+      )}
+    </svg>
+  );
+}
+
+function HomeIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4 shrink-0"
+      aria-hidden="true"
+    >
+      <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10Z" />
+      <path d="M9 21v-8h6v8" />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4 shrink-0"
+      aria-hidden="true"
+    >
+      <path d="M3 5a2 2 0 0 1 2-2h3.28a1 1 0 0 1 .948.684l1.498 4.493a1 1 0 0 1-.502 1.21l-2.257 1.13a11.042 11.042 0 0 0 5.516 5.516l1.13-2.257a1 1 0 0 1 1.21-.502l4.493 1.498a1 1 0 0 1 .684.949V19a2 2 0 0 1-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-4 shrink-0"
+      aria-hidden="true"
+    >
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3 7 9 6 9-6" />
+    </svg>
+  );
+}
+
 export default function NotFound() {
-  const cleanPhone = event.contact.general.phone.replace(/[^0-9+]/g, "");
+  const contact = event.contact.namit;
 
   return (
     <>
@@ -13,127 +93,181 @@ export default function NotFound() {
 
       <main
         id="main-content"
-        className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#171217] pt-28 pb-16 sm:pt-36 sm:pb-24 text-white selection:bg-brand-blue selection:text-white"
+        className="relative isolate overflow-hidden bg-[#111017] pt-28 pb-14 text-white selection:bg-brand-primary selection:text-white sm:pt-32 sm:pb-16 lg:pt-36 lg:pb-20"
       >
-        {/* Architectural Grid & Ambient Glows */}
-        <div className="pointer-events-none absolute inset-0 z-0 select-none overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-brand-blue/15 blur-[160px]" />
-          <div className="absolute bottom-10 right-1/4 h-[350px] w-[350px] rounded-full bg-brand-green/15 blur-[140px]" />
-
-          {/* Blueprint Grid Texture */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-[0.04] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_50%,#000_30%,transparent_100%)]"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          {/* Radar Vector Motif */}
+        {/* Minimal decorative SVG */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+        >
           <svg
-            viewBox="0 0 800 800"
+            viewBox="0 0 900 500"
             fill="none"
-            className="absolute -right-32 -top-32 h-[600px] w-[600px] opacity-15"
+            preserveAspectRatio="xMidYMid meet"
+            className="absolute -right-36 -top-28 h-[420px] w-[720px] opacity-[0.14] motion-safe:animate-[pulse_8s_ease-in-out_infinite]"
           >
-            <circle cx="400" cy="400" r="320" stroke="#C82028" strokeWidth="1" strokeDasharray="6 10" />
-            <circle cx="400" cy="400" r="220" stroke="#304090" strokeWidth="1.2" />
-            <circle cx="400" cy="400" r="130" stroke="#ffffff" strokeWidth="0.8" strokeOpacity="0.4" />
+            <path
+              d="M40 350C230 180 350 420 560 200S780 80 940 -40"
+              stroke="#BA1D82"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+            />
+            <path
+              d="M65 395C260 225 380 460 590 240S820 115 980 0"
+              stroke="#304090"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M90 440C290 275 415 495 630 285S855 155 1020 45"
+              stroke="#FFFFFF"
+              strokeOpacity="0.35"
+              strokeWidth="1"
+              strokeLinecap="round"
+            />
           </svg>
         </div>
 
-        <Container className="relative z-10 w-full max-w-2xl text-center px-4">
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-brand-green/30 bg-brand-green/10 px-4 py-1.5 backdrop-blur-md">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-green opacity-75" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-green" />
-            </span>
-            <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-brand-green">
-              Error 404 • Destination Unknown
-            </span>
-          </div>
+        <Container className="relative z-10">
+          <div className="mx-auto flex max-w-[860px] flex-col items-center text-center">
+            {/* Status */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-primary/30 bg-brand-primary/10 px-3.5 py-1.5">
+              <span className="size-1.5 rounded-full bg-[#EFA8D6]" />
 
-          {/* Display Heading */}
-          <h1 className="mt-6 text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
-            Page Not{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-purple to-brand-green">
-              Located
-            </span>
-          </h1>
-
-          <p className="mx-auto mt-4 max-w-lg text-xs sm:text-base leading-relaxed text-slate-300 font-normal">
-            The resource you are looking for may have been restructured, removed, or is temporarily offline. Explore the core event gateways below.
-          </p>
-
-          {/* Action Pills */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
-            <Link
-              href="/"
-              className="inline-flex items-center justify-center rounded-full bg-brand-blue px-7 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(200,32,40,0.4)] transition-all duration-300 hover:bg-brand-blue-dark hover:shadow-[0_0_30px_rgba(200,32,40,0.6)] active:scale-95"
-            >
-              Back to Home
-            </Link>
-
-            <Link
-              href={event.cta.bookStand}
-              className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xl transition-all duration-300 hover:border-brand-blue/60 hover:bg-white/[0.12] active:scale-95"
-            >
-              Book a Stand
-            </Link>
-
-            <Link
-              href={event.cta.registerVisit}
-              className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.03] px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-300 transition-all duration-300 hover:border-white/30 hover:text-white active:scale-95"
-            >
-              Register to Visit
-            </Link>
-          </div>
-
-          {/* Direct Organizer Assistance Desk Card */}
-          <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.04] p-6 text-left backdrop-blur-2xl shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-blue">
-                Need Help Finding a Page?
-              </span>
-              <span className="text-[11px] font-semibold text-slate-400">
-                {event.name}
+              <span className="font-heading text-[10px] font-bold uppercase leading-[1.5] tracking-[0.12em] text-[#F1AED9]">
+                Page Not Found
               </span>
             </div>
 
-            <div className="mt-4 flex flex-col gap-1">
-              <p className="text-sm font-bold text-white">
-                {event.contact.general.name}
-              </p>
-              <p className="text-xs text-slate-400">
-                Head of International Trade Fair Operations &bull; Secretariat
-              </p>
+            {/* Large 404 */}
+            <div className="relative mt-4">
+              <span
+                className="select-none font-heading text-[clamp(6rem,17vw,11rem)] font-extrabold leading-none tracking-[-0.085em] text-white"
+                aria-hidden="true"
+              >
+                4
+                <span className="text-brand-primary">
+                  0
+                </span>
+                4
+              </span>
+
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-[12%] bottom-0 h-px bg-white/15"
+              />
             </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-4 pt-4 border-t border-white/10 text-xs sm:text-sm">
-              <a
-                href={`tel:${cleanPhone}`}
-                className="inline-flex items-center gap-2 font-semibold text-slate-200 transition-colors hover:text-brand-green"
-              >
-                <svg className="h-4 w-4 text-brand-green shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                {event.contact.general.phone}
-              </a>
+            {/* Heading */}
+            <h1 className="mt-5 font-heading text-[clamp(1.65rem,3.3vw,2.6rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-white">
+              This Page Couldn&apos;t{" "}
+              <span className="text-[#EFA8D6]">
+                Be Found.
+              </span>
+            </h1>
 
-              <span className="text-white/20">&bull;</span>
+            {/* Description */}
+            <p className="mx-auto mt-3 max-w-[530px] text-[13px] leading-[1.8] tracking-normal text-white/60 sm:text-[14px]">
+              The page you&apos;re looking for may have
+              moved or is no longer available. You can
+              return to the homepage or continue
+              exploring {event.shortName}.
+            </p>
 
-              <a
-                href={`mailto:${event.contact.general.email}`}
-                className="inline-flex items-center gap-2 font-semibold text-slate-200 transition-colors hover:text-brand-blue truncate"
+            {/* Primary actions */}
+            <div className="mt-7 flex w-full flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/"
+                className="group inline-flex min-h-11 items-center justify-center gap-2.5 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold leading-[1.4] text-white transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary motion-reduce:transform-none"
               >
-                <svg className="h-4 w-4 text-brand-blue shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                {event.contact.general.email}
-              </a>
+                <HomeIcon />
+
+                Back to Homepage
+
+                <span className="transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none">
+                  <ArrowIcon />
+                </span>
+              </Link>
+
+              <Link
+                href={event.cta.bookStand}
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/[0.05] px-5 py-3 font-heading text-[12px] font-semibold leading-[1.4] text-white/90 transition-colors duration-200 hover:border-white/40 hover:bg-white/[0.1] hover:text-white"
+              >
+                Book a Stand
+                <ArrowIcon diagonal />
+              </Link>
+
+              <Link
+                href={event.cta.registerVisit}
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/[0.05] px-5 py-3 font-heading text-[12px] font-semibold leading-[1.4] text-white/90 transition-colors duration-200 hover:border-white/40 hover:bg-white/[0.1] hover:text-white"
+              >
+                Register to Visit
+                <ArrowIcon diagonal />
+              </Link>
             </div>
+
+            {/* Contact support */}
+            <section
+              aria-labelledby="not-found-support-heading"
+              className="mt-9 w-full max-w-[700px] overflow-hidden rounded-2xl border border-white/10 bg-[#1C1922] text-left sm:mt-10"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5 sm:px-6">
+                <div className="flex items-center gap-2.5">
+                  <span className="h-[2px] w-5 bg-brand-primary" />
+
+                  <h2
+                    id="not-found-support-heading"
+                    className="font-heading text-[11px] font-bold uppercase leading-[1.5] tracking-[0.1em] text-[#EFA8D6]"
+                  >
+                    Need Assistance?
+                  </h2>
+                </div>
+
+                <span className="font-heading text-[10px] font-medium text-white/40">
+                  Event Support
+                </span>
+              </div>
+
+              <div className="px-5 py-4 sm:px-6 sm:py-5">
+                <h3 className="font-heading text-[15px] font-bold leading-[1.4] tracking-[-0.02em] text-white sm:text-[16px]">
+                  {contact.name}
+                </h3>
+
+                <p className="mt-1 text-[12px] leading-[1.6] text-white/50">
+                  {event.shortName} · Direct Contact
+                </p>
+
+                <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-7 sm:gap-y-2">
+                  <a
+                    href={`tel:${contact.phoneHref}`}
+                    aria-label={`Call ${contact.name}`}
+                    className="inline-flex w-fit max-w-full items-center gap-2 text-[12px] font-medium leading-[1.6] text-white/80 transition-colors hover:text-[#F1AED9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+                  >
+                    <span className="text-[#EFA8D6]">
+                      <PhoneIcon />
+                    </span>
+
+                    <span className="tabular-nums">
+                      {contact.phone}
+                    </span>
+                  </a>
+
+                  <a
+                    href={`mailto:${contact.email}`}
+                    aria-label={`Email ${contact.name}`}
+                    className="inline-flex w-fit max-w-full items-center gap-2 text-[12px] font-medium leading-[1.6] text-white/80 transition-colors hover:text-[#F1AED9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+                  >
+                    <span className="text-[#EFA8D6]">
+                      <MailIcon />
+                    </span>
+
+                    <span className="min-w-0 break-all">
+                      {contact.email}
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </section>
           </div>
         </Container>
       </main>

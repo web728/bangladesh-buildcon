@@ -437,9 +437,13 @@ function Eyebrow({
    DIRECT EVENT CONTACT CARD
 ========================================== */
 
+
+/* ==========================================
+   COMPACT EVENT CONTACT CARD
+========================================== */
+
 function ContactCard({
   item,
-  index,
   reducedMotion,
 }: {
   item: (typeof CONTACT_PERSONS)[number];
@@ -452,83 +456,72 @@ function ContactCard({
     <motion.article
       variants={revealVariants}
       whileHover={
-        reducedMotion ? undefined : { y: -4 }
+        reducedMotion ? undefined : { y: -3 }
       }
       transition={{
-        duration: 0.3,
+        duration: 0.25,
         ease: EASE,
       }}
-      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-[#E9E4EB] bg-white p-4 shadow-[0_4px_18px_rgba(5,7,9,0.025)] transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_14px_30px_rgba(5,7,9,0.065)] sm:p-5"
+      className="group relative w-full min-w-0 overflow-hidden rounded-xl border border-[#E9E4EB] bg-white px-4 py-4 shadow-[0_4px_18px_rgba(5,7,9,0.025)] transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_10px_28px_rgba(5,7,9,0.055)] sm:px-5"
     >
-      {/* Animated top accent */}
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-brand-primary transition-transform duration-500 group-hover:scale-x-100 motion-reduce:transition-none"
+        className="absolute inset-y-0 left-0 w-[3px] bg-brand-primary"
       />
 
-      {/* Card header */}
-      <div className="flex items-center justify-between gap-3">
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#F9ECF5] text-brand-primary transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white">
-          <Icon name="phone" className="size-[17px]" />
-        </span>
-
-     
-      </div>
-
-      {/* Contact person */}
-      <div className="mt-3.5 min-w-0">
-        <p className="font-heading text-[10px] font-bold uppercase leading-[1.5] tracking-[0.1em] text-brand-primary">
-          Event Contact
-        </p>
-
-        <h3 className="mt-1.5 font-heading text-[15px] font-extrabold leading-[1.4] tracking-[-0.02em] text-brand-dark sm:text-[16px]">
-          {person.name}
-        </h3>
-      </div>
-
-      {/* Contact details — close to name */}
-      <div className="mt-3 flex min-w-0 flex-col gap-2 border-t border-[#F0EBF0] pt-3">
-        {/* Phone */}
-        <a
-          href={`tel:${person.phoneHref}`}
-          aria-label={`Call ${person.name}`}
-          className="group/link flex min-w-0 items-center gap-2.5 rounded-lg bg-[#FCFAFC] px-3 py-2.5 text-[#514A55] transition-colors duration-200 hover:bg-[#FBF2F8] hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
-        >
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-[#F9ECF5] text-brand-primary">
-            <Icon name="phone" className="size-4" />
+      <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+        {/* Name */}
+        <div className="flex min-w-0 items-center gap-3 sm:flex-[0.9]">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#F9ECF5] text-brand-primary">
+            <Icon name="phone" className="size-[18px]" />
           </span>
 
-          <span className="min-w-0 flex-1 break-words font-heading text-[12px] font-semibold leading-[1.5] tracking-normal tabular-nums">
-            {person.phone}
-          </span>
+          <div className="min-w-0">
+            <p className="font-heading text-[10px] font-bold uppercase leading-[1.4] tracking-[0.09em] text-brand-primary">
+              Event Contact
+            </p>
 
-          <span className="shrink-0 text-brand-primary transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 motion-reduce:transform-none">
-            <Icon name="external" className="size-3.5" />
-          </span>
-        </a>
+            <h3 className="mt-1 font-heading text-[15px] font-bold leading-[1.35] tracking-[-0.02em] text-brand-dark">
+              {person.name}
+            </h3>
+          </div>
+        </div>
 
-        {/* Email */}
-        <a
-          href={`mailto:${person.email}`}
-          aria-label={`Email ${person.name}`}
-          className="group/link flex min-w-0 items-center gap-2.5 rounded-lg bg-[#FCFAFC] px-3 py-2.5 text-[#514A55] transition-colors duration-200 hover:bg-[#FBF2F8] hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
-        >
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-[#F9ECF5] text-brand-primary">
-            <Icon name="mail" className="size-4" />
-          </span>
+        {/* Phone and email */}
+        <div className="flex min-w-0 flex-col gap-2 border-t border-[#F0EBF0] pt-3 sm:flex-1 sm:border-l sm:border-t-0 sm:py-0 sm:pl-5">
+          <a
+            href={`tel:${person.phoneHref}`}
+            aria-label={`Call ${person.name}`}
+            className="flex w-fit max-w-full items-center gap-2.5 text-[12px] font-semibold leading-[1.5] tracking-normal text-[#514A55] transition-colors hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+          >
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-[#F9ECF5] text-brand-primary">
+              <Icon name="phone" className="size-3.5" />
+            </span>
 
-          <span className="min-w-0 flex-1 break-all font-heading text-[12px] font-medium leading-[1.55] tracking-normal">
-            {person.email}
-          </span>
+            <span className="min-w-0 tabular-nums">
+              {person.phone}
+            </span>
+          </a>
 
-          <span className="shrink-0 text-brand-primary transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 motion-reduce:transform-none">
-            <Icon name="external" className="size-3.5" />
-          </span>
-        </a>
+          <a
+            href={`mailto:${person.email}`}
+            aria-label={`Email ${person.name}`}
+            className="flex w-fit max-w-full items-center gap-2.5 text-[12px] font-medium leading-[1.5] tracking-normal text-[#625B67] transition-colors hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+          >
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-[#F9ECF5] text-brand-primary">
+              <Icon name="mail" className="size-3.5" />
+            </span>
+
+            <span className="min-w-0 break-all">
+              {person.email}
+            </span>
+          </a>
+        </div>
       </div>
     </motion.article>
   );
 }
+
 
 /* ==========================================
    MAIN CONTACT PAGE
@@ -689,12 +682,7 @@ export function ContactClientView() {
                   </span>
                 </h2>
 
-                <p className="mt-2 max-w-[650px] text-[12px] leading-[1.8] text-[#66616C] sm:text-[13px]">
-                  Share your enquiry below.
-                  The organising team can review
-                  your request and reply using
-                  the contact information provided.
-                </p>
+              
               </div>
             </div>
           </div>
@@ -732,19 +720,23 @@ export function ContactClientView() {
               </h2>
             </div>
 
-            <p className="max-w-[360px] text-[12px] leading-[1.85] text-[#66616C] sm:text-[13px]">
-              Contact either organising office
-              for exhibition-related enquiries.
-            </p>
+         
           </motion.div>
 
        
+
 <motion.div
   variants={staggerVariants}
   initial={reducedMotion ? false : "hidden"}
   whileInView="visible"
   viewport={{ once: true, amount: 0.12 }}
-  className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3"
+  className={`mx-auto grid w-full items-stretch gap-4 ${
+    CONTACT_PERSONS.length === 1
+      ? "max-w-[680px] grid-cols-1"
+      : CONTACT_PERSONS.length === 2
+        ? "max-w-[1100px] grid-cols-1 lg:grid-cols-2"
+        : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+  }`}
 >
   {CONTACT_PERSONS.map((item, index) => (
     <ContactCard
@@ -756,107 +748,9 @@ export function ContactClientView() {
   ))}
 </motion.div>
 
+
         </section>
-
-        {/* ===================================
-            04. FINAL CONTACT CTA
-        ==================================== */}
-
-        <motion.section
-          {...scrollProps}
-          variants={revealVariants}
-          aria-labelledby="contact-cta-heading"
-          className="relative mt-12 overflow-hidden rounded-2xl bg-[#18151C] p-6 text-white sm:mt-16 sm:p-8"
-        >
-          {/* Architectural detail */}
-          <svg
-            viewBox="0 0 300 130"
-            fill="none"
-            aria-hidden="true"
-            className="pointer-events-none absolute bottom-0 right-2 h-[130px] w-[300px] opacity-20 sm:right-8"
-          >
-            <path
-              d="M12 125H290M24 125V52h75v73M112 125V25h95v100M221 125V68h59v57"
-              stroke="#BA1D82"
-              strokeWidth="2"
-            />
-
-            <path
-              d="M24 78h75M24 101h75M112 52h95M112 80h95M221 96h59"
-              stroke="#FFFFFF"
-              strokeOpacity="0.6"
-            />
-
-            <motion.circle
-              cx="159"
-              cy="25"
-              r="5"
-              fill="#BA1D82"
-              animate={
-                reducedMotion
-                  ? undefined
-                  : {
-                      opacity: [0.4, 1, 0.4],
-                    }
-              }
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </svg>
-
-          <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-[650px]">
-              <Eyebrow light>
-                Exhibition Participation
-              </Eyebrow>
-
-              <h2
-                id="contact-cta-heading"
-                className="mt-3 font-heading text-[clamp(1.35rem,2.3vw,1.85rem)] font-extrabold leading-[1.3] tracking-[-0.035em]"
-              >
-                Ready to Join{" "}
-                <span className="text-[#EBA9D5]">
-                  Bangladesh Buildcon?
-                </span>
-              </h2>
-
-              <p className="mt-3 text-[12px] leading-[1.8] text-white/60 sm:text-[13px]">
-                {event.dates.display} ·{" "}
-                {event.venue.name},{" "}
-                {event.venue.city}. Explore
-                exhibiting or visitor
-                registration options.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2.5">
-              <Link
-                href={event.cta.bookStand}
-                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark motion-reduce:transform-none"
-              >
-                Book Stand Space
-
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  <Icon name="arrow" className="size-4" />
-                </span>
-              </Link>
-
-              <Link
-                href={event.cta.registerVisit}
-                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/[0.07] px-5 py-3 font-heading text-[12px] font-bold text-white transition-colors duration-300 hover:border-white/40 hover:bg-white/[0.12]"
-              >
-                Visitor Registration
-
-                <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                  <Icon name="external" className="size-4" />
-                </span>
-              </Link>
-            </div>
-          </div>
-        </motion.section>
+ 
       </Container>
     </section>
   );

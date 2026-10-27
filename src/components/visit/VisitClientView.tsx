@@ -762,43 +762,8 @@ export function VisitClientView() {
             </div>
           </motion.div>
 
-          {/* ===================================
-              REASONS TO VISIT
-          ==================================== */}
-
-          <motion.div
-            {...scrollProps}
-            variants={reveal}
-            className="mt-10 sm:mt-12"
-          >
-            <SectionHeading
-              id="visitor-reasons-heading"
-              eyebrow="Visitor Interests"
-              title="Why Industry Professionals"
-              highlight="Attend"
-              description="Explore the visitor motivations reported in the official exhibition brochure."
-            />
-          </motion.div>
-
-          <motion.div
-            variants={stagger}
-            initial={reducedMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{
-              once: true,
-              amount: 0.06,
-            }}
-            className="mt-6 grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {VISIT_REASONS.map((reason, index) => (
-              <ReasonCard
-                key={reason.title}
-                reason={reason}
-                index={index}
-                reducedMotion={reducedMotion}
-              />
-            ))}
-          </motion.div>
+        
+ 
 
      
         </section>

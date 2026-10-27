@@ -92,16 +92,6 @@ const CONTACT_DESKS = [
     phone: "+91 9810855697",
     email: "namit@futurextrade.com",
   },
-  {
-    name: "Mr. Vijayanka Brighuvanshi",
-    phone: "+91 9324232529",
-    email: "vijayanka@etsipl.in",
-  },
-  {
-    name: "Mr. Vaibhav Srivastava",
-    phone: "+91 9807169880",
-    email: "vaibhav@futurextrade.com",
-  },
 ];
 /* ==========================================
    ICONS

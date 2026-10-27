@@ -457,49 +457,12 @@ export function HeroSection() {
                 />
               </motion.div>
 
-              {/* Top image label */}
-              <div className="absolute left-5 top-5 z-10">
-                <div className="flex items-center gap-2 rounded-md border border-white/20 bg-[#050709]/70 px-3 py-2 backdrop-blur-sm">
-                  <span className="size-1.5 rounded-full bg-brand-primary" />
-
-                  <span className="font-heading text-[10px] font-bold uppercase tracking-[0.13em] text-white">
-                    {event.shortName}
-                  </span>
-                </div>
-              </div>
+            
 
               {/* Image bottom gradient */}
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-[#050709]/95 via-[#050709]/40 to-transparent" />
 
-              {/* Image caption */}
-              <div className="absolute inset-x-0 bottom-0 z-10 p-5 sm:p-7">
-                <motion.div
-                  initial={
-                    reducedMotion
-                      ? false
-                      : { opacity: 0, y: 15 }
-                  }
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    duration: 0.7,
-                    delay: 0.85,
-                    ease: EASE,
-                  }}
-                >
-                  <span className="mb-3 block h-[3px] w-9 rounded-full bg-brand-primary" />
-
-                  <p className="font-heading text-[20px] font-bold tracking-tight text-white sm:text-[25px]">
-                    {event.venue.name}
-                  </p>
-
-                  <p className="mt-1 text-[13px] font-medium text-white/80">
-                    {event.venue.city}, Bangladesh
-                  </p>
-                </motion.div>
-              </div>
+             
             </div>
           </div>
 

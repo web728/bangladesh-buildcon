@@ -39,20 +39,6 @@ const EVENT_CONTACTS = [
     phoneHref: "+919810855697",
     email: "namit@futurextrade.com",
   },
-  // {
-  //   id: "vijayanka-brighuvanshi",
-  //   name: "Mr. Vijayanka Brighuvanshi",
-  //   phone: "(+91) 9324232529",
-  //   phoneHref: "+919324232529",
-  //   email: "vijayanka@etsipl.in",
-  // },
-  {
-    id: "vaibhav-srivastava",
-    name: "Mr. Vaibhav Srivastava",
-    phone: "(+91) 9807169880",
-    phoneHref: "+919807169880",
-    email: "vaibhav@futurextrade.com",
-  },
 ] as const;
 
 /* ==========================================
@@ -187,9 +173,9 @@ export const event = {
     /* Named contacts for direct access */
     namit: EVENT_CONTACTS[0],
 
-    vijayanka: EVENT_CONTACTS[1],
+    vijayanka: EVENT_CONTACTS[0],
 
-    vaibhav: EVENT_CONTACTS[1],
+    vaibhav: EVENT_CONTACTS[0],
 
     /* ======================================
        BACKWARDS-COMPATIBLE CONTACT KEYS
@@ -209,10 +195,10 @@ export const event = {
 
     askTrade: {
       company: "ASK Trade & Exhibitions Pvt. Ltd.",
-      name: EVENT_CONTACTS[1].name,
-      email: EVENT_CONTACTS[1].email,
-      phone: EVENT_CONTACTS[1].phone,
-      phoneHref: EVENT_CONTACTS[1].phoneHref,
+      name: EVENT_CONTACTS[0].name,
+      email: EVENT_CONTACTS[0].email,
+      phone: EVENT_CONTACTS[0].phone,
+      phoneHref: EVENT_CONTACTS[0].phoneHref,
     },
 
     exhibitorEnquiries: {
@@ -225,18 +211,18 @@ export const event = {
 
     internationalParticipation: {
       company: "ASK Trade & Exhibitions Pvt. Ltd.",
-      name: EVENT_CONTACTS[1].name,
-      email: EVENT_CONTACTS[1].email,
-      phone: EVENT_CONTACTS[1].phone,
-      phoneHref: EVENT_CONTACTS[1].phoneHref,
+      name: EVENT_CONTACTS[0].name,
+      email: EVENT_CONTACTS[0].email,
+      phone: EVENT_CONTACTS[0].phone,
+      phoneHref: EVENT_CONTACTS[0].phoneHref,
     },
 
     general: {
       company: "Futurex Group",
-      name: EVENT_CONTACTS[1].name,
-      email: EVENT_CONTACTS[1].email,
-      phone: EVENT_CONTACTS[1].phone,
-      phoneHref: EVENT_CONTACTS[1].phoneHref,
+      name: EVENT_CONTACTS[0].name,
+      email: EVENT_CONTACTS[0].email,
+      phone: EVENT_CONTACTS[0].phone,
+      phoneHref: EVENT_CONTACTS[0].phoneHref,
     },
 
     office: {
