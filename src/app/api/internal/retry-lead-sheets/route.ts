@@ -22,7 +22,13 @@ export async function GET(req: NextRequest) {
   let synced = 0;
   let failed = 0;
   const errors: string[] = [];
-  const query = { sheetsSyncStatus: { $in: ["pending", "failed"] } };
+const query = {
+  sheetsSyncStatus: {
+    $in: ["pending", "failed"],
+  },
+} as const;
+
+
   const exhibitors = await ExhibitorEnquiry.find(query).sort({ createdAt: 1 }).limit(10).lean();
   const visitors = await VisitorRegistration.find(query).sort({ createdAt: 1 }).limit(10).lean();
 
