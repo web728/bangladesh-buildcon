@@ -39,13 +39,13 @@ const EVENT_CONTACTS = [
     phoneHref: "+919810855697",
     email: "namit@futurextrade.com",
   },
-  {
-    id: "vijayanka-brighuvanshi",
-    name: "Mr. Vijayanka Brighuvanshi",
-    phone: "(+91) 9324232529",
-    phoneHref: "+919324232529",
-    email: "vijayanka@etsipl.in",
-  },
+  // {
+  //   id: "vijayanka-brighuvanshi",
+  //   name: "Mr. Vijayanka Brighuvanshi",
+  //   phone: "(+91) 9324232529",
+  //   phoneHref: "+919324232529",
+  //   email: "vijayanka@etsipl.in",
+  // },
   {
     id: "vaibhav-srivastava",
     name: "Mr. Vaibhav Srivastava",
