@@ -693,63 +693,73 @@ export function ContactClientView() {
           </div>
         </motion.section>
 
-        {/* ===================================
-            03. DIRECT ORGANISER CONTACTS
-        ==================================== */}
+   
+{/* ===================================
+    03. DIRECT EVENT CONTACTS
+==================================== */}
 
-        <section
-          aria-labelledby="direct-contact-heading"
-          className="mt-12 sm:mt-16"
-        >
-          <motion.div
-            {...scrollProps}
-            variants={revealVariants}
-            className="flex flex-col gap-4 border-b border-[#E9E4EB] pb-6 sm:flex-row sm:items-end sm:justify-between"
-          >
-            <div className="max-w-[690px]">
-              <Eyebrow>Direct Assistance</Eyebrow>
-
-              <h2
-                id="direct-contact-heading"
-                className="mt-3 font-heading text-[clamp(1.45rem,2.5vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
-              >
-                Speak Directly with Our{" "}
-                <span className="text-brand-primary">
-                  Organisers
-                </span>
-              </h2>
-            </div>
-
-         
-          </motion.div>
-
-       
-
-<motion.div
-  variants={staggerVariants}
-  initial={reducedMotion ? false : "hidden"}
-  whileInView="visible"
-  viewport={{ once: true, amount: 0.12 }}
-  className={`mx-auto grid w-full items-stretch gap-4 ${
-    CONTACT_PERSONS.length === 1
-      ? "max-w-[680px] grid-cols-1"
-      : CONTACT_PERSONS.length === 2
-        ? "max-w-[1100px] grid-cols-1 lg:grid-cols-2"
-        : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-  }`}
+<section
+  aria-labelledby="direct-contact-heading"
+  className="mt-12 sm:mt-14 lg:mt-16"
 >
-  {CONTACT_PERSONS.map((item, index) => (
-    <ContactCard
-      key={item.id}
-      item={item}
-      index={index}
-      reducedMotion={reducedMotion}
-    />
-  ))}
-</motion.div>
+  {/* Section heading */}
+  <motion.div
+    {...scrollProps}
+    variants={revealVariants}
+    className="mb-6 flex flex-col gap-3 border-b border-[#E9E4EB] pb-5 sm:mb-7 sm:flex-row sm:items-end sm:justify-between sm:pb-6"
+  >
+    <div className="max-w-[720px]">
+      <Eyebrow>Direct Assistance</Eyebrow>
 
+      <h2
+        id="direct-contact-heading"
+        className="mt-3 font-heading text-[clamp(1.65rem,3vw,2.35rem)] font-extrabold leading-[1.25] tracking-[-0.035em] text-brand-dark"
+      >
+        Connect with Our{" "}
+        <span className="text-brand-primary">
+          Event Team
+        </span>
+      </h2>
 
-        </section>
+      <p className="mt-2.5 max-w-[590px] text-[13px] leading-[1.75] tracking-normal text-[#716A75] sm:text-[14px]">
+        Have a question about exhibiting,
+        participation or the event?
+        Speak directly with our team
+        for assistance.
+      </p>
+    </div>
+
+   
+  </motion.div>
+
+  {/* Responsive contact grid */}
+  <motion.div
+    variants={staggerVariants}
+    initial={reducedMotion ? false : "hidden"}
+    whileInView="visible"
+    viewport={{
+      once: true,
+      amount: 0.12,
+    }}
+    className={`grid w-full items-stretch gap-5 ${
+      CONTACT_PERSONS.length === 1
+        ? "grid-cols-1"
+        : CONTACT_PERSONS.length === 2
+          ? "grid-cols-1 lg:grid-cols-2"
+          : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+    }`}
+  >
+    {CONTACT_PERSONS.map((item, index) => (
+      <ContactCard
+        key={item.id}
+        item={item}
+        index={index}
+        reducedMotion={reducedMotion}
+      />
+    ))}
+  </motion.div>
+</section>
+
  
       </Container>
     </section>
