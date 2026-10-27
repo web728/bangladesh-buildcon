@@ -409,9 +409,7 @@ function SectionHeading({
         </h2>
       </div>
 
-      <p className="max-w-[390px] text-[12px] leading-[1.85] text-[#66616C] sm:text-[13px]">
-        {description}
-      </p>
+      
     </div>
   );
 }

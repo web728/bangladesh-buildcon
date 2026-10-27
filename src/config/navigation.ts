@@ -40,9 +40,9 @@ export const mainNav: NavItem[] = [
   },
   {
     label: "Media & Resources",
-    href: "/news",
+    href: "/gallery",
     children: [
-      { label: "Latest News", href: "/news", description: "Press releases and updates." },
+      // { label: "Latest News", href: "/news", description: "Press releases and updates." },
       { label: "Gallery", href: "/gallery", description: "Event photos and video highlights." },
       { label: "Downloads", href: "/downloads", description: "Brochures, floor plan, and forms." },
     ],

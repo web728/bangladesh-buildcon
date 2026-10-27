@@ -550,7 +550,7 @@ export function AboutClientView() {
             <div className="flex flex-col gap-4 bg-[#F9F9FB] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7">
               <p className="text-[12px] leading-[1.7] text-[#66707F]">
                 Interested in exhibiting your products
-                and technologies at Bangladesh Buildcon?
+                and technologies at Bangladesh Buildcon International Expo 2027?
               </p>
 
               <Link

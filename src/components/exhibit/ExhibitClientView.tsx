@@ -1,6 +1,5 @@
 
 "use client";
-
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
@@ -8,16 +7,12 @@ import {
   useReducedMotion,
   type Variants,
 } from "framer-motion";
-
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
-
 /* ==========================================
    BRAND & ANIMATION
 ========================================== */
-
 const EASE = [0.22, 1, 0.36, 1] as const;
-
 const reveal: Variants = {
   hidden: { opacity: 0, y: 22 },
   visible: {
@@ -29,7 +24,6 @@ const reveal: Variants = {
     },
   },
 };
-
 const stagger: Variants = {
   hidden: {},
   visible: {
@@ -39,14 +33,11 @@ const stagger: Variants = {
     },
   },
 };
-
 /* ==========================================
    EXHIBITOR ADVANTAGES
-
    Aligned with brochure:
    Why Exhibit, Event Overview and Key Features
 ========================================== */
-
 const BENEFITS = [
   {
     title: "Connect with Buyers",
@@ -91,18 +82,62 @@ const BENEFITS = [
     icon: "showcase",
   },
 ] as const;
-
 const EXHIBITOR_PROFILES = [
-  "Building Material Companies",
-  "Construction Machinery Companies",
-  "Engineering Product Manufacturers",
-  "Equipment Suppliers",
-  "Building Technology Companies",
-  "Construction Product & System Providers",
-  "Importers & Distributors",
-  "Bangladeshi Manufacturers",
+  {
+    title: "Building Material Companies",
+    description: "Roofing, insulation, waterproofing, façades, finishes and construction components.",
+  },
+  {
+    title: "Construction Machinery Companies",
+    description: "Lifting systems, construction machinery, formwork, power tools and site equipment.",
+  },
+  {
+    title: "Engineering Product Manufacturers",
+    description: "Electrical products, distribution equipment, automation and technical components.",
+  },
+  {
+    title: "Equipment Suppliers",
+    description: "Construction tools, welding equipment, hydraulics and site-use systems.",
+  },
+  {
+    title: "Building Technology Companies",
+    description: "Building automation, modern construction technologies and energy-related solutions.",
+  },
+  {
+    title: "Construction Product & System Providers",
+    description: "Building envelopes, prefabricated systems, interiors and safety solutions.",
+  },
+  {
+    title: "Importers & Distributors",
+    description: "Dealers and trading businesses representing building materials and equipment.",
+  },
+  {
+    title: "Bangladeshi Manufacturers",
+    description: "Local producers presenting materials, components and building solutions.",
+  },
 ] as const;
-
+const EXHIBITOR_TYPES = [
+  "Manufacturers",
+  "Exporters",
+  "International Suppliers",
+  "Distributors",
+  "Technology Providers",
+] as const;
+const EXHIBITION_SECTORS = [
+  "Construction Machinery and Equipment",
+  "Construction Materials",
+  "Construction",
+  "Country Housing & Landscaping",
+  "Electricity & Electrical Engineering in Construction",
+  "Interior & Exterior",
+  "Safety & Security",
+] as const;
+const PROGRAMME_HIGHLIGHTS = [
+  "International exhibitors and country pavilions",
+  "Product launches and live demonstrations",
+  "Business networking and B2B matchmaking",
+  "Industry conferences and technical seminars",
+] as const;
 const SECTOR_TAGS = [
   "Construction Machinery",
   "Construction Materials",
@@ -110,7 +145,6 @@ const SECTOR_TAGS = [
   "Interior & Exterior",
   "Safety & Security",
 ] as const;
-
 const PARTICIPATION_OPTIONS = [
   {
     title: "Shell Scheme Space",
@@ -141,11 +175,9 @@ const PARTICIPATION_OPTIONS = [
     icon: "machinery",
   },
 ] as const;
-
 /* ==========================================
    ICONS
 ========================================== */
-
 function ArrowIcon({
   diagonal = false,
 }: {
@@ -170,7 +202,6 @@ function ArrowIcon({
     </svg>
   );
 }
-
 function CheckIcon() {
   return (
     <svg
@@ -187,17 +218,14 @@ function CheckIcon() {
     </svg>
   );
 }
-
 type BenefitIconName =
   (typeof BENEFITS)[number]["icon"];
-
 function BenefitIcon({
   name,
 }: {
   name: BenefitIconName;
 }) {
   let paths: ReactNode;
-
   switch (name) {
     case "buyers":
       paths = (
@@ -208,7 +236,6 @@ function BenefitIcon({
         </>
       );
       break;
-
     case "network":
       paths = (
         <>
@@ -219,7 +246,6 @@ function BenefitIcon({
         </>
       );
       break;
-
     case "market":
       paths = (
         <>
@@ -228,7 +254,6 @@ function BenefitIcon({
         </>
       );
       break;
-
     case "enquiries":
       paths = (
         <>
@@ -237,7 +262,6 @@ function BenefitIcon({
         </>
       );
       break;
-
     case "professionals":
       paths = (
         <>
@@ -246,7 +270,6 @@ function BenefitIcon({
         </>
       );
       break;
-
     case "showcase":
       paths = (
         <>
@@ -255,7 +278,6 @@ function BenefitIcon({
         </>
       );
   }
-
   return (
     <svg
       viewBox="0 0 24 24"
@@ -271,10 +293,8 @@ function BenefitIcon({
     </svg>
   );
 }
-
 type StandIconName =
   (typeof PARTICIPATION_OPTIONS)[number]["icon"];
-
 function StandIcon({
   name,
 }: {
@@ -282,7 +302,6 @@ function StandIcon({
 }) {
   const common =
     "stroke-current";
-
   return (
     <svg
       viewBox="0 0 80 64"
@@ -303,7 +322,6 @@ function StandIcon({
           <path d="M36 19h8" />
         </>
       )}
-
       {name === "bare" && (
         <>
           <path d="m9 43 32-18 30 18-32 18L9 43Z" />
@@ -312,7 +330,6 @@ function StandIcon({
           <path d="M20 39l21-12 20 12" />
         </>
       )}
-
       {name === "pavilion" && (
         <>
           <path d="M6 55h68M13 55V22l27-13 27 13v33" />
@@ -321,7 +338,6 @@ function StandIcon({
           <path d="M35 39h10v16" />
         </>
       )}
-
       {name === "machinery" && (
         <>
           <path d="M10 49h58M18 46h39l6-13H29l-7 7H13v6h5Z" />
@@ -334,14 +350,11 @@ function StandIcon({
     </svg>
   );
 }
-
 /* ==========================================
    LARGE ARCHITECTURAL SVG
-
    Solid color only.
    Lines animate without gradients.
 ========================================== */
-
 function ArchitecturalIllustration({
   reducedMotion,
 }: {
@@ -351,7 +364,7 @@ function ArchitecturalIllustration({
     <svg
       viewBox="0 0 460 290"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns="http\://www\.w3.org/2000/svg"
       className="h-auto w-full max-w-[460px]"
       aria-hidden="true"
     >
@@ -367,7 +380,6 @@ function ArchitecturalIllustration({
         strokeWidth="1"
         strokeDasharray="5 8"
       />
-
       {/* Building structure */}
       <motion.g
         initial={reducedMotion ? false : { opacity: 0 }}
@@ -399,7 +411,6 @@ function ArchitecturalIllustration({
           d="M90 135H245M90 176H245M90 217H245"
           stroke="#D8B3CD"
         />
-
         {[113, 160, 207].map((x) =>
           [116, 157, 198].map((y) => (
             <rect
@@ -414,7 +425,6 @@ function ArchitecturalIllustration({
           ))
         )}
       </motion.g>
-
       {/* Secondary structure */}
       <path
         d="M270 249V132H383V249"
@@ -436,7 +446,6 @@ function ArchitecturalIllustration({
         stroke="#304090"
         strokeOpacity=".7"
       />
-
       {/* Crane arm */}
       <motion.path
         d="M335 249V39H420M335 39H284M300 39l35-25 35 25M405 39v92"
@@ -455,7 +464,6 @@ function ArchitecturalIllustration({
           ease: EASE,
         }}
       />
-
       {/* Crane hook */}
       <motion.g
         animate={
@@ -475,7 +483,6 @@ function ArchitecturalIllustration({
           strokeWidth="2"
         />
       </motion.g>
-
       {/* Animated connection nodes */}
       <motion.circle
         cx="167"
@@ -499,14 +506,12 @@ function ArchitecturalIllustration({
           ease: "easeInOut",
         }}
       />
-
       <circle
         cx="326"
         cy="107"
         r="4"
         fill="#304090"
       />
-
       {/* Blueprint dimension marks */}
       <path
         d="M68 91H81M68 249H81M74 91v158"
@@ -517,11 +522,9 @@ function ArchitecturalIllustration({
     </svg>
   );
 }
-
 /* ==========================================
    COMMON UI
 ========================================== */
-
 function Eyebrow({
   children,
 }: {
@@ -530,14 +533,12 @@ function Eyebrow({
   return (
     <div className="flex items-center gap-2.5">
       <span className="h-[2px] w-7 bg-brand-primary" />
-
       <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.15em] text-brand-primary">
         {children}
       </span>
     </div>
   );
 }
-
 function SectionHeading({
   eyebrow,
   title,
@@ -555,7 +556,6 @@ function SectionHeading({
     <div className="flex flex-col gap-4 border-b border-[#E8E4E9] pb-6 sm:flex-row sm:items-end sm:justify-between">
       <div className="max-w-[650px]">
         <Eyebrow>{eyebrow}</Eyebrow>
-
         <h2
           id={id}
           className="mt-3 font-heading text-[clamp(1.5rem,2.5vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
@@ -566,18 +566,13 @@ function SectionHeading({
           </span>
         </h2>
       </div>
-
-      <p className="max-w-[365px] text-[12px] leading-[1.8] text-[#62606B] sm:text-[13px]">
-        {description}
-      </p>
+     
     </div>
   );
 }
-
 /* ==========================================
    BENEFIT CARD
 ========================================== */
-
 function BenefitCard({
   benefit,
   index,
@@ -601,23 +596,17 @@ function BenefitCard({
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
       />
-
       <div className="flex items-start justify-between gap-3">
         <span className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-brand-primary/15 bg-[#F9ECF5] text-brand-primary">
           <BenefitIcon name={benefit.icon} />
         </span>
-
-       
       </div>
-
       <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.35] tracking-[-0.02em] text-brand-dark">
         {benefit.title}
       </h3>
-
       <p className="mt-3 flex-1 text-[12px] leading-[1.85] text-[#65636D] sm:text-[13px]">
         {benefit.description}
       </p>
-
       <div className="mt-5 border-t border-[#F0EBF0] pt-3">
         <span className="font-heading text-[10px] font-bold uppercase tracking-[0.06em] text-brand-primary">
           {benefit.label}
@@ -626,14 +615,11 @@ function BenefitCard({
     </motion.article>
   );
 }
-
 /* ==========================================
    MAIN EXHIBITOR VIEW
 ========================================== */
-
 export function ExhibitClientView() {
   const reducedMotion = !!useReducedMotion();
-
   const scrollProps = {
     initial: reducedMotion ? false : "hidden",
     whileInView: "visible" as const,
@@ -642,14 +628,12 @@ export function ExhibitClientView() {
       amount: 0.08,
     },
   };
-
   return (
     <div className="overflow-hidden bg-[#F8F8FA] py-12 text-brand-dark selection:bg-brand-primary selection:text-white sm:py-16">
       <Container>
         {/* =====================================
             01 — BENEFITS HEADER
         ====================================== */}
-
         <section aria-labelledby="exhibitor-benefits-heading">
           <motion.div
             {...scrollProps}
@@ -660,7 +644,6 @@ export function ExhibitClientView() {
               <Eyebrow>
                 Why Exhibit at Buildcon?
               </Eyebrow>
-
               <h2
                 id="exhibitor-benefits-heading"
                 className="mt-4 max-w-[610px] font-heading text-[clamp(1.75rem,3vw,2.65rem)] font-extrabold leading-[1.15] tracking-[-0.045em] text-brand-dark"
@@ -670,7 +653,6 @@ export function ExhibitClientView() {
                   Connect with Industry.
                 </span>
               </h2>
-
               <p className="mt-4 max-w-[560px] text-[13px] leading-[1.85] text-[#62606B] sm:text-[14px]">
                 Bangladesh Buildcon International Expo
                 brings together manufacturers,
@@ -678,7 +660,6 @@ export function ExhibitClientView() {
                 professionals to discover building
                 materials, machinery and new solutions.
               </p>
-
               <div className="mt-5 flex flex-wrap gap-2">
                 {SECTOR_TAGS.map((sector) => (
                   <span
@@ -689,30 +670,23 @@ export function ExhibitClientView() {
                   </span>
                 ))}
               </div>
-
               <Link
                 href={event.cta.bookStand}
                 className="group mt-6 inline-flex min-h-11 w-fit items-center justify-center gap-2.5 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white shadow-[0_8px_20px_rgba(186,29,130,0.16)] transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary motion-reduce:transform-none"
               >
                 Enquire for Stand Space
-
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   <ArrowIcon />
                 </span>
               </Link>
             </div>
-
             <div className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-[#F0E8EF] bg-[#FCF8FB] p-4 sm:p-6">
               <ArchitecturalIllustration
                 reducedMotion={reducedMotion}
               />
-
-              <span className="absolute bottom-3 right-4 font-heading text-[9px] font-bold uppercase tracking-[0.1em] text-brand-primary/70">
-                Building the Future
-              </span>
+             
             </div>
           </motion.div>
-
           {/* Benefits introduction */}
           <motion.div
             {...scrollProps}
@@ -721,7 +695,6 @@ export function ExhibitClientView() {
           >
             <div>
               <Eyebrow>Exhibitor Advantages</Eyebrow>
-
               <h3 className="mt-2 font-heading text-[clamp(1.35rem,2.2vw,1.8rem)] font-extrabold tracking-[-0.035em] text-brand-dark">
                 Opportunities to{" "}
                 <span className="text-brand-primary">
@@ -729,14 +702,8 @@ export function ExhibitClientView() {
                 </span>
               </h3>
             </div>
-
-            <p className="max-w-[390px] text-[12px] leading-[1.8] text-[#65636D]">
-              Connect with prospective buyers and
-              explore industry opportunities at
-              Bangladesh Buildcon.
-            </p>
+            
           </motion.div>
-
           {/* Six animated advantages */}
           <motion.div
             variants={stagger}
@@ -755,11 +722,9 @@ export function ExhibitClientView() {
             ))}
           </motion.div>
         </section>
-
         {/* =====================================
             02 — EXHIBITOR PROFILES
         ====================================== */}
-
         <section
           aria-labelledby="exhibitor-profiles-heading"
           className="mt-12 sm:mt-16"
@@ -773,10 +738,19 @@ export function ExhibitClientView() {
               eyebrow="Who Should Exhibit?"
               title="Built for the"
               highlight="Construction Industry"
-              description="Exhibitor profiles cover manufacturers, product suppliers and businesses across the building and construction value chain."
+              description="Explore relevant manufacturers, suppliers, distributors and technology businesses across the construction sector."
             />
           </motion.div>
-
+          <div className="mt-5 flex flex-wrap gap-2" aria-label="Eligible business types">
+            {EXHIBITOR_TYPES.map((type) => (
+              <span
+                key={type}
+                className="rounded-md border border-[#E9E4E9] bg-white px-3 py-1.5 font-heading text-[11px] font-semibold leading-[1.5] text-[#5B5360]"
+              >
+                {type}
+              </span>
+            ))}
+          </div>
           <motion.div
             variants={stagger}
             initial={reducedMotion ? false : "hidden"}
@@ -785,52 +759,85 @@ export function ExhibitClientView() {
             className="mt-5 overflow-hidden rounded-xl border border-[#E9E4E9] bg-white"
           >
             <div className="grid sm:grid-cols-2 lg:grid-cols-4">
-              {EXHIBITOR_PROFILES.map((profile, index) => (
-                <motion.div
-                  key={profile}
+              {EXHIBITOR_PROFILES.map((profile) => (
+                <motion.article
+                  key={profile.title}
                   variants={reveal}
-                  whileHover={
-                    reducedMotion
-                      ? undefined
-                      : { x: 3 }
-                  }
-                  className="group flex min-h-[94px] items-center gap-3 border-b border-r border-[#F0EBF0] p-4 transition-colors duration-300 hover:bg-[#FCF5FA] sm:p-5"
+                  className="group min-w-0 border-b border-r border-[#F0EBF0] p-4 transition-colors duration-300 hover:bg-[#FCF5FA] sm:p-5"
                 >
-                
-
-                  <p className="font-heading text-[12px] font-bold leading-[1.55] text-brand-dark">
-                    {profile}
+                  <h3 className="font-heading text-[13px] font-bold leading-[1.4] tracking-[-0.02em] text-brand-dark">
+                    {profile.title}
+                  </h3>
+                  <p className="mt-2 text-[12px] leading-[1.7] tracking-normal text-[#65636D]">
+                    {profile.description}
                   </p>
-                </motion.div>
+                </motion.article>
               ))}
             </div>
           </motion.div>
-
-          {/* Brochure-grounded audience statement */}
+         
+        </section>
+        {/* =====================================
+            EXHIBITION SECTORS & PROGRAMME
+        ====================================== */}
+        <section aria-labelledby="exhibition-sectors-heading" className="mt-12 sm:mt-16">
+          <motion.div {...scrollProps} variants={reveal}>
+            <SectionHeading
+              id="exhibition-sectors-heading"
+              eyebrow="Exhibition Profile"
+              title="Explore the"
+              highlight="Exhibition Sectors"
+              description="Construction products, equipment and building technologies represented in the event's exhibition profile."
+            />
+          </motion.div>
+          <motion.div
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.12 }}
+            className="mt-5 grid overflow-hidden rounded-xl border border-[#E9E4E9] bg-white sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {EXHIBITION_SECTORS.map((sector) => (
+              <motion.div
+                key={sector}
+                variants={reveal}
+                className="flex min-w-0 items-start gap-2.5 border-b border-r border-[#F0EBF0] px-4 py-3.5 sm:px-5"
+              >
+                <span className="mt-0.5 shrink-0 text-brand-primary"><CheckIcon /></span>
+                <span className="font-heading text-[12px] font-semibold leading-[1.55] tracking-normal text-brand-dark sm:text-[13px]">
+                  {sector}
+                </span>
+              </motion.div>
+            ))}
+          </motion.div>
           <motion.div
             {...scrollProps}
             variants={reveal}
-            className="mt-4 flex items-start gap-3 rounded-lg border border-brand-primary/15 bg-[#F9EEF6] px-4 py-3.5"
+            className="mt-5 grid items-start gap-5 rounded-xl border border-[#E9E4E9] bg-[#FDFBFD] p-5 sm:p-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]"
           >
-            <span className="mt-0.5 shrink-0 text-brand-primary">
-              <CheckIcon />
-            </span>
-
-            <p className="text-[12px] leading-[1.8] text-[#514A55]">
-              The brochure&apos;s visitor profiles include
-              civil engineering and consulting
-              companies, architects, contractors,
-              distributors, property developers,
-              interior designers and public
-              authorities.
-            </p>
+            <div>
+              <Eyebrow>Exhibition Programme</Eyebrow>
+              <h3 className="mt-2 font-heading text-[17px] font-extrabold leading-[1.35] tracking-[-0.025em] text-brand-dark sm:text-[19px]">
+                More Than an Exhibition Floor
+              </h3>
+              <p className="mt-2 max-w-[390px] text-[12px] leading-[1.75] text-[#65636D] sm:text-[13px]">
+                The exhibition programme highlights opportunities for product discovery, industry connections and knowledge exchange.
+              </p>
+            </div>
+            <ul className="grid gap-x-5 gap-y-3 sm:grid-cols-2">
+              {PROGRAMME_HIGHLIGHTS.map((highlight) => (
+                <li key={highlight} className="flex items-start gap-2.5 text-[12px] leading-[1.65] text-[#554F5B]">
+                  <span className="mt-0.5 shrink-0 text-brand-primary"><CheckIcon /></span>
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
           </motion.div>
+          
         </section>
-
         {/* =====================================
             03 — PARTICIPATION FORMATS
         ====================================== */}
-
         <section
           aria-labelledby="exhibition-formats-heading"
           className="mt-12 sm:mt-16"
@@ -847,7 +854,6 @@ export function ExhibitClientView() {
               description="Discuss exhibition space arrangements with the organising team and select a format suitable for your products."
             />
           </motion.div>
-
           <motion.div
             variants={stagger}
             initial={reducedMotion ? false : "hidden"}
@@ -868,27 +874,20 @@ export function ExhibitClientView() {
                   className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-[#E9E4E9] bg-white p-5 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_14px_30px_rgba(5,7,9,0.06)]"
                 >
                   <div className="flex items-start justify-between">
-                  
-
                     <span className="text-brand-primary">
                       <StandIcon name={option.icon} />
                     </span>
                   </div>
-
                   <div className="mt-3 h-px bg-[#EFE8EF]" />
-
                   <span className="mt-4 font-heading text-[10px] font-bold uppercase tracking-[0.07em] text-brand-primary">
                     {option.tag}
                   </span>
-
                   <h3 className="mt-2 font-heading text-[15px] font-extrabold leading-[1.4] tracking-[-0.025em] text-brand-dark">
                     {option.title}
                   </h3>
-
                   <p className="mt-3 flex-1 text-[12px] leading-[1.8] text-[#65636D]">
                     {option.description}
                   </p>
-
                   <div className="mt-5 border-t border-[#EFE8EF] pt-4">
                     <Link
                       href={event.cta.bookStand}
@@ -896,13 +895,11 @@ export function ExhibitClientView() {
                       className="group/link inline-flex items-center gap-2 font-heading text-[11px] font-bold text-brand-primary transition-colors hover:text-brand-primary-dark"
                     >
                       Enquire About Space
-
                       <span className="transition-transform duration-300 group-hover/link:translate-x-1">
                         <ArrowIcon />
                       </span>
                     </Link>
                   </div>
-
                   <span
                     aria-hidden="true"
                     className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
@@ -911,13 +908,10 @@ export function ExhibitClientView() {
               )
             )}
           </motion.div>
- 
         </section>
-
         {/* =====================================
             04 — FINAL EXHIBITOR CTA
         ====================================== */}
-
         <motion.section
           {...scrollProps}
           variants={reveal}
@@ -948,7 +942,6 @@ export function ExhibitClientView() {
             />
             <circle cx="243" cy="85" r="5" fill="#BA1D82" />
           </svg>
-
           <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="max-w-[700px]">
               <div className="flex items-center gap-2.5">
@@ -957,7 +950,6 @@ export function ExhibitClientView() {
                   Exhibitor Enquiries
                 </span>
               </div>
-
               <h2
                 id="exhibitor-cta-heading"
                 className="mt-3 font-heading text-[clamp(1.4rem,2.4vw,2rem)] font-extrabold leading-[1.25] tracking-[-0.035em]"
@@ -967,7 +959,6 @@ export function ExhibitClientView() {
                   Bangladesh Buildcon?
                 </span>
               </h2>
-
               <p className="mt-3 text-[12px] leading-[1.8] text-white/65 sm:text-[13px]">
                 {event.dates.display} ·{" "}
                 {event.venue.name},{" "}
@@ -976,24 +967,20 @@ export function ExhibitClientView() {
                 the organising team.
               </p>
             </div>
-
             <Link
               href={event.cta.bookStand}
               className="group inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary motion-reduce:transform-none sm:w-auto"
             >
               Book Exhibition Stand
-
               <span className="transition-transform duration-300 group-hover:translate-x-1">
                 <ArrowIcon />
               </span>
             </Link>
           </div>
-
           <div className="relative z-10 mt-6 flex items-start gap-2 border-t border-white/15 pt-4">
             <span className="mt-0.5 shrink-0 text-[#EBA9D4]">
               <CheckIcon />
             </span>
-
             <p className="text-[11px] leading-[1.8] text-white/55">
               Submitting an enquiry does not
               automatically confirm stand allocation.
