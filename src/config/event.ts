@@ -233,10 +233,10 @@ export const event = {
 
     general: {
       company: "Futurex Group",
-      name: EVENT_CONTACTS[2].name,
-      email: EVENT_CONTACTS[2].email,
-      phone: EVENT_CONTACTS[2].phone,
-      phoneHref: EVENT_CONTACTS[2].phoneHref,
+      name: EVENT_CONTACTS[1].name,
+      email: EVENT_CONTACTS[1].email,
+      phone: EVENT_CONTACTS[1].phone,
+      phoneHref: EVENT_CONTACTS[1].phoneHref,
     },
 
     office: {
