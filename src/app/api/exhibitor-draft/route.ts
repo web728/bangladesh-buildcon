@@ -1,70 +1,224 @@
+
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase, safeDbErrorMessage } from "@/lib/db/mongodb";
-import { exhibitorDraftSchema } from "@/lib/validation/exhibitorDraft";
-import { ExhibitorDraft } from "@/models/ExhibitorDraft";
-import { getClientIp, isRateLimited } from "@/lib/utils/rateLimit";
+
+import {
+  connectToDatabase,
+  safeDbErrorMessage,
+} from "@/lib/db/mongodb";
+
+import { exhibitorDraftSchema } from
+  "@/lib/validation/exhibitorDraft";
+
+import { ExhibitorDraft } from
+  "@/models/ExhibitorDraft";
+
+import {
+  getClientIp,
+  isRateLimited,
+} from "@/lib/utils/rateLimit";
+
+import { isValidDraftOrigin } from
+  "@/lib/security/draftOrigin";
 
 export const runtime = "nodejs";
+
 const MAX_BODY_BYTES = 12_000;
+const DRAFT_RETENTION_DAYS = 30;
+const DRAFT_RETENTION_MS =
+  DRAFT_RETENTION_DAYS * 24 * 60 * 60 * 1000;
 
 export async function POST(req: NextRequest) {
-  // Browser-origin requests only. Deploy behind a proxy/WAF for robust IP limits.
-  const origin = req.headers.get("origin");
-  const expectedOrigin = new URL(req.url).origin;
-  if (!origin || origin !== expectedOrigin) {
-    return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  // 1. Validate the public website origin.
+  // Do not compare with new URL(req.url).origin,
+  // because a reverse proxy can change that value.
+  if (!isValidDraftOrigin(req)) {
+    return NextResponse.json(
+      { error: "Invalid request origin" },
+      { status: 403 },
+    );
   }
-  if (isRateLimited(`exhibitor-draft:${getClientIp(req.headers)}`)) {
-    return NextResponse.json({ error: "Too many draft requests" }, { status: 429 });
+
+  // 2. Basic rate limiting.
+  const ip = getClientIp(req.headers);
+
+  if (isRateLimited(`exhibitor-draft:${ip}`)) {
+    return NextResponse.json(
+      {
+        error:
+          "Too many draft requests. Please try again later.",
+      },
+      { status: 429 },
+    );
   }
+
+  // 3. Parse the request body.
   let input: unknown;
+
   try {
     const raw = await req.text();
-    if (raw.length > MAX_BODY_BYTES) {
-      return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+
+    if (
+      Buffer.byteLength(raw, "utf8") >
+      MAX_BODY_BYTES
+    ) {
+      return NextResponse.json(
+        { error: "Payload too large" },
+        { status: 413 },
+      );
     }
+
     input = JSON.parse(raw);
   } catch {
-    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request body" },
+      { status: 400 },
+    );
   }
+
+  // 4. Validate partial form fields.
   const parsed = exhibitorDraftSchema.safeParse(input);
+
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid draft data" }, { status: 400 });
+    return NextResponse.json(
+      {
+        error: "Invalid draft data",
+        issues: parsed.error.issues,
+      },
+      { status: 400 },
+    );
   }
-  const { draftId, website_hp, ...fields } = parsed.data;
-  if (website_hp) return NextResponse.json({ ok: true }); // honeypot
 
-  // Save only after the visitor has entered meaningful contact information.
-  if (!(fields.email.includes("@") || fields.mobile.replace(/\D/g, "").length >= 7)) {
-    return NextResponse.json({ ok: true, saved: false });
+  const {
+    draftId,
+    website_hp,
+    ...fields
+  } = parsed.data;
+
+  // 5. Honeypot protection.
+  if (website_hp) {
+    return NextResponse.json({
+      ok: true,
+      saved: false,
+    });
   }
 
+  // 6. Save only when useful contact information exists.
+  // Other fields may remain empty during autosave.
+  const email = fields.email.trim();
+  const mobileDigits = fields.mobile.replace(/\D/g, "");
+
+  const hasContact =
+    email.includes("@") ||
+    mobileDigits.length >= 7;
+
+  if (!hasContact) {
+    return NextResponse.json({
+      ok: true,
+      saved: false,
+      reason: "No contact details yet",
+    });
+  }
+
+  // 7. Persist partial lead in MongoDB.
   try {
-    const conn = await connectToDatabase();
-    if (!conn) throw new Error("DB unavailable");
-    const now = new Date();
-    // Guard prevents overwriting a finalized draft. One draftId is unique.
-    // $set on each update ensures the latest valid snapshot wins.
-    const existing = await ExhibitorDraft.findOne({ draftId }).select("status").lean();
-    if (existing?.status === "submitted") {
-      return NextResponse.json({ ok: true, saved: false, submitted: true });
+    const connection = await connectToDatabase();
+
+    if (!connection) {
+      throw new Error("Database unavailable");
     }
-    await ExhibitorDraft.updateOne(
-      { draftId, status: "draft" },
+
+    const now = new Date();
+
+    const existing = await ExhibitorDraft.findOne({
+      draftId,
+    })
+      .select("status")
+      .lean()
+      .exec();
+
+    // Do not overwrite a submitted lead.
+    if (existing?.status === "submitted") {
+      return NextResponse.json({
+        ok: true,
+        saved: false,
+        submitted: true,
+      });
+    }
+
+    // Existing unique draftId index prevents duplicate IDs.
+    // A conditional update prevents ordinary writes to
+    // an already submitted record.
+    const result = await ExhibitorDraft.updateOne(
+      {
+        draftId,
+        status: "draft",
+      },
       {
         $set: {
           ...fields,
           lastInputAt: now,
           sheetsSyncStatus: "pending",
-          expiresAt: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000),
+          expiresAt: new Date(
+            now.getTime() + DRAFT_RETENTION_MS,
+          ),
         },
-        $setOnInsert: { kind: "exhibitor", status: "draft" },
+        $setOnInsert: {
+          draftId,
+          kind: "exhibitor",
+          status: "draft",
+        },
       },
-      { upsert: !existing },
+      {
+        upsert: !existing,
+        runValidators: true,
+      },
     );
-    return NextResponse.json({ ok: true, saved: true });
+
+    if (
+      result.matchedCount === 0 &&
+      result.upsertedCount === 0
+    ) {
+      return NextResponse.json({
+        ok: true,
+        saved: false,
+        submitted: true,
+      });
+    }
+
+    return NextResponse.json({
+      ok: true,
+      saved: true,
+      draftId,
+    });
   } catch (error) {
-    console.error("Draft save failed", safeDbErrorMessage(error));
-    return NextResponse.json({ error: "Draft save unavailable" }, { status: 503 });
+    // A simultaneous request may hit the unique draftId
+    // constraint. The next autosave can retry safely.
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === 11000
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Concurrent draft update. Please retry.",
+        },
+        { status: 409 },
+      );
+    }
+
+    console.error(
+      "[Exhibitor Draft] Save failed:",
+      safeDbErrorMessage(error),
+    );
+
+    return NextResponse.json(
+      {
+        error:
+          "Draft save temporarily unavailable.",
+      },
+      { status: 503 },
+    );
   }
 }

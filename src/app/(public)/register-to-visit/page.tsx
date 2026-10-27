@@ -190,32 +190,10 @@ export default function RegisterToVisitPage() {
                   Complete the registration form to
                   share your visitor details for
                   Bangladesh Buildcon International
-                  Expo 2027. Explore building
-                  materials, construction machinery
-                  and technologies, product
-                  demonstrations and B2B networking
-                  opportunities.
+                  Expo 2027.  
                 </p>
 
-                {/* Verified event details */}
-                <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] font-semibold text-brand-body">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="text-brand-primary-dark">
-                      <CalendarIcon />
-                    </span>
-
-                    {event.dates.display}
-                  </span>
-
-                  <span className="inline-flex items-center gap-2">
-                    <span className="text-brand-primary-dark">
-                      <LocationIcon />
-                    </span>
-
-                    {event.venue.name},{" "}
-                    {event.venue.city}
-                  </span>
-                </div>
+                
               </div>
 
               {/* Existing functional registration form */}
