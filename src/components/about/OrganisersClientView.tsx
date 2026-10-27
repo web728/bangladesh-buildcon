@@ -311,16 +311,7 @@ function OrganiserCard({
         </div>
       </div>
 
-      {/* Card footer */}
-      <div className="flex items-center justify-between border-t border-[#EAECF1] bg-[#FCFCFD] px-5 py-3.5 sm:px-7">
-        <span className="text-[11px] font-bold text-[#505968]">
-          Official Exhibition Organiser
-        </span>
-
-        <span className="text-[#981568] transition-transform duration-300 group-hover:translate-x-1">
-          <ArrowIcon />
-        </span>
-      </div>
+     
     </motion.article>
   );
 }

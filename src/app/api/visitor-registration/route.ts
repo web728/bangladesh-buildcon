@@ -3,165 +3,104 @@ import { visitorRegistrationSchema } from "@/lib/validation/visitorRegistration"
 import { MIN_SUBMIT_MS } from "@/lib/validation/shared";
 import { connectToDatabase, safeDbErrorMessage } from "@/lib/db/mongodb";
 import { VisitorRegistration } from "@/models/VisitorRegistration";
+import { VisitorDraft } from "@/models/VisitorDraft";
 import { generateReferenceId } from "@/lib/utils/referenceId";
-import { isRateLimited, getClientIp } from "@/lib/utils/rateLimit";
-import { appendLeadRow, isSheetsConfigured } from "@/lib/google/sheets";
+import { getClientIp, isRateLimited } from "@/lib/utils/rateLimit";
+import { isSheetsConfigured } from "@/lib/google/sheets";
+import { upsertVisitorLeadRow } from "@/lib/google/visitorLeadSheets";
 import { sendVisitorRegistrationEmails } from "@/lib/email/sendLeadEmails";
 import { isEmailConfigured } from "@/lib/email/mailer";
 
-// Google reCAPTCHA v2 Server Verification
-async function verifyRecaptcha(token: string) {
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-  if (!secretKey) return true;
-
+export const runtime = "nodejs";
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secret) return false;
   try {
     const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `secret=${secretKey}&response=${token}`,
+      method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ secret, response: token }), cache: "no-store",
     });
-    const result = await res.json();
+    if (!res.ok) return false;
+    const result: { success?: boolean } = await res.json();
     return result.success === true;
-  } catch (err) {
-    console.error("Recaptcha verification failed:", err);
-    return false;
-  }
+  } catch (error) { console.error("Visitor reCAPTCHA verification failed", error); return false; }
 }
-
 export async function POST(req: NextRequest) {
-  const ip = getClientIp(req.headers);
-  if (isRateLimited(`visitor:${ip}`)) {
-    return NextResponse.json({ error: "Too many submissions. Please try again later." }, { status: 429 });
-  }
-
+  if (isRateLimited(`visitor:${getClientIp(req.headers)}`)) return NextResponse.json({ error: "Too many submissions. Try again later." }, { status: 429 });
   let body: Record<string, unknown>;
   try {
-    const parsedBody: unknown = await req.json();
-    if (!parsedBody || typeof parsedBody !== "object" || Array.isArray(parsedBody)) {
-      throw new Error("Invalid request body");
-    }
-    body = parsedBody as Record<string, unknown>;
-  } catch {
-    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
-  }
-
-  // 1. Google reCAPTCHA v2 Verification
-  const recaptchaToken = String(body.recaptchaToken || body["g-recaptcha-response"] || "");
-  if (process.env.RECAPTCHA_SECRET_KEY) {
-    if (!recaptchaToken) {
-      return NextResponse.json(
-        { error: "Please verify that you are not a robot." },
-        { status: 400 }
-      );
-    }
-    const isHuman = await verifyRecaptcha(recaptchaToken);
-    if (!isHuman) {
-      return NextResponse.json(
-        { error: "reCAPTCHA verification failed. Please try again." },
-        { status: 400 }
-      );
-    }
-  }
-
-  // 2. Validation
+    const json: unknown = await req.json();
+    if (!json || typeof json !== "object" || Array.isArray(json)) throw new Error("Invalid body");
+    body = json as Record<string, unknown>;
+  } catch { return NextResponse.json({ error: "Invalid request body" }, { status: 400 }); }
+  const token = String(body.recaptchaToken || body["g-recaptcha-response"] || "");
+  if (!token || !(await verifyRecaptcha(token))) return NextResponse.json({ error: "Complete the reCAPTCHA verification." }, { status: 400 });
   const parsed = visitorRegistrationSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: "Please check the highlighted fields.", issues: parsed.error.issues },
-      { status: 400 },
-    );
-  }
-
+  if (!parsed.success) return NextResponse.json({ error: "Check the highlighted fields.", issues: parsed.error.issues }, { status: 400 });
   const data = parsed.data;
-
-  // Bot Trap Check
   if (data.website_hp || (data.startedAt && Date.now() - data.startedAt < MIN_SUBMIT_MS)) {
     return NextResponse.json({ success: true, referenceId: generateReferenceId("TBVR") });
   }
-
-  const referenceId = generateReferenceId("TBVR");
-
-  // 3. MongoDB (Duplicate check & Durable Save)
-  let alreadyRegisteredId: string | null = null;
+  let referenceId = generateReferenceId("TBVR");
+  let alreadyRegistered = false;
   try {
-    const conn = await connectToDatabase();
-    if (!conn) throw new Error("Database connection unavailable");
-
-    const existing = await VisitorRegistration.findOne({ email: data.email }).lean();
+    if (!await connectToDatabase()) throw new Error("Database unavailable");
+    // Preserve historical email deduplication; the email index alone is not unique.
+    const existing = await VisitorRegistration.findOne({ email: data.email.toLowerCase() }).select("referenceId draftId").lean();
     if (existing) {
-      alreadyRegisteredId = (existing as { referenceId: string }).referenceId;
+      referenceId = existing.referenceId;
+      alreadyRegistered = true;
     } else {
-      await VisitorRegistration.create({
-        
-            referenceId,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        designation: data.designation,
-        company: data.company,
-        country: data.country,
-        city: data.city,
-        email: data.email,
-        mobile: data.mobile,
-        natureOfBusiness: data.natureOfBusiness,
-        productsInterested: data.productsInterested,
-        purchasingResponsibility: data.purchasingResponsibility,
-        purposeOfVisit: data.purposeOfVisit,
-        utm: data.utm,
-        landingPage: data.landingPage,
-        userAgent: req.headers.get("user-agent") || undefined,
-      });
+      try {
+        await VisitorRegistration.create({
+          referenceId, draftId: data.draftId || undefined, fullName: data.fullName,
+          company: data.company, designation: data.designation, mobile: data.mobile,
+          email: data.email, businessCategory: data.businessCategory || "", country: data.country,
+          utm: data.utm, landingPage: data.landingPage,
+          userAgent: req.headers.get("user-agent") || undefined,
+        });
+      } catch (error) {
+        // Recovery for a concurrent submission of the same draft ID.
+        if (!data.draftId) throw error;
+        const concurrent = await VisitorRegistration.findOne({ draftId: data.draftId }).select("referenceId").lean();
+        if (!concurrent) throw error;
+        referenceId = concurrent.referenceId;
+        alreadyRegistered = true;
+      }
     }
-  } catch (err) {
-    console.error("VisitorRegistration save failed:", safeDbErrorMessage(err));
-    return NextResponse.json(
-      { error: "We couldn't save your registration right now. Please try again in a moment." },
-      { status: 503 },
-    );
+    if (data.draftId) {
+      await VisitorDraft.updateOne({ draftId: data.draftId }, {
+        $set: { status: "submitted", referenceId, sheetsSyncStatus: "synced" },
+        $unset: { expiresAt: 1, sheetsLeaseUntil: 1 },
+      }).catch((err: unknown) => console.error("Visitor draft finalize failed", safeDbErrorMessage(err)));
+    }
+  } catch (error) {
+    console.error("Visitor save failed", safeDbErrorMessage(error));
+    return NextResponse.json({ error: "Unable to save registration. Please retry." }, { status: 503 });
   }
-
-  // Agar user pehle se registered hai to duplicate row add nahi karenge
-  if (alreadyRegisteredId) {
-    return NextResponse.json({ success: true, referenceId: alreadyRegisteredId, alreadyRegistered: true });
-  }
-
-  // 4. Same Google Sheet (Tab: "Visitor Registrations")
+  if (alreadyRegistered) return NextResponse.json({ success: true, referenceId, alreadyRegistered: true });
   if (isSheetsConfigured()) {
     try {
-      await appendLeadRow("Website Enquiries", {
-            referenceId,
-        registerAs: "Visitor Registration",
-        name: `${data.firstName} ${data.lastName}`,
-        company: data.company,
-        designation: data.designation,
-        country: data.country,
-        city: data.city,
-        email: data.email,
-        phone: data.mobile,
-        type: data.natureOfBusiness,
-        productInterest: Array.isArray(data.productsInterested) ? data.productsInterested.join(", ") : "",
-        message: data.purposeOfVisit,
-        utmSource: data.utm?.source ?? "",
-        utmMedium: data.utm?.medium ?? "",
-        utmCampaign: data.utm?.campaign ?? "",
-        landingPage: data.landingPage ?? "",
+      await upsertVisitorLeadRow(`VISITOR:${data.draftId || referenceId}`, {
+        referenceId, registerAs: "Visitor Registration", fullName: data.fullName,
+        company: data.company, designation: data.designation, mobile: data.mobile,
+        email: data.email, businessCategory: data.businessCategory || "", country: data.country,
+        landingPage: data.landingPage, status: "Submitted",
       });
       await VisitorRegistration.updateOne({ referenceId }, { sheetsSyncStatus: "synced" });
-    } catch (err) {
-      console.error("Sheets sync failed", err);
+    } catch (error) {
+      console.error("Visitor Sheet sync failed", error);
       await VisitorRegistration.updateOne({ referenceId }, { sheetsSyncStatus: "failed" }).catch(() => {});
     }
   }
-
-  // 5. Send Email to BOTH Organisers (Futurex & ASK Trade & Exhibitions Pvt. Ltd.) + User Registration Pass Mail
   if (isEmailConfigured()) {
     try {
       await sendVisitorRegistrationEmails({ ...data, referenceId });
       await VisitorRegistration.updateOne({ referenceId }, { emailStatus: "sent" });
-    } catch (err) {
-      console.error("Visitor registration email failed", err);
+    } catch (error) {
+      console.error("Visitor email failed", error);
       await VisitorRegistration.updateOne({ referenceId }, { emailStatus: "failed" }).catch(() => {});
     }
   }
-
   return NextResponse.json({ success: true, referenceId });
 }

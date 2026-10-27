@@ -522,16 +522,7 @@ function MarketFactCard({
       "
     >
       <div>
-        {/* Card header */}
-        <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-3">
-          <span className="inline-flex min-w-0 max-w-full rounded-md border border-brand-primary/25 bg-brand-primary/10 px-2.5 py-1 font-heading text-[10px] font-bold uppercase tracking-[0.07em] text-[#E7A4D0]">
-            {fact.period || "Market Metric"}
-          </span>
-
-          <span className="text-[#D58AB9] transition-colors duration-300 group-hover:text-white">
-            <GrowthIcon />
-          </span>
-        </div>
+        
 
         {/* Animated number */}
         <div className="mt-4 font-heading text-[clamp(1.8rem,2.5vw,2.25rem)] font-extrabold leading-none tracking-[-0.045em] text-white">
@@ -550,28 +541,7 @@ function MarketFactCard({
           </p>
         )}
       </div>
-
-      {/* Source footer */}
-      <div className="mt-5 flex items-center justify-between gap-3 border-t border-white/[0.08] pt-3">
-        <span className="min-w-0 truncate text-[10px] font-medium text-white/45">
-          {fact.sourceUrl ? (
-            <a
-              href={fact.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-[#E7A4D0]"
-            >
-              {fact.sourceName}
-            </a>
-          ) : (
-            fact.sourceName
-          )}
-        </span>
-
-        <span className="shrink-0 text-[10px] font-medium text-white/40">
-          Source
-        </span>
-      </div>
+ 
 
       {/* Animated bottom accent */}
       <span
@@ -814,7 +784,7 @@ export function WhyBangladeshSection() {
         </motion.div>
 
         {/* ORIGINAL INFINITE MARQUEE */}
-        <FocusAreasMarquee />
+        {/* <FocusAreasMarquee /> */}
       </Container>
     </section>
   );

@@ -1,51 +1,150 @@
-import { Schema, models, model, type InferSchemaType } from "mongoose";
 
-const ExhibitorEnquirySchema = new Schema(
+import "server-only";
+
+import mongoose, {
+  Schema,
+  type Model,
+  type HydratedDocument,
+} from "mongoose";
+
+/* ==========================================
+   EXHIBITOR TYPES
+========================================== */
+
+export interface ExhibitorDoc {
+  companyName: string;
+  slug: string;
+
+  description?: string;
+  logo?: string;
+  website?: string;
+
+  country?: string;
+  city?: string;
+
+  category?: string;
+  productCategories?: string[];
+  productsServices?: string;
+
+  featured: boolean;
+  published: boolean;
+  sortOrder: number;
+
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export type ExhibitorDocument =
+  HydratedDocument<ExhibitorDoc>;
+
+/* ==========================================
+   EXHIBITOR SCHEMA
+========================================== */
+
+const exhibitorSchema = new Schema<ExhibitorDoc>(
   {
-    referenceId: { type: String, required: true, unique: true, index: true },
-
-    companyName: { type: String, required: true },
-    country: { type: String, required: true },
-    city: { type: String },
-    website: { type: String },
-    companyType: { type: String, required: true },
-
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    designation: { type: String, required: true },
-    email: { type: String, required: true, lowercase: true, trim: true, index: true },
-    mobile: { type: String, required: true },
-
-    productCategory: { type: String, required: true },
-    productsServices: { type: String, required: true },
-    preferredParticipation: { type: String, required: true },
-    requiredArea: { type: String, required: true },
-    existingBusinessInBangladesh: { type: String },
-    lookingForDistributor: { type: String },
-    message: { type: String },
-
-    utm: {
-      source: String,
-      medium: String,
-      campaign: String,
-    },
-    landingPage: { type: String },
-    userAgent: { type: String },
-
-    status: {
+    companyName: {
       type: String,
-      enum: ["New", "Contacted", "Qualified", "Follow-Up", "Confirmed", "Closed", "Invalid"],
-      default: "New",
+      required: true,
+      trim: true,
+      maxlength: 200,
     },
-    notes: [{ text: String, createdAt: { type: Date, default: Date.now } }],
 
-    sheetsSyncStatus: { type: String, enum: ["pending", "synced", "failed"], default: "pending" },
-    emailStatus: { type: String, enum: ["pending", "sent", "failed"], default: "pending" },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+    },
+
+    description: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    logo: {
+      type: String,
+      default: "",
+    },
+
+    website: {
+      type: String,
+      default: "",
+    },
+
+    country: {
+      type: String,
+      default: "",
+    },
+
+    city: {
+      type: String,
+      default: "",
+    },
+
+    category: {
+      type: String,
+      default: "",
+    },
+
+    productCategories: {
+      type: [String],
+      default: [],
+    },
+
+    productsServices: {
+      type: String,
+      default: "",
+    },
+
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+
+    published: {
+      type: Boolean,
+      default: false,
+    },
+
+    sortOrder: {
+      type: Number,
+      default: 0,
+    },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    collection: "exhibitors",
+    versionKey: false,
+  }
 );
 
-export type ExhibitorEnquiryDoc = InferSchemaType<typeof ExhibitorEnquirySchema>;
+/* ==========================================
+   INDEXES
+========================================== */
 
-export const ExhibitorEnquiry =
-  models.ExhibitorEnquiry || model("ExhibitorEnquiry", ExhibitorEnquirySchema);
+exhibitorSchema.index({
+  published: 1,
+  sortOrder: 1,
+  companyName: 1,
+});
+
+exhibitorSchema.index({
+  featured: 1,
+  published: 1,
+});
+
+/* ==========================================
+   EXHIBITOR MODEL
+========================================== */
+
+export const Exhibitor: Model<ExhibitorDoc> =
+  (mongoose.models.Exhibitor as
+    | Model<ExhibitorDoc>
+    | undefined) ??
+  mongoose.model<ExhibitorDoc>(
+    "Exhibitor",
+    exhibitorSchema
+  );

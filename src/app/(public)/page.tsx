@@ -168,7 +168,7 @@ export default function HomePage() {
       <WhyBangladeshSection />
 
       {/* Seven official brochure exhibitor sectors */}
-      <ExhibitionProfileSection />
+      {/* <ExhibitionProfileSection /> */}
 
       {/* Exhibitor participation information */}
       {/* <WhyExhibitSection /> */}
@@ -177,16 +177,16 @@ export default function HomePage() {
       {/* <WhoWillYouMeetSection /> */}
 
       {/* Official event venue */}
-      <VenueSection />
+      {/* <VenueSection /> */}
 
       {/* Published industry and media partners */}
-      <PartnersSection />
+      {/* <PartnersSection /> */}
 
       {/* Published news and announcements */}
       {/* <NewsSection /> */}
 
       {/* Final registration and enquiry actions */}
-      <FinalCtaSection />
+      {/* <FinalCtaSection /> */}
     </main>
   );
 }
