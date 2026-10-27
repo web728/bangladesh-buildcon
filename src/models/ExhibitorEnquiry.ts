@@ -1,150 +1,120 @@
 
-import "server-only";
-
 import mongoose, {
   Schema,
+  type InferSchemaType,
   type Model,
-  type HydratedDocument,
 } from "mongoose";
 
-/* ==========================================
-   EXHIBITOR TYPES
-========================================== */
-
-export interface ExhibitorDoc {
-  companyName: string;
-  slug: string;
-
-  description?: string;
-  logo?: string;
-  website?: string;
-
-  country?: string;
-  city?: string;
-
-  category?: string;
-  productCategories?: string[];
-  productsServices?: string;
-
-  featured: boolean;
-  published: boolean;
-  sortOrder: number;
-
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export type ExhibitorDocument =
-  HydratedDocument<ExhibitorDoc>;
-
-/* ==========================================
-   EXHIBITOR SCHEMA
-========================================== */
-
-const exhibitorSchema = new Schema<ExhibitorDoc>(
+const exhibitorEnquirySchema = new Schema(
   {
+    referenceId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    draftId: {
+      type: String,
+      default: undefined,
+    },
+
     companyName: {
       type: String,
       required: true,
       trim: true,
-      maxlength: 200,
     },
 
-    slug: {
+    contactPerson: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
+    },
+
+    designation: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    mobile: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
       lowercase: true,
-    },
-
-    description: {
-      type: String,
       trim: true,
-      default: "",
-    },
-
-    logo: {
-      type: String,
-      default: "",
-    },
-
-    website: {
-      type: String,
-      default: "",
     },
 
     country: {
       type: String,
-      default: "",
-    },
-
-    city: {
-      type: String,
-      default: "",
-    },
-
-    category: {
-      type: String,
-      default: "",
-    },
-
-    productCategories: {
-      type: [String],
-      default: [],
+      required: true,
+      trim: true,
     },
 
     productsServices: {
       type: String,
+      required: true,
+      trim: true,
+    },
+
+    preferredBoothSize: {
+      type: String,
+      default: undefined,
+    },
+
+    utm: {
+      type: Schema.Types.Mixed,
+    },
+
+    landingPage: {
+      type: String,
       default: "",
     },
 
-    featured: {
-      type: Boolean,
-      default: false,
+    userAgent: {
+      type: String,
+      default: "",
     },
 
-    published: {
-      type: Boolean,
-      default: false,
+    sheetsSyncStatus: {
+      type: String,
+      enum: ["pending", "synced", "failed"],
+      default: "pending",
     },
 
-    sortOrder: {
-      type: Number,
-      default: 0,
+    emailStatus: {
+      type: String,
+      enum: ["pending", "sent", "failed"],
+      default: "pending",
     },
   },
   {
     timestamps: true,
-    collection: "exhibitors",
-    versionKey: false,
-  }
+  },
 );
 
-/* ==========================================
-   INDEXES
-========================================== */
+exhibitorEnquirySchema.index(
+  { draftId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      draftId: { $type: "string" },
+    },
+  },
+);
 
-exhibitorSchema.index({
-  published: 1,
-  sortOrder: 1,
-  companyName: 1,
-});
+export type ExhibitorEnquiryDocument =
+  InferSchemaType<typeof exhibitorEnquirySchema>;
 
-exhibitorSchema.index({
-  featured: 1,
-  published: 1,
-});
-
-/* ==========================================
-   EXHIBITOR MODEL
-========================================== */
-
-export const Exhibitor: Model<ExhibitorDoc> =
-  (mongoose.models.Exhibitor as
-    | Model<ExhibitorDoc>
+export const ExhibitorEnquiry: Model<ExhibitorEnquiryDocument> =
+  (mongoose.models.ExhibitorEnquiry as
+    | Model<ExhibitorEnquiryDocument>
     | undefined) ??
-  mongoose.model<ExhibitorDoc>(
-    "Exhibitor",
-    exhibitorSchema
+  mongoose.model<ExhibitorEnquiryDocument>(
+    "ExhibitorEnquiry",
+    exhibitorEnquirySchema,
   );
