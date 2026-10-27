@@ -1,3 +1,4 @@
+import "server-only";
 import { google } from "googleapis";
 
 export const TARGET_TAB_NAME = "Website Enquiries";
@@ -39,26 +40,37 @@ export type SheetRow = {
   landingPage?: string;
 };
 
-function credentials() {
-  const encoded = process.env.GOOGLE_CREDENTIALS_BASE64;
-  if (!encoded) throw new Error("Google Sheets credentials missing");
-  return JSON.parse(Buffer.from(encoded, "base64").toString("utf8"));
-}
+const SPREADSHEET_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 
-export function isSheetsConfigured() {
+export function isSheetsConfigured(): boolean {
   return Boolean(process.env.GOOGLE_SHEET_ID && process.env.GOOGLE_CREDENTIALS_BASE64);
 }
 
-function client() {
-  if (!isSheetsConfigured()) throw new Error("Google Sheets is not configured");
+function sheetClient() {
+  const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+  const encoded = process.env.GOOGLE_CREDENTIALS_BASE64;
+  if (!spreadsheetId || !encoded) {
+    throw new Error("Google Sheets credentials are not configured");
+  }
+
+  let credentials: Record<string, unknown>;
+  try {
+    credentials = JSON.parse(Buffer.from(encoded, "base64").toString("utf8")) as Record<string, unknown>;
+  } catch {
+    throw new Error("Invalid GOOGLE_CREDENTIALS_BASE64 JSON");
+  }
+
   const auth = new google.auth.GoogleAuth({
-    credentials: credentials(),
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    credentials,
+    scopes: [SPREADSHEET_SCOPE],
   });
-  return google.sheets({ version: "v4", auth });
+  return {
+    spreadsheetId,
+    sheets: google.sheets({ version: "v4", auth }),
+  };
 }
 
-function formatCurrentDateTime() {
+function dateInDhaka(): string {
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit", month: "2-digit", year: "numeric",
     hour: "2-digit", minute: "2-digit", second: "2-digit",
@@ -66,79 +78,81 @@ function formatCurrentDateTime() {
   }).format(new Date());
 }
 
-function rowValues(row: SheetRow, internalKey = "") {
+function clean(value: string | undefined): string {
+  const s = (value ?? "").trim();
+  // Google Sheets valueInputOption is RAW, so inputs are never parsed as formulas.
+  return s;
+}
+
+function rowValues(row: SheetRow, internalKey = ""): string[] {
   const source = row.infoGetFrom ||
     (row.utmSource ? `UTM: ${row.utmSource}` : "") ||
     row.landingPage || "Direct Website";
+
   return [
-    formatCurrentDateTime(),
-    "Website",
-    row.registerAs || row.type || "Website Enquiry",
-    row.companyName || row.company || "",
-    row.contactPerson || row.name || "",
-    row.designation || "",
-    row.emailId || row.email || "",
-    row.mobileNo || row.mobile || row.phone || "",
-    row.website || "",
-    row.address || row.city || "",
-    row.country || "",
-    row.boothSizeRequirement || "",
-    row.areaOfInterest || row.productInterest || "",
-    source,
-    row.message || "",
-    internalKey,
+    dateInDhaka(), "Website", clean(row.registerAs || row.type || "Website Enquiry"),
+    clean(row.companyName || row.company),
+    clean(row.contactPerson || row.name),
+    clean(row.designation), clean(row.emailId || row.email),
+    clean(row.mobileNo || row.mobile || row.phone),
+    clean(row.website), clean(row.address || row.city), clean(row.country),
+    clean(row.boothSizeRequirement), clean(row.areaOfInterest || row.productInterest),
+    clean(source), clean(row.message), clean(internalKey),
   ];
 }
 
-/** Existing API stays intact for visitor/contact/partner forms. */
+/** Preserve the current sheet's A:Y layout and existing append-only callers. */
 export async function appendLeadRow(_tabIgnored: string, row: SheetRow): Promise<void> {
-  if (!isSheetsConfigured()) throw new Error("Google Sheets is not configured");
-  const sheets = client();
+  const { sheets, spreadsheetId } = sheetClient();
   await sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.GOOGLE_SHEET_ID!,
+    spreadsheetId,
     range: `'${TARGET_TAB_NAME}'!A:Y`,
     valueInputOption: "RAW",
     insertDataOption: "INSERT_ROWS",
-    requestBody: { values: [[...rowValues(row), ...Array(9).fill("")]] },
+    requestBody: { values: [[...rowValues(row), ...Array<string>(9).fill("")]] },
   });
 }
 
 /**
- * Idempotency key is written to the existing Correction column (P).
- * A previously saved draft row can be UPDATED when the final form submits.
- * Columns Q:Y are never overwritten, preserving staff status notes.
- *
- * IMPORTANT: concurrent writers or a crash before the append response can
- * still race. For strict exactly-once use a single durable sync worker and
- * reconcile the P column; Google Sheets is not a transactional database.
+ * Uses column P as the unique lead key. Does not modify Q:Y staff status columns.
+ * Draft and submitted records MUST use the SAME key to update one row.
+ * Concurrency limitation: Sheets API has no unique-constraint/transactional upsert.
  */
-export async function upsertExhibitorLeadRow(key: string, row: SheetRow): Promise<void> {
-  if (!/^(DRAFT:[a-f0-9-]{36}|EXHIBITOR:[A-Za-z0-9_-]{3,80})$/i.test(key)) {
-    throw new Error("Invalid Sheet lead key");
+export async function upsertLeadRow(key: string, row: SheetRow): Promise<void> {
+  if (!/^(DRAFT|EXHIBITOR|VISITOR):[A-Za-z0-9_-]{3,100}$/.test(key)) {
+    throw new Error("Invalid lead key");
   }
-  const sheets = client();
-  const spreadsheetId = process.env.GOOGLE_SHEET_ID!;
-  const found = await sheets.spreadsheets.values.get({
-    spreadsheetId,
-    range: `'${TARGET_TAB_NAME}'!P2:P`,
-  });
-  const keys = found.data.values || [];
-  const index = keys.findIndex((cells) => cells[0] === key);
+
+  const { sheets, spreadsheetId } = sheetClient();
+  const range = `'${TARGET_TAB_NAME}'!P2:P`;
+  const result = await sheets.spreadsheets.values.get({ spreadsheetId, range });
+  const rows: string[][] = result.data.values ?? [];
+  const rowOffset = rows.findIndex((entry) => entry?.[0] === key);
   const values = rowValues(row, key);
-  if (index >= 0) {
+
+  if (rowOffset !== -1) {
+    const rowNumber = rowOffset + 2;
     await sheets.spreadsheets.values.update({
       spreadsheetId,
-      range: `'${TARGET_TAB_NAME}'!A${index + 2}:P${index + 2}`,
+      range: `'${TARGET_TAB_NAME}'!A${rowNumber}:P${rowNumber}`,
       valueInputOption: "RAW",
       requestBody: { values: [values] },
     });
-  } else {
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range: `'${TARGET_TAB_NAME}'!A:Y`,
-      valueInputOption: "RAW",
-      insertDataOption: "INSERT_ROWS",
-      requestBody: { values: [[...values, ...Array(9).fill("")]] },
-    });
+    return;
   }
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId,
+    range: `'${TARGET_TAB_NAME}'!A:Y`,
+    valueInputOption: "RAW",
+    insertDataOption: "INSERT_ROWS",
+    requestBody: { values: [[...values, ...Array<string>(9).fill("")]] },
+  });
+}
+
+export async function upsertExhibitorLeadRow(key: string, row: SheetRow): Promise<void> {
+  if (!/^(DRAFT:[a-f0-9-]{36}|EXHIBITOR:[A-Za-z0-9_-]{3,80})$/i.test(key)) {
+    throw new Error("Invalid exhibitor key");
+  }
+  return upsertLeadRow(key, row);
 }
