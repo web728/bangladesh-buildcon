@@ -30,8 +30,6 @@ import { Container } from "@/components/ui/Container";
 const VENUE_NAME =
   "International Convention City Bashundhara (ICCB)";
 
-const VENUE_ADDRESS =
-  "Next to 300 ft. Purbachal Express Highway, Dhaka 1229, Bangladesh";
 
 const VENUE_LAT = 23.8276;
 const VENUE_LNG = 90.42718;
@@ -278,9 +276,7 @@ function VenueMap() {
             {VENUE_NAME}
           </p>
 
-          <p className="mt-1 text-[11px] leading-[1.7] text-[#736C77]">
-            {VENUE_ADDRESS}
-          </p>
+       
         </div>
 
         <a
@@ -397,9 +393,7 @@ export function VenueSection() {
                 Official Venue Address
               </p>
 
-              <address className="mt-1.5 text-[12px] font-medium not-italic leading-[1.7] text-[#4E4752] sm:text-[13px]">
-                {VENUE_ADDRESS}
-              </address>
+            
             </div>
 
             {/* Event facts */}

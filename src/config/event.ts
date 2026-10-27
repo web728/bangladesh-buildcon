@@ -19,7 +19,7 @@ const VENUE_NAME =
   "International Convention City Bashundhara (ICCB)";
 
 const VENUE_ADDRESS =
-  "Next to 300 ft. Purbachal Express Highway, Dhaka 1229, Bangladesh";
+  "ICCB Expo Village, Dhaka, Bangladesh";
 
 const VENUE_MAP_QUERY =
   "International Convention City Bashundhara ICCB Dhaka Bangladesh";
@@ -97,7 +97,7 @@ export const event = {
   ======================================== */
 
   venue: {
-    name: "ICCB Exhibition Hall",
+    name: "ICCB Expo Village",
 
     officialName: VENUE_NAME,
 
@@ -189,7 +189,7 @@ export const event = {
 
     vijayanka: EVENT_CONTACTS[1],
 
-    vaibhav: EVENT_CONTACTS[2],
+    vaibhav: EVENT_CONTACTS[1],
 
     /* ======================================
        BACKWARDS-COMPATIBLE CONTACT KEYS

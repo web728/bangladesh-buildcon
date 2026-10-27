@@ -199,7 +199,7 @@ export function InitialSiteLoader() {
               className="relative flex w-full max-w-[305px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white px-5 py-5 shadow-[0_20px_65px_rgba(0,0,0,0.24)] sm:max-w-[335px]"
             >
               <Image
-                src="/logos/bangladesh-buildcon-logo.png"
+                src="/logos/bangla.png"
                 alt="Bangladesh Buildcon"
                 width={1560}
                 height={468}
