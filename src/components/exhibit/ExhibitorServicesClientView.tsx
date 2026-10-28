@@ -86,7 +86,7 @@ const SERVICES = [
     id: "stand-construction",
     number: "03",
     tag: "Stand Planning",
-    title: "Stand Construction & Space Options",
+    title: "Stand Building & Construction & Space Options",
     body:
       "Explore shell scheme and raw space participation formats for product presentations, custom stand concepts and equipment displays. Package inclusions, construction requirements and technical approvals will be confirmed by the exhibition team.",
     status: "Options Available",

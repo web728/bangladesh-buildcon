@@ -53,21 +53,21 @@ const VISIT_REASONS = [
   {
     title: "Discover New Products & Services",
     description:
-      "Explore construction materials, machinery, equipment and building solutions relevant to your projects.",
+      "Explore building & construction materials, machinery, equipment and building solutions relevant to your projects.",
     percentage: 39,
     icon: "products",
   },
   {
     title: "Explore Industry Innovations",
     description:
-      "Learn about modern construction technologies, engineering products and new industry developments.",
+      "Learn about modern building & construction technologies, engineering products and new industry developments.",
     percentage: 28,
     icon: "innovation",
   },
   {
     title: "Build Professional Networks",
     description:
-      "Connect with manufacturers, suppliers, contractors, consultants and construction-industry professionals.",
+      "Connect with manufacturers, suppliers, contractors, consultants, builders and construction-industry professionals.",
     percentage: 20,
     icon: "network",
   },

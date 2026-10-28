@@ -89,7 +89,7 @@ const FAQS = [
   {
     question: "Who is the exhibition intended for?",
     answer:
-      "The official brochure identifies architects, civil engineers, consultants, builders, real estate developers, contractors, importers, distributors, construction machinery dealers, interior designers and government-related organisations among the visitor profiles.",
+      "The official brochure identifies architects, civil engineers, consultants, builders, real estate developers, contractors, importers, distributors, building & construction machinery dealers, interior designers and government-related organisations among the visitor profiles.",
     tag: "Visitor Profile",
   },
   {

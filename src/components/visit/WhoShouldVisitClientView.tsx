@@ -64,7 +64,7 @@ const VISITOR_MOTIVATIONS = [
 
 const VISITOR_OPPORTUNITIES = [
   {
-    title: "Explore Construction Products",
+    title: "Explore Building & Construction Products",
     description:
       "Discover construction machinery, building materials, interiors, electrical and safety product categories.",
     icon: "products",
@@ -488,7 +488,7 @@ export function WhoShouldVisitClientView() {
 
               <p className="mt-4 max-w-[610px] text-[13px] leading-[1.85] text-[#66616C] sm:text-[14px]">
                 Bangladesh Buildcon brings focus to the
-                professionals working across construction,
+                professionals working across building, construction,
                 architecture, engineering, procurement,
                 project development and the building
                 materials supply chain.
@@ -538,7 +538,7 @@ export function WhoShouldVisitClientView() {
               eyebrow="Who Should Visit?"
               title="Explore Professional"
               highlight="Visitor Groups"
-              description="Industry roles across design, engineering, development, construction and trading that are relevant to the event."
+              description="Industry roles across design, engineering, development, building, construction and trading that are relevant to the event."
             />
           </motion.div>
 
@@ -658,7 +658,7 @@ export function WhoShouldVisitClientView() {
               <h3 className="mt-5 font-heading text-[18px] font-extrabold leading-[1.35] tracking-[-0.03em]">
                 A Cross-Section of the{" "}
                 <span className="text-[#E9A5D3]">
-                  Construction Industry
+                 Building & Construction Industry
                 </span>
               </h3>
 

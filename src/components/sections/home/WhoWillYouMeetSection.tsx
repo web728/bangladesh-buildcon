@@ -451,7 +451,7 @@ export function WhoWillYouMeetSection() {
               className="mt-5 max-w-[660px] text-[14px] leading-[1.85] text-[#636C79] sm:text-[15px]"
             >
               Connect directly with architects,
-              construction leads, regional distributors,
+              building & construction leads, regional distributors,
               and project developers sourcing building
               solutions.
             </motion.p>

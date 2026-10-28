@@ -54,8 +54,8 @@ const stagger: Variants = {
 const STRATEGIC_PILLARS = [
   {
     tag: "8%+ of GDP",
-    title: "Booming Construction Industry",
-    body: "Bangladesh's construction sector contributes more than 8% to GDP, sustaining demand for modern materials, machinery, equipment, and technical expertise.",
+    title: "Booming Building & Construction Industry",
+    body: "Bangladesh's building & construction sector contributes more than 8% to GDP, sustaining demand for modern materials, machinery, equipment, and technical expertise.",
     icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
   },
   {
@@ -261,7 +261,7 @@ export function WhyBangladeshClientView() {
               </h2>
 
               <p className="mt-3 max-w-[680px] text-[13px] leading-[1.9] text-[#424B58] sm:text-[14px]">
-                Explore construction market and exhibition
+                Explore building & construction market and exhibition
                 indicators compiled from the event brochure,
                 post-show materials and the reference sources
                 listed below.
@@ -320,7 +320,7 @@ export function WhyBangladeshClientView() {
           >
             <div>
               <Eyebrow>
-                Construction Industry Outlook
+               Building & Construction Industry Outlook
               </Eyebrow>
 
               <h2
@@ -335,7 +335,7 @@ export function WhyBangladeshClientView() {
             </div>
 
             <p className="max-w-[410px] text-[13px] leading-[1.85] text-[#424B58]">
-              Four key drivers shaping construction
+              Four key drivers shaping building & construction
               demand, infrastructure investment and
               commercial opportunities in Bangladesh.
             </p>

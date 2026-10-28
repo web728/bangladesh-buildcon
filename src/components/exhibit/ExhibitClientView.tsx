@@ -49,28 +49,28 @@ const BENEFITS = [
   {
     title: "Expand Distribution",
     description:
-      "Meet importers, dealers, distributors and trading companies exploring construction products and equipment suppliers.",
+      "Meet importers, dealers, distributors and trading companies exploring building & construction products and equipment suppliers.",
     label: "Trade Network",
     icon: "network",
   },
   {
     title: "Explore Bangladesh",
     description:
-      "Introduce your brand to Bangladesh's construction market and build relationships with local industry professionals.",
+      "Introduce your brand to Bangladesh's building & construction market and build relationships with local industry professionals.",
     label: "Market Access",
     icon: "market",
   },
   {
     title: "Generate Enquiries",
     description:
-      "Discuss product requirements with visitors sourcing construction materials, equipment and technical solutions.",
+      "Discuss product requirements with visitors sourcing building & construction materials, equipment and technical solutions.",
     label: "Product Sourcing",
     icon: "enquiries",
   },
   {
     title: "Meet Industry Professionals",
     description:
-      "Engage architects, civil engineers, builders, consultants and other professionals involved in construction projects.",
+      "Engage architects, civil engineers, builders, consultants and other professionals involved in building & construction projects.",
     label: "Industry Engagement",
     icon: "professionals",
   },
@@ -656,7 +656,7 @@ export function ExhibitClientView() {
               <p className="mt-4 max-w-[560px] text-[13px] leading-[1.85] text-[#62606B] sm:text-[14px]">
                 Bangladesh Buildcon International Expo
                 brings together manufacturers,
-                suppliers and construction industry
+                suppliers and building & construction industry
                 professionals to discover building
                 materials, machinery and new solutions.
               </p>
@@ -737,8 +737,8 @@ export function ExhibitClientView() {
               id="exhibitor-profiles-heading"
               eyebrow="Who Should Exhibit?"
               title="Built for the"
-              highlight="Construction Industry"
-              description="Explore relevant manufacturers, suppliers, distributors and technology businesses across the construction sector."
+              highlight="Building & Construction Industry"
+              description="Explore relevant manufacturers, suppliers, distributors and technology businesses across the building & construction sector."
             />
           </motion.div>
           <div className="mt-5 flex flex-wrap gap-2" aria-label="Eligible business types">

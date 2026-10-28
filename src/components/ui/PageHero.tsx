@@ -412,7 +412,7 @@ export function PageHero({
               <span className="size-1.5 shrink-0 rounded-full bg-brand-primary" />
 
               <span className="font-heading text-[9px] font-semibold uppercase leading-relaxed tracking-[0.12em] text-white/50 sm:text-[10px]">
-                International Construction Exhibition
+                International Building & Construction Exhibition
               </span>
             </div>
 

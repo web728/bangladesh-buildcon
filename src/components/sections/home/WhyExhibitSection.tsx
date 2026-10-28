@@ -390,7 +390,7 @@ function ProfileCard({
 
           <p className="mt-1.5 text-[12px] leading-relaxed text-[#687080]">
             Connect directly with South Asia&apos;s
-            construction procurement decision-makers.
+            building & construction procurement decision-makers.
           </p>
         </div>
 
@@ -474,7 +474,7 @@ export function WhyExhibitSection() {
             >
               Expand Your Reach in{" "}
               <span className="text-brand-primary">
-                South Asia&apos;s Construction Hub
+                South Asia&apos;s Building & Construction Hub
               </span>
             </motion.h2>
 

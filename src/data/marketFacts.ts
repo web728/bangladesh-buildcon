@@ -21,7 +21,7 @@ export const marketFacts: MarketFact[] = [
     value: "8%+",
     label: "Contribution to national GDP",
     detail:
-      "The exhibition brochure reports that Bangladesh's construction sector contributes over 8% to GDP.",
+      "The exhibition brochure reports that Bangladesh's building & construction sector contributes over 8% to GDP.",
     period: "2027 event brochure",
     sourceName: "11th Bangladesh Buildcon 2027 Brochure",
     lastVerified: "2027-10-09",

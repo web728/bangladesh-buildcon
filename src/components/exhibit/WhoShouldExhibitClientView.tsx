@@ -54,7 +54,7 @@ const EXHIBITOR_PROFILES = [
     title: "Manufacturers",
     badge: "Manufacturing",
     description:
-      "Manufacturers of construction materials, structural systems, finishing products and related building components.",
+      "Manufacturers of building & construction materials, structural systems, finishing products and related building components.",
     icon: "factory",
   },
   {
@@ -68,14 +68,14 @@ const EXHIBITOR_PROFILES = [
     title: "International Suppliers",
     badge: "Global Supply",
     description:
-      "Suppliers introducing construction technologies, machinery, materials and engineering products to the Bangladesh market.",
+      "Suppliers introducing building & construction technologies, machinery, materials and engineering products to the Bangladesh market.",
     icon: "network",
   },
   {
     title: "Bangladeshi Manufacturers",
     badge: "Domestic Industry",
     description:
-      "Local manufacturers showcasing construction materials, components, equipment and building solutions.",
+      "Local manufacturers showcasing building & construction materials, components, equipment and building solutions.",
     icon: "building",
   },
   {

@@ -614,7 +614,7 @@ export function IntroSection() {
                 </strong>{" "}
                 brings international and local suppliers
                 together with contractors, developers,
-                specifiers, and construction-industry
+                specifiers, and building & construction-industry
                 decision-makers.
               </motion.p>
 
@@ -660,7 +660,7 @@ export function IntroSection() {
 
               <FeatureCard
                 title="Market Expansion"
-                description="Expand footprint across Bangladesh's fast-growing construction sector."
+                description="Expand footprint across Bangladesh's fast-growing building & construction sector."
                 icon="growth"
                 reducedMotion={reducedMotion}
               />

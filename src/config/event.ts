@@ -133,7 +133,7 @@ export const event = {
       "Where Bangladesh's Building & Construction Industry Meets.",
 
     exhibitor:
-      "Enter one of South Asia's fastest-growing construction markets.",
+      "Enter one of South Asia's fastest-growing building & construction markets.",
 
     visitor:
       "Discover products. Meet suppliers. Build partnerships.",

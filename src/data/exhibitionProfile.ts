@@ -15,7 +15,7 @@ export interface SectorItem {
  */
 export const exhibitionSectors: SectorItem[] = [
   {
-    name: "Construction Machinery and Equipment",
+    name: "Building & Construction Machinery and Equipment",
     slug: "construction-machinery",
     subcategories: [
       "Equipment for the Production of Building Materials",
@@ -65,7 +65,7 @@ export const exhibitionSectors: SectorItem[] = [
     ],
   },
   {
-    name: "Construction",
+    name: "Building & Construction",
     slug: "construction",
     subcategories: [
       "Urban Development",
@@ -92,7 +92,7 @@ export const exhibitionSectors: SectorItem[] = [
     ],
   },
   {
-    name: "Electricity and Electrical Engineering in Construction",
+    name: "Electricity and Electrical Engineering in Building & Construction",
     slug: "electricity-electrical-engineering",
     subcategories: [
       "Electricity Design and Construction",

@@ -409,7 +409,7 @@ export function FinalCtaSection() {
                   variants={revealVariants}
                   className="block text-[#EA65BB]"
                 >
-                  Construction Future
+                  Building & Construction Future
                 </motion.span>
               </h2>
 
