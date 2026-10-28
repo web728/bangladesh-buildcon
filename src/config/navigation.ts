@@ -1,7 +1,12 @@
+
 export type NavItem = {
   label: string;
   href: string;
-  children?: { label: string; href: string; description?: string }[];
+  children?: {
+    label: string;
+    href: string;
+    description?: string;
+  }[];
 };
 
 export const mainNav: NavItem[] = [
@@ -9,75 +14,130 @@ export const mainNav: NavItem[] = [
     label: "About",
     href: "/about",
     children: [
-      { label: "About the Expo", href: "/about", description: "Purpose, vision, and key facts." },
-      { label: "Why Bangladesh", href: "/why-bangladesh", description: "Market growth and trade opportunities." },
-      { label: "Venue & Location", href: "/venue", description: "ICCB Expo Village, Dhaka." },
-      { label: "Organisers", href: "/organisers", description: "Organized by Futurex & ASK Trade & Exhibitions Pvt. Ltd.." },
-      // { label: "Partners & Sponsors", href: "/partners", description: "Supporting industry partners." },
+      {
+        label: "About the Exhibition",
+        href: "/about",
+        description: "Overview of the exhibition and its key highlights.",
+      },
+      {
+        label: "Why Bangladesh",
+        href: "/why-bangladesh",
+        description: "Explore Bangladesh's building and construction market.",
+      },
+      {
+        label: "Exhibition Venue",
+        href: "/venue",
+        description: "ICCB Expo Village, Dhaka, Bangladesh.",
+      },
+      {
+        label: "Organisers",
+        href: "/organisers",
+        description: "Meet the official exhibition organisers.",
+      },
     ],
   },
+
   {
     label: "Exhibit",
     href: "/exhibit",
     children: [
-      { label: "Why Exhibit", href: "/exhibit", description: "Key benefits for exhibitors." },
-      // { label: "Who Should Exhibit", href: "/who-should-exhibit", description: "Target profile for manufacturers & suppliers." },
-      { label: "Exhibition Profile", href: "/exhibition-profile", description: "Sectors and product directory." },
-      // { label: "Exhibitor Directory", href: "/exhibitors", description: "Current list of participating brands." },
-      // { label: "Exhibitor Services", href: "/exhibitor-services", description: "Logistics, travel, and stand construction." },
-      { label: "Book a Stand", href: "/book-a-stand", description: "Reserve your expo booth space." },
+      {
+        label: "Why Exhibit",
+        href: "/exhibit",
+        description: "Explore the benefits of exhibiting.",
+      },
+      {
+        label: "Exhibitor Profile",
+        href: "/exhibition-profile",
+        description: "Explore exhibiting sectors and product categories.",
+      },
+      {
+        label: "Book a Stand",
+        href: "/book-a-stand",
+        description: "Enquire about exhibition stand space.",
+      },
     ],
   },
+
   {
     label: "Visit",
     href: "/visit",
     children: [
-      { label: "Why Visit", href: "/visit", description: "Source products and meet suppliers." },
-      { label: "Who Should Visit", href: "/who-should-visit", description: "Trade visitor qualifications." },
-      { label: "Plan Your Visit", href: "/register-to-visit", description: "Request your trade visitor badge." },
-      // { label: "Plan Your Visit", href: "/plan-your-visit", description: "Hotel, travel, and local guide." },
+      {
+        label: "Explore the Exhibition",
+        href: "/visit",
+        description: "Discover products, technologies, and visitor opportunities.",
+      },
+      {
+        label: "Who Should Visit",
+        href: "/who-should-visit",
+        description: "Explore the visitor profile and industry sectors.",
+      },
+      {
+        label: "Visitor Registration",
+        href: "/register-to-visit",
+        description: "Register to attend the exhibition.",
+      },
     ],
   },
+
+  
+{
+  label: "Media & Resources",
+  href: "/gallery",
+  children: [
+    {
+      label: "Gallery",
+      href: "/gallery",
+      description: "View photos and highlights from previous editions.",
+    },
+    {
+      label: "Exhibition Brochure",
+      href: "/downloads",
+      description: "Request the exhibition brochure and information.",
+    },
+    {
+      label: "Post Show Report",
+      href: "/downloads/11th_Bangladesh_Buildcon_International_Expo_Post_Show_Report_2027.pdf",
+      description: "Download the exhibition post-show report.",
+    },
+  ],
+},
+
   {
-    label: "Media & Resources",
-    href: "/gallery",
-    children: [
-      // { label: "Latest News", href: "/news", description: "Press releases and updates." },
-      { label: "Gallery", href: "/gallery", description: "Event photos and video highlights." },
-      { label: "Downloads", href: "/downloads", description: "Brochures, floor plan, and forms." },
-    ],
+    label: "Contact",
+    href: "/contact",
   },
-  { label: "Contact", href: "/contact" },
 ];
 
 export const footerNav = {
   event: [
-    { label: "About Expo", href: "/about" },
+    { label: "About the Exhibition", href: "/about" },
     { label: "Why Bangladesh", href: "/why-bangladesh" },
-    { label: "Exhibition Profile", href: "/exhibition-profile" },
-    { label: "Venue Info", href: "/venue" },
+    { label: "Exhibition Venue", href: "/venue" },
     { label: "Organisers", href: "/organisers" },
+    { label: "Exhibitor Profile", href: "/exhibition-profile" },
   ],
+
   exhibit: [
     { label: "Why Exhibit", href: "/exhibit" },
-    { label: "Who Should Exhibit", href: "/who-should-exhibit" },
-    { label: "Exhibitor Directory", href: "/exhibitors" },
-    { label: "Exhibitor Services", href: "/exhibitor-services" },
+    { label: "Exhibitor Profile", href: "/exhibition-profile" },
     { label: "Book a Stand", href: "/book-a-stand" },
   ],
+
   visit: [
-    { label: "Why Visit", href: "/visit" },
+    { label: "Explore the Exhibition", href: "/visit" },
     { label: "Who Should Visit", href: "/who-should-visit" },
     { label: "Visitor Registration", href: "/register-to-visit" },
-    { label: "Plan Your Visit", href: "/plan-your-visit" },
+    { label: "Exhibition Venue", href: "/venue" },
   ],
+
   information: [
-    { label: "Partners", href: "/partners" },
-    { label: "News & Media", href: "/news" },
     { label: "Gallery", href: "/gallery" },
-    { label: "Downloads", href: "/downloads" },
+    { label: "Exhibition Brochure", href: "/downloads" },
     { label: "Contact Us", href: "/contact" },
   ],
+
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms & Conditions", href: "/terms-and-conditions" },
