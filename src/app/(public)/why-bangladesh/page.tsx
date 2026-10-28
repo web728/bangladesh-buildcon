@@ -107,8 +107,8 @@ export default function WhyBangladeshPage() {
           {
             "@type": "Event",
             name: event.name,
-            startDate: "2027-09-17",
-            endDate: "2027-09-19",
+            startDate: "2027-09-11",
+            endDate: "2027-09-13",
             location: {
               "@type": "Place",
               name: event.venue.name,

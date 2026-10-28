@@ -112,8 +112,8 @@ export default function OrganisersPage() {
         about: {
           "@type": "ExhibitionEvent",
           name: "11th Bangladesh Buildcon International Expo 2027",
-          startDate: "2027-09-17",
-          endDate: "2027-09-19",
+          startDate: "2027-09-11",
+          endDate: "2027-09-13",
           location: {
             "@type": "Place",
             name: "ICCB Expo Village",

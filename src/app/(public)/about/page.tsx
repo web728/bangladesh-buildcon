@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -10,12 +9,11 @@ const TITLE =
 
 const DESCRIPTION =
   "Discover the 11th Bangladesh Buildcon International Expo, " +
-  "11-13 November 2027 at ICCB Exhibition Hall, Dhaka. " +
+  "11-13 November 2027 at ICCB Expo Village, Dhaka. " +
   "Explore construction machinery, building materials, electrical " +
   "engineering, interiors, safety technologies and B2B networking.";
 
-const IMAGE =
-  "/images/sectors/construction-crane-bangladesh.jpg";
+const IMAGE = "/images/sectors/construction-crane-bangladesh.jpg";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -78,13 +76,12 @@ export default function AboutPage() {
         name: "11th Bangladesh Buildcon International Expo 2027",
         description:
           "A B2B exhibition covering building, construction and infrastructure products and technologies.",
-        startDate: "2027-09-17",
-        endDate: "2027-09-19",
-        eventAttendanceMode:
-          "https://schema.org/OfflineEventAttendanceMode",
+        startDate: "2027-09-11",
+        endDate: "2027-09-13",
+        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
         location: {
           "@type": "Place",
-          name: "ICCB Exhibition Hall",
+          name: "ICCB Expo Village",
           address: {
             "@type": "PostalAddress",
             addressLocality: "Dhaka",
@@ -111,10 +108,7 @@ export default function AboutPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(eventSchema).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(eventSchema).replace(/</g, "\\u003c"),
           }}
         />
       )}
