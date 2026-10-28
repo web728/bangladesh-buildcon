@@ -141,10 +141,10 @@ export default function WhoShouldVisitPage() {
         title="Who Should"
         highlightTitle="Visit Buildcon?"
         badgeText="Trade Visitor Profile · 11th Edition"
-        intro={`Discover the professionals involved in designing, building, sourcing and supplying construction projects at ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
+        intro={`Discover the professionals involved in designing, building, sourcing and supplying building & construction projects at ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Trade visitors and construction industry professionals at Bangladesh Buildcon",
+          alt: "Trade visitors and Building & construction industry professionals at Bangladesh Buildcon",
         }}
       />
 

@@ -72,17 +72,17 @@ export const metadata: Metadata = {
 */
 const BROCHURE_CATEGORIES = [
   {
-    title: "Construction Machinery and Equipment",
+    title: "Building & Construction Machinery and Equipment",
     examples:
       "Construction equipment, cranes, loaders, trucks, building tools, welding equipment, power tools and HVAC.",
   },
   {
-    title: "Construction Materials",
+    title: "Building & Materials",
     examples:
       "Prefabricated structures, roofing, insulation, waterproofing, wall materials and finishing materials.",
   },
   {
-    title: "Construction",
+    title: "Building & Construction",
     examples:
       "Urban development, architecture, restoration, roads, construction automation and resource-saving technologies.",
   },
@@ -92,7 +92,7 @@ const BROCHURE_CATEGORIES = [
       "Wooden houses, log buildings, wooden-frame houses, garden houses and landscape design.",
   },
   {
-    title: "Electricity and Electrical Engineering in Construction",
+    title: "Electricity and Electrical Engineering in Building & Construction",
     examples:
       "Distribution systems, transformer stations, high- and low-voltage equipment, automation and energy-saving systems.",
   },

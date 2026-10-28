@@ -156,7 +156,7 @@ export default function OrganisersPage() {
         intro={`Futurex Trade Fair & Events Pvt. Ltd. and ASK Trade & Exhibitions Pvt. Ltd. organise Bangladesh Buildcon International Expo. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Construction and infrastructure industry representing Bangladesh Buildcon 2027",
+          alt: "Building & Construction and infrastructure industry representing Bangladesh Buildcon 2027",
         }}
       />
 

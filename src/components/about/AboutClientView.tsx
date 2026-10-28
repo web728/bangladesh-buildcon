@@ -20,7 +20,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const CORE_DELIVERABLES = [
   {
     title: "Introduce Products",
-    desc: "Launch new building materials and equipment directly into Bangladesh's rapidly accelerating construction sector.",
+    desc: "Launch new building materials and equipment directly into Bangladesh's rapidly accelerating building & construction sector.",
     icon: "M13 10V3L4 14h7v7l9-11h-7z",
   },
   {
@@ -282,7 +282,7 @@ export function AboutClientView() {
               id="about-introduction"
               className="mt-4 max-w-[660px] font-heading text-[clamp(1.55rem,2.7vw,2.35rem)] font-extrabold leading-[1.2] tracking-[-0.045em] text-brand-dark"
             >
-              Where Construction Innovation
+              Where Building & Construction Innovation
               <span className="block text-brand-primary">
                 Meets Business Opportunity.
               </span>
@@ -375,7 +375,7 @@ export function AboutClientView() {
                 concentration of contractors, developers,
                 importers, distributors, architects,
                 engineers, consultants, and decision-makers
-                involved in Bangladesh&apos;s construction
+                involved in Bangladesh&apos;s building materials & construction
                 industry.
               </p>
 

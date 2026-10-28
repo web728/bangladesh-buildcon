@@ -20,7 +20,7 @@ const PAGE_DESCRIPTION =
   "Register your interest as a trade visitor for the " +
   "11th Bangladesh Buildcon International Expo 2027, " +
   "17–19 November at ICCB Exhibition Hall, Dhaka. " +
-  "Explore construction materials, machinery, building " +
+  "Explore Building & construction materials, machinery, building " +
   "technologies and industry networking opportunities.";
 
 const PAGE_IMAGE =

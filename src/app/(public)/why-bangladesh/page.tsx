@@ -12,10 +12,10 @@ import { WhyBangladeshClientView } from "@/components/about/WhyBangladeshClientV
 const PAGE_PATH = "/why-bangladesh";
 
 const PAGE_TITLE =
-  "Why Bangladesh? | Construction Market & Buildcon 2027";
+  "Why Bangladesh? | Building Materials & Construction Market Buildcon 2027";
 
 const PAGE_DESCRIPTION =
-  "Explore Bangladesh's construction market, urban " +
+  "Explore Bangladesh's Building & construction market, urban " +
   "development and opportunities across building materials, " +
   "machinery, engineering and construction technologies. " +
   "Discover Bangladesh Buildcon International Expo 2027, " +
@@ -159,11 +159,11 @@ export default function WhyBangladeshPage() {
       <PageHero
         title="Why"
         highlightTitle="Bangladesh?"
-        badgeText="Construction Industry · Market Perspective"
-        intro={`Explore the construction-related business opportunities and industry sectors addressed by ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
+        badgeText="Building Materials & Construction Industry · Market Perspective"
+        intro={`Explore the Building & construction-related business opportunities and industry sectors addressed by ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Bangladesh construction and infrastructure industry",
+          alt: "Bangladesh Building & construction and infrastructure industry",
         }}
       />
 

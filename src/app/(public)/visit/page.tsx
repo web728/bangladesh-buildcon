@@ -12,10 +12,10 @@ import { VisitClientView } from "@/components/visit/VisitClientView";
 const PAGE_PATH = "/visit";
 
 const PAGE_TITLE =
-  "Why Visit Bangladesh Buildcon 2027 | Construction Trade Expo Dhaka";
+  "Why Visit Bangladesh Buildcon 2027 | Building & Construction Trade Expo Dhaka";
 
 const PAGE_DESCRIPTION =
-  "Discover why construction professionals visit the " +
+  "Discover why Building & construction professionals visit the " +
   "11th Bangladesh Buildcon International Expo 2027. " +
   "Explore building materials, machinery, product innovations " +
   "and B2B networking opportunities, 17–19 November at " +
@@ -76,7 +76,7 @@ export default function VisitPage() {
         title="Discover Why"
         highlightTitle="Visit Buildcon 2027"
         badgeText="Visitor Opportunities · 11th Edition"
-        intro={`Explore construction materials, machinery, technologies and industry connections at ${event.name}, ${event.dates.display}, ${event.venue.name}, ${event.venue.city}.`}
+        intro={`Explore Building & construction materials, machinery, technologies and industry connections at ${event.name}, ${event.dates.display}, ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
           alt: "Building and construction industry visitors at Bangladesh Buildcon exhibition",
