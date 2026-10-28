@@ -15,88 +15,49 @@ import { event } from "@/config/event";
    CONFIGURATION
 ========================================= */
 
-const STORAGE_KEY =
-  "bangladesh_buildcon_intro_shown";
-
-const LOADER_DURATION = 1550;
-const PROGRESS_INTERVAL = 35;
+const STORAGE_KEY = "bangladesh_buildcon_intro_shown";
+const LOADER_DURATION = 1800;
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* =========================================
-   MAIN INITIAL SITE LOADER
+   INITIAL SITE LOADER
 ========================================= */
 
 export function InitialSiteLoader() {
   const reducedMotion = !!useReducedMotion();
 
   const [visible, setVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
 
-  /* ---------------------------------------
-     FIRST-VISIT SESSION LOGIC
-  ---------------------------------------- */
-
+  /* Show once per browser session */
   useEffect(() => {
-    let seen = false;
+    let alreadyShown = false;
 
     try {
-      seen =
-        sessionStorage.getItem(STORAGE_KEY) ===
-        "true";
+      alreadyShown =
+        sessionStorage.getItem(STORAGE_KEY) === "true";
     } catch {
-      // Storage may be restricted in some browsers.
+      // Continue if browser storage is unavailable.
     }
 
-    if (seen) return;
+    if (alreadyShown || reducedMotion) return;
 
-    if (reducedMotion) {
-      try {
-        sessionStorage.setItem(STORAGE_KEY, "true");
-      } catch {
-        // Continue without session persistence.
-      }
-
-      return;
-    }
-
-    const startedAt = performance.now();
-
-    const startFrame = requestAnimationFrame(() => {
-      setProgress(0);
+    const frame = requestAnimationFrame(() => {
       setVisible(true);
     });
 
-    const progressTimer = window.setInterval(() => {
-      const elapsed =
-        performance.now() - startedAt;
-
-      const percentage = Math.min(
-        100,
-        (elapsed / LOADER_DURATION) * 100
-      );
-
-      setProgress(Math.round(percentage));
-    }, PROGRESS_INTERVAL);
-
     const finishTimer = window.setTimeout(() => {
-      setProgress(100);
-
       try {
-        sessionStorage.setItem(
-          STORAGE_KEY,
-          "true"
-        );
+        sessionStorage.setItem(STORAGE_KEY, "true");
       } catch {
-        // Loader still closes if storage is unavailable.
+        // Loader can close without session storage.
       }
 
       setVisible(false);
     }, LOADER_DURATION);
 
     return () => {
-      cancelAnimationFrame(startFrame);
-      window.clearInterval(progressTimer);
+      cancelAnimationFrame(frame);
       window.clearTimeout(finishTimer);
     };
   }, [reducedMotion]);
@@ -105,56 +66,100 @@ export function InitialSiteLoader() {
     <AnimatePresence initial={false}>
       {visible && (
         <motion.div
-          key="bangladesh-buildcon-intro"
+          key="buildcon-site-loader"
           role="status"
-          aria-label="Loading Bangladesh Buildcon"
+          aria-label="Loading exhibition website"
           aria-live="off"
-          initial={{
-            opacity: 1,
-            y: 0,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
           exit={{
-            y: "-100%",
+            opacity: 0,
             transition: {
-              duration: 0.68,
-              ease: [0.76, 0, 0.24, 1],
+              duration: 0.45,
+              ease: "easeInOut",
             },
           }}
-          className="fixed inset-0 z-[99999] isolate flex items-center justify-center overflow-hidden bg-[#08090D] px-5 text-white"
+          className="fixed inset-0 z-[99999] isolate flex items-center justify-center overflow-hidden bg-[#0D0D12] px-5 text-white"
         >
-          {/* ===================================
-              BACKGROUND
-          ==================================== */}
-
+          {/* Background */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 overflow-hidden"
           >
-            {/* Soft magenta light */}
-            <div className="absolute left-1/2 top-1/2 size-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-primary/[0.10] blur-[110px] sm:size-[560px]" />
+            {/* Central ambient light */}
+            <div className="absolute left-1/2 top-1/2 size-[340px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-primary/[0.10] blur-[100px] sm:size-[500px]" />
 
             {/* Architectural grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:70px_70px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
 
-            {/* Technical corner lines */}
-            <div className="absolute left-6 top-6 size-12 border-l border-t border-white/15 sm:left-10 sm:top-10" />
+            {/* Top brand accent */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-primary/70 to-transparent" />
 
-            <div className="absolute bottom-6 right-6 size-12 border-b border-r border-white/15 sm:bottom-10 sm:right-10" />
+            {/* Corner accents */}
+            <div className="absolute left-6 top-6 size-9 border-l border-t border-white/10 sm:left-10 sm:top-10" />
 
-            {/* Thin magenta top accent */}
-            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-brand-primary to-transparent" />
+            <div className="absolute bottom-6 right-6 size-9 border-b border-r border-white/10 sm:bottom-10 sm:right-10" />
           </div>
 
-          {/* ===================================
-              CENTER BRAND PRESENTATION
-          ==================================== */}
+          {/* Main Content */}
+          <div className="relative z-10 flex w-full max-w-[350px] flex-col items-center text-center">
 
-          <div className="relative z-10 flex w-full max-w-[400px] flex-col items-center text-center">
-            {/* Small overline */}
+            {/* Small heading */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 8,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.55,
+                ease: EASE,
+              }}
+              className="mb-5 flex items-center gap-3"
+            >
+              <span className="h-px w-5 bg-brand-primary/70" />
+
+              <span className="font-heading text-[9px] font-bold uppercase tracking-[0.18em] text-[#EFA3D1]">
+                International B2B Exhibition
+              </span>
+
+              <span className="h-px w-5 bg-brand-primary/70" />
+            </motion.div>
+
+            {/* Brand Logo */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: 0.96,
+                y: 10,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.85,
+                ease: EASE,
+                delay: 0.08,
+              }}
+              className="relative flex w-full max-w-[235px] items-center justify-center overflow-hidden rounded-xl border border-white/[0.08] bg-white px-3 py-3 shadow-[0_15px_45px_rgba(0,0,0,0.22)] sm:max-w-[260px]"
+            >
+              <Image
+                src="/logos/bangla.png"
+                alt="11th Bangladesh Buildcon International Expo 2027"
+                width={1560}
+                height={468}
+                priority
+                sizes="(max-width: 640px) 235px, 260px"
+                className="h-auto w-full object-contain"
+              />
+            </motion.div>
+
+            {/* Exhibition Information */}
             <motion.div
               initial={{
                 opacity: 0,
@@ -165,154 +170,90 @@ export function InitialSiteLoader() {
                 y: 0,
               }}
               transition={{
-                duration: 0.6,
+                duration: 0.65,
+                delay: 0.22,
                 ease: EASE,
               }}
-              className="mb-7 flex items-center gap-3"
+              className="mt-6 flex flex-col items-center"
             >
-              <span className="h-px w-7 bg-brand-primary" />
-
-              <span className="font-heading text-[10px] font-bold uppercase tracking-[0.22em] text-[#EFA3D1]">
-                International Trade Exhibition
-              </span>
-
-              <span className="h-px w-7 bg-brand-primary" />
-            </motion.div>
-
-            {/* Actual event brand logo */}
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 18,
-                scale: 0.94,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                scale: 1,
-              }}
-              transition={{
-                duration: 0.8,
-                ease: EASE,
-                delay: 0.1,
-              }}
-              className="relative flex w-full max-w-[305px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white px-5 py-5 shadow-[0_20px_65px_rgba(0,0,0,0.24)] sm:max-w-[335px]"
-            >
-              <Image
-                src="/logos/bangla.png"
-                alt="Bangladesh Buildcon"
-                width={1560}
-                height={468}
-                sizes="(max-width: 640px) 265px, 295px"
-                className="h-auto w-full object-contain"
-              />
-            </motion.div>
-
-            {/* Elegant brand text */}
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 12,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                duration: 0.7,
-                delay: 0.28,
-                ease: EASE,
-              }}
-              className="mt-7"
-            >
-              <h2 className="font-heading text-[17px] font-extrabold tracking-[-0.035em] text-white sm:text-[20px]">
-                Bangladesh{" "}
+              <h2 className="max-w-[320px] font-heading text-[15px] font-bold leading-[1.45] tracking-[-0.025em] text-white sm:text-[17px]">
+                11th Bangladesh Buildcon
+                International Expo{" "}
                 <span className="text-[#EFA3D1]">
-                  Buildcon
-                </span>{" "}
-                2027
+                  2027
+                </span>
               </h2>
 
-              <p className="mt-2 text-[11px] font-medium tracking-[0.045em] text-white/50 sm:text-[12px]">
+              <p className="mt-2 text-[11px] font-medium tracking-[0.02em] text-white/55">
                 {event.dates.display}
-                <span className="mx-2 text-brand-primary">
+                <span className="mx-2 text-[#EFA3D1]">
                   •
                 </span>
                 {event.venue.city}
               </p>
             </motion.div>
 
-            {/* ===================================
-                PROGRESS INDICATOR
-            ==================================== */}
-
+            {/* Smooth Progress Indicator */}
             <motion.div
               initial={{
                 opacity: 0,
-                y: 10,
+                y: 6,
               }}
               animate={{
                 opacity: 1,
                 y: 0,
               }}
               transition={{
-                duration: 0.6,
-                delay: 0.38,
+                duration: 0.5,
+                delay: 0.3,
                 ease: EASE,
               }}
-              className="mt-9 w-full max-w-[290px]"
+              className="mt-7 w-full max-w-[230px]"
             >
-              <div className="h-[3px] w-full overflow-hidden rounded-full bg-white/10">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#BA1D82] via-[#E75CB5] to-[#F2A8D8] transition-[width] duration-75 ease-linear"
-                  style={{
-                    width: `${progress}%`,
+              <div className="h-[2px] w-full overflow-hidden rounded-full bg-white/10">
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{
+                    duration: LOADER_DURATION / 1000,
+                    ease: "linear",
                   }}
+                  style={{
+                    transformOrigin: "left",
+                  }}
+                  className="h-full w-full bg-gradient-to-r from-[#BA1D82] via-[#DD4BA9] to-[#EFA3D1]"
                 />
               </div>
 
-              <div className="mt-3 flex items-center justify-between gap-4">
-                <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.13em] text-white/40">
-                  Preparing Experience
-                </span>
-
-                <span className="font-heading text-[11px] font-bold tabular-nums text-[#EFA3D1]">
-                  {progress}%
-                </span>
-              </div>
+              <p className="mt-3 font-heading text-[9px] font-semibold uppercase tracking-[0.16em] text-white/40">
+                Preparing Your Experience
+              </p>
             </motion.div>
           </div>
 
-          {/* ===================================
-              BOTTOM DETAIL
-          ==================================== */}
-
+          {/* Bottom Detail */}
           <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{
               duration: 0.7,
               delay: 0.45,
             }}
-            className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-3 sm:flex"
+            className="pointer-events-none absolute bottom-7 left-1/2 hidden -translate-x-1/2 items-center gap-3 sm:flex"
           >
-            <span className="h-px w-6 bg-white/15" />
+            <span className="h-px w-5 bg-white/15" />
 
-            <span className="font-heading text-[9px] font-semibold uppercase tracking-[0.22em] text-white/30">
-              {event.brandLines.main}
+            <span className="whitespace-nowrap font-heading text-[9px] font-medium uppercase tracking-[0.16em] text-white/30">
+              Building & Construction Industry
             </span>
 
-            <span className="h-px w-6 bg-white/15" />
+            <span className="h-px w-5 bg-white/15" />
           </motion.div>
 
-          {/* Exit accent */}
+          {/* Bottom Accent */}
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 bottom-0 h-[3px] bg-brand-primary"
+            className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-brand-primary to-transparent"
           />
         </motion.div>
       )}
