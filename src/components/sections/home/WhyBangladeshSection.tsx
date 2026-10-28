@@ -718,7 +718,7 @@ export function WhyBangladeshSection() {
               id="why-bangladesh-heading"
               className="mt-4 max-w-[700px] font-heading text-[clamp(1.65rem,3vw,2.5rem)] font-extrabold leading-[1.16] tracking-[-0.04em] text-white"
             >
-              Bangladesh — A Construction Market{" "}
+              Bangladesh — A Building & Construction Market{" "}
               <span className="text-[#E49BCB]">
                 On The Move
               </span>
