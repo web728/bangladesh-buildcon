@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -19,10 +18,9 @@ const PAGE_DESCRIPTION =
   "Explore exhibitor opportunities for manufacturers, " +
   "exporters, machinery suppliers, building material companies, " +
   "engineering businesses and construction technology providers " +
-  "at Bangladesh Buildcon 2027, 17–19 November, ICCB Exhibition Hall, Dhaka.";
+  "at Bangladesh Buildcon 2027, 11-13 November, ICCB Expo Village, Dhaka.";
 
-const PAGE_IMAGE =
-  "/images/sectors/construction-crane-bangladesh.jpg";
+const PAGE_IMAGE = "/images/sectors/construction-crane-bangladesh.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -82,14 +80,8 @@ export default function WhoShouldExhibitPage() {
     try {
       const origin = new URL(siteUrl);
 
-      if (
-        origin.protocol === "https:" ||
-        origin.protocol === "http:"
-      ) {
-        pageUrl = new URL(
-          PAGE_PATH,
-          origin.origin
-        ).toString();
+      if (origin.protocol === "https:" || origin.protocol === "http:") {
+        pageUrl = new URL(PAGE_PATH, origin.origin).toString();
       }
     } catch {
       pageUrl = null;
@@ -122,17 +114,15 @@ export default function WhoShouldExhibitPage() {
           "@type": "ItemList",
           name: "Bangladesh Buildcon Exhibitor Sectors",
           numberOfItems: exhibitionSectors.length,
-          itemListElement: exhibitionSectors.map(
-            (sector, index) => ({
-              "@type": "ListItem",
-              position: index + 1,
-              name: sector.name,
-              url: new URL(
-                `/exhibition-profile#${sector.slug}`,
-                pageUrl
-              ).toString(),
-            })
-          ),
+          itemListElement: exhibitionSectors.map((sector, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: sector.name,
+            url: new URL(
+              `/exhibition-profile#${sector.slug}`,
+              pageUrl,
+            ).toString(),
+          })),
         },
       }
     : null;
@@ -143,10 +133,7 @@ export default function WhoShouldExhibitPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}

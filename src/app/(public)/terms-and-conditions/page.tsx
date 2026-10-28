@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -70,14 +69,8 @@ export default function TermsPage() {
     try {
       const parsed = new URL(siteUrl);
 
-      if (
-        parsed.protocol === "https:" ||
-        parsed.protocol === "http:"
-      ) {
-        pageUrl = new URL(
-          PAGE_PATH,
-          parsed.origin
-        ).toString();
+      if (parsed.protocol === "https:" || parsed.protocol === "http:") {
+        pageUrl = new URL(PAGE_PATH, parsed.origin).toString();
       }
     } catch {
       pageUrl = null;
@@ -103,7 +96,7 @@ export default function TermsPage() {
           endDate: "2027-09-19",
           location: {
             "@type": "Place",
-            name: "ICCB Exhibition Hall",
+            name: "ICCB Expo Village",
             address: {
               "@type": "PostalAddress",
               addressLocality: "Dhaka",
@@ -130,10 +123,7 @@ export default function TermsPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}

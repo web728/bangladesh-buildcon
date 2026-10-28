@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -11,17 +10,15 @@ import { VenueClientView } from "@/components/about/VenueClientView";
 
 const PAGE_PATH = "/venue";
 
-const PAGE_TITLE =
-  "ICCB Exhibition Hall, Dhaka | Bangladesh Buildcon 2027 Venue";
+const PAGE_TITLE = "ICCB Expo Village, Dhaka | Bangladesh Buildcon 2027 Venue";
 
 const PAGE_DESCRIPTION =
-  "Explore ICCB Exhibition Hall in Dhaka, the official " +
+  "Explore ICCB Expo Village in Dhaka, the official " +
   "venue for the 11th Bangladesh Buildcon International " +
-  "Expo 2027, 17–19 November. Find venue information, " +
+  "Expo 2027, 11-13 November. Find venue information, " +
   "Google Maps directions and visitor planning resources.";
 
-const PAGE_IMAGE =
-  "/images/venue/iccb-exhibition-hall.jpg";
+const PAGE_IMAGE = "/images/venue/iccb-exhibition-hall.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -44,7 +41,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall in Dhaka, venue of Bangladesh Buildcon 2027",
+        alt: "ICCB Expo Village in Dhaka, venue of Bangladesh Buildcon 2027",
       },
     ],
   },
@@ -81,14 +78,8 @@ export default function VenuePage() {
     try {
       const parsed = new URL(siteUrl);
 
-      if (
-        parsed.protocol === "https:" ||
-        parsed.protocol === "http:"
-      ) {
-        pageUrl = new URL(
-          PAGE_PATH,
-          parsed.origin
-        ).toString();
+      if (parsed.protocol === "https:" || parsed.protocol === "http:") {
+        pageUrl = new URL(PAGE_PATH, parsed.origin).toString();
       }
     } catch {
       pageUrl = null;
@@ -135,10 +126,7 @@ export default function VenuePage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}
@@ -146,11 +134,11 @@ export default function VenuePage() {
       <PageHero
         title="Discover Our"
         highlightTitle="Exhibition Venue"
-        badgeText="ICCB Exhibition Hall · Dhaka"
+        badgeText="ICCB Expo Village · Dhaka"
         intro={`Visit ${event.name} from ${event.dates.display} at ${event.venue.name}, ${event.venue.city}, Bangladesh. Explore the exhibition location and plan your visit.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "ICCB Exhibition Hall, Dhaka, official Bangladesh Buildcon International Expo 2027 venue",
+          alt: "ICCB Expo Village, Dhaka, official Bangladesh Buildcon International Expo 2027 venue",
         }}
       />
 

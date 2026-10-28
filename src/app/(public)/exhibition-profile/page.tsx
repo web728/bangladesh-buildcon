@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -21,10 +20,9 @@ const PAGE_DESCRIPTION =
   `at the 11th Bangladesh Buildcon International Expo 2027. ` +
   `Discover construction machinery, building materials, electrical ` +
   `engineering, interiors, landscaping and safety products. ` +
-  `17–19 November 2027, ICCB Exhibition Hall, Dhaka.`;
+  `11-13 November 2027, ICCB Expo Village, Dhaka.`;
 
-const PAGE_IMAGE =
-  "/images/sectors/construction-crane-bangladesh.jpg";
+const PAGE_IMAGE = "/images/sectors/construction-crane-bangladesh.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -84,14 +82,8 @@ export default function ExhibitionProfilePage() {
     try {
       const parsedUrl = new URL(siteUrl);
 
-      if (
-        parsedUrl.protocol === "https:" ||
-        parsedUrl.protocol === "http:"
-      ) {
-        pageUrl = new URL(
-          PAGE_PATH,
-          parsedUrl.origin
-        ).toString();
+      if (parsedUrl.protocol === "https:" || parsedUrl.protocol === "http:") {
+        pageUrl = new URL(PAGE_PATH, parsedUrl.origin).toString();
       }
     } catch {
       pageUrl = null;
@@ -110,16 +102,12 @@ export default function ExhibitionProfilePage() {
           "@type": "ItemList",
           name: `${event.name} Exhibitor Profile`,
           numberOfItems: exhibitionSectors.length,
-          itemListElement: exhibitionSectors.map(
-            (sector, index) => ({
-              "@type": "ListItem",
-              position: index + 1,
-              name: sector.name,
-              url: `${pageUrl}#${encodeURIComponent(
-                sector.slug
-              )}`,
-            })
-          ),
+          itemListElement: exhibitionSectors.map((sector, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: sector.name,
+            url: `${pageUrl}#${encodeURIComponent(sector.slug)}`,
+          })),
         },
       }
     : null;
@@ -130,10 +118,7 @@ export default function ExhibitionProfilePage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}

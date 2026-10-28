@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -14,10 +13,9 @@ const PAGE_DESCRIPTION =
   "Meet Futurex Trade Fair & Events Pvt. Ltd. and " +
   "ASK Trade & Exhibitions Pvt. Ltd., organisers of the " +
   "11th Bangladesh Buildcon International Expo 2027. " +
-  "17–19 November 2027 at ICCB Exhibition Hall, Dhaka.";
+  "11-13 November 2027 at ICCB Expo Village, Dhaka.";
 
-const PAGE_IMAGE =
-  "/images/sectors/construction-crane-bangladesh.jpg";
+const PAGE_IMAGE = "/images/sectors/construction-crane-bangladesh.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -72,14 +70,8 @@ export default function OrganisersPage() {
     try {
       const origin = new URL(siteUrl);
 
-      if (
-        origin.protocol === "https:" ||
-        origin.protocol === "http:"
-      ) {
-        pageUrl = new URL(
-          PAGE_PATH,
-          origin.origin
-        ).toString();
+      if (origin.protocol === "https:" || origin.protocol === "http:") {
+        pageUrl = new URL(PAGE_PATH, origin.origin).toString();
       }
     } catch {
       pageUrl = null;
@@ -124,7 +116,7 @@ export default function OrganisersPage() {
           endDate: "2027-09-19",
           location: {
             "@type": "Place",
-            name: "ICCB Exhibition Hall",
+            name: "ICCB Expo Village",
             address: {
               "@type": "PostalAddress",
               addressLocality: "Dhaka",
@@ -141,10 +133,7 @@ export default function OrganisersPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}

@@ -1,14 +1,9 @@
-
 "use client";
 
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import {
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
@@ -27,15 +22,12 @@ import { Container } from "@/components/ui/Container";
    "Dhaka" or combined address query.
 ========================================== */
 
-const VENUE_NAME =
-  "International Convention City Bashundhara (ICCB)";
-
+const VENUE_NAME = "International Convention City Bashundhara (ICCB)";
 
 const VENUE_LAT = 23.8276;
 const VENUE_LNG = 90.42718;
 
-const VENUE_COORDINATES =
-  `${VENUE_LAT},${VENUE_LNG}`;
+const VENUE_COORDINATES = `${VENUE_LAT},${VENUE_LNG}`;
 
 // Exact mapped point for the embedded map.
 const GOOGLE_MAP_EMBED =
@@ -46,18 +38,14 @@ const GOOGLE_MAP_EMBED =
 // Directions to the same point.
 const GOOGLE_DIRECTIONS =
   "https://www.google.com/maps/dir/?api=1" +
-  `&destination=${encodeURIComponent(
-    VENUE_COORDINATES
-  )}` +
+  `&destination=${encodeURIComponent(VENUE_COORDINATES)}` +
   "&travelmode=driving";
 
 // Business listing search by name, for visitors
 // who want Google Maps' venue information.
 const GOOGLE_VENUE_SEARCH =
   "https://www.google.com/maps/search/?api=1" +
-  `&query=${encodeURIComponent(
-    VENUE_NAME + ", Dhaka, Bangladesh"
-  )}`;
+  `&query=${encodeURIComponent(VENUE_NAME + ", Dhaka, Bangladesh")}`;
 
 /* ==========================================
    MOTION
@@ -94,11 +82,7 @@ const reveal: Variants = {
    ICONS
 ========================================== */
 
-function MapPinIcon({
-  className = "size-4",
-}: {
-  className?: string;
-}) {
+function MapPinIcon({ className = "size-4" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -128,23 +112,13 @@ function CalendarIcon() {
       className="size-4"
       aria-hidden="true"
     >
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="16"
-        rx="2"
-      />
+      <rect x="3" y="5" width="18" height="16" rx="2" />
       <path d="M7 3v4M17 3v4M3 10h18" />
     </svg>
   );
 }
 
-function ArrowIcon({
-  diagonal = false,
-}: {
-  diagonal?: boolean;
-}) {
+function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -275,8 +249,6 @@ function VenueMap() {
           <p className="font-heading text-[12px] font-bold leading-snug text-brand-dark">
             {VENUE_NAME}
           </p>
-
-       
         </div>
 
         <a
@@ -322,10 +294,7 @@ export function VenueSection() {
             variants={reveal}
             className="mb-3 flex items-center gap-2.5"
           >
-            <span
-              aria-hidden="true"
-              className="h-[2px] w-7 bg-brand-primary"
-            />
+            <span aria-hidden="true" className="h-[2px] w-7 bg-brand-primary" />
 
             <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.13em] text-brand-primary">
               Official Event Location
@@ -337,18 +306,15 @@ export function VenueSection() {
             variants={reveal}
             className="font-heading text-[clamp(1.65rem,3vw,2.35rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
           >
-            Venue &{" "}
-            <span className="text-brand-primary">
-              Location
-            </span>
+            Venue & <span className="text-brand-primary">Location</span>
           </motion.h2>
 
           <motion.p
             variants={reveal}
             className="mt-2.5 max-w-[650px] text-[13px] leading-[1.75] text-[#67616C] sm:text-[14px]"
           >
-            Find the venue, check its location and
-            plan your visit to {event.name}.
+            Find the venue, check its location and plan your visit to{" "}
+            {event.name}.
           </motion.p>
         </motion.div>
 
@@ -392,8 +358,6 @@ export function VenueSection() {
               <p className="font-heading text-[10px] font-bold uppercase tracking-[0.1em] text-[#847C87]">
                 Official Venue Address
               </p>
-
-            
             </div>
 
             {/* Event facts */}
@@ -406,7 +370,7 @@ export function VenueSection() {
 
               <Detail
                 label="Venue"
-                value="ICCB Exhibition Halls"
+                value="ICCB Expo Villages"
                 icon={<BuildingIcon />}
               />
             </div>

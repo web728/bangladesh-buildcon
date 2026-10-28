@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -16,7 +15,7 @@ const PAGE_TITLE =
 
 const PAGE_DESCRIPTION =
   `Explore published exhibitors at ${event.name}, ` +
-  `${event.dates.display}, ICCB Exhibition Hall, Dhaka. ` +
+  `${event.dates.display}, ICCB Expo Village, Dhaka. ` +
   `Discover companies across construction machinery, building ` +
   `materials, electrical engineering, interior and exterior ` +
   `solutions, and safety technologies.`;
@@ -48,9 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    images: [
-      "/images/sectors/construction-crane-bangladesh.jpg",
-    ],
+    images: ["/images/sectors/construction-crane-bangladesh.jpg"],
   },
 
   robots: {
@@ -119,7 +116,7 @@ export default async function ExhibitorsPage() {
     try {
       directoryUrl = new URL(
         "/exhibitors",
-        process.env.NEXT_PUBLIC_SITE_URL
+        process.env.NEXT_PUBLIC_SITE_URL,
       ).toString();
     } catch {
       directoryUrl = null;
@@ -138,19 +135,15 @@ export default async function ExhibitorsPage() {
             "@type": "ItemList",
             name: "Published Bangladesh Buildcon Exhibitors",
             numberOfItems: exhibitors.length,
-            itemListElement: exhibitors.map(
-              (exhibitor, index) => ({
-                "@type": "ListItem",
-                position: index + 1,
-                name: exhibitor.companyName,
-                url: new URL(
-                  `/exhibitors/${encodeURIComponent(
-                    exhibitor.slug
-                  )}`,
-                  directoryUrl
-                ).toString(),
-              })
-            ),
+            itemListElement: exhibitors.map((exhibitor, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: exhibitor.companyName,
+              url: new URL(
+                `/exhibitors/${encodeURIComponent(exhibitor.slug)}`,
+                directoryUrl,
+              ).toString(),
+            })),
           },
         }
       : null;
@@ -161,9 +154,7 @@ export default async function ExhibitorsPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              structuredData
-            ).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
           }}
         />
       )}
@@ -204,26 +195,19 @@ export default async function ExhibitorsPage() {
                 className="mt-3 font-heading text-[clamp(1.5rem,2.7vw,2.15rem)] font-extrabold leading-tight tracking-[-0.04em] text-brand-dark"
               >
                 Discover Participating{" "}
-                <span className="text-brand-primary-dark">
-                  Companies
-                </span>
+                <span className="text-brand-primary-dark">Companies</span>
               </h2>
 
               <p className="mt-3 text-[13px] leading-[1.85] text-[#404650] sm:text-sm">
-                Browse the published company directory
-                to explore participating manufacturers,
-                suppliers and construction-industry brands.
+                Browse the published company directory to explore participating
+                manufacturers, suppliers and construction-industry brands.
               </p>
             </div>
-
-           
           </header>
 
           {exhibitors.length > 0 ? (
             <ExhibitorDirectoryWrapper>
-              <ExhibitorDirectory
-                exhibitors={exhibitors}
-              />
+              <ExhibitorDirectory exhibitors={exhibitors} />
             </ExhibitorDirectoryWrapper>
           ) : (
             <div className="space-y-8">
@@ -248,40 +232,33 @@ export default async function ExhibitorsPage() {
                     className="mt-2 font-heading text-xl font-extrabold tracking-tight text-brand-dark sm:text-2xl"
                   >
                     Exhibitor{" "}
-                    <span className="text-brand-primary-dark">
-                      Profile
-                    </span>
+                    <span className="text-brand-primary-dark">Profile</span>
                   </h3>
 
                   <p className="mt-2 text-[13px] leading-[1.8] text-[#404650]">
-                    The brochure outlines these seven
-                    broad product and industry groups.
-                    These categories describe the event
-                    scope, not confirmed companies.
+                    The brochure outlines these seven broad product and industry
+                    groups. These categories describe the event scope, not
+                    confirmed companies.
                   </p>
                 </div>
 
                 <div className="grid gap-3 p-5 sm:grid-cols-2 sm:p-7">
-                  {BROCHURE_CATEGORIES.map(
-                    (category, index) => (
-                      <article
-                        key={category.title}
-                        className="flex gap-3 rounded-xl border border-black/10 bg-brand-light p-4"
-                      >
-                      
+                  {BROCHURE_CATEGORIES.map((category, index) => (
+                    <article
+                      key={category.title}
+                      className="flex gap-3 rounded-xl border border-black/10 bg-brand-light p-4"
+                    >
+                      <div>
+                        <h4 className="font-heading text-[13px] font-extrabold leading-[1.5] text-brand-dark">
+                          {category.title}
+                        </h4>
 
-                        <div>
-                          <h4 className="font-heading text-[13px] font-extrabold leading-[1.5] text-brand-dark">
-                            {category.title}
-                          </h4>
-
-                          <p className="mt-1 text-[12px] leading-[1.8] text-[#404650]">
-                            {category.examples}
-                          </p>
-                        </div>
-                      </article>
-                    )
-                  )}
+                        <p className="mt-1 text-[12px] leading-[1.8] text-[#404650]">
+                          {category.examples}
+                        </p>
+                      </div>
+                    </article>
+                  ))}
                 </div>
               </section>
             </div>

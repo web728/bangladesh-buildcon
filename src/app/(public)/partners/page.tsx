@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -7,10 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PartnerLogo } from "@/components/ui/PartnerLogo";
 import { PartnerEnquiryForm } from "@/components/forms/PartnerEnquiryForm";
-import {
-  getActivePartners,
-  type PartnerSummary,
-} from "@/lib/data/partners";
+import { getActivePartners, type PartnerSummary } from "@/lib/data/partners";
 import { PartnersReveal } from "@/components/partners/PartnersReveal";
 
 /* ==========================================
@@ -25,17 +21,15 @@ export const dynamic = "force-dynamic";
 
 const PAGE_PATH = "/partners";
 
-const PAGE_TITLE =
-  "Industry & Media Partners | Bangladesh Buildcon 2027";
+const PAGE_TITLE = "Industry & Media Partners | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   "Explore published industry, association and media partners " +
   "of the 11th Bangladesh Buildcon International Expo 2027. " +
   "Enquire about partnership opportunities for the exhibition " +
-  "at ICCB Exhibition Hall, Dhaka, 17–19 November 2027.";
+  "at ICCB Expo Village, Dhaka, 11-13 November 2027.";
 
-const PAGE_IMAGE =
-  "/images/sectors/construction-crane-bangladesh.jpg";
+const PAGE_IMAGE = "/images/sectors/construction-crane-bangladesh.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -145,17 +139,12 @@ export default async function PartnersPage() {
   try {
     partners = await getActivePartners();
   } catch (error) {
-    console.error(
-      "Failed to load published exhibition partners:",
-      error
-    );
+    console.error("Failed to load published exhibition partners:", error);
   }
 
   const byCategory = CATEGORIES.map((category) => ({
     category,
-    items: partners.filter(
-      (partner) => partner.category === category
-    ),
+    items: partners.filter((partner) => partner.category === category),
   })).filter((group) => group.items.length > 0);
 
   return (
@@ -207,11 +196,9 @@ export default async function PartnersPage() {
                 </h2>
 
                 <p className="mt-3 max-w-[680px] text-[13px] leading-[1.85] text-brand-body sm:text-sm">
-                  Browse the organisations currently
-                  published by the exhibition team.
-                  Partner information is displayed only
-                  when available in the official
-                  website directory.
+                  Browse the organisations currently published by the exhibition
+                  team. Partner information is displayed only when available in
+                  the official website directory.
                 </p>
               </div>
 
@@ -238,10 +225,7 @@ export default async function PartnersPage() {
           ) : (
             <div className="space-y-10 sm:space-y-12">
               {byCategory.map((group) => (
-                <section
-                  key={group.category}
-                  aria-label={group.category}
-                >
+                <section key={group.category} aria-label={group.category}>
                   <PartnersReveal>
                     <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-brand-border pb-4">
                       <div className="flex items-center gap-3">
@@ -266,9 +250,7 @@ export default async function PartnersPage() {
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">
                     {group.items.map((partner, index) => (
                       <PartnersReveal
-                        key={String(
-                          partner._id || partner.name
-                        )}
+                        key={String(partner._id || partner.name)}
                         delay={Math.min(index, 5) * 0.055}
                       >
                         <div className="group relative h-full min-w-0 overflow-hidden rounded-xl border border-brand-border bg-white p-3 shadow-[0_4px_18px_rgba(5,7,9,0.035)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-brand-primary/35 hover:shadow-[0_12px_28px_rgba(5,7,9,0.075)] sm:p-4">
@@ -300,10 +282,7 @@ export default async function PartnersPage() {
         <Container>
           <PartnersReveal className="mx-auto w-full max-w-[850px]">
             <div className="overflow-hidden rounded-2xl border border-brand-border bg-white shadow-[0_16px_48px_rgba(5,7,9,0.055)]">
-              <div
-                aria-hidden="true"
-                className="h-[3px] bg-brand-primary"
-              />
+              <div aria-hidden="true" className="h-[3px] bg-brand-primary" />
 
               <div className="border-b border-brand-border px-5 py-7 text-center sm:px-9 sm:py-8">
                 <span className="inline-flex items-center gap-2 rounded-lg border border-brand-primary/15 bg-brand-primary-soft px-3 py-2 font-heading text-[10px] font-extrabold uppercase tracking-[0.12em] text-brand-primary-dark">
@@ -316,29 +295,21 @@ export default async function PartnersPage() {
                   className="mt-4 font-heading text-[clamp(1.5rem,2.6vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
                 >
                   Partnership{" "}
-                  <span className="text-brand-primary-dark">
-                    Enquiry Form
-                  </span>
+                  <span className="text-brand-primary-dark">Enquiry Form</span>
                 </h2>
 
                 <p className="mx-auto mt-3 max-w-[590px] text-[13px] leading-[1.85] text-brand-body sm:text-sm">
-                  Submit your organisation details
-                  to enquire about industry,
-                  association or media collaboration
-                  opportunities with Bangladesh
-                  Buildcon International Expo 2027.
+                  Submit your organisation details to enquire about industry,
+                  association or media collaboration opportunities with
+                  Bangladesh Buildcon International Expo 2027.
                 </p>
 
                 <p className="mt-3 font-heading text-[11px] font-semibold text-brand-muted">
                   {event.dates.display}
-                  <span
-                    aria-hidden="true"
-                    className="mx-2 text-brand-primary"
-                  >
+                  <span aria-hidden="true" className="mx-2 text-brand-primary">
                     |
                   </span>
-                  {event.venue.name},{" "}
-                  {event.venue.city}
+                  {event.venue.name}, {event.venue.city}
                 </p>
               </div>
 
@@ -351,10 +322,9 @@ export default async function PartnersPage() {
 
           <PartnersReveal className="mx-auto mt-5 max-w-[850px]">
             <p className="text-center text-[11px] leading-[1.8] text-brand-muted">
-              Submitting a partnership enquiry does
-              not confirm an official partnership.
-              Participation and collaboration terms
-              are subject to organiser confirmation.
+              Submitting a partnership enquiry does not confirm an official
+              partnership. Participation and collaboration terms are subject to
+              organiser confirmation.
             </p>
           </PartnersReveal>
         </Container>

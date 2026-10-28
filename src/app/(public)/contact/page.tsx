@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -12,11 +11,10 @@ const PAGE_DESCRIPTION =
   `Contact the organisers of the 11th Bangladesh Buildcon ` +
   `International Expo 2027, Futurex Trade Fair & Events ` +
   `Pvt. Ltd. and ASK Trade & Exhibitions Pvt. Ltd. ` +
-  `Enquire about participation at ICCB Exhibition Hall, ` +
-  `Dhaka, 17–19 November 2027.`;
+  `Enquire about participation at ICCB Expo Village, ` +
+  `Dhaka, 11-13 November 2027.`;
 
-const PAGE_IMAGE =
-  "/images/venue/iccb-exhibition-hall.jpg";
+const PAGE_IMAGE = "/images/venue/iccb-exhibition-hall.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -38,7 +36,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall, Dhaka — Bangladesh Buildcon 2027",
+        alt: "ICCB Expo Village, Dhaka — Bangladesh Buildcon 2027",
       },
     ],
   },
@@ -68,7 +66,7 @@ export default function ContactPage() {
     try {
       pageUrl = new URL(
         "/contact",
-        process.env.NEXT_PUBLIC_SITE_URL
+        process.env.NEXT_PUBLIC_SITE_URL,
       ).toString();
     } catch {
       pageUrl = null;
@@ -89,7 +87,7 @@ export default function ContactPage() {
           endDate: "2027-09-19",
           location: {
             "@type": "Place",
-            name: "ICCB Exhibition Hall",
+            name: "ICCB Expo Village",
             address: {
               "@type": "PostalAddress",
               addressLocality: "Dhaka",
@@ -120,10 +118,7 @@ export default function ContactPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}
@@ -135,7 +130,7 @@ export default function ContactPage() {
         intro={`For exhibition and visitor enquiries, contact the official organising team. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "ICCB Exhibition Hall in Dhaka, venue of Bangladesh Buildcon International Expo 2027",
+          alt: "ICCB Expo Village in Dhaka, venue of Bangladesh Buildcon International Expo 2027",
         }}
       />
 

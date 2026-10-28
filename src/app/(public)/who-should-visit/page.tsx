@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -15,10 +14,9 @@ const PAGE_DESCRIPTION =
   "Bangladesh Buildcon International Expo 2027. " +
   "Architects, civil engineers, consultants, builders, " +
   "government professionals, importers and distributors. " +
-  "17–19 November, ICCB Exhibition Hall, Dhaka.";
+  "11-13 November, ICCB Expo Village, Dhaka.";
 
-const PAGE_IMAGE =
-  "/images/gallery/bangladesh-buildcon-05.jpg";
+const PAGE_IMAGE = "/images/gallery/bangladesh-buildcon-05.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -74,14 +72,8 @@ export default function WhoShouldVisitPage() {
     try {
       const origin = new URL(siteUrl);
 
-      if (
-        origin.protocol === "https:" ||
-        origin.protocol === "http:"
-      ) {
-        pageUrl = new URL(
-          PAGE_PATH,
-          origin.origin
-        ).toString();
+      if (origin.protocol === "https:" || origin.protocol === "http:") {
+        pageUrl = new URL(PAGE_PATH, origin.origin).toString();
       }
     } catch {
       pageUrl = null;
@@ -129,10 +121,7 @@ export default function WhoShouldVisitPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}

@@ -1,12 +1,7 @@
-
 "use client";
 
 import Link from "next/link";
-import {
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
@@ -187,11 +182,7 @@ function ObjectiveCard({
   return (
     <motion.article
       variants={reveal}
-      whileHover={
-        reducedMotion
-          ? undefined
-          : { y: -5 }
-      }
+      whileHover={reducedMotion ? undefined : { y: -5 }}
       transition={{
         duration: 0.3,
         ease: EASE,
@@ -218,8 +209,6 @@ function ObjectiveCard({
             <path d={item.icon} />
           </svg>
         </div>
-
-       
       </div>
 
       <h3 className="mt-5 font-heading text-[14px] font-bold tracking-[-0.02em] text-brand-dark transition-colors group-hover:text-brand-primary">
@@ -289,23 +278,18 @@ export function AboutClientView() {
             </h2>
 
             <p className="mt-5 max-w-[680px] text-[13px] leading-[1.9] text-[#606A78] sm:text-[14px]">
-              Bangladesh Buildcon International Expo 2027
-              is a dedicated B2B trade exhibition
-              connecting manufacturers, exporters, and
-              suppliers of building materials, heavy
-              machinery, and construction systems with
-              professionals responsible for specifying,
-              procuring, and executing infrastructure
-              works.
+              Bangladesh Buildcon International Expo 2027 is a dedicated B2B
+              trade exhibition connecting manufacturers, exporters, and
+              suppliers of building materials, heavy machinery, and construction
+              systems with professionals responsible for specifying, procuring,
+              and executing infrastructure works.
             </p>
 
             <p className="mt-3 max-w-[680px] text-[13px] leading-[1.9] text-[#606A78] sm:text-[14px]">
-              Organised over three focused business days
-              at ICCB Exhibition Hall in Dhaka, the event
-              creates opportunities for product discovery,
-              supplier sourcing, live demonstrations,
-              technical learning, and direct B2B
-              matchmaking.
+              Organised over three focused business days at ICCB Expo Village in
+              Dhaka, the event creates opportunities for product discovery,
+              supplier sourcing, live demonstrations, technical learning, and
+              direct B2B matchmaking.
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -314,7 +298,6 @@ export function AboutClientView() {
                 className="group inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white shadow-[0_8px_22px_rgba(186,29,130,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#9F176D]"
               >
                 Explore Exhibition Profile
-
                 <span className="transition-transform group-hover:translate-x-1">
                   <ArrowIcon />
                 </span>
@@ -362,21 +345,16 @@ export function AboutClientView() {
                 id="why-dhaka-heading"
                 className="mt-7 font-heading text-[26px] font-extrabold tracking-[-0.04em] text-[#F4F0F3] sm:text-[29px]"
               >
-                Why{" "}
-                <span className="text-[#F1A1D1]">
-                  Dhaka?
-                </span>
+                Why <span className="text-[#F1A1D1]">Dhaka?</span>
               </h3>
 
               <div className="mt-4 h-[2px] w-10 bg-brand-primary" />
 
               <p className="mt-5 text-[13px] leading-[1.9] text-[#BFC0C9]">
-                Dhaka brings together a major
-                concentration of contractors, developers,
-                importers, distributors, architects,
-                engineers, consultants, and decision-makers
-                involved in Bangladesh&apos;s building materials & construction
-                industry.
+                Dhaka brings together a major concentration of contractors,
+                developers, importers, distributors, architects, engineers,
+                consultants, and decision-makers involved in Bangladesh&apos;s
+                building materials & construction industry.
               </p>
 
               <div className="mt-7 border-t border-white/10 pt-5">
@@ -385,7 +363,6 @@ export function AboutClientView() {
                   className="group inline-flex items-center gap-2 font-heading text-[12px] font-bold text-[#F1A1D1] transition-colors hover:text-white"
                 >
                   Explore Bangladesh Market
-
                   <span className="transition-transform group-hover:translate-x-1">
                     <ArrowIcon />
                   </span>
@@ -421,17 +398,13 @@ export function AboutClientView() {
                 className="mt-3 font-heading text-[clamp(1.5rem,2.6vw,2.2rem)] font-extrabold tracking-[-0.04em] text-brand-dark"
               >
                 The Core{" "}
-                <span className="text-brand-primary">
-                  Business Platform
-                </span>
+                <span className="text-brand-primary">Business Platform</span>
               </h2>
             </div>
 
             <p className="max-w-[390px] text-[12px] leading-[1.85] text-[#6C7583] sm:text-[13px]">
-              Designed to support supplier discovery,
-              business connections, distribution
-              opportunities and long-term industry
-              relationships.
+              Designed to support supplier discovery, business connections,
+              distribution opportunities and long-term industry relationships.
             </p>
           </motion.div>
 
@@ -479,9 +452,7 @@ export function AboutClientView() {
                   className="mt-3 font-heading text-[20px] font-extrabold tracking-[-0.035em] text-brand-dark sm:text-[24px]"
                 >
                   Bangladesh Buildcon{" "}
-                  <span className="text-brand-primary">
-                    at a Glance
-                  </span>
+                  <span className="text-brand-primary">at a Glance</span>
                 </h2>
               </div>
 
@@ -490,7 +461,6 @@ export function AboutClientView() {
                 className="group inline-flex min-h-10 w-fit items-center gap-2 rounded-lg border border-[#E2E5EB] bg-[#FAFAFC] px-4 py-2.5 font-heading text-[11px] font-bold text-[#3E4551] transition-colors hover:border-brand-primary/35 hover:text-brand-primary"
               >
                 Full Exhibition Profile
-
                 <span className="transition-transform group-hover:translate-x-0.5">
                   <ArrowUpRightIcon />
                 </span>
@@ -502,11 +472,7 @@ export function AboutClientView() {
               {EVENT_METRICS.map((fact, index) => (
                 <motion.div
                   key={fact.label}
-                  initial={
-                    reducedMotion
-                      ? false
-                      : { opacity: 0, y: 12 }
-                  }
+                  initial={reducedMotion ? false : { opacity: 0, y: 12 }}
                   whileInView={{
                     opacity: 1,
                     y: 0,
@@ -526,8 +492,6 @@ export function AboutClientView() {
                     <span className="font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-[#929AA6]">
                       {fact.label}
                     </span>
-
-              
                   </div>
 
                   <p className="font-heading text-[14px] font-extrabold leading-[1.55] tracking-[-0.025em] text-brand-dark sm:text-[15px]">
@@ -549,8 +513,8 @@ export function AboutClientView() {
             {/* Bottom CTA ribbon */}
             <div className="flex flex-col gap-4 bg-[#F9F9FB] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7">
               <p className="text-[12px] leading-[1.7] text-[#66707F]">
-                Interested in exhibiting your products
-                and technologies at Bangladesh Buildcon International Expo 2027?
+                Interested in exhibiting your products and technologies at
+                Bangladesh Buildcon International Expo 2027?
               </p>
 
               <Link
@@ -558,7 +522,6 @@ export function AboutClientView() {
                 className="group inline-flex min-h-11 w-fit shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#9F176D]"
               >
                 Enquire for a Stand
-
                 <span className="transition-transform group-hover:translate-x-1">
                   <ArrowIcon />
                 </span>

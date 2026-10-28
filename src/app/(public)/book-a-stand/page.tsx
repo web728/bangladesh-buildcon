@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -9,18 +8,16 @@ import { BookStandPageContent } from "@/components/exhibit/BookStandPageContent"
    SEO METADATA
 ========================================== */
 
-const PAGE_TITLE =
-  "Book an Exhibition Stand | 11th Bangladesh Buildcon 2027";
+const PAGE_TITLE = "Book an Exhibition Stand | 11th Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   `Enquire about exhibition stand participation at ` +
   `the 11th Bangladesh Buildcon International Expo 2027, ` +
-  `17–19 November 2027 at ICCB Exhibition Hall, Dhaka. ` +
+  `11-13 November 2027 at ICCB Expo Village, Dhaka. ` +
   `Showcase construction machinery, building materials, ` +
   `electrical systems and building technologies.`;
 
-const PAGE_IMAGE =
-  "/images/venue/iccb-exhibition-hall.jpg";
+const PAGE_IMAGE = "/images/venue/iccb-exhibition-hall.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -43,7 +40,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall, Dhaka — Bangladesh Buildcon International Expo 2027",
+        alt: "ICCB Expo Village, Dhaka — Bangladesh Buildcon International Expo 2027",
       },
     ],
   },
@@ -80,7 +77,7 @@ export default function BookAStandPage() {
         intro={`Enquire about stand participation at Bangladesh Buildcon International Expo, ${event.dates.display}, ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "ICCB Exhibition Hall in Dhaka, the venue for Bangladesh Buildcon 2027",
+          alt: "ICCB Expo Village in Dhaka, the venue for Bangladesh Buildcon 2027",
         }}
       />
 

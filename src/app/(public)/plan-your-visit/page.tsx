@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -12,12 +11,11 @@ const PAGE_TITLE =
 
 const PAGE_DESCRIPTION =
   "Plan your visit to the 11th Bangladesh Buildcon " +
-  "International Expo 2027, 17–19 November at " +
-  "ICCB Exhibition Hall, Dhaka. Find venue directions, " +
+  "International Expo 2027, 11-13 November at " +
+  "ICCB Expo Village, Dhaka. Find venue directions, " +
   "visitor information, travel guidance and organiser contacts.";
 
-const PAGE_IMAGE =
-  "/images/venue/iccb-exhibition-hall.jpg";
+const PAGE_IMAGE = "/images/venue/iccb-exhibition-hall.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -40,7 +38,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall in Dhaka, venue for Bangladesh Buildcon 2027",
+        alt: "ICCB Expo Village in Dhaka, venue for Bangladesh Buildcon 2027",
       },
     ],
   },
@@ -73,14 +71,8 @@ export default function PlanYourVisitPage() {
     try {
       const origin = new URL(siteUrl);
 
-      if (
-        origin.protocol === "https:" ||
-        origin.protocol === "http:"
-      ) {
-        pageUrl = new URL(
-          PAGE_PATH,
-          origin.origin
-        ).toString();
+      if (origin.protocol === "https:" || origin.protocol === "http:") {
+        pageUrl = new URL(PAGE_PATH, origin.origin).toString();
       }
     } catch {
       pageUrl = null;
@@ -101,7 +93,7 @@ export default function PlanYourVisitPage() {
           endDate: "2027-09-19",
           location: {
             "@type": "Place",
-            name: "ICCB Exhibition Hall",
+            name: "ICCB Expo Village",
             address: {
               "@type": "PostalAddress",
               addressLocality: "Dhaka",
@@ -128,10 +120,7 @@ export default function PlanYourVisitPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}
@@ -143,7 +132,7 @@ export default function PlanYourVisitPage() {
         intro={`Visit the 11th Bangladesh Buildcon International Expo at ${event.venue.name}, ${event.venue.city}, from ${event.dates.display}. Find event details, venue directions and visitor guidance.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "ICCB Exhibition Hall, Dhaka, Bangladesh — exhibition venue",
+          alt: "ICCB Expo Village, Dhaka, Bangladesh — exhibition venue",
         }}
       />
 

@@ -4,12 +4,12 @@ Final verification performed on 9 October 2027 against the production build in t
 
 ## Automated checks
 
-| Check | Result |
-|---|---|
-| `pnpm run lint` | Pass — 0 errors, 0 warnings |
-| `pnpm run typecheck` | Pass |
-| `pnpm run build` | Pass — 40 application routes generated |
-| `pnpm test` | Pass — 37 passed, 3 intentional/environment-dependent skips, 0 failed |
+| Check                | Result                                                                |
+| -------------------- | --------------------------------------------------------------------- |
+| `pnpm run lint`      | Pass — 0 errors, 0 warnings                                           |
+| `pnpm run typecheck` | Pass                                                                  |
+| `pnpm run build`     | Pass — 40 application routes generated                                |
+| `pnpm test`          | Pass — 37 passed, 3 intentional/environment-dependent skips, 0 failed |
 
 The Playwright suite runs against both desktop Chromium and a Pixel 7 mobile profile. It
 checks core content, desktop and mobile navigation, public route responses, form controls and
@@ -25,7 +25,7 @@ browser errors, reduced-motion behavior, and horizontal overflow at 320, 375, 39
   the brochure's circular graphic treatment; unrelated cyan and emerald accents were removed.
 - Event facts and imagery were sourced from the supplied 2027 brochure and 2025 post-show
   report. Unsupported inherited claims were removed.
-- Confirmed event facts: 11th edition; 17–19 November 2027; ICCB Exhibition Hall, Dhaka;
+- Confirmed event facts: 11th edition; 11-13 November 2027; ICCB Expo Village, Dhaka;
   200+ exhibiting companies, 7,000+ trade visitors, and 10+ participating countries at the
   previous edition.
 - Tanzania-only routes, copy, logos, downloads, and stock images were removed from the live

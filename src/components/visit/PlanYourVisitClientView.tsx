@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, type ReactNode } from "react";
@@ -83,7 +82,7 @@ const FAQS = [
   {
     question: "When and where is Bangladesh Buildcon 2027?",
     answer:
-      "The 11th Bangladesh Buildcon International Expo 2027 is scheduled for 17–19 November 2027 at ICCB Exhibition Hall, Dhaka, Bangladesh.",
+      "The 11th Bangladesh Buildcon International Expo 2027 is scheduled for 11-13 November 2027 at ICCB Expo Village, Dhaka, Bangladesh.",
     tag: "Event Details",
   },
   {
@@ -174,9 +173,7 @@ function Icon({
         <circle cx="12" cy="10" r="2.5" />
       </>
     ),
-    arrow: (
-      <path d="M5 12h14m-6-6 6 6-6 6" />
-    ),
+    arrow: <path d="M5 12h14m-6-6 6 6-6 6" />,
     phone: (
       <path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.7l.5 2.8a2 2 0 0 1-.6 1.7L8.1 11a16 16 0 0 0 4.8 4.8l1.9-1.9a2 2 0 0 1 1.7-.6l2.8.5a2 2 0 0 1 1.7 2Z" />
     ),
@@ -192,12 +189,8 @@ function Icon({
         <path d="M9.5 9a2.5 2.5 0 0 1 5 1c0 1.7-2.5 2.1-2.5 4M12 17h.01" />
       </>
     ),
-    chevron: (
-      <path d="m6 9 6 6 6-6" />
-    ),
-    external: (
-      <path d="M7 17 17 7M8 7h9v9" />
-    ),
+    chevron: <path d="m6 9 6 6 6-6" />,
+    external: <path d="M7 17 17 7M8 7h9v9" />,
   };
 
   return (
@@ -223,11 +216,7 @@ function Icon({
    not an architectural site plan.
 ========================================== */
 
-function VenueIllustration({
-  reducedMotion,
-}: {
-  reducedMotion: boolean;
-}) {
+function VenueIllustration({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <svg
       viewBox="0 0 500 310"
@@ -237,24 +226,12 @@ function VenueIllustration({
       aria-hidden="true"
     >
       {/* Ground lines */}
-      <path
-        d="M20 269H480"
-        stroke="#D7C5D2"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M35 284H465"
-        stroke="#E7DDE5"
-        strokeDasharray="5 8"
-      />
+      <path d="M20 269H480" stroke="#D7C5D2" strokeWidth="1.5" />
+      <path d="M35 284H465" stroke="#E7DDE5" strokeDasharray="5 8" />
 
       {/* Exhibition architecture */}
       <motion.g
-        initial={
-          reducedMotion
-            ? false
-            : { opacity: 0, y: 12 }
-        }
+        initial={reducedMotion ? false : { opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{
@@ -274,16 +251,9 @@ function VenueIllustration({
           strokeOpacity=".4"
         />
 
-        <path
-          d="M63 118H437"
-          stroke="#BA1D82"
-          strokeWidth="1.5"
-        />
+        <path d="M63 118H437" stroke="#BA1D82" strokeWidth="1.5" />
 
-        <path
-          d="M63 158H437M63 209H437"
-          stroke="#D5A6C7"
-        />
+        <path d="M63 158H437M63 209H437" stroke="#D5A6C7" />
 
         {/* Hall divisions */}
         {[100, 175, 250, 325, 400].map((x) => (
@@ -305,11 +275,7 @@ function VenueIllustration({
           strokeWidth="2.2"
         />
 
-        <path
-          d="M250 183v86M212 199h76"
-          stroke="#304090"
-          strokeOpacity=".65"
-        />
+        <path d="M250 183v86M212 199h76" stroke="#304090" strokeOpacity=".65" />
 
         {/* Entrance canopy */}
         <path
@@ -322,11 +288,7 @@ function VenueIllustration({
 
       {/* Rotating technical indicator */}
       <motion.g
-        animate={
-          reducedMotion
-            ? undefined
-            : { rotate: 360 }
-        }
+        animate={reducedMotion ? undefined : { rotate: 360 }}
         style={{
           transformOrigin: "69px 64px",
         }}
@@ -345,12 +307,7 @@ function VenueIllustration({
           strokeDasharray="5 9"
         />
 
-        <circle
-          cx="69"
-          cy="33"
-          r="4.5"
-          fill="#BA1D82"
-        />
+        <circle cx="69" cy="33" r="4.5" fill="#BA1D82" />
       </motion.g>
 
       {/* Pulsing roof point */}
@@ -379,11 +336,7 @@ function VenueIllustration({
 
       {/* Moving location marker */}
       <motion.g
-        animate={
-          reducedMotion
-            ? undefined
-            : { y: [0, -7, 0] }
-        }
+        animate={reducedMotion ? undefined : { y: [0, -7, 0] }}
         transition={{
           duration: 4,
           repeat: Infinity,
@@ -397,12 +350,7 @@ function VenueIllustration({
           fill="#F9EAF4"
         />
 
-        <circle
-          cx="381"
-          cy="41"
-          r="5"
-          fill="#BA1D82"
-        />
+        <circle cx="381" cy="41" r="5" fill="#BA1D82" />
       </motion.g>
 
       {/* Dimension marks */}
@@ -420,17 +368,10 @@ function VenueIllustration({
    SHARED HEADING
 ========================================== */
 
-function Eyebrow({
-  children,
-}: {
-  children: ReactNode;
-}) {
+function Eyebrow({ children }: { children: ReactNode }) {
   return (
     <div className="flex items-center gap-2.5">
-      <span
-        aria-hidden="true"
-        className="h-[2px] w-7 bg-brand-primary"
-      />
+      <span aria-hidden="true" className="h-[2px] w-7 bg-brand-primary" />
 
       <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.15em] text-brand-primary">
         {children}
@@ -443,13 +384,8 @@ function Eyebrow({
    ANIMATED FAQ ACCORDION
 ========================================== */
 
-function VisitorFaqs({
-  reducedMotion,
-}: {
-  reducedMotion: boolean;
-}) {
-  const [openIndex, setOpenIndex] =
-    useState<number | null>(0);
+function VisitorFaqs({ reducedMotion }: { reducedMotion: boolean }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <motion.div
@@ -473,9 +409,7 @@ function VisitorFaqs({
               aria-expanded={expanded}
               aria-controls={`visitor-faq-${index}`}
               onClick={() => {
-                setOpenIndex(
-                  expanded ? null : index
-                );
+                setOpenIndex(expanded ? null : index);
               }}
               className="flex w-full items-start justify-between gap-4 px-4 py-4 text-left focus-visible:outline-2 focus-visible:outline-brand-primary sm:px-5"
             >
@@ -501,15 +435,10 @@ function VisitorFaqs({
                     rotate: expanded ? 180 : 0,
                   }}
                   transition={{
-                    duration: reducedMotion
-                      ? 0
-                      : 0.25,
+                    duration: reducedMotion ? 0 : 0.25,
                   }}
                 >
-                  <Icon
-                    name="chevron"
-                    className="size-4"
-                  />
+                  <Icon name="chevron" className="size-4" />
                 </motion.span>
               </span>
             </button>
@@ -518,11 +447,7 @@ function VisitorFaqs({
               {expanded && (
                 <motion.div
                   id={`visitor-faq-${index}`}
-                  initial={
-                    reducedMotion
-                      ? false
-                      : { height: 0, opacity: 0 }
-                  }
+                  initial={reducedMotion ? false : { height: 0, opacity: 0 }}
                   animate={{
                     height: "auto",
                     opacity: 1,
@@ -532,9 +457,7 @@ function VisitorFaqs({
                     opacity: 0,
                   }}
                   transition={{
-                    duration: reducedMotion
-                      ? 0
-                      : 0.3,
+                    duration: reducedMotion ? 0 : 0.3,
                     ease: EASE,
                   }}
                   className="overflow-hidden"
@@ -570,15 +493,13 @@ export function PlanYourVisitClientView() {
     },
   };
 
-
-const organiserContacts = event.contact.people.map((person) => ({
-  id: person.id,
-  label: person.name,
-  phone: person.phone,
-  phoneHref: person.phoneHref,
-  email: person.email,
-}));
-
+  const organiserContacts = event.contact.people.map((person) => ({
+    id: person.id,
+    label: person.name,
+    phone: person.phone,
+    phoneHref: person.phoneHref,
+    email: person.email,
+  }));
 
   return (
     <div className="relative overflow-hidden bg-[#F8F8FA] py-12 text-brand-dark selection:bg-brand-primary selection:text-white sm:py-16">
@@ -594,42 +515,30 @@ const organiserContacts = event.contact.people.map((person) => ({
             className="grid items-center gap-6 overflow-hidden rounded-2xl border border-[#E9E4EB] bg-white p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:p-8"
           >
             <div className="min-w-0">
-              <Eyebrow>
-                Visitor Information
-              </Eyebrow>
+              <Eyebrow>Visitor Information</Eyebrow>
 
               <h1
                 id="visit-details-heading"
                 className="mt-4 max-w-[650px] font-heading text-[clamp(1.75rem,3vw,2.6rem)] font-extrabold leading-[1.15] tracking-[-0.045em] text-brand-dark"
               >
                 Plan Your Visit to{" "}
-                <span className="text-brand-primary">
-                  Bangladesh Buildcon.
-                </span>
+                <span className="text-brand-primary">Bangladesh Buildcon.</span>
               </h1>
 
               <p className="mt-4 max-w-[610px] text-[13px] leading-[1.85] text-[#66616C] sm:text-[14px]">
-                Prepare for the 11th Bangladesh
-                Buildcon International Expo 2027.
-                Explore essential dates, venue
-                information, directions and useful
-                visitor guidance.
+                Prepare for the 11th Bangladesh Buildcon International Expo
+                2027. Explore essential dates, venue information, directions and
+                useful visitor guidance.
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-2 rounded-md border border-[#E9E4EB] bg-[#FBFAFC] px-3 py-2 text-[11px] font-semibold text-[#5F5863]">
-                  <Icon
-                    name="calendar"
-                    className="size-4 text-brand-primary"
-                  />
+                  <Icon name="calendar" className="size-4 text-brand-primary" />
                   {event.dates.display}
                 </span>
 
                 <span className="inline-flex items-center gap-2 rounded-md border border-[#E9E4EB] bg-[#FBFAFC] px-3 py-2 text-[11px] font-semibold text-[#5F5863]">
-                  <Icon
-                    name="pin"
-                    className="size-4 text-brand-primary"
-                  />
+                  <Icon name="pin" className="size-4 text-brand-primary" />
                   {event.venue.city}, Bangladesh
                 </span>
               </div>
@@ -640,7 +549,6 @@ const organiserContacts = event.contact.people.map((person) => ({
                   className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark motion-reduce:transform-none"
                 >
                   Visitor Registration
-
                   <span className="transition-transform duration-300 group-hover:translate-x-1">
                     <Icon name="arrow" className="size-4" />
                   </span>
@@ -651,18 +559,13 @@ const organiserContacts = event.contact.people.map((person) => ({
                   className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-[#E8E1E9] bg-white px-5 py-3 font-heading text-[12px] font-bold text-brand-dark transition-colors hover:border-brand-primary/35 hover:text-brand-primary"
                 >
                   View Venue Map
-
                   <Icon name="pin" className="size-4" />
                 </a>
               </div>
             </div>
 
             <div className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-[#F0E7EE] bg-[#FCF8FB] p-4 sm:p-6">
-              <VenueIllustration
-                reducedMotion={reducedMotion}
-              />
-
-             
+              <VenueIllustration reducedMotion={reducedMotion} />
             </div>
           </motion.div>
 
@@ -678,11 +581,7 @@ const organiserContacts = event.contact.people.map((person) => ({
               <motion.article
                 key={detail.label}
                 variants={reveal}
-                whileHover={
-                  reducedMotion
-                    ? undefined
-                    : { y: -4 }
-                }
+                whileHover={reducedMotion ? undefined : { y: -4 }}
                 className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-[#E9E4EB] bg-white p-5 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_12px_28px_rgba(5,7,9,0.055)]"
               >
                 <span
@@ -694,8 +593,6 @@ const organiserContacts = event.contact.people.map((person) => ({
                   <span className="flex size-11 items-center justify-center rounded-lg border border-brand-primary/15 bg-[#F9ECF5] text-brand-primary transition-colors group-hover:bg-brand-primary group-hover:text-white">
                     <Icon name={detail.icon} />
                   </span>
-
-                   
                 </div>
 
                 <p className="mt-5 font-heading text-[10px] font-bold uppercase tracking-[0.09em] text-[#807985]">
@@ -727,18 +624,14 @@ const organiserContacts = event.contact.people.map((person) => ({
         >
           <div className="flex flex-col gap-5 border-b border-[#EDE7ED] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
             <div className="max-w-[690px]">
-              <Eyebrow>
-                Venue & Directions
-              </Eyebrow>
+              <Eyebrow>Venue & Directions</Eyebrow>
 
               <h2
                 id="visit-map-heading"
                 className="mt-3 font-heading text-[clamp(1.35rem,2.3vw,1.85rem)] font-extrabold leading-[1.25] tracking-[-0.035em] text-brand-dark"
               >
                 Find the{" "}
-                <span className="text-brand-primary">
-                  Exhibition Venue
-                </span>
+                <span className="text-brand-primary">Exhibition Venue</span>
               </h2>
 
               <p className="mt-3 flex items-start gap-2 text-[12px] leading-[1.8] text-[#66616C] sm:text-[13px]">
@@ -757,7 +650,6 @@ const organiserContacts = event.contact.people.map((person) => ({
               className="group inline-flex min-h-11 w-fit shrink-0 items-center justify-center gap-2 rounded-lg border border-brand-primary/25 bg-[#F9EDF5] px-5 py-3 font-heading text-[12px] font-bold text-brand-primary transition-colors hover:border-brand-primary hover:bg-brand-primary hover:text-white"
             >
               Open Directions
-
               <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 <Icon name="external" className="size-4" />
               </span>
@@ -781,41 +673,31 @@ const organiserContacts = event.contact.people.map((person) => ({
             03. VISITOR FAQS
         ==================================== */}
 
-        <section
-          aria-labelledby="visit-faq-heading"
-          className="mt-12 sm:mt-16"
-        >
+        <section aria-labelledby="visit-faq-heading" className="mt-12 sm:mt-16">
           <motion.div
             {...scrollProps}
             variants={reveal}
             className="flex flex-col gap-4 border-b border-[#E9E4EB] pb-6 sm:flex-row sm:items-end sm:justify-between"
           >
             <div className="max-w-[650px]">
-              <Eyebrow>
-                Visitor Guidance
-              </Eyebrow>
+              <Eyebrow>Visitor Guidance</Eyebrow>
 
               <h2
                 id="visit-faq-heading"
                 className="mt-3 font-heading text-[clamp(1.4rem,2.5vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
               >
                 Frequently Asked{" "}
-                <span className="text-brand-primary">
-                  Questions
-                </span>
+                <span className="text-brand-primary">Questions</span>
               </h2>
             </div>
 
             <p className="max-w-[390px] text-[12px] leading-[1.8] text-[#66616C] sm:text-[13px]">
-              Practical answers based on event
-              information, with unconfirmed
+              Practical answers based on event information, with unconfirmed
               arrangements clearly identified.
             </p>
           </motion.div>
 
-          <VisitorFaqs
-            reducedMotion={reducedMotion}
-          />
+          <VisitorFaqs reducedMotion={reducedMotion} />
         </section>
 
         {/* ===================================
@@ -844,14 +726,11 @@ const organiserContacts = event.contact.people.map((person) => ({
                 className="mt-4 max-w-[420px] font-heading text-[clamp(1.35rem,2.2vw,1.95rem)] font-extrabold leading-[1.25] tracking-[-0.035em]"
               >
                 Need Help Planning{" "}
-                <span className="text-[#E7A4D0]">
-                  Your Visit?
-                </span>
+                <span className="text-[#E7A4D0]">Your Visit?</span>
               </h2>
 
               <p className="mt-4 max-w-[430px] text-[12px] leading-[1.85] text-white/65 sm:text-[13px]">
-                Contact the joint organising team
-                for visitor, venue or event
+                Contact the joint organising team for visitor, venue or event
                 information.
               </p>
 
@@ -862,11 +741,7 @@ const organiserContacts = event.contact.people.map((person) => ({
                 aria-hidden="true"
                 className="mt-5 h-auto w-full max-w-[330px] opacity-80"
               >
-                <path
-                  d="M15 114H315"
-                  stroke="#FFFFFF"
-                  strokeOpacity=".25"
-                />
+                <path d="M15 114H315" stroke="#FFFFFF" strokeOpacity=".25" />
 
                 <path
                   d="M34 114V47h82v67M129 114V22h94v92M237 114V63h60v51"
@@ -915,62 +790,58 @@ const organiserContacts = event.contact.people.map((person) => ({
                 Contact the Organisers
               </h3>
 
+              <div className="mt-4 overflow-hidden rounded-xl border border-[#EAE5EB] bg-white">
+                <div className="divide-y divide-[#EEE9EF]">
+                  {organiserContacts.map((contact) => (
+                    <div
+                      key={contact.id}
+                      className="group min-w-0 px-4 py-3 transition-colors duration-300 hover:bg-[#FCF6FA] sm:px-5 sm:py-3.5"
+                    >
+                      {/* Contact person name */}
+                      <h4 className="font-heading text-[13px] font-bold leading-[1.4] tracking-[-0.015em] text-brand-dark sm:text-[14px]">
+                        {contact.label}
+                      </h4>
 
-<div className="mt-4 overflow-hidden rounded-xl border border-[#EAE5EB] bg-white">
-  <div className="divide-y divide-[#EEE9EF]">
-    {organiserContacts.map((contact) => (
-      <div
-        key={contact.id}
-        className="group min-w-0 px-4 py-3 transition-colors duration-300 hover:bg-[#FCF6FA] sm:px-5 sm:py-3.5"
-      >
-        {/* Contact person name */}
-        <h4 className="font-heading text-[13px] font-bold leading-[1.4] tracking-[-0.015em] text-brand-dark sm:text-[14px]">
-          {contact.label}
-        </h4>
+                      {/* Phone and email */}
+                      <div className="mt-1.5 flex min-w-0 flex-col gap-1">
+                        <a
+                          href={`tel:${contact.phoneHref}`}
+                          aria-label={`Call ${contact.label}`}
+                          className="group/link flex w-fit max-w-full min-w-0 items-start gap-2 text-[12px] font-medium leading-[1.5] tracking-normal text-[#625B67] transition-colors duration-200 hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:text-[12.5px]"
+                        >
+                          <span className="mt-[2px] flex size-4 shrink-0 items-center justify-center text-brand-primary">
+                            <Icon name="phone" className="size-[15px]" />
+                          </span>
 
-        {/* Phone and email */}
-        <div className="mt-1.5 flex min-w-0 flex-col gap-1">
-          <a
-            href={`tel:${contact.phoneHref}`}
-            aria-label={`Call ${contact.label}`}
-            className="group/link flex w-fit max-w-full min-w-0 items-start gap-2 text-[12px] font-medium leading-[1.5] tracking-normal text-[#625B67] transition-colors duration-200 hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:text-[12.5px]"
-          >
-            <span className="mt-[2px] flex size-4 shrink-0 items-center justify-center text-brand-primary">
-              <Icon name="phone" className="size-[15px]" />
-            </span>
+                          <span className="min-w-0 break-words tabular-nums">
+                            {contact.phone}
+                          </span>
+                        </a>
 
-            <span className="min-w-0 break-words tabular-nums">
-              {contact.phone}
-            </span>
-          </a>
+                        <a
+                          href={`mailto:${contact.email}`}
+                          aria-label={`Email ${contact.label}`}
+                          className="group/link flex w-fit max-w-full min-w-0 items-start gap-2 text-[12px] font-medium leading-[1.5] tracking-normal text-[#625B67] transition-colors duration-200 hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:text-[12.5px]"
+                        >
+                          <span className="mt-[2px] flex size-4 shrink-0 items-center justify-center text-brand-primary">
+                            <Icon name="mail" className="size-[15px]" />
+                          </span>
 
-          <a
-            href={`mailto:${contact.email}`}
-            aria-label={`Email ${contact.label}`}
-            className="group/link flex w-fit max-w-full min-w-0 items-start gap-2 text-[12px] font-medium leading-[1.5] tracking-normal text-[#625B67] transition-colors duration-200 hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:text-[12.5px]"
-          >
-            <span className="mt-[2px] flex size-4 shrink-0 items-center justify-center text-brand-primary">
-              <Icon name="mail" className="size-[15px]" />
-            </span>
-
-            <span className="min-w-0 break-all">
-              {contact.email}
-            </span>
-          </a>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
-
+                          <span className="min-w-0 break-all">
+                            {contact.email}
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               <Link
                 href="/contact"
                 className="group mt-5 inline-flex min-h-9 items-center gap-2 font-heading text-[11px] font-bold text-brand-primary hover:text-brand-primary-dark"
               >
                 General Enquiries
-
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   <Icon name="arrow" className="size-4" />
                 </span>
@@ -991,9 +862,7 @@ const organiserContacts = event.contact.people.map((person) => ({
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
-              <Eyebrow>
-                Plan Your Visit
-              </Eyebrow>
+              <Eyebrow>Plan Your Visit</Eyebrow>
 
               <h2
                 id="visitor-final-cta-heading"
@@ -1006,11 +875,8 @@ const organiserContacts = event.contact.people.map((person) => ({
               </h2>
 
               <p className="mt-2 text-[12px] leading-[1.8] text-[#66616C]">
-                {event.dates.display} ·{" "}
-                {event.venue.name},{" "}
-                {event.venue.city}. Review
-                registration information before
-                your visit.
+                {event.dates.display} · {event.venue.name}, {event.venue.city}.
+                Review registration information before your visit.
               </p>
             </div>
 
@@ -1019,12 +885,8 @@ const organiserContacts = event.contact.people.map((person) => ({
               className="group inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark motion-reduce:transform-none sm:w-auto"
             >
               Visitor Registration
-
               <span className="transition-transform duration-300 group-hover:translate-x-1">
-                <Icon
-                  name="arrow"
-                  className="size-4"
-                />
+                <Icon name="arrow" className="size-4" />
               </span>
             </Link>
           </div>

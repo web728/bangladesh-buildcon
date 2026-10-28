@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -18,11 +17,10 @@ const PAGE_DESCRIPTION =
   "Discover why Building & construction professionals visit the " +
   "11th Bangladesh Buildcon International Expo 2027. " +
   "Explore building materials, machinery, product innovations " +
-  "and B2B networking opportunities, 17–19 November at " +
-  "ICCB Exhibition Hall, Dhaka.";
+  "and B2B networking opportunities, 11-13 November at " +
+  "ICCB Expo Village, Dhaka.";
 
-const PAGE_IMAGE =
-  "/images/gallery/bangladesh-buildcon-05.jpg";
+const PAGE_IMAGE = "/images/gallery/bangladesh-buildcon-05.jpg";
 
 export const metadata: Metadata = {
   title: {

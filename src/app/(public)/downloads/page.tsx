@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -16,16 +15,14 @@ export const dynamic = "force-dynamic";
    SEO
 ========================================== */
 
-const PAGE_TITLE =
-  "Exhibition Brochure & Downloads | Bangladesh Buildcon 2027";
+const PAGE_TITLE = "Exhibition Brochure & Downloads | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   "Access the exhibition brochure and published event resources " +
   "for the 11th Bangladesh Buildcon International Expo 2027, " +
-  "17–19 November 2027 at ICCB Exhibition Hall, Dhaka.";
+  "11-13 November 2027 at ICCB Expo Village, Dhaka.";
 
-const PAGE_IMAGE =
-  "/images/home/bangladesh-buildcon-hero.jpg";
+const PAGE_IMAGE = "/images/home/bangladesh-buildcon-hero.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -70,11 +67,7 @@ export const metadata: Metadata = {
    SVG ICONS
 ========================================== */
 
-function DownloadIcon({
-  className = "size-5",
-}: {
-  className?: string;
-}) {
+function DownloadIcon({ className = "size-5" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -232,30 +225,11 @@ function BrochureArtwork() {
         strokeWidth="2"
       />
 
-      <rect
-        x="112"
-        y="46"
-        width="190"
-        height="8"
-        rx="2"
-        fill="#BA1D82"
-      />
+      <rect x="112" y="46" width="190" height="8" rx="2" fill="#BA1D82" />
 
-      <path
-        d="M123 222V150l33-18 33 18v72"
-        stroke="#BA1D82"
-        strokeWidth="2"
-      />
-      <path
-        d="M164 222V121l40-24 40 24v101"
-        stroke="#BA1D82"
-        strokeWidth="2"
-      />
-      <path
-        d="M215 222V160l36-18 36 18v62"
-        stroke="#304090"
-        strokeWidth="2"
-      />
+      <path d="M123 222V150l33-18 33 18v72" stroke="#BA1D82" strokeWidth="2" />
+      <path d="M164 222V121l40-24 40 24v101" stroke="#BA1D82" strokeWidth="2" />
+      <path d="M215 222V160l36-18 36 18v62" stroke="#304090" strokeWidth="2" />
       <path
         d="M118 223H293M164 151h80M164 185h80"
         stroke="#BA1D82"
@@ -269,29 +243,13 @@ function BrochureArtwork() {
         strokeLinecap="round"
       />
 
-      <rect
-        x="119"
-        y="278"
-        width="90"
-        height="15"
-        rx="4"
-        fill="#F7E8F2"
-      />
+      <rect x="119" y="278" width="90" height="15" rx="4" fill="#F7E8F2" />
 
       {/* Document attachment corner */}
-      <path
-        d="M267 31v27h50"
-        stroke="#BA1D82"
-        strokeOpacity=".5"
-      />
+      <path d="M267 31v27h50" stroke="#BA1D82" strokeOpacity=".5" />
 
       {/* Floating download indicator */}
-      <circle
-        cx="336"
-        cy="252"
-        r="37"
-        fill="#BA1D82"
-      />
+      <circle cx="336" cy="252" r="37" fill="#BA1D82" />
       <path
         d="M336 230v27m-11-10 11 11 11-11M321 266h30"
         stroke="white"
@@ -301,12 +259,7 @@ function BrochureArtwork() {
       />
 
       {/* Technical registration marks */}
-      <circle
-        cx="68"
-        cy="79"
-        r="5"
-        fill="#BA1D82"
-      />
+      <circle cx="68" cy="79" r="5" fill="#BA1D82" />
       <path
         d="M68 90v70M58 125h20"
         stroke="#BA1D82"
@@ -374,11 +327,9 @@ export default async function DownloadsPage() {
                   </h2>
 
                   <p className="mt-4 max-w-[590px] text-[13px] leading-[1.85] text-[#66616C] sm:text-[14px]">
-                    Find information about the
-                    Bangladesh Buildcon International
+                    Find information about the Bangladesh Buildcon International
                     Expo 2027, including building materials & construction
-                    industry product categories,
-                    exhibitor profiles and event
+                    industry product categories, exhibitor profiles and event
                     highlights.
                   </p>
 
@@ -430,7 +381,6 @@ export default async function DownloadsPage() {
 
                 <div className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-[#F0E7EE] bg-[#FCF8FB] p-4 sm:p-6">
                   <BrochureArtwork />
- 
                 </div>
               </div>
             </DownloadReveal>
@@ -468,10 +418,8 @@ export default async function DownloadsPage() {
                       </h2>
 
                       <p className="mt-2 max-w-[650px] text-[12px] leading-[1.8] text-[#66616C] sm:text-[13px]">
-                        Submit your details through
-                        the form below to access
-                        the brochure, subject to
-                        the existing form process.
+                        Submit your details through the form below to access the
+                        brochure, subject to the existing form process.
                       </p>
                     </div>
                   </div>
@@ -509,27 +457,19 @@ export default async function DownloadsPage() {
                     className="mt-3 font-heading text-[clamp(1.45rem,2.5vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
                   >
                     Additional{" "}
-                    <span className="text-brand-primary">
-                      Downloads
-                    </span>
+                    <span className="text-brand-primary">Downloads</span>
                   </h2>
 
                   <p className="mt-3 text-[12px] leading-[1.85] text-[#66616C] sm:text-[13px]">
-                    Browse documents and event
-                    resources published by
-                    the organising team.
+                    Browse documents and event resources published by the
+                    organising team.
                   </p>
                 </div>
-
-              
               </div>
             </DownloadReveal>
 
             {downloads.length === 0 ? (
-              <DownloadReveal
-                delay={0.08}
-                className="mt-6"
-              >
+              <DownloadReveal delay={0.08} className="mt-6">
                 <div className="rounded-xl border border-[#E9E4EB] bg-white p-5 sm:p-7">
                   <EmptyState
                     title="More Downloads Coming Soon"
@@ -561,8 +501,6 @@ export default async function DownloadsPage() {
                         <span className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-brand-primary/15 bg-[#F9ECF5] text-brand-primary transition-colors group-hover:bg-brand-primary group-hover:text-white">
                           <FileIcon />
                         </span>
-
-                      
                       </div>
 
                       <div className="mt-5 flex-1">

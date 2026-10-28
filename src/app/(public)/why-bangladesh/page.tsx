@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -19,10 +18,9 @@ const PAGE_DESCRIPTION =
   "development and opportunities across building materials, " +
   "machinery, engineering and construction technologies. " +
   "Discover Bangladesh Buildcon International Expo 2027, " +
-  "17–19 November at ICCB Exhibition Hall, Dhaka.";
+  "11-13 November at ICCB Expo Village, Dhaka.";
 
-const PAGE_IMAGE =
-  "/images/home/bangladesh-buildcon-hero.jpg";
+const PAGE_IMAGE = "/images/home/bangladesh-buildcon-hero.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -76,21 +74,14 @@ export const metadata: Metadata = {
 export default function WhyBangladeshPage() {
   let pageUrl: string | null = null;
 
-  const configuredUrl =
-    process.env.NEXT_PUBLIC_SITE_URL;
+  const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   if (configuredUrl) {
     try {
       const site = new URL(configuredUrl);
 
-      if (
-        site.protocol === "https:" ||
-        site.protocol === "http:"
-      ) {
-        pageUrl = new URL(
-          PAGE_PATH,
-          site.origin
-        ).toString();
+      if (site.protocol === "https:" || site.protocol === "http:") {
+        pageUrl = new URL(PAGE_PATH, site.origin).toString();
       }
     } catch {
       pageUrl = null;
@@ -148,10 +139,7 @@ export default function WhyBangladeshPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(
-              /</g,
-              "\\u003c"
-            ),
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
       )}

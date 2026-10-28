@@ -43,7 +43,7 @@ public/
   logos/     Bangladesh Buildcon, Futurex, ASK Trade & Exhibitions Pvt. Ltd. logos
   images/
     home/        homepage-only imagery
-    venue/       ICCB Exhibition Hall / venue imagery
+    venue/       ICCB Expo Village / venue imagery
     sectors/     exhibition-profile / sector imagery
     exhibitors/  exhibitor logos (uploaded via admin)
     news/        news featured images

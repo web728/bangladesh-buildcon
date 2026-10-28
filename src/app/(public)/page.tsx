@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -21,14 +20,13 @@ import { FinalCtaSection } from "@/components/sections/home/FinalCtaSection";
 
 const SITE_URL = "https://bangladeshbuildcon.com/";
 
-const PAGE_TITLE =
-  "11th Bangladesh Buildcon International Expo 2027 | Dhaka";
+const PAGE_TITLE = "11th Bangladesh Buildcon International Expo 2027 | Dhaka";
 
 const PAGE_DESCRIPTION =
   "Explore the 11th Bangladesh Buildcon International " +
   "Expo 2027, the building and construction industry " +
-  "trade exhibition taking place 17–19 November 2027 " +
-  "at ICCB Exhibition Hall, Dhaka, Bangladesh. " +
+  "trade exhibition taking place 11-13 November 2027 " +
+  "at ICCB Expo Village, Dhaka, Bangladesh. " +
   "Discover construction machinery, materials, " +
   "engineering, interiors and B2B networking opportunities.";
 
@@ -104,12 +102,12 @@ const homeStructuredData = {
       "@id": `${SITE_URL}#event-2027`,
       name: "11th Bangladesh Buildcon International Expo 2027",
       description: PAGE_DESCRIPTION,
-      startDate: "2027-09-17",
-      endDate: "2027-09-19",
+      startDate: "2027-09-11",
+      endDate: "2027-09-13",
       eventStatus: "https://schema.org/EventScheduled",
       location: {
         "@type": "Place",
-        name: "ICCB Exhibition Hall",
+        name: "ICCB Expo Village",
         address: {
           "@type": "PostalAddress",
           addressLocality: "Dhaka",
@@ -130,7 +128,7 @@ const homeStructuredData = {
       image: [
         new URL(
           "/images/home/bangladesh-buildcon-hero.jpg",
-          SITE_URL
+          SITE_URL,
         ).toString(),
       ],
       url: SITE_URL,
@@ -148,10 +146,7 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(homeStructuredData).replace(
-            /</g,
-            "\\u003c"
-          ),
+          __html: JSON.stringify(homeStructuredData).replace(/</g, "\\u003c"),
         }}
       />
 

@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import { event } from "@/config/event";
@@ -19,12 +18,11 @@ const PAGE_TITLE =
 const PAGE_DESCRIPTION =
   "Register your interest as a trade visitor for the " +
   "11th Bangladesh Buildcon International Expo 2027, " +
-  "17–19 November at ICCB Exhibition Hall, Dhaka. " +
+  "11-13 November at ICCB Expo Village, Dhaka. " +
   "Explore Building & construction materials, machinery, building " +
   "technologies and industry networking opportunities.";
 
-const PAGE_IMAGE =
-  "/images/venue/iccb-exhibition-hall.jpg";
+const PAGE_IMAGE = "/images/venue/iccb-exhibition-hall.jpg";
 
 export const metadata: Metadata = {
   title: {
@@ -47,7 +45,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: PAGE_IMAGE,
-        alt: "ICCB Exhibition Hall in Dhaka, venue for Bangladesh Buildcon 2027",
+        alt: "ICCB Expo Village in Dhaka, venue for Bangladesh Buildcon 2027",
       },
     ],
   },
@@ -146,7 +144,7 @@ export default function RegisterToVisitPage() {
         intro={`Register your interest in visiting ${event.name}, taking place from ${event.dates.display} at ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "ICCB Exhibition Hall, Dhaka — venue for the 11th Bangladesh Buildcon International Expo 2027",
+          alt: "ICCB Expo Village, Dhaka — venue for the 11th Bangladesh Buildcon International Expo 2027",
         }}
       />
 
@@ -164,10 +162,7 @@ export default function RegisterToVisitPage() {
           <VisitorRegistrationReveal className="mx-auto w-full max-w-[850px]">
             <div className="overflow-hidden rounded-2xl border border-brand-border bg-white shadow-[0_14px_45px_rgba(5,7,9,0.055)]">
               {/* Brand accent */}
-              <div
-                aria-hidden="true"
-                className="h-[3px] bg-brand-primary"
-              />
+              <div aria-hidden="true" className="h-[3px] bg-brand-primary" />
 
               {/* Form header */}
               <div className="border-b border-brand-border px-5 py-7 text-center sm:px-9 sm:py-8">
@@ -181,19 +176,13 @@ export default function RegisterToVisitPage() {
                   className="mt-4 font-heading text-[clamp(1.55rem,2.7vw,2.1rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
                 >
                   Register Your{" "}
-                  <span className="text-brand-primary-dark">
-                    Visit
-                  </span>
+                  <span className="text-brand-primary-dark">Visit</span>
                 </h2>
 
                 <p className="mx-auto mt-3 max-w-[580px] text-[13px] leading-[1.85] text-brand-body sm:text-sm">
-                  Complete the registration form to
-                  share your visitor details for
-                  Bangladesh Buildcon International
-                  Expo 2027.  
+                  Complete the registration form to share your visitor details
+                  for Bangladesh Buildcon International Expo 2027.
                 </p>
-
-                
               </div>
 
               {/* Existing functional registration form */}
@@ -205,11 +194,9 @@ export default function RegisterToVisitPage() {
 
           <VisitorRegistrationReveal className="mx-auto mt-5 max-w-[850px]">
             <p className="text-center text-[11px] leading-[1.8] text-brand-muted">
-              Registration submissions are subject
-              to the event&apos;s applicable
-              confirmation and admission
-              arrangements. For visitor enquiries,
-              contact the official organising team.
+              Registration submissions are subject to the event&apos;s
+              applicable confirmation and admission arrangements. For visitor
+              enquiries, contact the official organising team.
             </p>
           </VisitorRegistrationReveal>
         </Container>
