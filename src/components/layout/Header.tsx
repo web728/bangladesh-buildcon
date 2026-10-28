@@ -120,23 +120,16 @@ function EventMarquee() {
   const items = [
     {
       label: "EVENT DATES",
-
-      value: event.dates?.display || "2027",
+      value: event.dates?.display || "11–13 November 2027",
     },
-
     {
       label: "EXPO VENUE",
-
       value: [event.venue?.name, event.venue?.city]
-
         .filter(Boolean)
-
         .join(", "),
     },
-
     {
       label: "REGISTRATION",
-
       value: "Exhibitor & Visitor Registration",
     },
   ];
@@ -145,14 +138,16 @@ function EventMarquee() {
     items.map((item, index) => (
       <div
         key={`${prefix}-${index}`}
-
         className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap"
       >
         <span className="font-heading text-[9px] font-extrabold uppercase tracking-[0.12em] text-white/60 sm:text-[10px]">
           {item.label}
         </span>
 
-        <span className="size-1 rounded-full bg-white/45" />
+        <span
+          aria-hidden="true"
+          className="size-1 rounded-full bg-white/45"
+        />
 
         <span className="text-[10px] font-semibold tracking-[0.01em] text-white sm:text-[11px]">
           {item.value}
@@ -160,60 +155,51 @@ function EventMarquee() {
 
         <span
           aria-hidden="true"
-
-          className="mx-4 h-3.5 w-px bg-white/25"
+          className="mx-5 h-3.5 w-px bg-white/25"
         />
       </div>
     ));
 
   return (
-    <div className="relative h-[31px] overflow-hidden bg-brand-primary text-white sm:h-[34px]">
-      <div className="flex h-full items-center overflow-hidden">
-        {shouldReduceMotion ? (
-          <div className="mx-auto flex min-w-0 items-center gap-3 overflow-hidden px-4">
-            <span className="shrink-0 text-[9px] font-bold uppercase tracking-wider text-white/70">
-              EVENT DATES
-            </span>
-
-            <span className="truncate text-[11px] font-semibold">
-              {event.dates?.display || "Bangladesh Buildcon 2027"}
-            </span>
-          </div>
-        ) : (
-          <motion.div
-            className="flex w-max shrink-0 items-center"
-
-            animate={{ x: ["0%", "-50%"] }}
-
-            transition={{
-              duration: 32,
-
-              repeat: Infinity,
-
-              ease: "linear",
+    <div className="relative h-[31px] w-full overflow-hidden bg-brand-primary text-white sm:h-[34px]">
+      {shouldReduceMotion ? (
+        <div className="flex h-full items-center justify-center overflow-hidden px-4">
+          <span className="truncate text-[11px] font-semibold">
+            {event.dates?.display || "11–13 November 2027"}
+            {" · "}
+            {event.venue?.name}
+            {", "}
+            {event.venue?.city}
+          </span>
+        </div>
+      ) : (
+        <div className="relative flex h-full w-full items-center overflow-hidden">
+          <div
+            className="flex w-max min-w-full shrink-0 items-center"
+            style={{
+              animation: "buildcon-marquee 35s linear infinite",
+              willChange: "transform",
             }}
           >
-            <div
-              className="flex shrink-0 items-center"
-
-              aria-label="Event information"
-            >
+            {/* First identical group */}
+            <div className="flex min-w-full shrink-0 items-center justify-around">
               {renderItems("primary")}
             </div>
 
+            {/* Second identical group */}
             <div
-              className="flex shrink-0 items-center"
-
+              className="flex min-w-full shrink-0 items-center justify-around"
               aria-hidden="true"
             >
               {renderItems("duplicate")}
             </div>
-          </motion.div>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
 
 /* =========================================
 
@@ -404,7 +390,7 @@ export function Header() {
             "
           >
             <Image
-              src="/logos/bangladesh-buildcon-international-expo-2027-logo.png"
+              src="/logos/bangla.png"
 
               alt={event.name}
 
