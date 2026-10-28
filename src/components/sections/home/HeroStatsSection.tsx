@@ -182,27 +182,7 @@ export function HeroStatsSection() {
               <p className="mt-3 font-heading text-[11px] font-semibold uppercase tracking-[0.13em] text-white/60 sm:text-xs">
                 {stat.label}
               </p>
-
-              {/* Small magenta ornament */}
-              <motion.span
-                aria-hidden="true"
-                className="mt-4 h-1 w-1 rounded-full bg-brand-primary"
-                initial={
-                  reducedMotion
-                    ? false
-                    : { scale: 0, opacity: 0 }
-                }
-                whileInView={{
-                  scale: 1,
-                  opacity: 1,
-                }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.5,
-                  delay: 0.3 + index * 0.12,
-                  ease: EASE,
-                }}
-              />
+ 
             </motion.div>
           ))}
         </div>

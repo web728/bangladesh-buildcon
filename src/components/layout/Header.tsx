@@ -404,7 +404,7 @@ export function Header() {
             "
           >
             <Image
-              src="/logos/bangla.png"
+              src="/logos/bangladesh-buildcon-international-expo-2027-logo.png"
 
               alt={event.name}
 

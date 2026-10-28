@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   motion,
   useReducedMotion,
@@ -87,13 +87,19 @@ const VISIT_REASONS = [
   },
 ] as const;
 
+
+
+
+
+
 /* ==========================================
    BROCHURE VISITOR BUSINESS PROFILE
 ========================================== */
 
+
 const VISITOR_PROFILES = [
   {
-    title: "Consultants & Civil Engineers",
+    title: "Building Consultants & Civil Engineers",
     percentage: 36,
   },
   {
@@ -101,11 +107,11 @@ const VISITOR_PROFILES = [
     percentage: 25,
   },
   {
-    title: "Government",
+    title: "Government Departments & Agencies",
     percentage: 19,
   },
   {
-    title: "Builders & Real Estate",
+    title: "Builders & Real Estate Developers",
     percentage: 11,
   },
   {
@@ -113,6 +119,7 @@ const VISITOR_PROFILES = [
     percentage: 8,
   },
 ] as const;
+
 
 /* ==========================================
    EXHIBITOR PRODUCT AREAS
@@ -145,6 +152,7 @@ const FEATURES = [
 
 type IconName =
   | "products"
+  | "technology"
   | "innovation"
   | "network"
   | "partners"
@@ -153,7 +161,8 @@ type IconName =
   | "calendar"
   | "location"
   | "check"
-  | "external";
+  | "external"
+  | "people";
 
 function Icon({
   name,
@@ -167,6 +176,12 @@ function Icon({
       <>
         <path d="m12 3 9 5-9 5-9-5 9-5Z" />
         <path d="m3 12 9 5 9-5M3 16l9 5 9-5" />
+      </>
+    ),
+    technology: (
+      <>
+        <rect x="3" y="4" width="18" height="14" rx="2" />
+        <path d="M8 22h8M12 18v4m-5-9 3-3 2 2 5-5" />
       </>
     ),
     innovation: (
@@ -206,6 +221,13 @@ function Icon({
         <path d="M7 3v4M17 3v4M3 10h18" />
       </>
     ),
+     people: (
+      <>
+        <circle cx="12" cy="8" r="3" />
+        <path d="M5 21v-2a7 7 0 0 1 14 0v2" />
+        <path d="M4 9a2 2 0 1 0 0 4m16-4a2 2 0 1 1 0 4" />
+      </>
+    ),
     location: (
       <>
         <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z" />
@@ -242,6 +264,235 @@ function Icon({
    Solid pink and blue.
    No gradients.
 ========================================== */
+
+
+const VISITOR_MOTIVATIONS = [
+  { title: "Discover New Products & Services", percentage: 39 },
+  { title: "Explore Innovations", percentage: 28 },
+  { title: "Professional Networking", percentage: 20 },
+  { title: "Find Channel Partners", percentage: 12 },
+  { title: "Other Reasons", percentage: 1 },
+] as const;
+
+
+const VISITOR_OPPORTUNITIES = [
+  {
+    title: "Explore Building & Construction Products",
+    description:
+      "Discover building materials, construction machinery, electrical systems, interior and exterior products, and safety solutions.",
+    icon: "products",
+  },
+  {
+    title: "Discover New Technologies",
+    description:
+      "Learn about modern construction equipment, building technologies, and solutions designed for different construction projects.",
+    icon: "technology",
+  },
+  {
+    title: "Meet Manufacturers & Suppliers",
+    description:
+      "Connect with participating manufacturers, suppliers, and distributors to explore products and discuss your requirements.",
+    icon: "network",
+  },
+  {
+    title: "Explore Business Partnerships",
+    description:
+      "Meet potential distribution partners, dealers, and suppliers to discuss new business and sourcing opportunities.",
+    icon: "partners",
+  },
+  {
+    title: "Experience Product Demonstrations",
+    description:
+      "See construction products and equipment in action through planned demonstrations and learn about their applications.",
+    icon: "building",
+  },
+  {
+    title: "Connect with Industry Professionals",
+    description:
+      "Meet architects, engineers, contractors, developers, and other professionals working across the building and construction industry.",
+    icon: "people",
+  },
+] as const;
+
+
+const VISITOR_FAQS = [
+  {
+    question: "Who can visit the exhibition?",
+    answer:
+      "The 11th Bangladesh Buildcon International Expo 2027 welcomes trade professionals and the general public interested in building materials, construction machinery, equipment, and related technologies.",
+  },
+  {
+    question: "What can I expect at the exhibition?",
+    answer:
+      "Visitors can explore building materials, construction machinery, equipment, electrical systems, interior and exterior products, and modern construction solutions from participating exhibitors.",
+  },
+  {
+    question: "When and where will the exhibition take place?",
+    answer:
+      "The 11th Bangladesh Buildcon International Expo 2027 will take place from 11–13 November 2027 at ICCB Expo Village, Dhaka, Bangladesh.",
+  },
+  {
+    question: "What are the exhibition opening hours?",
+    answer:
+      "The exhibition will be open from 10:00 AM to 6:00 PM on all three days, 11–13 November 2027.",
+  },
+  {
+    question: "Is entry to the exhibition free?",
+    answer:
+      "Yes, entry to the exhibition is free for all visitors.",
+  },
+  {
+    question: "How can I register to visit?",
+    answer:
+      "You can register through the official exhibition website using the Register to Visit option. Onsite registration will also be available at the venue.",
+  },
+  {
+    question: "Can I register directly at the venue?",
+    answer:
+      "Yes, onsite registration will be available at ICCB Expo Village during exhibition hours.",
+  },
+  {
+    question: "Is the exhibition open to the general public?",
+    answer:
+      "Yes, the exhibition is open to both trade visitors and the general public interested in the building and construction industry.",
+  },
+  {
+    question: "Can I meet manufacturers and suppliers?",
+    answer:
+      "Yes, visitors can meet participating manufacturers, suppliers, exporters, and distributors to explore products, discuss requirements, and make business connections.",
+  },
+  {
+    question: "Will international exhibitors participate?",
+    answer:
+      "The exhibition welcomes companies from Bangladesh and international markets. Details of confirmed exhibitors will be available closer to the event.",
+  },
+  {
+    question: "Will there be product demonstrations?",
+    answer:
+      "The exhibition is planned to feature product displays and demonstrations, giving visitors an opportunity to learn about construction materials, machinery, equipment, and technologies.",
+  },
+  {
+    question: "How can I reach the exhibition venue?",
+    answer:
+      "The exhibition will be held at ICCB Expo Village, Dhaka, Bangladesh. Visitors can find the venue location and Google Maps directions on the Exhibition Venue page.",
+  },
+] as const;
+
+function VisitorFAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  return (
+    <section
+      aria-labelledby="visitor-faq-heading"
+      className="mt-12 sm:mt-16"
+    >
+      {/* FAQ Heading */}
+      <div className="mb-6 border-b border-[#E5E7ED] pb-5">
+        <Eyebrow>Visitor Information</Eyebrow>
+
+        <h2
+          id="visitor-faq-heading"
+          className="mt-3 font-heading text-[clamp(1.5rem,2.7vw,2.2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+        >
+          Frequently Asked{" "}
+          <span className="text-brand-primary">
+            Questions
+          </span>
+        </h2>
+
+        <p className="mt-3 max-w-[620px] text-[13px] leading-[1.75] text-[#62606B] sm:text-[14px]">
+          Find answers to common questions about visiting,
+          registration, exhibition timings, and event details.
+        </p>
+      </div>
+
+      {/* FAQ Accordion */}
+      <div className="overflow-hidden rounded-2xl border border-[#E7E3E9] bg-white">
+        {VISITOR_FAQS.map((faq, index) => {
+          const isOpen = openIndex === index;
+          const answerId = `visitor-faq-answer-${index}`;
+          const questionId = `visitor-faq-question-${index}`;
+
+          return (
+            <div
+              key={faq.question}
+              className={
+                index !== VISITOR_FAQS.length - 1
+                  ? "border-b border-[#EBE7ED]"
+                  : ""
+              }
+            >
+              <h3>
+                <button
+                  type="button"
+                  id={questionId}
+                  aria-expanded={isOpen}
+                  aria-controls={answerId}
+                  onClick={() =>
+                    setOpenIndex(isOpen ? null : index)
+                  }
+                  className="group flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#FCF9FC] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand-primary sm:px-6"
+                >
+                  <span className="flex min-w-0 items-start gap-3">
+                    <span className="mt-0.5 shrink-0 font-heading text-[11px] font-bold tabular-nums text-brand-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <span
+                      className={`font-heading text-[13px] font-bold leading-[1.6] transition-colors sm:text-[14px] ${
+                        isOpen
+                          ? "text-brand-primary"
+                          : "text-brand-dark group-hover:text-brand-primary"
+                      }`}
+                    >
+                      {faq.question}
+                    </span>
+                  </span>
+
+                  <span
+                    aria-hidden="true"
+                    className={`flex size-8 shrink-0 items-center justify-center rounded-lg border transition-all duration-200 ${
+                      isOpen
+                        ? "border-brand-primary bg-brand-primary text-white"
+                        : "border-[#E6E1E8] bg-[#FAF8FB] text-[#60606B]"
+                    }`}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      className="size-4"
+                    >
+                      <path d="M5 12h14" />
+                      {!isOpen && <path d="M12 5v14" />}
+                    </svg>
+                  </span>
+                </button>
+              </h3>
+
+              <div
+                id={answerId}
+                role="region"
+                aria-labelledby={questionId}
+                hidden={!isOpen}
+              >
+                <div className="px-5 pb-5 pl-12 sm:px-6 sm:pl-[54px]">
+                  <p className="max-w-[850px] text-[13px] leading-[1.85] text-[#62606B] sm:text-[14px]">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+
 
 function VisitIllustration({
   reducedMotion,
@@ -678,233 +929,204 @@ export function VisitClientView() {
             01. PREMIUM VISITOR INTRO
         ==================================== */}
 
-        <section aria-labelledby="why-visit-heading">
-          <motion.div
-            {...scrollProps}
-            variants={reveal}
-            className="grid items-center gap-6 overflow-hidden rounded-2xl border border-[#E9E4EB] bg-white p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:p-8"
+   
+<section aria-labelledby="why-visit-heading">
+  <motion.div
+    {...scrollProps}
+    variants={reveal}
+    className="grid items-center gap-6 overflow-hidden rounded-2xl border border-[#E9E4EB] bg-white p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:p-8"
+  >
+    <div className="min-w-0">
+      <Eyebrow>
+        Visitor Experience
+      </Eyebrow>
+
+      <h2
+        id="why-visit-heading"
+        className="mt-4 max-w-[650px] font-heading text-[clamp(1.75rem,3vw,2.65rem)] font-extrabold leading-[1.15] tracking-[-0.045em] text-brand-dark"
+      >
+        Explore Products & Technologies{" "}
+        <span className="text-brand-primary">
+          for Building &amp; Construction
+        </span>
+      </h2>
+
+      <p className="mt-4 max-w-[610px] text-[13px] leading-[1.85] text-[#66616C] sm:text-[14px]">
+        The 11th Bangladesh Buildcon International Expo 2027
+        brings together manufacturers and suppliers showcasing
+        building materials, construction machinery, equipment,
+        and modern building solutions. Discover new products,
+        meet suppliers, and connect with industry professionals.
+      </p>
+
+      {/* Visitor Highlights */}
+      <div className="mt-5 flex flex-wrap gap-2">
+        {[
+          "Discover New Products",
+          "Explore Technologies",
+          "Meet Suppliers",
+          "Industry Networking",
+        ].map((tag) => (
+          <span
+            key={tag}
+            className="rounded-md border border-[#EAE4EC] bg-[#FBFAFC] px-3 py-1.5 font-heading text-[10px] font-semibold text-[#625B67]"
           >
-            <div className="min-w-0">
-              <Eyebrow>
-                Official Brochure · Why Visit?
-              </Eyebrow>
+            {tag}
+          </span>
+        ))}
+      </div>
 
-              <h2
-                id="why-visit-heading"
-                className="mt-4 max-w-[650px] font-heading text-[clamp(1.75rem,3vw,2.65rem)] font-extrabold leading-[1.15] tracking-[-0.045em] text-brand-dark"
-              >
-                Discover What&apos;s Next in{" "}
-                <span className="text-brand-primary">
-                  Building &amp; Construction.
-                </span>
-              </h2>
+      {/* Visitor Actions */}
+      <div className="mt-6 flex flex-wrap gap-2.5">
+        <Link
+          href={event.cta.registerVisit}
+          className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary motion-reduce:transform-none"
+        >
+          Register to Visit
 
-              <p className="mt-4 max-w-[610px] text-[13px] leading-[1.85] text-[#66616C] sm:text-[14px]">
-                Discover construction materials,
-                machinery and modern technologies,
-                connect with suppliers and explore
-                new industry relationships at
-                Bangladesh Buildcon International
-                Expo 2027.
-              </p>
+          <span className="transition-transform duration-300 group-hover:translate-x-1">
+            <Icon name="arrow" className="size-4" />
+          </span>
+        </Link>
 
-              <div className="mt-5 flex flex-wrap gap-2">
-                {[
-                  "Product Discovery",
-                  "Industry Innovation",
-                  "Professional Networking",
-                  "Supplier Connections",
-                ].map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-md border border-[#EAE4EC] bg-[#FBFAFC] px-3 py-1.5 font-heading text-[10px] font-semibold text-[#625B67]"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+        <Link
+          href="/exhibition-profile"
+          className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-[#E6DFE8] bg-white px-5 py-3 font-heading text-[12px] font-bold text-brand-dark transition-colors hover:border-brand-primary/35 hover:text-brand-primary"
+        >
+          Explore Exhibition Profile
 
-              <div className="mt-6 flex flex-wrap gap-2.5">
-                <Link
-                  href={event.cta.registerVisit}
-                  className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-brand-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary motion-reduce:transform-none"
-                >
-                  Register to Visit
+          <Icon
+            name="external"
+            className="size-4"
+          />
+        </Link>
+      </div>
+    </div>
 
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    <Icon name="arrow" className="size-4" />
-                  </span>
-                </Link>
+    {/* Construction Illustration */}
+    <div className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-[#F0E7EE] bg-[#FCF8FB] p-4 sm:p-6">
+      <VisitIllustration reducedMotion={reducedMotion} />
+    </div>
+  </motion.div>
+</section>
 
-                <Link
-                  href="/exhibition-profile"
-                  className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-[#E6DFE8] bg-white px-5 py-3 font-heading text-[12px] font-bold text-brand-dark transition-colors hover:border-brand-primary/35 hover:text-brand-primary"
-                >
-                  Exhibition Profile
 
-                  <Icon
-                    name="external"
-                    className="size-4"
-                  />
-                </Link>
-              </div>
-            </div>
+ {/* ===================================
+            03. VISITOR MOTIVATIONS
+        ==================================== */}
 
-            {/* Animated construction vector */}
-            <div className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-[#F0E7EE] bg-[#FCF8FB] p-4 sm:p-6">
-              <VisitIllustration
-                reducedMotion={reducedMotion}
-              />
-
-            
-            </div>
+        <section
+          aria-labelledby="visitor-motivations-heading"
+          className="mt-12 sm:mt-16"
+        >
+          <motion.div {...scrollProps} variants={reveal}>
+            <SectionHeading
+              id="visitor-motivations-heading"
+              eyebrow="Brochure · Reasons to Attend"
+              title="What Brings Visitors"
+              highlight="to the Exhibition?"
+              description="Published visitor motivations highlight product discovery, innovation, networking and channel development."
+            />
           </motion.div>
 
-        
- 
+          <motion.div
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.08 }}
+            className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5"
+          >
+            {VISITOR_MOTIVATIONS.map((motivation, index) => (
+              <motion.article
+                key={motivation.title}
+                variants={reveal}
+                whileHover={
+                  reducedMotion ? undefined : { y: -3 }
+                }
+                className="group rounded-xl border border-[#E9E4EB] bg-white p-4 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_10px_25px_rgba(5,7,9,0.05)] sm:p-5"
+              >
+             
 
-     
+                <p className="mt-3 font-heading text-[28px] font-extrabold tabular-nums tracking-[-0.05em] text-brand-primary">
+                  {motivation.percentage}%
+                </p>
+
+                <h3 className="mt-2 min-h-11 text-[12px] font-semibold leading-[1.6] text-brand-dark">
+                  {motivation.title}
+                </h3>
+
+                <div className="mt-4">
+                  <PercentageBar
+                    percentage={motivation.percentage}
+                    reducedMotion={reducedMotion}
+                  />
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+ 
         </section>
 
         {/* ===================================
-            02. VISITOR BUSINESS PROFILE
+            04. VISITOR OPPORTUNITIES
         ==================================== */}
 
-        <motion.section
-          {...scrollProps}
-          variants={reveal}
-          aria-labelledby="visitor-profile-heading"
-          className="mt-12 overflow-hidden rounded-2xl border border-[#E9E4EB] bg-white sm:mt-16"
+        <section
+          aria-labelledby="visitor-opportunities-heading"
+          className="mt-12 sm:mt-16"
         >
-          <div className="border-b border-[#EDE7ED] p-5 sm:p-7">
-            <Eyebrow>
-              Official Brochure · Visitor Business Profile
-            </Eyebrow>
+          <motion.div {...scrollProps} variants={reveal}>
+            <SectionHeading
+              id="visitor-opportunities-heading"
+              eyebrow="Visitor Opportunities"
+              title="Explore Products, Technology"
+              highlight="&amp; Business Connections"
+              description="Practical areas of interest drawn from the exhibition's product scope and brochure features."
+            />
+          </motion.div>
 
-            <h2
-              id="visitor-profile-heading"
-              className="mt-3 font-heading text-[clamp(1.4rem,2.5vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
-            >
-              Meet the Professionals Who{" "}
-              <span className="text-brand-primary">
-                Buy, Build &amp; Specify.
-              </span>
-            </h2>
-
-            <p className="mt-3 max-w-[730px] text-[12px] leading-[1.85] text-[#66616C] sm:text-[13px]">
-              The brochure identifies consultants,
-              engineers, architects, developers,
-              public-sector organisations and trade
-              distributors among visitor business
-              groups.
-            </p>
-          </div>
-
-          <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-8">
-            {/* Animated visitor distribution */}
-            <div className="min-w-0 space-y-5">
-              {VISITOR_PROFILES.map(
-                (profile) => (
-                  <div key={profile.title}>
-                    <div className="mb-2.5 flex items-center justify-between gap-3">
-                      <h3 className="text-[12px] font-semibold leading-[1.5] text-brand-dark sm:text-[13px]">
-                        {profile.title}
-                      </h3>
-
-                      <span className="font-heading text-[15px] font-extrabold tabular-nums text-brand-primary">
-                        {profile.percentage}%
-                      </span>
-                    </div>
-
-                    <PercentageBar
-                      percentage={profile.percentage}
-                      reducedMotion={reducedMotion}
-                      height="h-2"
-                    />
-                  </div>
-                )
-              )}
-            </div>
-
-            {/* Editorial insight */}
-            <div className="relative flex min-w-0 flex-col justify-center overflow-hidden rounded-xl bg-[#18151C] p-6 text-white">
-              <span className="flex size-11 items-center justify-center rounded-lg border border-brand-primary/40 bg-brand-primary/20 text-[#EAA7D3]">
-                <Icon name="network" className="size-6" />
-              </span>
-
-              <h3 className="mt-5 max-w-[390px] font-heading text-[18px] font-extrabold leading-[1.35] tracking-[-0.035em]">
-                A Construction-Focused{" "}
-                <span className="text-[#EAA7D3]">
-                  Professional Audience
-                </span>
-              </h3>
-
-              <p className="mt-3 text-[12px] leading-[1.85] text-white/65 sm:text-[13px]">
-                Bangladesh Buildcon connects
-                construction-product suppliers with
-                professionals involved in project
-                planning, procurement, specification,
-                development and distribution.
-              </p>
-
-              <div className="mt-5 border-t border-white/15 pt-4">
-                <p className="text-[11px] leading-[1.8] text-white/50">
-                  Business-profile percentages
-                  are reproduced as published.
-                  Their total is 99%, consistent
-                  with rounded brochure figures;
-                  they are not a confirmed 2027
-                  visitor composition.
-                </p>
-              </div>
-
-              {/* Solid-color line artwork */}
-              <svg
-                viewBox="0 0 270 110"
-                fill="none"
-                aria-hidden="true"
-                className="pointer-events-none mt-5 h-auto w-full max-w-[270px] opacity-65"
+          <motion.div
+            variants={stagger}
+            initial={reducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.06 }}
+            className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {VISITOR_OPPORTUNITIES.map((opportunity, index) => (
+              <motion.article
+                key={opportunity.title}
+                variants={reveal}
+                whileHover={
+                  reducedMotion ? undefined : { y: -4 }
+                }
+                className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-[#E9E4EB] bg-white p-5 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_14px_28px_rgba(5,7,9,0.06)]"
               >
-                <path
-                  d="M10 100H260"
-                  stroke="#FFFFFF"
-                  strokeOpacity=".3"
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
                 />
 
-                <path
-                  d="M28 100V42h64v58M106 100V16h72v84M192 100V55h53v45"
-                  stroke="#BA1D82"
-                  strokeWidth="2"
-                />
+                <div className="flex items-start justify-between gap-3">
+                  <span className="flex size-11 items-center justify-center rounded-lg border border-brand-primary/15 bg-[#F9ECF5] text-brand-primary transition-colors group-hover:bg-brand-primary group-hover:text-white">
+                    <Icon name={opportunity.icon} />
+                  </span>
 
-                <path
-                  d="M28 65h64M28 84h64M106 44h72M106 71h72M192 78h53"
-                  stroke="#FFFFFF"
-                  strokeOpacity=".35"
-                />
+                  
+                </div>
 
-                <motion.circle
-                  cx="142"
-                  cy="16"
-                  r="4"
-                  fill="#BA1D82"
-                  animate={
-                    reducedMotion
-                      ? undefined
-                      : {
-                          opacity: [0.4, 1, 0.4],
-                        }
-                  }
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              </svg>
-            </div>
-          </div>
-        </motion.section>
+                <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.45] text-brand-dark">
+                  {opportunity.title}
+                </h3>
+
+                <p className="mt-3 text-[12px] leading-[1.85] text-[#66616C] sm:text-[13px]">
+                  {opportunity.description}
+                </p>
+              </motion.article>
+            ))}
+          </motion.div>
+        </section>
+      
+
 
         {/* ===================================
             03. EXHIBITION PRODUCT AREAS
@@ -1073,6 +1295,9 @@ export function VisitClientView() {
             </motion.div>
           </div>
         </motion.section>
+
+<VisitorFAQSection />
+
 
         {/* ===================================
             05. VISITOR CTA

@@ -1,13 +1,8 @@
-
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
@@ -54,34 +49,41 @@ const ORGANISERS_DATA = [
     hq: "New Delhi, India",
     established: "International Exhibition Organiser",
     url: "https://www.futurextrade.com/",
-    logo: "/logos/futurex-logo.png",
+    logo: "/logos/futurex-trade-fair-&-events-pvt-ltd-logo.png",
+
     paragraphs: [
-      "Futurex Trade Fair & Events Pvt. Ltd. is an international exhibition and corporate-events organiser based in Delhi, with branch offices in Mumbai, Colombo, Kathmandu, and Dhaka.",
-      "Its portfolio spans more than 220 international trade exhibitions and conferences across building and construction, infrastructure, power, electrical, lighting, metal and mining, agriculture, packaging, textiles, and other industrial sectors.",
+      "Futurex Trade Fair & Events Pvt. Ltd. is an international exhibition and corporate event organiser based in New Delhi, with offices in Mumbai, Colombo, Kathmandu, and Dhaka.",
+
+      "With over 220 trade exhibitions organised, Futurex Group has experience across building and construction, infrastructure, power, electrical, engineering, packaging, textiles, and other industries, connecting manufacturers, suppliers, and trade professionals through its exhibitions.",
     ],
+
     stats: [
       { label: "Trade Exhibitions", val: "220+" },
-      { label: "Branch Offices", val: "5" },
-      { label: "Industry Verticals", val: "16+" },
-      { label: "Operating Reach", val: "Global" },
+      { label: "Global Exhibitions", val: "16,500+" },
+      { label: "Brands on Display", val: "25,800+" },
+      { label: "Trade Visitors", val: "950,000+" },
     ],
   },
+
   {
     name: "ASK TRADE & EXHIBITIONS PVT. LTD.",
     shortBadge: "ASK Trade & Exhibitions",
-    hq: "Dhaka, Bangladesh",
-    established: "B2B Trade Show Specialist",
+    hq: "Bangladesh",
+    established: "International B2B Exhibition Organiser",
     url: "https://www.asktradex.com/",
-    logo: "/logos/ask-trade-logo.png",
+    logo: "/logos/ask-trade-&-exhibitions-pvt-ltd-logo.png",
+
     paragraphs: [
-      "ASK Trade & Exhibitions Pvt. Ltd. creates B2B platforms where industry stakeholders can interact, evaluate technology, and develop commercial relationships.",
-      "Its industry experience includes yarn and fabrics, garment machinery, wood and woodworking, building and construction, electrical products and machinery, printing, and leather and footwear machinery.",
+      "ASK Trade & Exhibitions Pvt. Ltd. is an international B2B trade exhibition organiser operating since 2002. With over 125 trade shows organised across 10 industry verticals, ASK has helped businesses connect with buyers, enter new markets, and promote their products in India and Bangladesh.",
+
+      "Its experience covers building and construction, electrical and power equipment, engineering, textiles, garment machinery, woodworking, printing, packaging, leather, and other industries. ASK organises trade exhibitions that bring together manufacturers, suppliers, and industry professionals.",
     ],
+
     stats: [
-      { label: "Platform", val: "B2B" },
-      { label: "Local Market", val: "Bangladesh" },
-      { label: "Core Sector", val: "Buildcon" },
-      { label: "Regional Reach", val: "South Asia" },
+      { label: "Industry Verticals", val: "10" },
+      { label: "Years of Experience", val: "20+" },
+      { label: "Trade Shows", val: "125+" },
+      { label: "Exhibitors Showcased", val: "3,000+" },
     ],
   },
 ] as const;
@@ -97,11 +99,7 @@ const CONTACT_DESKS = [
    ICONS
 ========================================== */
 
-function ArrowIcon({
-  diagonal = false,
-}: {
-  diagonal?: boolean;
-}) {
+function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -179,11 +177,7 @@ function MapPinIcon() {
    SMALL REUSABLE ELEMENTS
 ========================================== */
 
-function Eyebrow({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2.5">
       <span className="h-[2px] w-7 bg-brand-primary" />
@@ -207,11 +201,7 @@ function OrganiserCard({
   return (
     <motion.article
       variants={reveal}
-      whileHover={
-        reducedMotion
-          ? undefined
-          : { y: -5 }
-      }
+      whileHover={reducedMotion ? undefined : { y: -5 }}
       transition={{
         duration: 0.3,
         ease: EASE,
@@ -256,8 +246,6 @@ function OrganiserCard({
           <span className="rounded-md bg-brand-primary/[0.08] px-3 py-1.5 font-heading text-[10px] font-bold uppercase tracking-[0.09em] text-[#981568]">
             {organisation.shortBadge}
           </span>
-
-           
         </div>
 
         {/* Company identity */}
@@ -273,9 +261,7 @@ function OrganiserCard({
             {organisation.hq}
           </span>
 
-          <span className="text-[#707987]">
-            {organisation.established}
-          </span>
+          <span className="text-[#707987]">{organisation.established}</span>
         </div>
 
         {/* Company overview */}
@@ -310,8 +296,6 @@ function OrganiserCard({
           </div>
         </div>
       </div>
-
-     
     </motion.article>
   );
 }
@@ -337,45 +321,44 @@ function ContactDeskCard({
       }}
       className="group flex min-w-0 flex-col rounded-xl border border-[#E1E4EA] bg-[#FAFAFC] p-5 transition-[border-color,background-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:bg-white hover:shadow-[0_12px_28px_rgba(5,7,9,0.06)]"
     >
+      {/* Contact Name & Location Icon */}
       <div className="flex items-start justify-between gap-3">
-      
+        <h3 className="min-w-0 font-heading text-[16px] font-extrabold leading-[1.4] tracking-[-0.025em] text-[#171B24]">
+          {desk.name}
+        </h3>
 
-        <span className="text-[#737C89]">
+        <span
+          aria-hidden="true"
+          className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-primary/[0.07] text-brand-primary"
+        >
           <MapPinIcon />
         </span>
       </div>
 
-      <h4 className="mt-5 font-heading text-[17px] font-extrabold tracking-[-0.025em] text-[#171B24]">
-        {desk.name}
-      </h4>
-
-      <div className="mt-auto space-y-2 pt-5">
+      {/* Contact Details */}
+      <div className="mt-4 space-y-2">
         <a
           href={`tel:${cleanPhone}`}
           aria-label={`Call ${desk.name}`}
-          className="flex min-h-11 items-center gap-3 rounded-lg border border-[#E1E4EA] bg-white px-3.5 text-[12px] font-semibold text-[#303946] transition-colors hover:border-brand-primary/40 hover:text-[#981568]"
+          className="flex min-h-10 items-center gap-3 rounded-lg border border-[#E1E4EA] bg-white px-3 py-2 text-[12px] font-semibold text-[#303946] transition-colors hover:border-brand-primary/40 hover:text-[#981568]"
         >
-          <span className="shrink-0 text-brand-primary">
+          <span aria-hidden="true" className="shrink-0 text-brand-primary">
             <PhoneIcon />
           </span>
 
-          <span className="min-w-0 break-words tabular-nums">
-            {desk.phone}
-          </span>
+          <span className="min-w-0 break-words tabular-nums">{desk.phone}</span>
         </a>
 
         <a
           href={`mailto:${desk.email}`}
           aria-label={`Email ${desk.name}`}
-          className="flex min-h-11 items-center gap-3 rounded-lg border border-[#E1E4EA] bg-white px-3.5 text-[12px] font-semibold text-[#303946] transition-colors hover:border-brand-primary/40 hover:text-[#981568]"
+          className="flex min-h-10 items-center gap-3 rounded-lg border border-[#E1E4EA] bg-white px-3 py-2 text-[12px] font-semibold text-[#303946] transition-colors hover:border-brand-primary/40 hover:text-[#981568]"
         >
-          <span className="shrink-0 text-brand-primary">
+          <span aria-hidden="true" className="shrink-0 text-brand-primary">
             <MailIcon />
           </span>
 
-          <span className="min-w-0 break-all">
-            {desk.email}
-          </span>
+          <span className="min-w-0 break-all">{desk.email}</span>
         </a>
       </div>
     </motion.article>
@@ -417,21 +400,17 @@ export function OrganisersClientView() {
           className="flex flex-col gap-5 border-b border-[#E0E4EB] pb-7 sm:flex-row sm:items-end sm:justify-between"
         >
           <div className="max-w-[790px]">
-            <Eyebrow>Joint Exhibition Organisers</Eyebrow>
+            <Eyebrow>The Exhibition Organisers</Eyebrow>
 
             <h2 className="mt-3 font-heading text-[clamp(1.55rem,2.8vw,2.35rem)] font-extrabold leading-[1.2] tracking-[-0.045em] text-[#171B24]">
               The Expertise Behind{" "}
-              <span className="text-[#981568]">
-                Bangladesh Buildcon
-              </span>
+              <span className="text-[#981568]">Bangladesh Buildcon</span>
             </h2>
 
             <p className="mt-4 max-w-[760px] text-[13px] leading-[1.9] text-[#424B58] sm:text-[14px]">
-              {event.name} is jointly organised by
-              Futurex Trade Fair &amp; Events and ASK
-              Trade &amp; Exhibitions Pvt. Ltd.,
-              combining international exhibition
-              experience with industry connections
+              {event.name} is jointly organised by Futurex Trade Fair &amp;
+              Events Pvt. Ltd. and ASK Trade &amp; Exhibitions Pvt. Ltd., combining
+              international exhibition experience with industry connections
               across Bangladesh and South Asia.
             </p>
           </div>
@@ -441,7 +420,6 @@ export function OrganisersClientView() {
             className="group inline-flex min-h-11 w-fit shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white shadow-[0_9px_25px_rgba(186,29,130,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#981568]"
           >
             Book Exhibition Stand
-
             <span className="transition-transform duration-300 group-hover:translate-x-1">
               <ArrowIcon />
             </span>
@@ -452,118 +430,120 @@ export function OrganisersClientView() {
             ORGANISER PROFILES
         ======================================= */}
 
-        <section
-          aria-label="Joint organiser profiles"
-          className="pt-7 sm:pt-9"
-        >
+        <section aria-label="Joint organiser profiles" className="pt-7 sm:pt-9">
           <motion.div
             {...scrollReveal}
             variants={stagger}
             className="grid items-stretch gap-5 lg:grid-cols-2"
           >
-            {ORGANISERS_DATA.map(
-              (organisation, index) => (
-                <OrganiserCard
-                  key={organisation.name}
-                  organisation={organisation}
-                  index={index}
-                  reducedMotion={reducedMotion}
-                />
-              )
-            )}
+            {ORGANISERS_DATA.map((organisation, index) => (
+              <OrganiserCard
+                key={organisation.name}
+                organisation={organisation}
+                index={index}
+                reducedMotion={reducedMotion}
+              />
+            ))}
           </motion.div>
         </section>
 
         {/* ======================================
-            SECRETARIAT CONTACT DIRECTORY
-        ======================================= */}
+    ORGANISER CONTACTS
+======================================= */}
 
         <section
           aria-labelledby="organiser-contact-heading"
-          className="mt-12 sm:mt-16"
+          className="mt-10 sm:mt-14"
         >
           <motion.div
             {...scrollReveal}
             variants={reveal}
-            className="overflow-hidden rounded-2xl border border-[#DFE3EA] bg-white shadow-[0_10px_38px_rgba(5,7,9,0.035)]"
+            className="overflow-hidden rounded-2xl border border-[#DFE3EA] bg-white shadow-[0_8px_28px_rgba(5,7,9,0.035)]"
           >
-            <div className="flex flex-col gap-3 border-b border-[#E6E8EE] px-5 py-6 sm:flex-row sm:items-end sm:justify-between sm:px-7">
-              <div>
-                <Eyebrow>Official Event Contacts</Eyebrow>
+            {/* Section Heading */}
+            <div className="border-b border-[#E6E8EE] px-5 py-5 sm:px-7 sm:py-6">
+              <Eyebrow>Event Contacts</Eyebrow>
 
-                <h2
-                  id="organiser-contact-heading"
-                  className="mt-3 font-heading text-[21px] font-extrabold tracking-[-0.035em] text-[#171B24] sm:text-[25px]"
-                >
-                  Reach the{" "}
-                  <span className="text-[#981568]">
-                    Connect with Our Team
-                  </span>
-                </h2>
-              </div>
+              <h2
+                id="organiser-contact-heading"
+                className="mt-2 font-heading text-[22px] font-extrabold tracking-[-0.035em] text-[#171B24] sm:text-[26px]"
+              >
+                Connect with{" "}
+                <span className="text-brand-primary">Our Team</span>
+              </h2>
 
-              <p className="max-w-[330px] text-[12px] leading-[1.8] text-[#454F5D]">
-                Get in touch with our event representatives for exhibition bookings, participation enquiries, partnerships and general assistance.
+              <p className="mt-2 text-[13px] leading-[1.7] text-[#606A78]">
+                Contact our team for exhibition bookings, participation details,
+                and general enquiries.
               </p>
             </div>
 
-            <motion.div
-              variants={stagger}
-              initial={reducedMotion ? false : "hidden"}
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.12 }}
-              className="grid items-stretch gap-4 p-4 md:grid-cols-3 sm:p-6"
-            >
-              {CONTACT_DESKS.map((desk, index) => (
-                <ContactDeskCard
-                  desk={desk}
-                  index={index}
-                  reducedMotion={reducedMotion}
-                />
-              ))}
+            {/* Contact & Booking Layout */}
+            <div className="grid lg:grid-cols-[1fr_0.85fr]">
+              {/* Contact Information */}
+              <div className="px-5 py-6 sm:px-7">
+                <h3 className="font-heading text-[13px] font-bold uppercase tracking-[0.08em] text-[#606A78]">
+                  Contact Information
+                </h3>
 
-              {/* Stand booking card */}
-              <motion.article
-                variants={reveal}
-                whileHover={
-                  reducedMotion
-                    ? undefined
-                    : { y: -4 }
-                }
-                transition={{
-                  duration: 0.3,
-                  ease: EASE,
-                }}
-                className="relative flex min-h-[245px] flex-col overflow-hidden rounded-xl border border-[#29232F] bg-[#17131D] p-5 text-white"
-              >
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full bg-brand-primary/25 blur-[65px]"
-                />
+                <div className="mt-4 space-y-5">
+                  {CONTACT_DESKS.map((desk) => {
+                    const cleanPhone = desk.phone.replace(/[^0-9+]/g, "");
 
-                <div className="relative z-10">
-                  <span className="font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-[#F2A8D8]">
-                    Exhibitor Enquiries
-                  </span>
+                    return (
+                      <div key={desk.email} className="min-w-0">
+                        <h4 className="font-heading text-[17px] font-extrabold text-[#171B24]">
+                          {desk.name}
+                        </h4>
 
-                  <h3 className="mt-5 font-heading text-[19px] font-extrabold leading-[1.3] tracking-[-0.035em] text-[#F5F0F4]">
-                    Secure Your Exhibition Presence
-                  </h3>
+                        <div className="mt-3 flex flex-col gap-3">
+                          <a
+                            href={`tel:${cleanPhone}`}
+                            className="flex w-fit items-center gap-3 text-[13px] font-medium text-[#424B58] transition-colors hover:text-brand-primary"
+                          >
+                            <span className="text-brand-primary">
+                              <PhoneIcon />
+                            </span>
+                            <span className="tabular-nums">{desk.phone}</span>
+                          </a>
 
-                  <p className="mt-3 text-[12px] leading-[1.8] text-[#E2D8E1]">
-                    Enquire about stand space and
-                    exhibition participation at
-                    Bangladesh Buildcon 2027.
-                  </p>
+                          <a
+                            href={`mailto:${desk.email}`}
+                            className="flex w-fit min-w-0 items-center gap-3 text-[13px] font-medium text-[#424B58] transition-colors hover:text-brand-primary"
+                          >
+                            <span className="shrink-0 text-brand-primary">
+                              <MailIcon />
+                            </span>
+                            <span className="break-all">{desk.email}</span>
+                          </a>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
+              </div>
 
-                <div className="relative z-10 mt-auto space-y-2 pt-5">
+              {/* Stand Booking */}
+              <div className="flex flex-col justify-center border-t border-[#E6E8EE] bg-[#FAF8FB] px-5 py-6 sm:px-7 lg:border-l lg:border-t-0">
+                <span className="font-heading text-[10px] font-bold uppercase tracking-[0.12em] text-brand-primary">
+                  Exhibition Participation
+                </span>
+
+                <h3 className="mt-2 font-heading text-[20px] font-extrabold tracking-[-0.03em] text-[#171B24]">
+                  Interested in Exhibiting?
+                </h3>
+
+                <p className="mt-2 max-w-[350px] text-[13px] leading-[1.75] text-[#606A78]">
+                  Enquire about stand space and participation at the 11th
+                  Bangladesh Buildcon International Expo 2027.
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-3">
                   <Link
                     href={event.cta.bookStand}
-                    className="group flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-primary px-4 text-[12px] font-bold text-white transition-colors hover:bg-[#A51974]"
+                    className="group inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-2.5 font-heading text-[12px] font-bold text-white transition-colors hover:bg-[#A51974]"
                   >
                     Book Stand Space
-
                     <span className="transition-transform group-hover:translate-x-1">
                       <ArrowIcon />
                     </span>
@@ -571,46 +551,15 @@ export function OrganisersClientView() {
 
                   <Link
                     href="/contact"
-                    className="flex min-h-11 items-center justify-center rounded-lg border border-white/25 bg-white/[0.07] px-4 text-[12px] font-bold text-white transition-colors hover:bg-white/[0.13]"
+                    className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#DADDE5] bg-white px-5 py-2.5 font-heading text-[12px] font-bold text-[#303946] transition-colors hover:border-brand-primary/40 hover:text-brand-primary"
                   >
-                    General Helpdesk
+                    Contact Us
                   </Link>
                 </div>
-              </motion.article>
-            </motion.div>
+              </div>
+            </div>
           </motion.div>
         </section>
-
-        {/* ======================================
-            BOTTOM BOOKING RIBBON
-        ======================================= */}
-
-        <motion.div
-          {...scrollReveal}
-          variants={reveal}
-          className="mt-6 flex flex-col gap-4 rounded-xl border border-brand-primary/20 bg-[#F5EDF3] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6"
-        >
-          <div className="flex items-start gap-3">
-            <span className="mt-1.5 size-2 shrink-0 rounded-full bg-brand-primary" />
-
-            <p className="text-[12px] font-semibold leading-[1.8] text-[#333B48]">
-              Official joint representation in India
-              and Bangladesh for the 2027 exhibition
-              at {event.venue.name}.
-            </p>
-          </div>
-
-          <Link
-            href={event.cta.bookStand}
-            className="group inline-flex min-h-10 w-fit shrink-0 items-center justify-center gap-2 rounded-lg border border-brand-primary bg-white px-5 py-2.5 font-heading text-[11px] font-bold text-[#981568] transition-all duration-300 hover:bg-brand-primary hover:text-white"
-          >
-            Enquire for Space
-
-            <span className="transition-transform group-hover:translate-x-1">
-              <ArrowIcon />
-            </span>
-          </Link>
-        </motion.div>
       </Container>
     </div>
   );

@@ -124,14 +124,16 @@ export default function ExhibitionProfilePage() {
       )}
 
       <PageHero
-        title="Explore the"
-        highlightTitle="Exhibitor Profile"
-        badgeText={`11th Edition · ${exhibitionSectors.length} Main Categories`}
-        intro={`Explore the construction machinery, building materials, electrical engineering, interiors and safety product categories from the official exhibition brochure. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
-        image={{
-          src: PAGE_IMAGE,
-          alt: "Construction machinery representing the Bangladesh Buildcon International Expo 2027 exhibitor profile",
-        }}
+      
+title="Explore the"
+highlightTitle="Exhibitor Profile"
+badgeText={`11th Edition`}
+intro="Explore the range of building materials, construction machinery, equipment, technologies, and related products covered at the 11th Bangladesh Buildcon International Expo 2027."
+image={{
+  src: PAGE_IMAGE,
+  alt: "Building and construction machinery representing the exhibitor profile of the 11th Bangladesh Buildcon International Expo 2027",
+}}
+
       />
 
       <section

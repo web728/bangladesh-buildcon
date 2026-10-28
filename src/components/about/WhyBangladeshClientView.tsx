@@ -51,32 +51,36 @@ const stagger: Variants = {
    ORIGINAL STRATEGIC PILLARS
 ========================================== */
 
+
 const STRATEGIC_PILLARS = [
   {
     tag: "8%+ of GDP",
-    title: "Booming Building & Construction Industry",
-    body: "Bangladesh's building & construction sector contributes more than 8% to GDP, sustaining demand for modern materials, machinery, equipment, and technical expertise.",
+    title: "Building & Construction Industry",
+    body: "Bangladesh's building and construction sector contributes over 8% to the country's GDP, creating demand for building materials, construction machinery, equipment, and modern construction solutions.",
     icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
   },
   {
-    tag: "National Priority",
-    title: "Infrastructure Development",
-    body: "Government initiatives, private investment, and international collaboration are accelerating infrastructure delivery and opening new opportunities across the supply chain.",
+    tag: "Infrastructure Development",
+    title: "Investment in Infrastructure",
+    body: "Government projects, private investment, and international partnerships are supporting infrastructure development and creating opportunities for construction companies, manufacturers, and suppliers.",
     icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
   },
-  {
-    tag: "170M+ Population",
-    title: "Urbanisation and Housing Demand",
-    body: "A population exceeding 170 million and continuing urbanisation are increasing demand for housing, urban infrastructure, advanced construction technologies, and durable materials.",
-    icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
-  },
+ 
+{
+  tag: "170M+ Population",
+  title: "Growing Housing & Infrastructure Demand",
+  body: "Bangladesh's growing population is driving demand for housing, commercial buildings, and urban infrastructure, creating opportunities for building materials, construction equipment, and modern building solutions.",
+  icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
+},
+
   {
     tag: "Regional Connectivity",
-    title: "Strategic South Asian Location",
-    body: "Bangladesh connects South and Southeast Asian markets, giving international manufacturers a practical gateway to buyers, distributors, developers, and project decision-makers.",
+    title: "Strategic Market Location",
+    body: "Located between South and Southeast Asia, Bangladesh offers opportunities for international manufacturers and suppliers to connect with local buyers, distributors, and construction businesses.",
     icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
   },
 ];
+
 
 /* ==========================================
    ORIGINAL BROCHURE OPPORTUNITIES
@@ -194,16 +198,12 @@ function PillarCard({
           {pillar.title}
         </h3>
 
-        <p className="mt-2 text-[13px] leading-[1.9] text-[#424B58]">
-          {pillar.body}
-        </p>
+       <p className="mt-2 text-[13px] leading-[1.75] text-[#424B58]">
+  {pillar.body}
+</p>
       </div>
 
-      <div className="mt-auto border-t border-[#E9EBF0] pt-4">
-        <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.1em] text-[#971568]">
-          Market Growth Driver
-        </span>
-      </div>
+    
     </motion.article>
   );
 }
@@ -237,134 +237,127 @@ export function WhyBangladeshClientView() {
             SECTION 01 — MARKET FACTS
         ====================================== */}
 
-        <section
-          aria-labelledby="market-facts-heading"
-        >
-          <motion.div
-            {...scrollReveal}
-            variants={reveal}
-            className="flex flex-col gap-5 border-b border-[#DFE3EA] pb-6 sm:flex-row sm:items-end sm:justify-between"
-          >
-            <div className="max-w-[750px]">
-              <Eyebrow>
-                Market & Exhibition Indicators
-              </Eyebrow>
+<section aria-labelledby="market-facts-heading">
+  <motion.div
+    {...scrollReveal}
+    variants={reveal}
+    className="flex flex-col gap-5 border-b border-[#DFE3EA] pb-6 sm:flex-row sm:items-end sm:justify-between"
+  >
+    <div className="max-w-[750px]">
+      <Eyebrow>
+        Market Overview
+      </Eyebrow>
 
-              <h2
-                id="market-facts-heading"
-                className="mt-3 font-heading text-[clamp(1.55rem,2.8vw,2.35rem)] font-extrabold leading-[1.2] tracking-[-0.045em] text-[#171B24]"
-              >
-                Bangladesh Market{" "}
-                <span className="text-[#971568]">
-                  at a Glance
-                </span>
-              </h2>
+      <h2
+        id="market-facts-heading"
+        className="mt-3 font-heading text-[clamp(1.55rem,2.8vw,2.35rem)] font-extrabold leading-[1.2] tracking-[-0.045em] text-[#171B24]"
+      >
+        Bangladesh Market{" "}
+        <span className="text-[#971568]">
+          at a Glance
+        </span>
+      </h2>
 
-              <p className="mt-3 max-w-[680px] text-[13px] leading-[1.9] text-[#424B58] sm:text-[14px]">
-                Explore building & construction market and exhibition
-                indicators compiled from the event brochure,
-                post-show materials and the reference sources
-                listed below.
-              </p>
-            </div>
+      <p className="mt-3 max-w-[680px] text-[13px] leading-[1.9] text-[#424B58] sm:text-[14px]">
+        Explore key facts and figures highlighting Bangladesh's
+        building and construction industry, market demand,
+        and business opportunities.
+      </p>
+    </div>
 
-            <Link
-              href={event.cta.bookStand}
-              className="group inline-flex min-h-11 w-fit shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white shadow-[0_9px_25px_rgba(186,29,130,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#971568]"
-            >
-              Book Stand Space
+    <Link
+      href={event.cta.bookStand}
+      className="group inline-flex min-h-11 w-fit shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3 font-heading text-[12px] font-bold text-white shadow-[0_9px_25px_rgba(186,29,130,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#971568]"
+    >
+      Book Stand Space
 
-              <span className="transition-transform group-hover:translate-x-1">
-                <ArrowIcon />
-              </span>
-            </Link>
-          </motion.div>
+      <span className="transition-transform group-hover:translate-x-1">
+        <ArrowIcon />
+      </span>
+    </Link>
+  </motion.div>
 
-          {/* Original dynamic data from marketFacts */}
-          <motion.div
-            variants={stagger}
-            initial={
-              reducedMotion ? false : "hidden"
-            }
-            whileInView="visible"
-            viewport={{
-              once: true,
-              amount: 0.08,
-            }}
-            className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {marketFacts.map((fact) => (
-              <motion.div
-                key={fact.id}
-                variants={reveal}
-                className="min-w-0"
-              >
-                <StatCard fact={fact} />
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
+  {/* Market Facts Grid */}
+  <motion.div
+    variants={stagger}
+    initial={reducedMotion ? false : "hidden"}
+    whileInView="visible"
+    viewport={{
+      once: true,
+      amount: 0.08,
+    }}
+    className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+  >
+    {marketFacts.map((fact) => (
+      <motion.div
+        key={fact.id}
+        variants={reveal}
+        className="min-w-0"
+      >
+        <StatCard fact={fact} />
+      </motion.div>
+    ))}
+  </motion.div>
+</section>
 
         {/* =====================================
             SECTION 02 — STRATEGIC PILLARS
         ====================================== */}
 
-        <section
-          aria-labelledby="growth-drivers-heading"
-          className="mt-14 sm:mt-16"
-        >
-          <motion.div
-            {...scrollReveal}
-            variants={reveal}
-            className="flex flex-col gap-4 border-b border-[#DFE3EA] pb-6 sm:flex-row sm:items-end sm:justify-between"
-          >
-            <div>
-              <Eyebrow>
-               Building & Construction Industry Outlook
-              </Eyebrow>
+   
+<section
+  aria-labelledby="growth-drivers-heading"
+  className="mt-14 sm:mt-16"
+>
+  <motion.div
+    {...scrollReveal}
+    variants={reveal}
+    className="flex flex-col gap-4 border-b border-[#DFE3EA] pb-6 sm:flex-row sm:items-end sm:justify-between"
+  >
+    <div>
+      <Eyebrow>
+        Building & Construction Industry Outlook
+      </Eyebrow>
 
-              <h2
-                id="growth-drivers-heading"
-                className="mt-3 font-heading text-[clamp(1.45rem,2.6vw,2.15rem)] font-extrabold tracking-[-0.04em] text-[#171B24]"
-              >
-                Why Dhaka &{" "}
-                <span className="text-[#971568]">
-                  Bangladesh?
-                </span>
-              </h2>
-            </div>
+      <h2
+        id="growth-drivers-heading"
+        className="mt-3 font-heading text-[clamp(1.45rem,2.6vw,2.15rem)] font-extrabold tracking-[-0.04em] text-[#171B24]"
+      >
+        Key Drivers of{" "}
+        <span className="text-[#971568]">
+          Construction Growth
+        </span>
+      </h2>
+    </div>
 
-            <p className="max-w-[410px] text-[13px] leading-[1.85] text-[#424B58]">
-              Four key drivers shaping building & construction
-              demand, infrastructure investment and
-              commercial opportunities in Bangladesh.
-            </p>
-          </motion.div>
+    <p className="max-w-[410px] text-[13px] leading-[1.85] text-[#424B58]">
+      Explore the key factors driving demand for building
+      materials, construction equipment, and infrastructure
+      development across Bangladesh.
+    </p>
+  </motion.div>
 
-          <motion.div
-            variants={stagger}
-            initial={
-              reducedMotion ? false : "hidden"
-            }
-            whileInView="visible"
-            viewport={{
-              once: true,
-              amount: 0.08,
-            }}
-            className="mt-6 grid gap-4 md:grid-cols-2"
-          >
-            {STRATEGIC_PILLARS.map(
-              (pillar, index) => (
-                <PillarCard
-                  key={pillar.title}
-                  pillar={pillar}
-                  index={index}
-                  reducedMotion={reducedMotion}
-                />
-              )
-            )}
-          </motion.div>
-        </section>
+  <motion.div
+    variants={stagger}
+    initial={reducedMotion ? false : "hidden"}
+    whileInView="visible"
+    viewport={{
+      once: true,
+      amount: 0.08,
+    }}
+    className="mt-6 grid gap-4 md:grid-cols-2"
+  >
+    {STRATEGIC_PILLARS.map((pillar, index) => (
+      <PillarCard
+        key={pillar.title}
+        pillar={pillar}
+        index={index}
+        reducedMotion={reducedMotion}
+      />
+    ))}
+  </motion.div>
+</section>
+
 
         {/* =====================================
             SECTION 03 — NINE OPPORTUNITIES
@@ -440,15 +433,16 @@ export function WhyBangladeshClientView() {
 
             {/* Source references */}
             <div className="border-t border-[#E7E9EF] bg-[#FAFAFC] px-5 py-5 sm:px-7">
-              <h3 className="font-heading text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#29313E]">
-                Market Reference Sources
-              </h3>
+           
+<h3 className="font-heading text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#29313E]">
+  Market Data Sources
+</h3>
 
-              <p className="mt-1 text-[12px] leading-[1.75] text-[#505A68]">
-                Reference publications and source
-                materials used for the market
-                indicators above.
-              </p>
+<p className="mt-1 text-[12px] leading-[1.75] text-[#505A68]">
+  Reports and publications referenced for the
+  Bangladesh market data and statistics presented above.
+</p>
+
 
               <div className="mt-4 flex flex-wrap gap-x-5 gap-y-3">
                 {marketSources.map((source) => (
@@ -500,35 +494,26 @@ export function WhyBangladeshClientView() {
 
           <div className="relative z-10 flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-[670px]">
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold text-[#E9D9E4]">
-                <span>{event.dates.display}</span>
+              
 
-                <span className="text-[#DA67AF]">
-                  •
-                </span>
+            
+<h2
+  id="market-cta-heading"
+  className="mt-4 font-heading text-[clamp(1.4rem,2.5vw,2rem)] font-extrabold leading-[1.3] tracking-[-0.04em] text-[#F0EAF0]"
+>
+  Expand Your Business in{" "}
+  <span className="text-[#E68ABD]">
+    Bangladesh's Building & Construction Market
+  </span>
+</h2>
 
-                <span>
-                  {event.venue.name},{" "}
-                  {event.venue.city}
-                </span>
-              </div>
+<p className="mt-3 max-w-[610px] text-[13px] leading-[1.9] text-[#DDD2DC]">
+  Showcase your products, connect with potential buyers,
+  distributors, and construction professionals, and explore
+  new business opportunities at the 11th Bangladesh Buildcon
+  International Expo 2027.
+</p>
 
-              <h2
-                id="market-cta-heading"
-                className="mt-4 font-heading text-[clamp(1.4rem,2.5vw,2rem)] font-extrabold leading-[1.3] tracking-[-0.04em] text-[#F0EAF0]"
-              >
-                Connect Your Brand with{" "}
-                <span className="text-[#E68ABD]">
-                  Bangladesh&apos;s Building & Construction Market
-                </span>
-              </h2>
-
-              <p className="mt-3 max-w-[610px] text-[13px] leading-[1.9] text-[#DDD2DC]">
-                Meet contractors, importers,
-                distributors, architects, engineers
-                and industry buyers at Bangladesh
-                Buildcon International Expo 2027.
-              </p>
             </div>
 
             <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row lg:flex-col xl:flex-row">

@@ -145,14 +145,16 @@ export default function WhyBangladeshPage() {
       )}
 
       <PageHero
-        title="Why"
-        highlightTitle="Bangladesh?"
-        badgeText="Building Materials & Construction Industry · Market Perspective"
-        intro={`Explore the Building & construction-related business opportunities and industry sectors addressed by ${event.name}. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
-        image={{
-          src: PAGE_IMAGE,
-          alt: "Bangladesh Building & construction and infrastructure industry",
-        }}
+       
+title="Why"
+highlightTitle="Bangladesh?"
+badgeText="Building & Construction Industry"
+intro="Explore Bangladesh's building and construction market, growing industry demand, and new business opportunities."
+image={{
+  src: PAGE_IMAGE,
+  alt: "Building and construction industry in Bangladesh",
+}}
+
       />
 
       <WhyBangladeshClientView />

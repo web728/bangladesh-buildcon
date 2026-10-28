@@ -284,14 +284,16 @@ export default async function DownloadsPage() {
       ==================================== */}
 
       <PageHero
-        title="Exhibition Brochure"
-        highlightTitle="& Downloads"
-        badgeText="Bangladesh Buildcon · 2027"
-        intro={`Access the exhibition brochure and published resources for ${event.dates.display} at ${event.venue.name}, ${event.venue.city}.`}
-        image={{
-          src: PAGE_IMAGE,
-          alt: "Bangladesh Buildcon International Expo 2027 building & construction exhibition",
-        }}
+       
+title="Download the"
+highlightTitle="Exhibition Brochure"
+badgeText="11th Bangladesh Buildcon International Expo 2027"
+intro="Get detailed information about the exhibition, including exhibitor profiles, product categories, and participation opportunities. Complete the form to request your brochure."
+image={{
+  src: PAGE_IMAGE,
+  alt: "Building and construction industry exhibition brochure for the 11th Bangladesh Buildcon International Expo 2027",
+}}
+
       />
 
       {/* ===================================
@@ -399,31 +401,7 @@ export default async function DownloadsPage() {
               >
                 <div className="h-[3px] bg-brand-primary" />
 
-                <div className="border-b border-[#ECE7ED] bg-[#FCFAFC] p-5 sm:p-7 lg:px-9">
-                  <div className="flex items-start gap-3">
-                    <span className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-brand-primary/15 bg-[#F9ECF5] text-brand-primary">
-                      <DownloadIcon className="size-6" />
-                    </span>
-
-                    <div className="min-w-0">
-                      <span className="font-heading text-[10px] font-extrabold uppercase tracking-[0.12em] text-brand-primary">
-                        Brochure Access
-                      </span>
-
-                      <h2 className="mt-2 font-heading text-[clamp(1.4rem,2.4vw,1.95rem)] font-extrabold leading-[1.25] tracking-[-0.035em] text-brand-dark">
-                        Request Your{" "}
-                        <span className="text-brand-primary">
-                          Exhibition Brochure
-                        </span>
-                      </h2>
-
-                      <p className="mt-2 max-w-[650px] text-[12px] leading-[1.8] text-[#66616C] sm:text-[13px]">
-                        Submit your details through the form below to access the
-                        brochure, subject to the existing form process.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+             
 
                 {/* Existing functionality unchanged */}
                 <div className="p-5 sm:p-7 lg:px-9 lg:py-8">

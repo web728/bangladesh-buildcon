@@ -46,36 +46,38 @@ const stagger: Variants = {
    ORIGINAL VENUE ADVANTAGES
 ========================================= */
 
+
 const VENUE_ADVANTAGES = [
   {
     num: "01",
-    tag: "Official 2027 Venue",
-    title: "Established Dhaka Exhibition Complex",
-    desc: "ICCB is the official venue named in the 2027 brochure, bringing exhibitors, trade buyers, contractors, developers, architects, and engineers together in Dhaka.",
+    tag: "Official Event Venue",
+    title: "ICCB Expo Village, Dhaka",
+    desc: "ICCB Expo Village is the official venue for the 11th Bangladesh Buildcon International Expo 2027, bringing the building and construction industry together in Dhaka.",
     icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z",
   },
   {
     num: "02",
-    tag: "Business Access",
-    title: "Connected to Bangladesh's Commercial Hub",
-    desc: "The Dhaka location supports direct access to the country's largest concentration of building & construction buyers, distributors, consultants, and project decision-makers.",
+    tag: "Business Location",
+    title: "Located in Bangladesh's Capital",
+    desc: "Dhaka is a major centre for construction businesses, developers, importers, distributors, and industry professionals, making it a suitable location for trade exhibitions.",
     icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
   },
   {
     num: "03",
-    tag: "Exhibition Ready",
-    title: "Dedicated Exhibition Halls",
-    desc: "The event programme supports product showcases, live demonstrations, supplier discovery, and focused B2B meetings.",
-    icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
+    tag: "Exhibition Facilities",
+    title: "Space for Exhibitions & Networking",
+    desc: "The venue provides space for product displays, construction equipment showcases, business meetings, and interaction between exhibitors and trade visitors.",
+    icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
   },
   {
     num: "04",
-    tag: "Visitor Convenience",
-    title: "Transit & Hospitality Corridor",
-    desc: "Visitors can reach the venue by taxi or ride-hailing services from central Dhaka and Hazrat Shahjalal International Airport.",
+    tag: "Visitor Accessibility",
+    title: "Convenient Travel Options",
+    desc: "Visitors can travel to ICCB Expo Village using taxis, private vehicles, or ride-hailing services from different parts of Dhaka, including the international airport.",
     icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
   },
 ];
+
 
 /* =========================================
    EVENT FACTS
@@ -261,13 +263,7 @@ function VenueAdvantageCard({
 
       <p className="mt-3 text-[12px] leading-[1.85] text-[#414957]">
         {advantage.desc}
-      </p>
-
-      <div className="mt-auto border-t border-[#EAECF1] pt-4">
-        <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#981568]">
-          Venue & Logistics
-        </span>
-      </div>
+      </p> 
     </motion.article>
   );
 }
@@ -377,7 +373,7 @@ export function VenueClientView() {
                 </span>
 
                 <p className="mt-2 font-heading text-[13px] font-extrabold text-[#171B24]">
-                  {event.venue.city}, Bangladesh
+                 ICCB Expo Village, {event.venue.city}, Bangladesh
                 </p>
               </div>
             </div>
@@ -415,14 +411,16 @@ export function VenueClientView() {
           >
             <div className="relative min-h-[330px] flex-1 overflow-hidden rounded-xl bg-[#E9ECF1] sm:min-h-[390px]">
               {event.venue.mapEmbedUrl ? (
-                <iframe
-                  title={`Google Map of ${event.venue.name}, ${event.venue.city}`}
-                  src={event.venue.mapEmbedUrl}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                  className="absolute inset-0 h-full w-full border-0"
-                />
+            
+<iframe
+  title={`Google Map of ${event.venue.name}, ${event.venue.city}`}
+  src={event.venue.mapEmbedUrl}
+  loading="lazy"
+  referrerPolicy="strict-origin-when-cross-origin"
+  allowFullScreen
+  className="absolute inset-0 h-full w-full border-0"
+/>
+
               ) : (
                 <div className="flex h-full min-h-[330px] flex-col items-center justify-center gap-4 p-6 text-center">
                   <span className="flex size-12 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
@@ -444,16 +442,7 @@ export function VenueClientView() {
                 </div>
               )}
 
-              {/* Floating map label */}
-              <div className="pointer-events-none absolute bottom-4 left-4 right-4 max-w-fit rounded-lg border border-white/80 bg-white/95 px-4 py-3 shadow-[0_8px_26px_rgba(0,0,0,0.12)] backdrop-blur-md">
-                <p className="font-heading text-[12px] font-extrabold text-[#171B24]">
-                  {event.venue.name}
-                </p>
-
-                <p className="mt-1 text-[11px] font-semibold text-[#4D5663]">
-                  {event.venue.city}, Bangladesh
-                </p>
-              </div>
+              
             </div>
           </motion.div>
         </section>
@@ -487,11 +476,7 @@ export function VenueClientView() {
               </h2>
             </div>
 
-            <p className="max-w-[380px] text-[13px] leading-[1.85] text-[#414957]">
-              Exhibition facilities, business access
-              and visitor connectivity at the Dhaka
-              event location.
-            </p>
+          
           </motion.div>
 
           <motion.div
@@ -612,57 +597,7 @@ export function VenueClientView() {
             </div>
           </motion.div>
         </section>
-
-        {/* ===================================
-            04 - FINAL BOOKING CTA
-        ==================================== */}
-
-        <motion.section
-          {...scrollReveal}
-          variants={reveal}
-          aria-labelledby="venue-booking-heading"
-          className="relative mt-10 overflow-hidden rounded-2xl border border-brand-primary/20 bg-[#F6EDF3] p-5 sm:p-7"
-        >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-16 -top-16 size-52 rounded-full bg-brand-primary/10 blur-[75px]"
-          />
-
-          <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-start gap-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
-                <PinIcon />
-              </span>
-
-              <div>
-                <h2
-                  id="venue-booking-heading"
-                  className="font-heading text-[15px] font-extrabold text-[#171B24] sm:text-[17px]"
-                >
-                  Exhibit at {event.venue.name}
-                </h2>
-
-                <p className="mt-1.5 text-[12px] leading-[1.75] text-[#414957]">
-                  {event.dates.display} ·{" "}
-                  {event.venue.city}, Bangladesh.
-                  Contact the team to enquire about
-                  stand participation.
-                </p>
-              </div>
-            </div>
-
-            <Link
-              href={event.cta.bookStand}
-              className="group inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-primary px-6 py-3 font-heading text-[12px] font-bold text-white shadow-[0_8px_22px_rgba(186,29,130,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#981568] sm:w-auto"
-            >
-              Book Stand Space
-
-              <span className="transition-transform group-hover:translate-x-1">
-                <ArrowIcon />
-              </span>
-            </Link>
-          </div>
-        </motion.section>
+ 
       </Container>
     </div>
   );

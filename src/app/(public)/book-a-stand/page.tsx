@@ -73,8 +73,10 @@ export default function BookAStandPage() {
       <PageHero
         title="Book Your"
         highlightTitle="Exhibition Stand"
-        badgeText="11th Bangladesh Buildcon · 2027"
-        intro={`Enquire about stand participation at Bangladesh Buildcon International Expo, ${event.dates.display}, ${event.venue.name}, ${event.venue.city}.`}
+        badgeText="Official Brochure · 2027"
+        
+intro="Enquire about exhibition stand space at the 11th Bangladesh Buildcon International Expo 2027 and connect with our team for booking details and participation information."
+
         image={{
           src: PAGE_IMAGE,
           alt: "ICCB Expo Village in Dhaka, the venue for Bangladesh Buildcon 2027",

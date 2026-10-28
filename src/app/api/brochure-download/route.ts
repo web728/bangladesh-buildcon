@@ -9,7 +9,7 @@ import { appendLeadRow, isSheetsConfigured } from "@/lib/google/sheets";
 import { sendBrochureDownloadEmails } from "@/lib/email/sendLeadEmails";
 import { isEmailConfigured } from "@/lib/email/mailer";
 
-const BROCHURE_FILE_URL = "/downloads/Bangladesh-Buildcon-Expo-Brochure-2027.pdf";
+const BROCHURE_FILE_URL = "/downloads/11th_Bangladesh_Buildcon_International_Expo_2027_Brochure.pdf";
 
 // Google reCAPTCHA v2 Server Verification
 async function verifyRecaptcha(token: string) {

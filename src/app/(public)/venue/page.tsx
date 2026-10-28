@@ -132,14 +132,16 @@ export default function VenuePage() {
       )}
 
       <PageHero
-        title="Discover Our"
-        highlightTitle="Exhibition Venue"
-        badgeText="ICCB Expo Village · Dhaka"
-        intro={`Visit ${event.name} from ${event.dates.display} at ${event.venue.name}, ${event.venue.city}, Bangladesh. Explore the exhibition location and plan your visit.`}
-        image={{
-          src: PAGE_IMAGE,
-          alt: "ICCB Expo Village, Dhaka, official Bangladesh Buildcon International Expo 2027 venue",
-        }}
+       
+title="Exhibition"
+highlightTitle="Venue"
+badgeText="ICCB Expo Village · Dhaka, Bangladesh"
+intro={`Plan your visit to ${event.name}, taking place from ${event.dates.display} at ${event.venue.name} in ${event.venue.city}, Bangladesh.`}
+image={{
+  src: PAGE_IMAGE,
+  alt: "ICCB Expo Village, Dhaka – Venue for Bangladesh Buildcon International Expo 2027",
+}}
+
       />
 
       <VenueClientView />

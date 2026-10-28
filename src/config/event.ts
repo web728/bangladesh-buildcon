@@ -95,18 +95,18 @@ export const event = {
 
     fullLocation: VENUE_ADDRESS,
 
-    mapEmbedUrl:
-      `https://maps.google.com/maps?` +
-      `q=${ENCODED_VENUE_QUERY}` +
-      `&z=16&output=embed`,
+   
+mapEmbedUrl:
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1734.5896797889998!2d90.42427724891962!3d23.826890967880026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c644f388b23f%3A0xf7cb2d027f5d65fb!2sICCB%20Expo%20Village%20Bangladesh!5e1!3m2!1sen!2sin!4v1793178815220!5m2!1sen!2sin",
 
-    mapLinkUrl:
-      `https://www.google.com/maps/search/?api=1` +
-      `&query=${ENCODED_VENUE_QUERY}`,
+mapLinkUrl:
+  "https://maps.app.goo.gl/KCmz2YmruKw4JJPw6",
 
-    mapDirectionsUrl:
-      `https://www.google.com/maps/dir/?api=1` +
-      `&destination=${ENCODED_VENUE_QUERY}`,
+
+mapDirectionsUrl:
+  "https://www.google.com/maps/dir/?api=1&destination=23.8264257%2C90.4239892",
+
+
   },
 
   /* ========================================

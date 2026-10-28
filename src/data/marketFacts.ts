@@ -19,9 +19,9 @@ export const marketFacts: MarketFact[] = [
   {
     id: "construction-gdp",
     value: "8%+",
-    label: "Contribution to national GDP",
+    label: "Contribution to National GDP",
     detail:
-      "The exhibition brochure reports that Bangladesh's building & construction sector contributes over 8% to GDP.",
+      "Bangladesh’s building and construction sector plays an important role in the country’s economy and contributes to its continued growth.",
     period: "2027 event brochure",
     sourceName: "11th Bangladesh Buildcon 2027 Brochure",
     lastVerified: "2027-10-09",
@@ -29,9 +29,9 @@ export const marketFacts: MarketFact[] = [
   {
     id: "population",
     value: "170M+",
-    label: "Population driving urban demand",
+    label: "A Large and Growing Market",
     detail:
-      "The exhibition brochure cites a population exceeding 170 million and rapid urbanisation as drivers of housing and infrastructure demand.",
+      "With a population of over 170 million, Bangladesh offers opportunities for businesses serving the growing demand for homes, commercial buildings, construction materials, and infrastructure.",
     period: "2027 event brochure",
     sourceName: "11th Bangladesh Buildcon 2027 Brochure",
     lastVerified: "2027-10-09",
@@ -41,7 +41,7 @@ export const marketFacts: MarketFact[] = [
     value: "7,000+",
     label: "Trade visitors at the previous edition",
     detail:
-      "The 2025 post-show report records more than 7,000 trade visitors and more than 200 exhibiting companies.",
+      "The previous edition welcomed more than 7,000 trade visitors and over 200 exhibiting companies, creating opportunities to showcase products, build connections, and explore new business prospects.",
     period: "2025 post-show report",
     sourceName: "9th Bangladesh Buildcon 2025 Post-Show Report",
     lastVerified: "2027-10-09",
@@ -61,6 +61,6 @@ export const opportunityCategories: string[] = [
 ];
 
 export const marketSources = [
-  { name: "11th Bangladesh Buildcon 2027 Brochure", url: "/downloads/Bangladesh-Buildcon-Expo-Brochure-2027.pdf" },
-  { name: "9th Bangladesh Buildcon 2025 Post-Show Report", url: "/downloads/Bangladesh-Buildcon-Post-Show-Report-2025.pdf" },
+  { name: "11th Bangladesh Buildcon 2027 Brochure", url: "/downloads" },
+  { name: "11th Bangladesh Buildcon 2027 Post-Show Report", url: "/downloads/Bangladesh-Buildcon-Post-Show-Report-2025.pdf" },
 ];

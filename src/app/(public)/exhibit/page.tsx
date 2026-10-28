@@ -66,14 +66,16 @@ export default function ExhibitPage() {
   return (
     <main className="min-h-screen bg-[#F8F9FB] selection:bg-brand-primary selection:text-white">
       <PageHero
-        title="Grow Your Business"
-        highlightTitle="Exhibit at Buildcon 2027"
-        badgeText="Exhibitor Opportunities"
-        intro="Meet building & construction buyers, distributors, contractors and industry specifiers at Bangladesh Buildcon International Expo in Dhaka."
-        image={{
-          src: "/images/sectors/construction-crane-bangladesh.jpg",
-          alt: "Construction machinery and building industry infrastructure representing exhibitor opportunities at Bangladesh Buildcon 2027",
-        }}
+      
+title="Exhibit at"
+highlightTitle="11th Bangladesh Buildcon International Expo 2027"
+badgeText="Exhibitor Opportunities"
+intro="Showcase your building and construction products, connect with potential buyers, distributors, contractors, and industry professionals, and explore new business opportunities in Bangladesh."
+image={{
+  src: "/images/sectors/construction-crane-bangladesh.jpg",
+  alt: "Building and construction machinery representing exhibitor opportunities at the 11th Bangladesh Buildcon International Expo 2027",
+}}
+
       />
 
       <ExhibitClientView />

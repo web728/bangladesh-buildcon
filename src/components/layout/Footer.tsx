@@ -206,7 +206,7 @@ export function Footer() {
               className="group inline-flex max-w-full items-center rounded-lg bg-white p-2.5 transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:transform-none"
             >
               <Image
-                src="/logos/bangla.png"
+                src="/logos/bangladesh-buildcon-international-expo-2027-logo.png"
                 alt={event.name}
                 width={1560}
                 height={468}
@@ -245,7 +245,7 @@ export function Footer() {
                 className="group flex h-11 w-[105px] items-center justify-center overflow-hidden rounded-md bg-white px-2.5 transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:transform-none"
               >
                 <Image
-                  src="/logos/futurex-logo.png"
+                  src="/logos/futurex-trade-fair-&-events-pvt-ltd-logo.png"
                   alt="Futurex Trade Fair & Events"
                   width={170}
                   height={65}
@@ -261,7 +261,7 @@ export function Footer() {
                 className="group flex h-11 w-[78px] items-center justify-center overflow-hidden rounded-md bg-white px-2 transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:transform-none"
               >
                 <Image
-                  src="/logos/ask-trade-logo.png"
+                  src="/logos/ask-trade-&-exhibitions-pvt-ltd-logo.png"
                   alt="ASK Trade & Exhibitions Pvt. Ltd."
                   width={120}
                   height={65}

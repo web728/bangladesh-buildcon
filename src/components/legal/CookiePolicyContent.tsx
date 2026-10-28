@@ -10,6 +10,7 @@ import {
 
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
+import Link from "next/link";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -429,22 +430,21 @@ export function CookiePolicyContent() {
                   className="group inline-flex min-h-11 items-center justify-between gap-3 rounded-lg border border-brand-border bg-brand-light px-4 py-2.5 font-heading text-[12px] font-bold text-brand-dark transition-colors hover:border-brand-primary/40 hover:text-brand-primary-dark"
                 >
                   <MailIcon />
-                  Contact Futurex
+                  Email Us
                   <span className="transition-transform group-hover:translate-x-1">
                     <ArrowIcon />
                   </span>
                 </a>
-
-                <a
-                  href={`mailto:${event.contact.askTrade.email}`}
-                  className="group inline-flex min-h-11 items-center justify-between gap-3 rounded-lg border border-brand-border bg-brand-light px-4 py-2.5 font-heading text-[12px] font-bold text-brand-dark transition-colors hover:border-brand-primary/40 hover:text-brand-primary-dark"
+ <Link
+                  href="/contact"
+                  className="group inline-flex min-h-11 items-center justify-between gap-3 rounded-lg bg-brand-primary px-4 py-2.5 font-heading text-[12px] font-bold text-white transition-colors hover:bg-brand-primary-dark"
                 >
-                  <MailIcon />
-                  Contact ASK Trade
+                  Contact Page
                   <span className="transition-transform group-hover:translate-x-1">
                     <ArrowIcon />
                   </span>
-                </a>
+                </Link>
+             
               </div>
             </div>
           </motion.section>

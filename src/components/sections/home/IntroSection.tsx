@@ -417,12 +417,12 @@ function FeatureCard({
                 "rgba(186,29,130,0.09)",
               color: "#BA1D82",
             },
-            hover: {
-              rotate: -6,
-              scale: 1.08,
-              backgroundColor: "#BA1D82",
-              color: "#FFFFFF",
-            },
+          hover: {
+  rotate: 0,
+  scale: 1.08,
+  backgroundColor: "#BA1D82",
+  color: "#FFFFFF",
+},
           }}
           transition={{
             duration: 0.35,
@@ -614,7 +614,7 @@ export function IntroSection() {
                 </strong>{" "}
                 brings international and local suppliers
                 together with contractors, developers,
-                specifiers, and building & construction-industry
+                specifiers, building & construction industry
                 decision-makers.
               </motion.p>
 

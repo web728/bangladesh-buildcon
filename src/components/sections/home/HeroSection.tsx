@@ -1,13 +1,8 @@
-
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { event } from "@/config/event";
 
@@ -94,11 +89,7 @@ function LocationIcon() {
    MINIMAL BACKGROUND SVG
 ------------------------------------------ */
 
-function HeroBackground({
-  reducedMotion,
-}: {
-  reducedMotion: boolean;
-}) {
+function HeroBackground({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <div
       aria-hidden="true"
@@ -121,21 +112,9 @@ function HeroBackground({
             y2="700"
             gradientUnits="userSpaceOnUse"
           >
-            <stop
-              offset="0"
-              stopColor="#BA1D82"
-              stopOpacity="0"
-            />
-            <stop
-              offset="0.45"
-              stopColor="#BA1D82"
-              stopOpacity="0.3"
-            />
-            <stop
-              offset="1"
-              stopColor="#BA1D82"
-              stopOpacity="0"
-            />
+            <stop offset="0" stopColor="#BA1D82" stopOpacity="0" />
+            <stop offset="0.45" stopColor="#BA1D82" stopOpacity="0.3" />
+            <stop offset="1" stopColor="#BA1D82" stopOpacity="0" />
           </linearGradient>
         </defs>
 
@@ -152,11 +131,7 @@ function HeroBackground({
             `}
             stroke="url(#buildcon-hero-line)"
             strokeWidth="1.4"
-            initial={
-              reducedMotion
-                ? false
-                : { pathLength: 0, opacity: 0 }
-            }
+            initial={reducedMotion ? false : { pathLength: 0, opacity: 0 }}
             animate={{
               pathLength: 1,
               opacity: 1,
@@ -176,11 +151,7 @@ function HeroBackground({
           stroke="#BA1D82"
           strokeOpacity="0.12"
           strokeDasharray="6 12"
-          animate={
-            reducedMotion
-              ? undefined
-              : { rotate: 360 }
-          }
+          animate={reducedMotion ? undefined : { rotate: 360 }}
           style={{
             transformOrigin: "1390px 110px",
           }}
@@ -243,13 +214,10 @@ export function HeroSection() {
             variants={revealVariants}
             className="mb-5 flex items-center gap-3"
           >
-            <span
-              aria-hidden="true"
-              className="h-[2px] w-8 bg-brand-primary"
-            />
+            <span aria-hidden="true" className="h-[2px] w-8 bg-brand-primary" />
 
             <span className="font-heading text-[11px] font-bold uppercase tracking-[0.16em] text-brand-primary">
-              {event.shortName}
+              11th Edition
             </span>
           </motion.div>
 
@@ -279,14 +247,8 @@ export function HeroSection() {
               {event.dates.display}
             </span>
 
-            <span
-              aria-hidden="true"
-              className="hidden h-6 w-px bg-brand-dark/15 sm:block"
-            />
-
-            <span className="text-xs font-semibold text-brand-dark/60 sm:text-sm">
-              {event.venue.city}, Bangladesh
-            </span>
+           
+ 
           </motion.div>
 
           {/* Animated Brand Line */}
@@ -297,11 +259,7 @@ export function HeroSection() {
           >
             <motion.div
               className="h-full w-full origin-left bg-brand-primary"
-              initial={
-                reducedMotion
-                  ? false
-                  : { scaleX: 0 }
-              }
+              initial={reducedMotion ? false : { scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{
                 duration: 0.9,
@@ -312,12 +270,17 @@ export function HeroSection() {
           </motion.div>
 
           {/* Verified Event Description */}
-          <motion.p
-            variants={revealVariants}
-            className="mt-5 max-w-[490px] text-[14px] leading-[1.8] text-[#59606B] sm:text-[15px]"
-          >
-            {event.descriptor}
-          </motion.p>
+       {/* Verified Event Description */}
+<motion.p
+  variants={revealVariants}
+  className="mt-5 max-w-[490px] text-[14px] leading-[1.8] text-[#59606B] sm:text-[15px]"
+>
+  Bangladesh's largest B2B trade show for the{" "}
+  <span className="font-bold text-[#ba1d82]">
+    building and construction industry.
+  </span>
+</motion.p>
+
 
           {/* Event Venue */}
           <motion.div
@@ -339,14 +302,8 @@ export function HeroSection() {
             className="mt-7 flex flex-wrap items-center gap-3"
           >
             <motion.div
-              whileHover={
-                reducedMotion ? undefined : { y: -3 }
-              }
-              whileTap={
-                reducedMotion
-                  ? undefined
-                  : { scale: 0.97 }
-              }
+              whileHover={reducedMotion ? undefined : { y: -3 }}
+              whileTap={reducedMotion ? undefined : { scale: 0.97 }}
             >
               <Link
                 href={event.cta.bookStand}
@@ -363,7 +320,6 @@ export function HeroSection() {
                 "
               >
                 Book a Stand
-
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   <ArrowUpRightIcon />
                 </span>
@@ -371,14 +327,8 @@ export function HeroSection() {
             </motion.div>
 
             <motion.div
-              whileHover={
-                reducedMotion ? undefined : { y: -3 }
-              }
-              whileTap={
-                reducedMotion
-                  ? undefined
-                  : { scale: 0.97 }
-              }
+              whileHover={reducedMotion ? undefined : { y: -3 }}
+              whileTap={reducedMotion ? undefined : { scale: 0.97 }}
             >
               <Link
                 href={event.cta.registerVisit}
@@ -395,7 +345,6 @@ export function HeroSection() {
                 "
               >
                 Register to Visit
-
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   <ArrowIcon />
                 </span>
@@ -428,16 +377,11 @@ export function HeroSection() {
           className="relative min-w-0"
         >
           <div className="group relative overflow-hidden rounded-2xl bg-brand-dark shadow-[0_22px_60px_rgba(5,7,9,0.13)]">
-
             {/* Image */}
             <div className="relative h-[300px] overflow-hidden sm:h-[380px] lg:h-[450px]">
               <motion.div
                 className="absolute inset-0"
-                initial={
-                  reducedMotion
-                    ? false
-                    : { scale: 1.08 }
-                }
+                initial={reducedMotion ? false : { scale: 1.08 }}
                 animate={{
                   scale: 1,
                 }}
@@ -457,12 +401,8 @@ export function HeroSection() {
                 />
               </motion.div>
 
-            
-
               {/* Image bottom gradient */}
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-[#050709]/95 via-[#050709]/40 to-transparent" />
-
-             
             </div>
           </div>
 

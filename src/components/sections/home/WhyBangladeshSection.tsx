@@ -535,11 +535,12 @@ function MarketFactCard({
         </h3>
 
         {/* Supporting text */}
-        {fact.detail && (
-          <p className="mt-2 line-clamp-2 text-[11px] leading-[1.75] text-white/60 sm:text-[12px]">
-            {fact.detail}
-          </p>
-        )}
+     {/* Supporting text */}
+{fact.detail && (
+  <p className="mt-2 text-[11px] leading-[1.75] text-white/60 break-words sm:text-[12px]">
+    {fact.detail}
+  </p>
+)}
       </div>
  
 
@@ -718,46 +719,18 @@ export function WhyBangladeshSection() {
               id="why-bangladesh-heading"
               className="mt-4 max-w-[700px] font-heading text-[clamp(1.65rem,3vw,2.5rem)] font-extrabold leading-[1.16] tracking-[-0.04em] text-white"
             >
-              Bangladesh — A Building & Construction Market{" "}
-              <span className="text-[#E49BCB]">
-                On The Move
+              Bangladesh — A Growing Market for Building  {" "}   
+                         <span className="text-[#E49BCB]">
+               & Construction
               </span>
             </h2>
 
             <p className="mt-3 max-w-[650px] text-[12px] leading-[1.85] text-white/65 sm:text-[13px]">
-              Economic growth, urban development,
-              and infrastructure activity are
-              supporting demand for building
-              materials, machinery, and construction
-              technology.
+          Bangladesh’s growing construction sector offers new opportunities for businesses. Bangladesh Buildcon International Building & Construction Expo 2027 connects manufacturers, suppliers, and industry professionals to showcase products and explore new business opportunities.
             </p>
           </div>
 
-          <Button
-            href="/why-bangladesh"
-            className="
-              group inline-flex min-h-11
-              shrink-0 items-center justify-center
-              gap-2.5 rounded-lg
-              border border-brand-primary/40
-              bg-brand-primary/15
-              px-5 py-2.5
-              font-heading text-[11px] font-bold
-              text-white
-              transition-[background-color,border-color,transform]
-              duration-300
-              hover:-translate-y-0.5
-              hover:border-brand-primary
-              hover:bg-brand-primary/30
-              motion-reduce:transform-none
-            "
-          >
-            Explore Full Market Report
-
-            <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-              <ArrowUpRightIcon />
-            </span>
-          </Button>
+        
         </div>
 
         {/* ANIMATED MARKET FACTS */}

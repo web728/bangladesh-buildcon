@@ -51,7 +51,7 @@ export function BookStandPageContent() {
             />
 
             <p className="font-heading text-[10px] font-bold uppercase tracking-[0.16em] text-[#981568]">
-              Bangladesh Buildcon 2027
+              Bangladesh Buildcon International Expo 2027
             </p>
 
             <h2

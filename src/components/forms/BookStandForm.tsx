@@ -150,7 +150,7 @@ export function BookStandForm() {
               type="tel"
               inputMode="tel"
               autoComplete="tel"
-              placeholder="Include country code"
+              placeholder="Enter Your Working Number"
               aria-invalid={!!errors.mobile}
               className={fieldClass(!!errors.mobile)}
               {...register("mobile")}
@@ -186,7 +186,7 @@ export function BookStandForm() {
           </FieldWrapper>
 
           <FieldWrapper
-            label="Preferred Booth Size (Optional)"
+            label="Preferred Booth Size"
             htmlFor="preferredBoothSize"
             error={errors.preferredBoothSize}
           >

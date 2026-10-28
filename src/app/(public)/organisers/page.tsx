@@ -141,8 +141,13 @@ export default function OrganisersPage() {
       <PageHero
         title="Meet the Official"
         highlightTitle="Exhibition Organisers"
-        badgeText="11th Bangladesh Buildcon · 2027"
-        intro={`Futurex Trade Fair & Events Pvt. Ltd. and ASK Trade & Exhibitions Pvt. Ltd. organise Bangladesh Buildcon International Expo. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
+badgeText="11th Bangladesh Buildcon International Expo 2027"
+        
+        intro={`Futurex Trade Fair & Events Pvt. Ltd. and ASK Trade & Exhibitions Pvt. Ltd. organise Bangladesh Buildcon International Expo.`}
+        
+ 
+
+
         image={{
           src: PAGE_IMAGE,
           alt: "Building & Construction and infrastructure industry representing Bangladesh Buildcon 2027",

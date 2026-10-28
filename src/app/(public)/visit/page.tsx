@@ -71,14 +71,16 @@ export default function VisitPage() {
   return (
     <main className="min-h-screen bg-brand-light text-brand-dark selection:bg-brand-primary selection:text-white">
       <PageHero
-        title="Discover Why"
-        highlightTitle="Visit Buildcon 2027"
-        badgeText="Visitor Opportunities · 11th Edition"
-        intro={`Explore Building & construction materials, machinery, technologies and industry connections at ${event.name}, ${event.dates.display}, ${event.venue.name}, ${event.venue.city}.`}
-        image={{
-          src: PAGE_IMAGE,
-          alt: "Building and construction industry visitors at Bangladesh Buildcon exhibition",
-        }}
+     
+title="Explore the"
+highlightTitle="Exhibition"
+badgeText="Visitor Information · 11th Edition"
+intro="Discover building materials, construction machinery, equipment, and technologies while connecting with manufacturers, suppliers, and industry professionals at the 11th Bangladesh Buildcon International Expo 2027."
+image={{
+  src: PAGE_IMAGE,
+  alt: "Building and construction industry at the 11th Bangladesh Buildcon International Expo 2027",
+}}
+
       />
 
       <VisitClientView />

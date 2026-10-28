@@ -13,6 +13,7 @@ import {
 import { event } from "@/config/event";
 import { Container } from "@/components/ui/Container";
 import { visitorGroups } from "@/data/visitorProfile";
+import { UsersRound } from "lucide-react";
 
 /* ==========================================
    ANIMATION
@@ -46,60 +47,32 @@ const stagger: Variants = {
    OFFICIAL BROCHURE DATA
 ========================================== */
 
+
 const BROCHURE_PROFILES = [
-  { name: "Consultants & Civil Engineers", percentage: 36 },
-  { name: "Architects & Interior Designers", percentage: 25 },
-  { name: "Government", percentage: 19 },
-  { name: "Builders & Real Estate", percentage: 11 },
-  { name: "Importers, Dealers & Distributors", percentage: 8 },
+  {
+    name: "Building Consultants & Civil Engineers",
+    percentage: 36,
+  },
+  {
+    name: "Architects & Interior Designers",
+    percentage: 25,
+  },
+  {
+    name: "Government Departments & Agencies",
+    percentage: 19,
+  },
+  {
+    name: "Builders & Real Estate Developers",
+    percentage: 11,
+  },
+  {
+    name: "Importers, Dealers & Distributors",
+    percentage: 8,
+  },
 ] as const;
 
-const VISITOR_MOTIVATIONS = [
-  { title: "Discover New Products & Services", percentage: 39 },
-  { title: "Explore Innovations", percentage: 28 },
-  { title: "Professional Networking", percentage: 20 },
-  { title: "Find Channel Partners", percentage: 12 },
-  { title: "Other Reasons", percentage: 1 },
-] as const;
 
-const VISITOR_OPPORTUNITIES = [
-  {
-    title: "Explore Building & Construction Products",
-    description:
-      "Discover construction machinery, building materials, interiors, electrical and safety product categories.",
-    icon: "products",
-  },
-  {
-    title: "Review New Technologies",
-    description:
-      "Explore construction equipment, modern building systems and technical solutions relevant to the industry.",
-    icon: "technology",
-  },
-  {
-    title: "Meet Industry Suppliers",
-    description:
-      "Explore opportunities to engage with manufacturers, suppliers and distributors participating in the exhibition.",
-    icon: "network",
-  },
-  {
-    title: "Explore Channel Partnerships",
-    description:
-      "Investigate potential distribution, dealership and construction-product supply relationships.",
-    icon: "partners",
-  },
-  {
-    title: "Discover Product Applications",
-    description:
-      "Explore product launches, live demonstrations and technical knowledge exchange highlighted in the event brochure.",
-    icon: "building",
-  },
-  {
-    title: "Build Professional Connections",
-    description:
-      "Engage with professionals involved in engineering, architecture, construction, procurement and distribution.",
-    icon: "people",
-  },
-] as const;
+
 
 /* ==========================================
    CUSTOM SVG ICONS
@@ -601,197 +574,90 @@ export function WhoShouldVisitClientView() {
             02. BROCHURE BUSINESS PROFILE
         ==================================== */}
 
-        <motion.section
-          {...scrollProps}
-          variants={reveal}
-          aria-labelledby="visitor-profile-heading"
-          className="mt-12 overflow-hidden rounded-2xl border border-[#E9E4EB] bg-white sm:mt-16"
-        >
-          <div className="border-b border-[#EDE7ED] p-5 sm:p-7">
-            <Eyebrow>
-              Official Brochure · Visitor Business Profile
-            </Eyebrow>
+      
+<motion.section
+  {...scrollProps}
+  variants={reveal}
+  aria-labelledby="visitor-profile-heading"
+  className="mt-12 overflow-hidden rounded-2xl border border-[#E9E4EB] bg-white sm:mt-16"
+>
+  {/* Section Header */}
+  <div className="border-b border-[#EDE7ED] p-5 sm:p-7">
+    <Eyebrow>Previous Edition Highlights</Eyebrow>
 
-            <h2
-              id="visitor-profile-heading"
-              className="mt-3 font-heading text-[clamp(1.4rem,2.5vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
-            >
-              Visitor{" "}
-              <span className="text-brand-primary">
-                Business Profile
-              </span>
-            </h2>
+    <h2
+      id="visitor-profile-heading"
+      className="mt-3 font-heading text-[clamp(1.4rem,2.5vw,2rem)] font-extrabold leading-[1.2] tracking-[-0.04em] text-brand-dark"
+    >
+      Visitor{" "}
+      <span className="text-brand-primary">
+        Business Profile
+      </span>
+    </h2>
 
-            <p className="mt-3 max-w-[730px] text-[12px] leading-[1.85] text-[#66616C] sm:text-[13px]">
-              The official brochure presents this
-              distribution of professional visitor
-              business categories.
-            </p>
+    <p className="mt-3 max-w-[730px] text-[13px] leading-[1.75] text-[#66616C]">
+      A breakdown of visitor business categories from
+      the previous edition, representing professionals
+      across the building and construction industry.
+    </p>
+  </div>
+
+  {/* Visitor Profile Layout */}
+  <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-8">
+
+    {/* Visitor Distribution */}
+    <div className="min-w-0 space-y-5">
+      {BROCHURE_PROFILES.map((profile) => (
+        <div key={profile.name}>
+          <div className="mb-2.5 flex items-center justify-between gap-3">
+            <h3 className="text-[12px] font-semibold leading-[1.5] text-brand-dark sm:text-[13px]">
+              {profile.name}
+            </h3>
+
+            <span className="font-heading text-[15px] font-extrabold tabular-nums text-brand-primary">
+              {profile.percentage}%
+            </span>
           </div>
 
-          <div className="grid gap-7 p-5 sm:p-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-            <div className="space-y-5">
-              {BROCHURE_PROFILES.map((profile) => (
-                <div key={profile.name}>
-                  <div className="mb-2.5 flex items-center justify-between gap-3">
-                    <h3 className="text-[12px] font-semibold leading-[1.5] text-brand-dark sm:text-[13px]">
-                      {profile.name}
-                    </h3>
-                    <span className="font-heading text-[15px] font-extrabold tabular-nums text-brand-primary">
-                      {profile.percentage}%
-                    </span>
-                  </div>
+          <PercentageBar
+            percentage={profile.percentage}
+            reducedMotion={reducedMotion}
+          />
+        </div>
+      ))}
+    </div>
 
-                  <PercentageBar
-                    percentage={profile.percentage}
-                    reducedMotion={reducedMotion}
-                  />
-                </div>
-              ))}
-            </div>
+    {/* Industry Audience Panel */}
+    <div className="flex min-w-0 flex-col justify-center rounded-xl bg-[#18151C] p-5 text-white sm:p-6">
+      <span className="flex size-11 items-center justify-center rounded-lg border border-brand-primary/40 bg-brand-primary/20 text-[#E9A5D3]">
+        <UsersRound
+          size={23}
+          strokeWidth={1.8}
+          aria-hidden="true"
+        />
+      </span>
 
-            <div className="flex min-w-0 flex-col justify-center rounded-xl bg-[#18151C] p-6 text-white">
-              <span className="flex size-11 items-center justify-center rounded-lg border border-brand-primary/40 bg-brand-primary/20 text-[#E9A5D3]">
-                <Icon name="people" className="size-6" />
-              </span>
+      <h3 className="mt-4 font-heading text-[18px] font-extrabold leading-[1.35] tracking-[-0.03em]">
+        Professionals Across the{" "}
+        <span className="text-[#E9A5D3]">
+          Building &amp; Construction Industry
+        </span>
+      </h3>
 
-              <h3 className="mt-5 font-heading text-[18px] font-extrabold leading-[1.35] tracking-[-0.03em]">
-                A Cross-Section of the{" "}
-                <span className="text-[#E9A5D3]">
-                 Building & Construction Industry
-                </span>
-              </h3>
+      <p className="mt-3 text-[13px] leading-[1.75] text-white/70">
+        The exhibition connects architects, engineers,
+        consultants, developers, government representatives,
+        and trade businesses involved in building and
+        construction projects.
+      </p>
 
-              <p className="mt-3 text-[12px] leading-[1.85] text-white/65 sm:text-[13px]">
-                The brochure highlights consultants,
-                engineers, architects, designers,
-                government organisations, developers
-                and construction trade businesses.
-              </p>
+     
+    </div>
+  </div>
+</motion.section>
 
-              <p className="mt-5 border-t border-white/15 pt-4 text-[11px] leading-[1.8] text-white/50">
-                Published percentages total 99%
-                due to rounding. They do not
-                represent confirmed 2027 attendance.
-              </p>
-            </div>
-          </div>
-        </motion.section>
 
-        {/* ===================================
-            03. VISITOR MOTIVATIONS
-        ==================================== */}
-
-        <section
-          aria-labelledby="visitor-motivations-heading"
-          className="mt-12 sm:mt-16"
-        >
-          <motion.div {...scrollProps} variants={reveal}>
-            <SectionHeading
-              id="visitor-motivations-heading"
-              eyebrow="Brochure · Reasons to Attend"
-              title="What Brings Visitors"
-              highlight="to the Exhibition?"
-              description="Published visitor motivations highlight product discovery, innovation, networking and channel development."
-            />
-          </motion.div>
-
-          <motion.div
-            variants={stagger}
-            initial={reducedMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.08 }}
-            className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5"
-          >
-            {VISITOR_MOTIVATIONS.map((motivation, index) => (
-              <motion.article
-                key={motivation.title}
-                variants={reveal}
-                whileHover={
-                  reducedMotion ? undefined : { y: -3 }
-                }
-                className="group rounded-xl border border-[#E9E4EB] bg-white p-4 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_10px_25px_rgba(5,7,9,0.05)] sm:p-5"
-              >
-             
-
-                <p className="mt-3 font-heading text-[28px] font-extrabold tabular-nums tracking-[-0.05em] text-brand-primary">
-                  {motivation.percentage}%
-                </p>
-
-                <h3 className="mt-2 min-h-11 text-[12px] font-semibold leading-[1.6] text-brand-dark">
-                  {motivation.title}
-                </h3>
-
-                <div className="mt-4">
-                  <PercentageBar
-                    percentage={motivation.percentage}
-                    reducedMotion={reducedMotion}
-                  />
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
- 
-        </section>
-
-        {/* ===================================
-            04. VISITOR OPPORTUNITIES
-        ==================================== */}
-
-        <section
-          aria-labelledby="visitor-opportunities-heading"
-          className="mt-12 sm:mt-16"
-        >
-          <motion.div {...scrollProps} variants={reveal}>
-            <SectionHeading
-              id="visitor-opportunities-heading"
-              eyebrow="Visitor Opportunities"
-              title="Explore Products, Technology"
-              highlight="&amp; Business Connections"
-              description="Practical areas of interest drawn from the exhibition's product scope and brochure features."
-            />
-          </motion.div>
-
-          <motion.div
-            variants={stagger}
-            initial={reducedMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.06 }}
-            className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {VISITOR_OPPORTUNITIES.map((opportunity, index) => (
-              <motion.article
-                key={opportunity.title}
-                variants={reveal}
-                whileHover={
-                  reducedMotion ? undefined : { y: -4 }
-                }
-                className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-[#E9E4EB] bg-white p-5 transition-[border-color,box-shadow] duration-300 hover:border-brand-primary/35 hover:shadow-[0_14px_28px_rgba(5,7,9,0.06)]"
-              >
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-brand-primary transition-transform duration-300 group-hover:scale-x-100"
-                />
-
-                <div className="flex items-start justify-between gap-3">
-                  <span className="flex size-11 items-center justify-center rounded-lg border border-brand-primary/15 bg-[#F9ECF5] text-brand-primary transition-colors group-hover:bg-brand-primary group-hover:text-white">
-                    <Icon name={opportunity.icon} />
-                  </span>
-
-                  
-                </div>
-
-                <h3 className="mt-5 font-heading text-[15px] font-extrabold leading-[1.45] text-brand-dark">
-                  {opportunity.title}
-                </h3>
-
-                <p className="mt-3 text-[12px] leading-[1.85] text-[#66616C] sm:text-[13px]">
-                  {opportunity.description}
-                </p>
-              </motion.article>
-            ))}
-          </motion.div>
-        </section>
+       
 
         {/* ===================================
             05. FINAL REGISTRATION CTA
@@ -840,8 +706,6 @@ export function WhoShouldVisitClientView() {
                 Review visitor registration details
                 and submit your interest using
                 the official event registration form.
-                Registration and admission remain
-                subject to organiser confirmation.
               </p>
             </div>
 

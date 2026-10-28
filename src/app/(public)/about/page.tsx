@@ -114,10 +114,10 @@ export default function AboutPage() {
       )}
 
       <PageHero
-        title="About Bangladesh International Building & "
-        highlightTitle="Construction Exhibition 2027"
+        title="About Bangladesh Buildcon"
+        highlightTitle="International Expo 2027"
         badgeText="11th International Edition"
-        intro={`The international B2B exhibition for the building and construction industry. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
+        intro={`The International B2B exhibition for the Building and Construction industry.`}
         image={{
           src: IMAGE,
           alt: "Construction machinery representing the Bangladesh Buildcon 2027 exhibitor profile",

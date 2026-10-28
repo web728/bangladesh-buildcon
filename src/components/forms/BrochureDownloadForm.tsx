@@ -888,7 +888,7 @@ export function BrochureDownloadForm() {
 
               Enter your business details to request
 
-              the Bangladesh Buildcon 2027 brochure.
+              the Bangladesh Buildcon International Expo 2027 brochure.
 
             </p>
 

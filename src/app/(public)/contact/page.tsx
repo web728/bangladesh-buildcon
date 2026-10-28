@@ -127,7 +127,7 @@ export default function ContactPage() {
         title="Contact the"
         highlightTitle="Organising Team"
         badgeText="11th Bangladesh Buildcon · 2027"
-        intro={`For exhibition and visitor enquiries, contact the official organising team. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
+        intro={`For exhibition and visitor enquiries, contact the official organising team.`}
         image={{
           src: PAGE_IMAGE,
           alt: "ICCB Expo Village in Dhaka, venue of Bangladesh Buildcon International Expo 2027",
