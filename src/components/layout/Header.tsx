@@ -114,6 +114,7 @@ function MenuIcon({ open }: { open: boolean }) {
 
 ========================================= */
 
+
 function EventMarquee() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -128,10 +129,6 @@ function EventMarquee() {
         .filter(Boolean)
         .join(", "),
     },
-    {
-      label: "REGISTRATION",
-      value: "Exhibitor & Visitor Registration",
-    },
   ];
 
   const renderItems = (prefix: string) =>
@@ -140,13 +137,13 @@ function EventMarquee() {
         key={`${prefix}-${index}`}
         className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap"
       >
-        <span className="font-heading text-[9px] font-extrabold uppercase tracking-[0.12em] text-white/60 sm:text-[10px]">
+        <span className="font-heading text-[9px] font-extrabold uppercase tracking-[0.12em] text-white/65 sm:text-[10px]">
           {item.label}
         </span>
 
         <span
           aria-hidden="true"
-          className="size-1 rounded-full bg-white/45"
+          className="size-1 shrink-0 rounded-full bg-white/45"
         />
 
         <span className="text-[10px] font-semibold tracking-[0.01em] text-white sm:text-[11px]">
@@ -155,7 +152,7 @@ function EventMarquee() {
 
         <span
           aria-hidden="true"
-          className="mx-5 h-3.5 w-px bg-white/25"
+          className="mx-5 h-3.5 w-px shrink-0 bg-white/25"
         />
       </div>
     ));
@@ -173,25 +170,33 @@ function EventMarquee() {
           </span>
         </div>
       ) : (
-        <div className="relative flex h-full w-full items-center overflow-hidden">
+        <div className="flex h-full w-full items-center overflow-hidden">
           <div
-            className="flex w-max min-w-full shrink-0 items-center"
+            className="flex w-max shrink-0 items-center"
             style={{
-              animation: "buildcon-marquee 35s linear infinite",
+              animation:
+                "buildcon-marquee 32s linear infinite",
               willChange: "transform",
             }}
           >
-            {/* First identical group */}
-            <div className="flex min-w-full shrink-0 items-center justify-around">
-              {renderItems("primary")}
+            {/* First half: repeated content */}
+            <div
+              className="flex shrink-0 items-center"
+              aria-label="Event information"
+            >
+              {Array.from({ length: 4 }, (_, index) =>
+                renderItems(`primary-${index}`)
+              )}
             </div>
 
-            {/* Second identical group */}
+            {/* Second half: identical content */}
             <div
-              className="flex min-w-full shrink-0 items-center justify-around"
+              className="flex shrink-0 items-center"
               aria-hidden="true"
             >
-              {renderItems("duplicate")}
+              {Array.from({ length: 4 }, (_, index) =>
+                renderItems(`duplicate-${index}`)
+              )}
             </div>
           </div>
         </div>
@@ -199,6 +204,7 @@ function EventMarquee() {
     </div>
   );
 }
+
 
 
 /* =========================================
