@@ -519,7 +519,7 @@ export function WhyBangladeshClientView() {
               >
                 Connect Your Brand with{" "}
                 <span className="text-[#E68ABD]">
-                  Bangladesh&apos;s Construction Market
+                  Bangladesh&apos;s Building & Construction Market
                 </span>
               </h2>
 

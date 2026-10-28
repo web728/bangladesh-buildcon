@@ -10,7 +10,7 @@ const PAGE_TITLE =
 
 const PAGE_DESCRIPTION =
   `Explore the benefits of exhibiting at ${event.name}. ` +
-  `Connect with construction buyers, contractors, distributors ` +
+  `Connect with building & construction buyers, contractors, distributors ` +
   `and industry specifiers in Dhaka. Discover exhibitor ` +
   `categories and stand participation options for ${event.dates.display}.`;
 
@@ -69,7 +69,7 @@ export default function ExhibitPage() {
         title="Grow Your Business"
         highlightTitle="Exhibit at Buildcon 2027"
         badgeText="Exhibitor Opportunities"
-        intro="Meet construction buyers, distributors, contractors and industry specifiers at Bangladesh Buildcon International Expo in Dhaka."
+        intro="Meet building & construction buyers, distributors, contractors and industry specifiers at Bangladesh Buildcon International Expo in Dhaka."
         image={{
           src: "/images/sectors/construction-crane-bangladesh.jpg",
           alt: "Construction machinery and building industry infrastructure representing exhibitor opportunities at Bangladesh Buildcon 2027",

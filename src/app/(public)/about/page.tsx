@@ -6,7 +6,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { AboutClientView } from "@/components/about/AboutClientView";
 
 const TITLE =
-  "About Bangladesh Buildcon 2027 | 11th International Construction Expo";
+  "About Bangladesh Buildcon International Expo 2027 | 11th International Building & Construction Expo";
 
 const DESCRIPTION =
   "Discover the 11th Bangladesh Buildcon International Expo, " +
@@ -120,8 +120,8 @@ export default function AboutPage() {
       )}
 
       <PageHero
-        title="About Bangladesh"
-        highlightTitle="Buildcon 2027"
+        title="About Bangladesh International Building & "
+        highlightTitle="Construction Exhibition 2027"
         badgeText="11th International Edition"
         intro={`The international B2B exhibition for the building and construction industry. ${event.dates.display} · ${event.venue.name}, ${event.venue.city}.`}
         image={{

@@ -337,7 +337,7 @@ export default async function DownloadsPage() {
         intro={`Access the exhibition brochure and published resources for ${event.dates.display} at ${event.venue.name}, ${event.venue.city}.`}
         image={{
           src: PAGE_IMAGE,
-          alt: "Bangladesh Buildcon International Expo 2027 construction exhibition",
+          alt: "Bangladesh Buildcon International Expo 2027 building & construction exhibition",
         }}
       />
 
@@ -376,7 +376,7 @@ export default async function DownloadsPage() {
                   <p className="mt-4 max-w-[590px] text-[13px] leading-[1.85] text-[#66616C] sm:text-[14px]">
                     Find information about the
                     Bangladesh Buildcon International
-                    Expo 2027, including construction
+                    Expo 2027, including building materials & construction
                     industry product categories,
                     exhibitor profiles and event
                     highlights.

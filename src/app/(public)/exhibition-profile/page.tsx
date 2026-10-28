@@ -14,12 +14,12 @@ import { exhibitionSectors } from "@/data/exhibitionProfile";
 const PAGE_PATH = "/exhibition-profile";
 
 const PAGE_TITLE =
-  "Exhibitor Profile & Construction Products | Bangladesh Buildcon 2027";
+  "Exhibitor Profile Building Materials & Construction Products | Bangladesh Buildcon 2027";
 
 const PAGE_DESCRIPTION =
   `Explore ${exhibitionSectors.length} main exhibitor profile categories ` +
   `at the 11th Bangladesh Buildcon International Expo 2027. ` +
-  `Discover construction machinery, materials, electrical ` +
+  `Discover construction machinery, building materials, electrical ` +
   `engineering, interiors, landscaping and safety products. ` +
   `17–19 November 2027, ICCB Exhibition Hall, Dhaka.`;
 
