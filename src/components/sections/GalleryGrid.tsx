@@ -214,11 +214,7 @@ export function GalleryGrid({ items }: GalleryGridProps) {
           </button>
         </div>
       )}
-      {!hasMore && total > 0 && (
-        <p className="pt-7 text-center text-xs text-brand-body" aria-live="polite">
-          All {total} photographs loaded
-        </p>
-      )}
+     
 
       {portalReady && createPortal(
         <AnimatePresence>
@@ -237,10 +233,7 @@ export function GalleryGrid({ items }: GalleryGridProps) {
               style={{ height: "100dvh" }}
             >
               <div className="relative z-30 flex h-[64px] shrink-0 items-center justify-between border-b border-white/10 bg-[#111116] px-4 sm:h-[72px] sm:px-7">
-                <span aria-live="polite" className="font-heading text-xs font-semibold tabular-nums tracking-[0.04em] text-white/70">
-                  <span className="font-bold text-white">{String(activeIndex + 1).padStart(2, "0")}</span>
-                  {" / "}{String(total).padStart(2, "0")}
-                </span>
+              
                 <button
                   ref={closeButtonRef}
                   type="button"
